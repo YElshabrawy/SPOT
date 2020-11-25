@@ -1,5 +1,2 @@
-﻿  GUI.cpp
-C:\Users\Youssef Islam\Desktop\SPOT\SPOT - CIE202 Project Code Framework\SPOT\GUI\GUI.cpp(101,13): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\Youssef Islam\Desktop\SPOT\SPOT - CIE202 Project Code Framework\SPOT\GUI\GUI.cpp(102,13): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\Youssef Islam\Desktop\SPOT\SPOT - CIE202 Project Code Framework\SPOT\GUI\GUI.cpp(103,28): warning C4244: 'argument': conversion from 'double' to 'const int', possible loss of data
+﻿  Main.cpp
   SPOT.vcxproj -> C:\Users\Youssef Islam\Desktop\SPOT\SPOT - CIE202 Project Code Framework\x64\Debug\SPOT.exe
