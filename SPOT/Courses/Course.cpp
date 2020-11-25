@@ -1,0 +1,73 @@
+#include "Course.h"
+#include "../GUI/GUI.h"
+#include <iostream>
+
+// Constructors
+Course::Course(Course_Code r_code, string r_title, int crd):code(r_code),Title(r_title)
+{
+	credits = crd;
+}
+
+Course::Course()
+{
+	code = "";
+	Title = "";
+}
+
+Course::~Course()
+{
+}
+
+//Setters
+void Course::setCode(Course_Code i_code) {
+	code = i_code;
+}
+void Course::setTitle(string i_title) {
+	Title = i_title;
+}
+void Course::setCredits(int i_cr) {
+	credits = i_cr;
+}
+void Course::setPreReq(vector<string> vector) {
+	copy(vector.begin(), vector.end(), back_inserter(PreReq)); // copy a vector to a list
+}
+void Course::setCoReq(vector<string> vector) {
+	copy(vector.begin(), vector.end(), back_inserter(CoReq)); // copy a vector to a list
+}
+
+Course_Code Course::getCode() const
+{
+	return code;
+}
+
+string Course::getTitle() const
+{
+	return Title;
+}
+
+//return course credits
+int Course::getCredits() const
+{
+	return credits;
+}
+
+void Course::DrawMe(GUI* pG) const
+{
+	pG->DrawCourse(this);
+}
+
+void Course::printCourse() const {
+	cout << "Displaying the course info.\n"
+		<< "Course ID: " << code << endl
+		<< "Course Title: " << Title << endl
+		<< "CH: " << credits << endl
+		<< "Prerequisites: ";
+	for (Course_Code i : PreReq) {
+		cout << i << " ";
+	}
+	cout << endl << "Corequesites: ";
+	for (Course_Code i : CoReq) {
+		cout << i << " ";
+	}
+	cout << endl << endl;
+}
