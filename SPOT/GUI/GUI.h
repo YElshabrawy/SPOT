@@ -28,13 +28,17 @@ class GUI
 	};
 
 	//Some constants for GUI
-	static const int	WindWidth = 1300, WindHeight = 700,	//Window width and height
+	static const int	WindWidth = 1300, WindHeight = 750,	//Window width and height
 		wx = 15, wy = 15,		//Window starting coordinates
 		StatusBarHeight = 60,	//Status Bar Height
 		MenuBarHeight = 51,		//Menu Bar Height (distance from top of window to bottom line of menu bar)
 		MenuItemWidth = 51,		//Width of each item in the menu
-		MenuItemWidthGap = 20;  //Gap width between items
-
+		MenuItemWidthGap = 20,  //Gap width between items
+		Year_X1 = 0,
+		Year_X2 = 1000,
+		Year_Y = 480,
+		Year_Height = 690,
+		Y_div = (WindHeight - StatusBarHeight - MenuBarHeight) / 5; // 1 div from 5 equal divisions in y
 
 
 
@@ -65,6 +69,8 @@ public:
 	//input functions
 	ActionData GUI::GetUserAction(string msg = "") const;
 	string GetSrting() const;
+	static int getYDiv();
+	static int getYDivStartingPos();
 
 
 	

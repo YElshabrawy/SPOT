@@ -113,6 +113,55 @@ void GUI::DrawAcademicYear(const AcademicYear* pY)
 {
 	graphicsInfo gInfo = pY->getGfxInfo();
 
+	pWind->SetBrush(WHITE);
+	pWind->SetPen(BLACK);
+
+	pWind->DrawRectangle(pY->Year_X1, pY->Year_Y, pY->Year_X2, pY->Year_Height, FRAME);
+	pWind->DrawRectangle(0, MenuBarHeight + 4, 60, 690);
+	for (int i = 0; i < 4; i++)
+		pWind->DrawLine(0, i * 120 + 210, 1000, i * 120 + 210);
+	pWind->DrawLine(20, MenuBarHeight, 20, 690);
+	int Y1 = 600, Y2 = 480, Y3 = 360, Y4 = 240, Y5 = 115;
+	pWind->DrawLine(60, MenuBarHeight, 60, 690);// draw line to separte semesters from the courses slot
+	pWind->DrawLine(20, Y1 + 10, 1000, Y1 + 10);
+	pWind->DrawLine(20, Y1 + 50, 1000, Y1 + 50);
+	pWind->DrawLine(20, Y2 + 10, 1000, Y2 + 10);
+	pWind->DrawLine(20, Y2 + 50, 1000, Y2 + 50);
+	pWind->DrawLine(20, Y3 + 10, 1000, Y3 + 10);
+	pWind->DrawLine(20, Y3 + 50, 1000, Y3 + 50);
+	pWind->DrawLine(20, Y4 + 10, 1000, Y4 + 10);
+	pWind->DrawLine(20, Y4 + 50, 1000, Y4 + 50);
+	pWind->DrawLine(20, Y5 + 10, 1000, Y5 + 10);
+	pWind->DrawLine(20, Y5 + 50, 1000, Y5 + 50);
+	pWind->SetFont(15, BOLD, BY_NAME, "Times New Rome");
+	pWind->SetPen(BLACK);
+	pWind->DrawImage("GUI\\Images\\Menu\\Year_Five.jpg", 1, 125, 18, 50);
+	pWind->DrawImage("GUI\\Images\\Menu\\Year_Four.jpg", 1, 245, 18, 50);
+	pWind->DrawImage("GUI\\Images\\Menu\\Year_Three.jpg", 1, 365, 18, 50);
+	pWind->DrawImage("GUI\\Images\\Menu\\Year_Two.jpg", 1, 485, 18, 50);
+	pWind->DrawImage("GUI\\Images\\Menu\\Year_One.jpg", 1, 605, 18, 50);
+	for (int i = 0; i < 5; i++)
+	{
+		if (i == 0)
+		{
+			pWind->DrawString(28, 80, "Fall");
+			pWind->DrawString(20, 125, "Spring");
+			pWind->DrawString(20, 165, "Summ");
+		}
+		else
+		{
+			pWind->DrawString(28, i * 120 + 90, "Fall");
+			pWind->DrawString(20, i * 120 + 130, "Spring");
+			pWind->DrawString(20, i * 120 + 170, "Summ");
+		}
+		//to be moved
+		pWind->DrawRectangle(1000 + 5, MenuBarHeight, 1280, MenuBarHeight + 250);
+		pWind->DrawLine(1000 + 5, MenuBarHeight + 25, 1280, MenuBarHeight + 25);
+		pWind->DrawString(1000 + 110, MenuBarHeight + 6, "Add Notes");
+		pWind->DrawRectangle(1000 + 5, MenuBarHeight + 260, 1280, MenuBarHeight + 510);
+		pWind->DrawLine(1000 + 5, MenuBarHeight + 290, 1280, MenuBarHeight + 290);
+		pWind->DrawString(1000 + 95, MenuBarHeight + 270, "Course Information");
+	}
 	///TODO: compelete this function to:
 	//		1- Draw a rectangle for the academic year 
 	//		2- Draw a sub-rectangle for each semester
@@ -220,10 +269,14 @@ string GUI::GetSrting() const
 
 }
 
+int GUI::getYDiv() {
+	return Y_div;
+}
 
 
-
-
+int GUI::getYDivStartingPos() {
+	return (WindHeight - StatusBarHeight);
+}
 
 
 

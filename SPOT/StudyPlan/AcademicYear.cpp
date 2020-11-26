@@ -1,8 +1,15 @@
 #include "AcademicYear.h"
 #include "../GUI/GUI.h"
 
+int AcademicYear::Year_Y = GUI::getYDivStartingPos();
+int AcademicYear::Year_height = 690;
+int AcademicYear::Year_Number = 5;
+
 AcademicYear::AcademicYear()
 {
+	Year_Y -= GUI::getYDiv();
+	Year_height -= 120;
+	Year_Number--;
 	//TODO: make all necessary initializations
 }
 

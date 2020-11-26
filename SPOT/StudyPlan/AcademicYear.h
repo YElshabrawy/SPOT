@@ -19,6 +19,10 @@ class AcademicYear:public Drawable
 	list<Course*> YearCourses[SEM_CNT];
 	
 public:
+	static int Year_Y, Year_height, Year_Number, Code_x;
+	int Year_y = Year_Y, Year_Height = Year_height, Actual_Year_Number = Year_Number;
+	int Year_X1 = 0, Year_X2 = 1000;
+
 	AcademicYear();
 	virtual ~AcademicYear();
 
