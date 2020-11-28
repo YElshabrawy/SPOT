@@ -1,7 +1,7 @@
 #include "Registrar.h"
 int main()
 {
-	vector<AcademicYear*> myYears[5];
+	/*vector<AcademicYear*> myYears[5];
 	//Year 1
 	AcademicYear y1;
 	list<Course*> y1Courses[SEM_CNT];
@@ -11,7 +11,7 @@ int main()
 	y1Courses[FALL].push_back(pC2);
 	Course* pC3 = new Course("CSCI 101", "CS", 2);
 	y1Courses[SPRING].push_back(pC3);
-	myYears[0].push_back(&y1);
+	myYears[0].push_back(&y1);*/
 
 	//Year 2
 

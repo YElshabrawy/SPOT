@@ -71,3 +71,4 @@ struct Rules	//contains all objects for registrations rules
 
 };
 
+// hello
