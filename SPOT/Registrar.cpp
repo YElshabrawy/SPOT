@@ -1,6 +1,6 @@
 #include "Registrar.h"
 
-#include "Actions/ActionAddCourse.h"
+#include "Actions/allActions.h"
 #include"Utils/Utils.h"
 
 vector<CourseInfo> Registrar::allCourses;
@@ -33,6 +33,9 @@ Action* Registrar::CreateRequiredAction()
 	case ADD_CRS:	//add_course action
 		RequiredAction = new ActionAddCourse(this);
 		break;
+	case SAVE: // save plan
+		RequiredAction = new ActionSavePlan(this);
+
 
 	//TODO: Add case for each action
 	

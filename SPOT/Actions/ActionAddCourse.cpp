@@ -11,6 +11,7 @@ ActionAddCourse::ActionAddCourse(Registrar* p):Action(p)
 
 bool ActionAddCourse::Execute()
 {
+	cout << "Add button is pressed.\n"; // for debugging
 	GUI* pGUI = pReg->getGUI();	
 
 	// 1) Get Course Code

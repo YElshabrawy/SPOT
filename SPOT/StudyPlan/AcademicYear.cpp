@@ -45,3 +45,8 @@ void AcademicYear::DrawMe(GUI* pGUI) const
 			(*it)->DrawMe(pGUI);	//call DrawMe for each course in this semester
 		}
 }
+
+list<Course*>* AcademicYear::getListOfYears() const {
+	list<Course*>* ptr = new list<Course*>;
+	return ptr;
+}

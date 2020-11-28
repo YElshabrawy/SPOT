@@ -28,6 +28,7 @@ public:
 
 	bool AddCourse(Course*, SEMESTER );
 	
+	list<Course*>* getListOfYears() const;
 
 	void virtual DrawMe(GUI*) const;
 };

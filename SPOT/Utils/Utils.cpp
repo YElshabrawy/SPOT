@@ -87,4 +87,3 @@ void addExtraSpace(Course_Code& code) {
 		code = output;
 	}
 }
-

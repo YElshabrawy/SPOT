@@ -11,13 +11,15 @@ class StudyPlan:public Drawable
 		TotalTrackCredits=0, TotalConcentrationCredits=0,
 		TotalMinorCredits=0;
 
-	vector<AcademicYear*> plan;	//plan is a list of academic years
 
 	string PlanNotes;
 public:
+	vector<AcademicYear*> plan;	//plan is a list of academic years
 	StudyPlan();
 	bool AddCourse(Course* , int year, SEMESTER);
 	void virtual DrawMe(GUI*) const;
+	vector<AcademicYear*> getStudyPlanVector();
+	
 	virtual ~StudyPlan();
 };
 
