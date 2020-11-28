@@ -13,8 +13,8 @@ int main()
 	y1Courses[SPRING].push_back(pC3);
 	myYears[0].push_back(&y1);
 
-	//Year 2
+	Registrar Reg;
+	Reg.Run();
 
-	//Registrar Reg;
-	//Reg.Run();
+	// HELLOOOOOO
 }
