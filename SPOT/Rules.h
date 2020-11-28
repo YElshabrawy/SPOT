@@ -70,5 +70,3 @@ struct Rules	//contains all objects for registrations rules
 	vector<Course_Code> MajorElective;	//Major Elective courses
 
 };
-
-// hello
