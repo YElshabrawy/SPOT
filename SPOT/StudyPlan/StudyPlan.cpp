@@ -29,6 +29,10 @@ void StudyPlan::DrawMe(GUI* pGUI) const
 		plan[i]->DrawMe(pGUI);
 }
 
+vector<AcademicYear*> StudyPlan::getStudyPlanVector() {
+	return plan;
+}
+
 StudyPlan::~StudyPlan()
 {
 }

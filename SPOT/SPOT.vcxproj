@@ -119,6 +119,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actions\ActionSavePlan.cpp" />
     <ClCompile Include="Actions\ActionAddCourse.cpp" />
     <ClCompile Include="Courses\Course.cpp" />
     <ClCompile Include="GUI\CMUgraphicsLib\CMUgraphics.cpp" />
@@ -165,8 +166,10 @@
     <ClCompile Include="Utils\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actions\ActionSavePlan.h" />
     <ClInclude Include="Actions\Action.h" />
     <ClInclude Include="Actions\ActionAddCourse.h" />
+    <ClInclude Include="Actions\allActions.h" />
     <ClInclude Include="Courses\Course.h" />
     <ClInclude Include="GUI\CMUgraphicsLib\CMUgraphics.h" />
     <ClInclude Include="GUI\CMUgraphicsLib\colors.h" />
