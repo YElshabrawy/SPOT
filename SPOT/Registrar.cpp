@@ -90,7 +90,7 @@ Registrar::~Registrar()
 void Registrar::createAllCourses() {
 	// Create a vector of all courses //
 	allCourses = createAllCoursesVector("./Format Files/All_Courses.txt");
-	for (CourseInfo c : allCourses) c.printCourse();
+	cout << "All Courses In (./Format Files/All_Courses.txt) Are Loaded Successfully.\n";
 }
 
 vector<CourseInfo> Registrar::getAllCourses() {

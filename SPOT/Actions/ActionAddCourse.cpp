@@ -119,6 +119,7 @@ bool ActionAddCourse::Execute()
 
 		StudyPlan* pS = pReg->getStudyPlay();
 		pS->AddCourse(pC, year, static_cast<SEMESTER>(semester));
+		cout << code << " is added to year " << year << " semester " << semester << endl;
 		}
 	}
 
