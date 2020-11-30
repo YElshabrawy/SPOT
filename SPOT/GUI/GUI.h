@@ -27,21 +27,6 @@ class GUI
 
 	};
 
-	//Some constants for GUI
-	static const int	WindWidth = 1300, WindHeight = 750,	//Window width and height
-		wx = 15, wy = 15,		//Window starting coordinates
-		StatusBarHeight = 60,	//Status Bar Height
-		MenuBarHeight = 51,		//Menu Bar Height (distance from top of window to bottom line of menu bar)
-		MenuItemWidth = 51,		//Width of each item in the menu
-		MenuItemWidthGap = 20,  //Gap width between items
-		Year_X1 = 0,
-		Year_X2 = 1000,
-		Year_Y = 480,
-		Year_Height = 690,
-		Y_div = (WindHeight - StatusBarHeight - MenuBarHeight) / 5; // 1 div from 5 equal divisions in y
-
-
-
 	color DrawColor = BLACK;		//Drawing color
 	color FillColor = YELLOW;		//Filling color (for courses)
 	color HiColor = RED;			//Highlighting color
@@ -53,6 +38,40 @@ class GUI
 
 	window* pWind;
 public:
+	//Some constants for GUI
+	static const int	WindWidth = 1600, WindHeight = 880,	//Window width and height
+		wx = 15, wy = 15,		//Window starting coordinates
+		StatusBarHeight = 60,	//Status Bar Height
+		MenuBarHeight = 51,		//Menu Bar Height (distance from top of window to bottom line of menu bar)
+		MenuItemWidth = 51,		//Width of each item in the menu
+		MenuItemWidthGap = 20,  //Gap width between items
+		NumOfYrs = 5, // total years (to be implemented dynamically)
+		Y_div = (WindHeight - StatusBarHeight - MenuBarHeight), // 1 div from 5 equal divisions in y
+		MyFactor = 4, // used in some refinings
+		//Title Bar
+		TitleBarWidth = 60,
+		TitleBarY2 = Y_div + MenuBarHeight - 4,
+		//Years Rectangle
+		Year_X1 = TitleBarWidth,
+		Year_X2 = 1300,
+		YearImgMidSubtractor = 45,
+		//Separators
+		VerticalSeparatorX = 20,
+		//Semesters
+		One_Year_Div = (Y_div - (NumOfYrs * MyFactor)) / NumOfYrs,
+		One_Semester_Div = One_Year_Div / 3,
+		SemesterMidFactor = 20,
+		//Side Bar
+		SideBarX1 = Year_X2 + 10,
+		SideBarX2 = WindWidth - 20,
+		// Add Notes
+		NotesY1 = MenuBarHeight + MyFactor,
+		NotesHeight = 250,
+		// Course Info
+		CourseInfoY1 = NotesY1 + NotesHeight + MyFactor,
+		CourseInfoHeight = 250;
+
+
 	GUI();
 	void CreateMenu() const;
 	void ClearDrawingArea() const;
@@ -69,9 +88,11 @@ public:
 	//input functions
 	ActionData GUI::GetUserAction(string msg = "") const;
 	string GetSrting() const;
-	static int getYDiv();
 	static int getYDivStartingPos();
 
+	//Dimention getters
+	static int getMenuBarHeight();
+	static int getY_div();
 
 	
 	

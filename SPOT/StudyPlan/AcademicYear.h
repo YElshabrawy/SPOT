@@ -3,6 +3,7 @@
 
 #include "..\Courses\Course.h"
 #include "../GUI/Drawable.h"
+#include "../GUI/GUI.h"
 
 //Represent one year in the student's study plan
 class AcademicYear:public Drawable
@@ -19,9 +20,21 @@ class AcademicYear:public Drawable
 	list<Course*> YearCourses[SEM_CNT];
 	
 public:
-	static int Year_Y, Year_height, Year_Number, Code_x;
-	int Year_y = Year_Y, Year_Height = Year_height, Actual_Year_Number = Year_Number;
-	int Year_X1 = 0, Year_X2 = 1000;
+	// Some constans for academic year
+	static const int
+		Year_X1 = 0,
+		Year_X2 = 1200;
+	static int
+		TotalYears;
+	int i = TotalYears - 1;
+	int
+		AvailableY = GUI::Y_div,
+		StartingY = GUI::MenuBarHeight,
+		YearHeight = AcademicYear::AvailableY / GUI::NumOfYrs;
+
+
+	/*static int Year_Y, Year_height, Year_Number, Code_x;
+	int Year_y = Year_Y, Year_Height = Year_height, Actual_Year_Number = Year_Number;*/
 
 	AcademicYear();
 	virtual ~AcademicYear();
