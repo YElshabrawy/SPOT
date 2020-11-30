@@ -15,4 +15,5 @@ int main()
 
 	Registrar Reg;
 	Reg.Run();
+
 }
