@@ -16,12 +16,14 @@ private:
 	int credits;	//no. of course credits
 	string type;	//Univ, track, or major.....etc.
 	bool Done;		//Done or not yet?
-	list<Course_Code> PreReq;	//list of prerequisites
-	list<Course_Code> CoReq;	//list of prerequisites
+	vector<Course_Code> PreReq;	//list of prerequisites
+	vector<Course_Code> CoReq;	//list of prerequisites
 public:
 	//Constructors
 	Course();
 	Course(Course_Code r_code,string r_title, int crd);
+	Course(Course_Code r_code, string r_title, int crd,
+		vector<Course_Code> r_PreReq, vector<Course_Code> r_CoReq);
 	// Setters
 	void setCode(Course_Code i_code);
 	void setTitle(string i_title);

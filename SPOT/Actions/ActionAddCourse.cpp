@@ -11,8 +11,8 @@ ActionAddCourse::ActionAddCourse(Registrar* p):Action(p)
 
 bool ActionAddCourse::Execute()
 {
-	cout << "Add button is pressed.\n"; // for debugging
 	GUI* pGUI = pReg->getGUI();	
+	cout << "Add button is pressed.\n"; // for debugging
 
 	// 1) Get Course Code
 	pGUI->PrintMsg("<< Add Course to plan >> Enter course Code(e.g. CIE202):");
@@ -42,8 +42,8 @@ bool ActionAddCourse::Execute()
 		}
 	}
 	
+	/*
 	// 2) Get Year
-	ActionData actData = pGUI->GetUserAction("Select a year to add course to: "); 
 	int year = stoi(pGUI->GetSrting());
 
 	//Input validation
@@ -71,31 +71,55 @@ bool ActionAddCourse::Execute()
 		semester = static_cast<SEMESTER>(SUMMER);
 		break;
 	}
-
+	*/
+	ActionData actData = pGUI->GetUserAction("Select where you want to add your course"); 
 	int x, y;
 	if (actData.actType == DRAW_AREA)	//user clicked inside drawing area
 	{
+		int year = NULL;
+		SEMESTER semester;
+
 		//get coord where user clicked
 		x = actData.x;
 		y = actData.y;
 		
-		
-		
 		graphicsInfo gInfo{ x, y };
+		if (x > GUI::VerticalSeparatorX && x < GUI::Year_X2) {
+			// The click X is inside the boundaries
+			
+			//Get the Year
+			for (int i = 1; i <= GUI::NumOfYrs; i++) {
+				int yi = (GUI::MenuBarHeight + (i * GUI::MyFactor) + ((i - 1) * GUI::One_Year_Div));
+				int yf = (GUI::MenuBarHeight + (i * GUI::MyFactor) + (i * GUI::One_Year_Div));
 
-		//TODO: given course code, get course title, crd hours from registrar
+				if (y > yi && y < yf) {
+					year = i;
+					// Get the semester
+					int s1 = yi + GUI::One_Semester_Div;
+					int s2 = yf - GUI::One_Semester_Div;
+					
+					if (y > yi && y < s1) semester = FALL;
+					else if (y > s1 && y < s2) semester = SPRING;
+					else if (y > s2 && y < yf) semester = SUMMER;
+				}
+			}
+
+		}
+		else {
+			//The user clicked outside the region
+		}
+		if (year != NULL) {
 		CourseInfo chosenCourseInfo = pReg->getCourseInfo(code);
 		string Title = chosenCourseInfo.Title;
 		int crd = chosenCourseInfo.Credits;
-		Course* pC = new Course(code, Title, crd);
+		vector<Course_Code> PreReq = chosenCourseInfo.PreReqList;
+		vector<Course_Code> CoReq = chosenCourseInfo.CoReqList;
+		Course* pC = new Course(code, Title, crd, PreReq, CoReq);
 		pC->setGfxInfo(gInfo);
 
-		//TODO: Ask registrar to add course to the year selected by the user
-		//TODO: add the course to the correct year obtained from registrar
-
-		//For the seke of demo, we will add the course to the 1st year, 1st semester
 		StudyPlan* pS = pReg->getStudyPlay();
 		pS->AddCourse(pC, year, static_cast<SEMESTER>(semester));
+		}
 	}
 
 	
