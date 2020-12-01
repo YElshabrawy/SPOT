@@ -18,6 +18,9 @@ private:
 	bool Done;		//Done or not yet?
 	vector<Course_Code> PreReq;	//list of prerequisites
 	vector<Course_Code> CoReq;	//list of prerequisites
+	//Curret year and semester
+	int year;
+	SEMESTER sem;
 public:
 	//Constructors
 	Course();
@@ -30,10 +33,15 @@ public:
 	void setCredits(int i_cr);
 	void setPreReq(vector<string> vector);
 	void setCoReq(vector<string> vector);
+	void setYear(int inputYear);
+	void setSemester(SEMESTER inputSem);
 
+	//Getters
 	string getTitle() const;
 	string getCode() const;
 	int getCredits() const;
+	int getYear() const;
+	SEMESTER getSemester() const;
 
 	void DrawMe(GUI*) const;
 	virtual ~Course();

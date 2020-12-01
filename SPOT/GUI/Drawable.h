@@ -1,16 +1,17 @@
 #pragma once
+#include"../GUI/GUI.h"
 class GUI;
 
 struct graphicsInfo
 {
 	//coords of left corner of rectangular area where this obj should be drawn
-	int x, y;	
+	int x = 0, y = 0;	
 };
 //constants related to objects to be drawn
 enum
 {
 	CRS_WIDTH = 80,		//width of course rectangle to be drawn on screen
-	CRS_HEIGHT = 40,	//Height of course rectangle to be drawn on screen
+	CRS_HEIGHT = GUI::One_Semester_Div,	//Height of course rectangle to be drawn on screen
 	//PLAN_YEAR_WIDTH = CRS_WIDTH * 4,	//width of plan year rectangle to be drawn on screen
 	//PLAN_YEAR_HEIGHT	//Height of play year rectangle to be drawn on screen
 };

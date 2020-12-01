@@ -44,7 +44,13 @@ void Course::setPreReq(vector<string> vector) {
 void Course::setCoReq(vector<string> vector) {
 	copy(vector.begin(), vector.end(), back_inserter(CoReq)); // copy a vector to a list
 }
-
+void Course::setYear(int inputYear) {
+	year = inputYear;
+}
+void Course::setSemester(SEMESTER inputSem) {
+	sem = inputSem;
+}
+//Getters
 Course_Code Course::getCode() const
 {
 	return code;
@@ -55,10 +61,17 @@ string Course::getTitle() const
 	return Title;
 }
 
-//return course credits
 int Course::getCredits() const
 {
 	return credits;
+}
+
+int Course::getYear() const {
+	return year;
+}
+
+SEMESTER Course::getSemester() const {
+	return sem;
 }
 
 void Course::DrawMe(GUI* pG) const

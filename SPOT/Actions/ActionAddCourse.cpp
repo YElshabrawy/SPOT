@@ -115,6 +115,8 @@ bool ActionAddCourse::Execute()
 		vector<Course_Code> PreReq = chosenCourseInfo.PreReqList;
 		vector<Course_Code> CoReq = chosenCourseInfo.CoReqList;
 		Course* pC = new Course(code, Title, crd, PreReq, CoReq);
+		pC->setYear(year);
+		pC->setSemester(semester);
 		pC->setGfxInfo(gInfo);
 
 		StudyPlan* pS = pReg->getStudyPlay();

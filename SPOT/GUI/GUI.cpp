@@ -3,6 +3,7 @@
 #include "../StudyPlan/AcademicYear.h"
 #include <sstream>
 #include <iostream>
+#include"../Registrar.h"
 using namespace std;
 
 GUI::GUI()
@@ -96,6 +97,9 @@ void GUI::DrawCourse(const Course* pCrs)
 	pWind->SetPen(DrawColor, 2);
 	pWind->SetBrush(FillColor);
 	graphicsInfo gInfo = pCrs->getGfxInfo();
+
+	//int itt = pS->getStudyPlanVector()[pCrs->getYear() - 1]->getListOfYears()[pCrs->getSemester()].size();
+
 	pWind->DrawRectangle(gInfo.x, gInfo.y, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT);
 	pWind->DrawLine(gInfo.x, gInfo.y + CRS_HEIGHT / 2, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT / 2);
 	

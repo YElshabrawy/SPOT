@@ -1,4 +1,5 @@
 #include "StudyPlan.h"
+#include"../GUI/GUI.h"
 
 
 
@@ -6,7 +7,7 @@ StudyPlan::StudyPlan()
 {
 	//By default, the study plan starts with 5 years
 	//More year can be added
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < GUI::NumOfYrs; i++)
 		plan.push_back(new AcademicYear);
 }
 
@@ -18,7 +19,6 @@ bool StudyPlan::AddCourse(Course* pC, int year, SEMESTER sem)
 	// DONE IN ACTIONADDCOURSE
 
 	plan[year - 1]->AddCourse(pC, sem);
-	
 	return true;
 }
 

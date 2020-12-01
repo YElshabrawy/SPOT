@@ -1,5 +1,5 @@
 #include "Utils.h"
-
+#include"../GUI/GUI.h"
 vector<CourseInfo> createAllCoursesVector(string fileName) {
 	vector<CourseInfo> c; // output
 
@@ -87,3 +87,18 @@ void addExtraSpace(Course_Code& code) {
 		code = output;
 	}
 }
+
+/*graphicsInfo* coursesGridArray() {
+	auto* arr = new graphicsInfo[GUI::NumOfYrs * 3][GUI::Year_X2 / CRS_WIDTH];
+
+	int factor; // to handle the blach bold lines
+	for (int j = 0; j < GUI::Year_X2 / CRS_WIDTH; j++) {
+		for (int i = 0; i < GUI::NumOfYrs * 3; i++) {
+			factor = j / 3; // 0 between (0 : 2), 1 between (3 : 5),...
+			arr[j][i].x = GUI::TitleBarWidth + (CRS_WIDTH * i);
+			arr[j][i].y = GUI::MenuBarHeight + GUI::MyFactor + (GUI::MyFactor * factor) +
+				(CRS_HEIGHT * j);
+		}
+	}
+	return arr;
+}*/
