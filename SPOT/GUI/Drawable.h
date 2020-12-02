@@ -10,7 +10,7 @@ struct graphicsInfo
 //constants related to objects to be drawn
 enum
 {
-	CRS_WIDTH = (int)(GUI::Year_X2 * (4.0/65.0)),		//width of course rectangle to be drawn on screen
+	CRS_WIDTH = (int)(GUI::Year_X2 * (4.0/65.0)) + 8,		//width of course rectangle to be drawn on screen
 	CRS_HEIGHT = GUI::One_Semester_Div - 4,	//Height of course rectangle to be drawn on screen
 	//PLAN_YEAR_WIDTH = CRS_WIDTH * 4,	//width of plan year rectangle to be drawn on screen
 	//PLAN_YEAR_HEIGHT	//Height of play year rectangle to be drawn on screen

@@ -64,6 +64,7 @@ vector<CourseInfo> createAllCoursesVector(string fileName) {
 		}
 		i++;
 	}
+	finput.close();
 	return c;
 }
 
@@ -115,7 +116,6 @@ Course* interrogateCourse(int x, int y, Registrar* pReg) {
 	}
 
 	if (flag) {
-		cout << "(" << x << "," << y << ")" << "is in " << output->getCode() << endl;
 		return output;
 	}
 	else {

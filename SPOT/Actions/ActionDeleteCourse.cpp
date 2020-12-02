@@ -37,14 +37,11 @@ bool ActionDeleteCourse::Execute() {
 			int new_x =0;
 			int new_y=0;
 			graphicsInfo new_gInfo{ new_x, new_y };
-			cout << "year of del = " << year << endl;
-			cout << "sem of del = " << sem << endl;
 
 			for (int sem = FALL; sem < SEM_CNT; sem++) {
 				int iter = 0;
 				for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
 					// itertate over all courses
-					cout << "For " << (*it)->getCode() << endl;
 					//int iter = pCr->numOfCoursesPerSem[(3 * (year - 1)) + sem] - 1;
 					new_gInfo.x = GUI::TitleBarWidth + (iter * CRS_WIDTH);
 					new_gInfo.y = GUI::MenuBarHeight + GUI::MyFactor + ((year - 1) * GUI::One_Year_Div) + (sem * GUI::One_Semester_Div) +

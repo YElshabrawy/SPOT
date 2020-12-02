@@ -42,6 +42,8 @@ Action* Registrar::CreateRequiredAction()
 	case ADD_Note:
 		RequiredAction = new ActionAddNotes(this);
 		break;
+	case IMPORT_PLAN:
+		RequiredAction = new ActionImportPlan(this);
 
 
 	//TODO: Add case for each action

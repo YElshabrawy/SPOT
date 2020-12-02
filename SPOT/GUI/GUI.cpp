@@ -246,8 +246,9 @@ ActionData GUI::GetUserAction(string msg) const
 				{
 				case ITM_ADD: return ActionData{ ADD_CRS };	break;//Add course
 				case ITM_DELETE: return ActionData{ DEL_CRS }; break; //Delete course
-				case ITM_SAVE: return ActionData{ SAVE }; break;
-				case ITM_Note: return ActionData{ ADD_Note }; break;
+				case ITM_SAVE: return ActionData{ SAVE }; break; //Save Plan
+				case ITM_Note: return ActionData{ ADD_Note }; break; //Add Notes
+				case ITM_IMPORT: return ActionData{ IMPORT_PLAN }; break; //Import Plan
 				case ITM_EXIT: return ActionData{ EXIT }; break;		//Exit
 
 				default: return ActionData{ MENU_BAR };	//A click on empty place in menu bar
