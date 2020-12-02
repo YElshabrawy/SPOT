@@ -1,6 +1,7 @@
 #include "Course.h"
 #include "../GUI/GUI.h"
 #include <iostream>
+#include<iterator>
 
 vector<int> Course::numOfCoursesPerSem((GUI::NumOfYrs *3));
 // Constructors
@@ -100,4 +101,8 @@ void Course::printCourse() const {
 		cout << i << " ";
 	}
 	cout << endl << endl;
+}
+
+Course* Course::getCoursePtr() {
+	return this;
 }

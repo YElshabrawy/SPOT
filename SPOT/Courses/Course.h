@@ -48,6 +48,7 @@ public:
 	virtual ~Course();
 
 	void printCourse() const;
+	Course* getCoursePtr();
 	
 
 };

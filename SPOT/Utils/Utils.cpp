@@ -90,18 +90,38 @@ void addExtraSpace(Course_Code& code) {
 	}
 }
 
-Course_Code interrogateCourse(int x, int y, Registrar* pReg) {
+Course* interrogateCourse(int x, int y, Registrar* pReg) {
+	Course* output = nullptr;
 	StudyPlan* pS = pReg->getStudyPlay();
 	vector<AcademicYear*>* pPlan = pS->getStudyPlanVector(); // pointer on the plan vector
-	for (AcademicYear* y : *pPlan) {
-		list<Course*>* pYr = y->getListOfYears(); // pointer to the year
+	bool flag = 0;
+	for (AcademicYear* yr : *pPlan) {
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
 		for (int sem = FALL; sem < SEM_CNT; sem++) {
 			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
-				cout << (*it)->getCode(); 
+				int course_x = (*it)->getGfxInfo().x;
+				int course_y = (*it)->getGfxInfo().y;
+				bool condition = x > course_x && x < (course_x + CRS_WIDTH) &&
+					y > course_y && y < (course_y + CRS_HEIGHT);
+				if (condition) {
+					flag = 1;
+					output = (*it)->getCoursePtr();
+					break;
+				}
 			}
+			if (flag) break;
 		}
+		if (flag) break;
 	}
-	return "CIE";
+
+	if (flag) {
+		cout << "(" << x << "," << y << ")" << "is in " << output->getCode() << endl;
+		return output;
+	}
+	else {
+		cout << "No course is sellected!" << endl;
+		return nullptr;
+	}
 }
 
 /*graphicsInfo* coursesGridArray() {

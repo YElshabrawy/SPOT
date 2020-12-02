@@ -2,3 +2,4 @@
 #include"ActionAddCourse.h"
 #include"ActionSavePlan.h"
 #include"ActionDeleteCourse.h"
+#include"ActionAddNotes.h"

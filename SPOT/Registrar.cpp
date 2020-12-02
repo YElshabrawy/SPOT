@@ -39,6 +39,9 @@ Action* Registrar::CreateRequiredAction()
 	case SAVE: // save plan
 		RequiredAction = new ActionSavePlan(this);
 		break;
+	case ADD_Note:
+		RequiredAction = new ActionAddNotes(this);
+		break;
 
 
 	//TODO: Add case for each action

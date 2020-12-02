@@ -21,6 +21,7 @@ class GUI
 		ITM_REDO,
 		ITM_SAVE,
 		ITM_IMPORT,
+		ITM_Note,
 		ITM_EXIT,		//Exit item
 
 		ITM_CNT			//no. of menu items ==> This should be the last line in this enum
@@ -39,7 +40,7 @@ class GUI
 
 	window* pWind;
 public:
-	//Some constants for GUI
+	//Some constants for GUI (My default = (1600*880))
 	static const int	WindWidth = 1600, WindHeight = 880,	//Window width and height
 		wx = 15, wy = 15,		//Window starting coordinates
 		StatusBarHeight = 60,	//Status Bar Height
@@ -54,7 +55,7 @@ public:
 		TitleBarY2 = Y_div + MenuBarHeight - 4,
 		//Years Rectangle
 		Year_X1 = TitleBarWidth,
-		Year_X2 = 1300,
+		Year_X2 = WindWidth * 0.8125,
 		YearImgMidSubtractor = 45,
 		//Separators
 		VerticalSeparatorX = 20,
@@ -65,12 +66,25 @@ public:
 		//Side Bar
 		SideBarX1 = Year_X2 + 10,
 		SideBarX2 = WindWidth - 20,
-		// Add Notes
+		/*// Add Notes
 		NotesY1 = MenuBarHeight + MyFactor,
 		NotesHeight = 250,
 		// Course Info
 		CourseInfoY1 = NotesY1 + NotesHeight + MyFactor,
+		CourseInfoHeight = 250,
+		myNotesFactor = WindWidth * (1.0 / 16.0),
+		courseInfoFactor = WindWidth * (13.0/320.0),*/
+		// Add Notes
+		NotesY1 = MenuBarHeight + MyFactor,
+		NotesHeight = 250;
+	int NotesY2 = NotesHeight - NotesHeight * 0.65;
+	int NotesX1 = WindWidth - (WindWidth - Year_X2 - 10);
+	int string_Max_Width = ((WindWidth - NotesX1) / 10) - 1;
+	// Course Info
+	int CourseInfoY1 = NotesY1 + NotesHeight + MyFactor,
 		CourseInfoHeight = 250;
+	static string Notes;
+
 
 
 	GUI();
@@ -80,6 +94,9 @@ public:
 
 	//output functions
 	void PrintMsg(string msg) const;		//prints a message on status bar
+	void PrintNotes() const;
+	void DrawNoteArea() const;
+	void DrawInfoArea() const;
 
 	//Drawing functions
 	void DrawCourse(const Course* );

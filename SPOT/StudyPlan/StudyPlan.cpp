@@ -1,6 +1,6 @@
 #include "StudyPlan.h"
 #include"../GUI/GUI.h"
-
+string StudyPlan::PlanNotes = "";
 
 
 StudyPlan::StudyPlan()
@@ -19,6 +19,11 @@ bool StudyPlan::AddCourse(Course* pC, int year, SEMESTER sem)
 	// DONE IN ACTIONADDCOURSE
 
 	plan[year - 1]->AddCourse(pC, sem);
+	return true;
+}
+
+bool StudyPlan::DeleteCourse(Course* pC) {
+	plan[pC->getYear() - 1]->DeleteCourse(pC, pC->getSemester());
 	return true;
 }
 

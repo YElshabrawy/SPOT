@@ -5,6 +5,7 @@
 #include <iostream>
 #include"../Registrar.h"
 using namespace std;
+string GUI::Notes = "";
 
 GUI::GUI()
 { 
@@ -42,13 +43,14 @@ void GUI::CreateMenu() const
 
 	//First prepare List of images paths for menu item
 	string MenuItemImages[ITM_CNT];
-	MenuItemImages[ITM_ADD] = "GUI\\Images\\Menu\\menu_add2.jpg";
-	MenuItemImages[ITM_DELETE] = "GUI\\Images\\Menu\\menu_delete2.jpg";
-	MenuItemImages[ITM_UNDO] = "GUI\\Images\\Menu\\menu_undo2.jpg";
-	MenuItemImages[ITM_REDO] = "GUI\\Images\\Menu\\menu_redo2.jpg";
-	MenuItemImages[ITM_SAVE] = "GUI\\Images\\Menu\\menu_save2.jpg";
-	MenuItemImages[ITM_IMPORT] = "GUI\\Images\\Menu\\menu_import2.jpg";
-	MenuItemImages[ITM_EXIT] = "GUI\\Images\\Menu\\menu_quit2.jpg";
+	MenuItemImages[ITM_ADD] = "GUI\\Images\\Menu\\menu_add.jpg";
+	MenuItemImages[ITM_DELETE] = "GUI\\Images\\Menu\\menu_delete.jpg";
+	MenuItemImages[ITM_UNDO] = "GUI\\Images\\Menu\\menu_undo.jpg";
+	MenuItemImages[ITM_REDO] = "GUI\\Images\\Menu\\menu_redo.jpg";
+	MenuItemImages[ITM_SAVE] = "GUI\\Images\\Menu\\menu_save.jpg";
+	MenuItemImages[ITM_IMPORT] = "GUI\\Images\\Menu\\menu_import.jpg";
+	MenuItemImages[ITM_Note] = "GUI\\Images\\Menu\\menu_notes.jpg";
+	MenuItemImages[ITM_EXIT] = "GUI\\Images\\Menu\\menu_quit.jpg";
 
 	//TODO: Prepare image for each menu item and add it to the list
 
@@ -83,6 +85,9 @@ void GUI::UpdateInterface() const
 	CreateMenu();
 	ClearStatusBar();
 	ClearDrawingArea();
+	PrintNotes();
+	DrawNoteArea(); 
+	DrawInfoArea();
 	pWind->UpdateBuffer();
 	pWind->SetBuffering(false);
 
@@ -156,15 +161,15 @@ void GUI::DrawAcademicYear(const AcademicYear* pY)
 	}
 
 	//Draw years (Until Finding a Way to be implemented dynamically)
-	pWind->DrawImage("GUI\\Images\\Menu\\Year_One.jpg",
+	pWind->DrawImage("GUI\\Images\\Years\\Year_One.jpg",
 		1, (1 * One_Year_Div) - YearImgMidSubtractor + (0 * MyFactor), 18, 50);
-	pWind->DrawImage("GUI\\Images\\Menu\\Year_Two.jpg",
+	pWind->DrawImage("GUI\\Images\\Years\\Year_Two.jpg",
 		1, (2 * One_Year_Div) - YearImgMidSubtractor + (1 * MyFactor), 18, 50);
-	pWind->DrawImage("GUI\\Images\\Menu\\Year_Three.jpg",
+	pWind->DrawImage("GUI\\Images\\Years\\Year_Three.jpg",
 		1, (3 * One_Year_Div) - YearImgMidSubtractor + (2 * MyFactor), 18, 50);
-	pWind->DrawImage("GUI\\Images\\Menu\\Year_Four.jpg",
+	pWind->DrawImage("GUI\\Images\\Years\\Year_Four.jpg",
 		1, (4 * One_Year_Div) - YearImgMidSubtractor + (3 * MyFactor), 18, 50);
-	pWind->DrawImage("GUI\\Images\\Menu\\Year_Five.jpg",
+	pWind->DrawImage("GUI\\Images\\Years\\Year_Five.jpg",
 		1, (5 * One_Year_Div) - YearImgMidSubtractor + (4 * MyFactor), 18, 50);
 
 	// Draw Semesters 
@@ -182,18 +187,18 @@ void GUI::DrawAcademicYear(const AcademicYear* pY)
 			"Summ");
 	}
 	
-		//To be moved
+		/*//To be moved
 
 		//Add notes
 		pWind->DrawRectangle(SideBarX1, NotesY1, SideBarX2, NotesY1 + NotesHeight);
 		pWind->DrawLine(SideBarX1, NotesY1 + 25, SideBarX2, NotesY1 + 25);
-		pWind->DrawString(SideBarX1 + 110, NotesY1 + 6, "My Notes");
+		pWind->DrawString(SideBarX1 + myNotesFactor, NotesY1 + 6, "My Notes");
 		//Course Info
 		pWind->DrawRectangle(SideBarX1, CourseInfoY1, SideBarX2, CourseInfoY1 + CourseInfoHeight);
 		pWind->DrawLine(SideBarX1, CourseInfoY1 + 25, SideBarX2, CourseInfoY1 + 25);
-		pWind->DrawString(SideBarX1 + 85, CourseInfoY1 + 6, "Course Information");
+		pWind->DrawString(SideBarX1 + courseInfoFactor, CourseInfoY1 + 6, "Course Information");
 	
-	
+	*/
 	
 }
 
@@ -242,6 +247,7 @@ ActionData GUI::GetUserAction(string msg) const
 				case ITM_ADD: return ActionData{ ADD_CRS };	break;//Add course
 				case ITM_DELETE: return ActionData{ DEL_CRS }; break; //Delete course
 				case ITM_SAVE: return ActionData{ SAVE }; break;
+				case ITM_Note: return ActionData{ ADD_Note }; break;
 				case ITM_EXIT: return ActionData{ EXIT }; break;		//Exit
 
 				default: return ActionData{ MENU_BAR };	//A click on empty place in menu bar
@@ -297,6 +303,52 @@ string GUI::GetSrting() const
 		PrintMsg(userInput);
 	}
 
+}
+
+void GUI::PrintNotes() const
+{
+	int MsgX = NotesX1;
+	int MsgY = NotesY2;
+	pWind->SetBrush(WHITE);
+	pWind->SetPen(BLACK);
+	string msg = Notes;
+	int Start = 0, End = 37;
+	// Print the Notes
+	pWind->SetFont(20, BOLD, BY_NAME, "Times New Rome");
+	pWind->SetPen(BLACK);
+	if ((size(msg)) > string_Max_Width)
+		for (int i = 0; i < ((size(Notes) / 37) + 1); i++)
+		{
+			pWind->DrawString(MsgX, MsgY + 15 * i, msg.substr(Start + 37 * i, End));
+			End = size(msg) - End;
+			if (End < 0)
+			{
+				End = size(msg);
+			}
+		}
+	else
+		pWind->DrawString(MsgX, MsgY, msg);
+}
+void GUI::DrawNoteArea()const
+{
+	pWind->SetFont(15, BOLD, BY_NAME, "Times New Rome");
+	pWind->SetBrush(WHITE);
+	pWind->SetPen(BLACK);
+	pWind->DrawRectangle(SideBarX1, NotesY1, SideBarX2, NotesY1 + NotesHeight, FRAME);
+	pWind->SetBrush(WHITE);
+	pWind->DrawLine(SideBarX1, NotesY1 + 25, SideBarX2, NotesY1 + 25);
+	pWind->DrawRectangle(SideBarX1, NotesY1, SideBarX2, NotesY1 + 25);
+	pWind->DrawString(SideBarX1 + 110, NotesY1 + 6, "My Notes");
+}
+void GUI::DrawInfoArea()const
+{
+	pWind->SetFont(15, BOLD, BY_NAME, "Times New Rome");
+	pWind->SetBrush(WHITE);
+	pWind->SetPen(BLACK);
+	pWind->DrawRectangle(SideBarX1, CourseInfoY1, SideBarX2, CourseInfoY1 + CourseInfoHeight, FRAME);
+	pWind->DrawRectangle(SideBarX1, CourseInfoY1, SideBarX2, CourseInfoY1 + 25);
+	pWind->DrawLine(SideBarX1, CourseInfoY1 + 25, SideBarX2, CourseInfoY1 + 25);
+	pWind->DrawString(SideBarX1 + 85, CourseInfoY1 + 6, "Course Information");
 }
 
 //Dimention getters

@@ -10,5 +10,5 @@ using namespace std;
 
 vector<CourseInfo> createAllCoursesVector(string fileName);
 void addExtraSpace(Course_Code& code);
-Course_Code interrogateCourse(int x, int y, Registrar* pReg);
+Course* interrogateCourse(int x, int y, Registrar* pReg);
 //graphicsInfo** coursesGridArray();
