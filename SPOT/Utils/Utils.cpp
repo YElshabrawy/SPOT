@@ -1,5 +1,7 @@
 #include "Utils.h"
 #include"../GUI/GUI.h"
+#include"../Registrar.h"
+#include<iterator>
 vector<CourseInfo> createAllCoursesVector(string fileName) {
 	vector<CourseInfo> c; // output
 
@@ -86,6 +88,19 @@ void addExtraSpace(Course_Code& code) {
 		}
 		code = output;
 	}
+}
+
+Course_Code interrogateCourse(int x, int y, Registrar* pReg) {
+	StudyPlan* pS = pReg->getStudyPlay();
+	vector<AcademicYear*>* pPlan = pS->getStudyPlanVector(); // pointer on the plan vector
+	for (AcademicYear* y : *pPlan) {
+		list<Course*>* pYr = y->getListOfYears(); // pointer to the year
+		
+		/*for (Course* c : *pYr) {
+			cout << c->getCode() << endl;
+		}*/
+	}
+	return "CIE";
 }
 
 /*graphicsInfo* coursesGridArray() {

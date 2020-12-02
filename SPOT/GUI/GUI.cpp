@@ -240,6 +240,7 @@ ActionData GUI::GetUserAction(string msg) const
 				switch (ClickedItemOrder)
 				{
 				case ITM_ADD: return ActionData{ ADD_CRS };	break;//Add course
+				case ITM_DELETE: return ActionData{ DEL_CRS }; break; //Delete course
 				case ITM_SAVE: return ActionData{ SAVE }; break;
 				case ITM_EXIT: return ActionData{ EXIT }; break;		//Exit
 

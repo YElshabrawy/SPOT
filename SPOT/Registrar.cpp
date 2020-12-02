@@ -33,8 +33,12 @@ Action* Registrar::CreateRequiredAction()
 	case ADD_CRS:	//add_course action
 		RequiredAction = new ActionAddCourse(this);
 		break;
+	case DEL_CRS:
+		RequiredAction = new ActionDeleteCourse(this);
+		break;
 	case SAVE: // save plan
 		RequiredAction = new ActionSavePlan(this);
+		break;
 
 
 	//TODO: Add case for each action

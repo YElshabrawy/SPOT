@@ -13,8 +13,9 @@ ActionAddCourse::ActionAddCourse(Registrar* p):Action(p)
 
 bool ActionAddCourse::Execute()
 {
-	GUI* pGUI = pReg->getGUI();	
 	cout << "Add button is pressed.\n"; // for debugging
+
+	GUI* pGUI = pReg->getGUI();	
 
 	// 1) Get Course Code
 	pGUI->PrintMsg("<< Add Course to plan >> Enter course Code(e.g. CIE202):");
