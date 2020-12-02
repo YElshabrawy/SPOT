@@ -92,14 +92,11 @@ void GUI::UpdateInterface() const
 void GUI::DrawCourse(const Course* pCrs)
 {
 	if (pCrs->isSelected())
-		pWind->SetPen(HiColor, 2);
+		pWind->SetPen(HiColor, 1);
 	else
-	pWind->SetPen(DrawColor, 2);
+	pWind->SetPen(DrawColor, 1);
 	pWind->SetBrush(FillColor);
 	graphicsInfo gInfo = pCrs->getGfxInfo();
-
-	//int itt = pS->getStudyPlanVector()[pCrs->getYear() - 1]->getListOfYears()[pCrs->getSemester()].size();
-
 	pWind->DrawRectangle(gInfo.x, gInfo.y, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT);
 	pWind->DrawLine(gInfo.x, gInfo.y + CRS_HEIGHT / 2, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT / 2);
 	
@@ -107,7 +104,7 @@ void GUI::DrawCourse(const Course* pCrs)
 	int Code_x = gInfo.x + CRS_WIDTH * 0.15;
 	int Code_y = gInfo.y + CRS_HEIGHT * 0.05;
 	pWind->SetFont(CRS_HEIGHT * 0.4, BOLD , BY_NAME, "Gramound");
-	pWind->SetPen(MsgColor);
+	pWind->SetPen(CourseCodeColor);
 
 	ostringstream crd;
 	crd<< "crd:" << pCrs->getCredits();

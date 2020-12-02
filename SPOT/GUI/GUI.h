@@ -28,12 +28,13 @@ class GUI
 	};
 
 	color DrawColor = BLACK;		//Drawing color
-	color FillColor = YELLOW;		//Filling color (for courses)
+	color FillColor = MYCYAN;		//Filling color (for courses)
 	color HiColor = RED;			//Highlighting color
 	color ConnColor = GREEN;		//Connector color
 	color MsgColor = BLACK;			//Messages color
 	color BkGrndColor = LIGHTGRAY;	//Background color
 	color StatusBarColor = WHITE;//statusbar color
+	color CourseCodeColor = WHITE;
 	string WindTitle = "Study-Plan Organizational Tool (SPOT)";
 
 	window* pWind;

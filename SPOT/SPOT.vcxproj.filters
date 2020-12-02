@@ -232,8 +232,8 @@
       <Filter>StudyPlan</Filter>
     </ClInclude>
     <ClInclude Include="Utils\Utils.h" />
-    <ClInclude Include="Actions\ActionSavePlan.h" />
     <ClInclude Include="Actions\allActions.h" />
+    <ClInclude Include="Actions\ActionSavePlan.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="GUI\CMUgraphicsLib\Manual.txt">

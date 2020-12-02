@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <iostream>
 #include"../Utils/Utils.h"
+#include"../GUI/GUI.h"
+#include<iterator>
 
 ActionAddCourse::ActionAddCourse(Registrar* p):Action(p)
 {
@@ -109,19 +111,35 @@ bool ActionAddCourse::Execute()
 			//The user clicked outside the region
 		}
 		if (year != NULL) {
+		StudyPlan* pS = pReg->getStudyPlay();
 		CourseInfo chosenCourseInfo = pReg->getCourseInfo(code);
 		string Title = chosenCourseInfo.Title;
 		int crd = chosenCourseInfo.Credits;
 		vector<Course_Code> PreReq = chosenCourseInfo.PreReqList;
 		vector<Course_Code> CoReq = chosenCourseInfo.CoReqList;
-		Course* pC = new Course(code, Title, crd, PreReq, CoReq);
-		pC->setYear(year);
-		pC->setSemester(semester);
-		pC->setGfxInfo(gInfo);
-
-		StudyPlan* pS = pReg->getStudyPlay();
+		Course* pC = new Course(code, Title, crd, PreReq, CoReq, year, semester);
 		pS->AddCourse(pC, year, static_cast<SEMESTER>(semester));
 		cout << code << " is added to year " << year << " semester " << semester << endl;
+		pC->setYear(year);
+		pC->setSemester(semester);
+		/*
+		// I tried to acess length of semester list but FAILED :(
+		//int iter = pS->getStudyPlanVector()[year - 1]->getListOfYears()[semester].size(); // number of course in such semester of year
+		//vector<AcademicYear*>* myptr = pS->getStudyPlanVector();
+		//list<Course*>* myptr2 = (*myptr)[year - 1]->getListOfYears();
+		//int iter = myptr2[semester].size();
+
+		//list<Course*>::iterator semIndex = (*myptr2).begin();
+		//advance(semIndex, semester);
+		//int iter = *(semIndex);
+		///////////////////////////////////////////////////////////////////////
+		*/
+		int iter = pC->numOfCoursesPerSem[(3 * (year - 1)) + semester] - 1;
+		gInfo.x = GUI::TitleBarWidth + (iter * CRS_WIDTH);
+		gInfo.y = GUI::MenuBarHeight + GUI::MyFactor + ((year - 1) * GUI::One_Year_Div) + (semester * GUI::One_Semester_Div) +
+			(GUI::MyFactor * (year - 1));
+		pC->setGfxInfo(gInfo);
+
 		}
 	}
 

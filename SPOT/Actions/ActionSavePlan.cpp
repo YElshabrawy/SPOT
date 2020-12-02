@@ -1,3 +1,4 @@
+
 #include "ActionSavePlan.h"
 #include "..\Registrar.h"
 #include <filesystem>
@@ -9,6 +10,7 @@ ActionSavePlan::ActionSavePlan(Registrar* p) : Action(p) {
 
 }
 bool ActionSavePlan::Execute() {
+	/*
 	cout << "Save button is pressed.\n"; // for debugging
 	GUI* pGUI = pReg->getGUI(); // We have a pointer to gui
 	StudyPlan* pS = pReg->getStudyPlay();
@@ -50,7 +52,7 @@ bool ActionSavePlan::Execute() {
 			foutput << endl;
 		}
 	}
-	foutput.close();
+	foutput.close();*/
 	return 1;
 }
 ActionSavePlan::~ActionSavePlan() {

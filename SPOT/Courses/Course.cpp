@@ -2,6 +2,7 @@
 #include "../GUI/GUI.h"
 #include <iostream>
 
+vector<int> Course::numOfCoursesPerSem((GUI::NumOfYrs *3));
 // Constructors
 Course::Course(Course_Code r_code, string r_title, int crd):code(r_code),Title(r_title)
 {
@@ -9,13 +10,17 @@ Course::Course(Course_Code r_code, string r_title, int crd):code(r_code),Title(r
 }
 
 Course::Course(Course_Code r_code, string r_title, int crd,
-	vector<Course_Code> r_PreReq, vector<Course_Code> r_CoReq) {
+	vector<Course_Code> r_PreReq, vector<Course_Code> r_CoReq,
+	int r_year, SEMESTER r_sem) {
 	code = r_code;
 	Title = r_title;
 	credits = crd;
 	PreReq = r_PreReq;
 	CoReq = r_CoReq;
-
+	year = r_year;
+	sem = r_sem;
+	//Number of years per semester
+	numOfCoursesPerSem[(3 * (year - 1)) + sem]++;
 }
 
 Course::Course()
@@ -84,6 +89,8 @@ void Course::printCourse() const {
 		<< "Course ID: " << code << endl
 		<< "Course Title: " << Title << endl
 		<< "CH: " << credits << endl
+		<< "Year: " << year << endl
+		<< "Sem: " << sem <<endl
 		<< "Prerequisites: ";
 	for (Course_Code i : PreReq) {
 		cout << i << " ";

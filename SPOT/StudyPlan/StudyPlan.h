@@ -18,7 +18,7 @@ public:
 	StudyPlan();
 	bool AddCourse(Course* , int year, SEMESTER);
 	void virtual DrawMe(GUI*) const;
-	vector<AcademicYear*> getStudyPlanVector();
+	vector<AcademicYear*>* getStudyPlanVector();
 	
 	virtual ~StudyPlan();
 };

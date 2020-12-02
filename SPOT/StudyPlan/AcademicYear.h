@@ -17,9 +17,9 @@ class AcademicYear:public Drawable
 	//So YearCourses[FALL] is the list of FALL course in that year
 	//So YearCourses[SPRING] is the list of SPRING course in that year
 	//So YearCourses[SUMMER] is the list of SUMMER course in that year
-	list<Course*> YearCourses[SEM_CNT];
 	
 public:
+	list<Course*> YearCourses[SEM_CNT];
 	// Some constans for academic year
 	static const int
 		Year_X1 = 0,
@@ -41,7 +41,7 @@ public:
 
 	bool AddCourse(Course*, SEMESTER );
 	
-	list<Course*>* getListOfYears() const;
+	list<Course*>* getListOfYears() ;
 
 	void virtual DrawMe(GUI*) const;
 };

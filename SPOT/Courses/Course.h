@@ -22,11 +22,12 @@ private:
 	int year;
 	SEMESTER sem;
 public:
+	static vector<int> numOfCoursesPerSem;
 	//Constructors
 	Course();
 	Course(Course_Code r_code,string r_title, int crd);
 	Course(Course_Code r_code, string r_title, int crd,
-		vector<Course_Code> r_PreReq, vector<Course_Code> r_CoReq);
+		vector<Course_Code> r_PreReq, vector<Course_Code> r_CoReq,int r_year, SEMESTER r_sem);
 	// Setters
 	void setCode(Course_Code i_code);
 	void setTitle(string i_title);
@@ -47,5 +48,6 @@ public:
 	virtual ~Course();
 
 	void printCourse() const;
+	
 
 };

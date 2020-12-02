@@ -100,6 +100,7 @@ const color DARKTURQUOISE = color(0, 206, 209);
 const color MEDIUMTURQUOISE = color(72, 209, 204);
 const color TURQUOISE = color(64, 224, 208);
 const color CYAN = color(0, 255, 255);
+const color MYCYAN = color(33, 150, 243);
 const color LIGHTCYAN = color(224, 255, 255);
 const color CADETBLUE = color(95, 158, 160);
 const color MEDIUMAQUAMARINE = color(102, 205, 170);
