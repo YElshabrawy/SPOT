@@ -95,10 +95,11 @@ Course_Code interrogateCourse(int x, int y, Registrar* pReg) {
 	vector<AcademicYear*>* pPlan = pS->getStudyPlanVector(); // pointer on the plan vector
 	for (AcademicYear* y : *pPlan) {
 		list<Course*>* pYr = y->getListOfYears(); // pointer to the year
-		
-		/*for (Course* c : *pYr) {
-			cout << c->getCode() << endl;
-		}*/
+		for (int sem = FALL; sem < SEM_CNT; sem++) {
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
+				cout << (*it)->getCode(); 
+			}
+		}
 	}
 	return "CIE";
 }

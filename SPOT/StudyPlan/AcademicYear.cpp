@@ -44,5 +44,5 @@ void AcademicYear::DrawMe(GUI* pGUI) const
 list<Course*>* AcademicYear::getListOfYears() {
 	//list<Course*>* ptr = new list<Course*>;
 	//return ptr;
-	return &YearCourses[SEM_CNT];
+	return YearCourses;
 }
