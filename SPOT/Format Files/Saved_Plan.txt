@@ -1,0 +1,5 @@
+Year 1,Summer,BIOL 111
+Year 2,Spring,CIE 202
+Year 2,Summer,CIE 202,CIE 202
+Year 4,Spring,BIOL 111
+Year 5,Summer,BIOL 101

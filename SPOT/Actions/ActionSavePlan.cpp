@@ -10,49 +10,47 @@ ActionSavePlan::ActionSavePlan(Registrar* p) : Action(p) {
 
 }
 bool ActionSavePlan::Execute() {
-	/*
-	cout << "Save button is pressed.\n"; // for debugging
-	GUI* pGUI = pReg->getGUI(); // We have a pointer to gui
-	StudyPlan* pS = pReg->getStudyPlay();
-	vector<AcademicYear*> plan = pS->getStudyPlanVector();
+	cout << "Save button is pressed.\n"; //for debugging
+	GUI* pGUI = pReg->getGUI();
+	StudyPlan* pS = pReg->getStudyPlay(); //pointer to study plan
+	vector<AcademicYear*>* pPlan = pS->getStudyPlanVector(); // pointer on the plan vector
+	string directory = "Format Files\\Saved_Plan.txt";
 
-	string filePath = "./Format Files/StudyPlan.txt";
-	ofstream foutput(filePath);
-	for (int i = 0; i < plan.size(); i++) {
-		list<Course*> *pYear = plan[i]->getListOfYears();
-		if (!(pYear[0].empty())) {
-			foutput << "Year " << i + 1 << ","
-				<< "Semester 1,";
-			string delim = "";
-			for (Course* c : pYear[0]) {
-				foutput << delim << c->getCode();
-				delim = ",";
+	ofstream outFile;
+	outFile.open(directory);
+	int numOfYear = 0;
+	for (AcademicYear* yr : *pPlan) {
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int sem = FALL; sem < SEM_CNT; sem++) {
+			int numOfCoursesPreThisSemester = Course::numOfCoursesPerSem[(numOfYear * 3) + sem];
+			if (numOfCoursesPreThisSemester != 0) {
+				string str_semester = "UNKNOWN";
+				switch (sem)
+				{
+				case FALL:
+					str_semester = "Fall";
+					break;
+				case SPRING:
+					str_semester = "Spring";
+					break;
+				case SUMMER:
+					str_semester = "Summer";
+					break;
+				}
+				outFile << "Year " << numOfYear + 1 << ","
+					<< str_semester;
+				for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
+					string delim_comma = ",";
+					outFile << delim_comma << (*it)->getCode();
+					delim_comma = "";
+				}
+				outFile << "\n";
 			}
-			foutput << endl;
 		}
-		if (!(pYear[1].empty())) {
-			foutput << "Year " << i + 1 << ","
-				<< "Semester 2,";
-			string delim = "";
-			for (Course* c : pYear[1]) {
-				foutput << delim << c->getCode();
-				delim = ",";
-			}
-			foutput << endl;
-
-		}
-		if (!(pYear[2].empty())) {
-			foutput << "Year " << i + 1 << ","
-				<< "Semester 3,";
-			string delim = "";
-			for (Course* c : pYear[2]) {
-				foutput << delim << c->getCode();
-				delim = ",";
-			}
-			foutput << endl;
-		}
+		numOfYear++;
 	}
-	foutput.close();*/
+	outFile.close();
+
 	return 1;
 }
 ActionSavePlan::~ActionSavePlan() {

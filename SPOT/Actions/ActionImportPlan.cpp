@@ -16,7 +16,8 @@ bool ActionImportPlan::Execute() {
 	cout << "Import button is pressed.\n"; // for debugging
 	GUI* pGUI = pReg->getGUI();
 
-	string directory = "Format Files\\StudyPlan-ENV.txt";
+	//string directory = "Format Files\\StudyPlan-ENV.txt";
+	string directory = "Format Files\\Saved_Plan.txt";
 
 	// Start reading
 	ifstream finput(directory);
