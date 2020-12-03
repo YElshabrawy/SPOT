@@ -329,6 +329,7 @@ void GUI::PrintNotes() const
 		}
 	else
 		pWind->DrawString(MsgX, MsgY, msg);
+
 }
 void GUI::DrawNoteArea()const
 {

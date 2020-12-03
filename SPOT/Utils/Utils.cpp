@@ -93,10 +93,10 @@ void addExtraSpace(Course_Code& code) {
 
 Course* interrogateCourse(int x, int y, Registrar* pReg) {
 	Course* output = nullptr;
-	StudyPlan* pS = pReg->getStudyPlay();
+	StudyPlan* pS = pReg->getStudyPlay(); // pointer on study plan
 	vector<AcademicYear*>* pPlan = pS->getStudyPlanVector(); // pointer on the plan vector
 	bool flag = 0;
-	for (AcademicYear* yr : *pPlan) {
+	for (AcademicYear* yr : *pPlan) { 
 		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
 		for (int sem = FALL; sem < SEM_CNT; sem++) {
 			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
