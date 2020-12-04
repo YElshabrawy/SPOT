@@ -172,6 +172,8 @@ void GUI::DrawAcademicYear(const AcademicYear* pY)
 		1, (4 * One_Year_Div) - YearImgMidSubtractor + (3 * MyFactor), 18, 50);
 	pWind->DrawImage("GUI\\Images\\Years\\Year_Five.jpg",
 		1, (5 * One_Year_Div) - YearImgMidSubtractor + (4 * MyFactor), 18, 50);
+	pWind->DrawImage("GUI\\Images\\Years\\Year_Six.jpg",
+		1, (6 * One_Year_Div) - YearImgMidSubtractor + (5 * MyFactor), 18, 50);
 
 	// Draw Semesters 
 	pWind->SetFont(15, BOLD, BY_NAME, "Times New Rome");
@@ -342,7 +344,7 @@ void GUI::DrawNoteArea()const
 	pWind->SetBrush(WHITE);
 	pWind->DrawLine(SideBarX1, NotesY1 + 25, SideBarX2, NotesY1 + 25);
 	pWind->DrawRectangle(SideBarX1, NotesY1, SideBarX2, NotesY1 + 25);
-	pWind->DrawString(SideBarX1 + 110, NotesY1 + 6, "My Notes");
+	pWind->DrawString(SideBarX1 + myNotesFactor , NotesY1 + 6, "My Notes");
 }
 void GUI::DrawInfoArea()const
 {
@@ -352,7 +354,7 @@ void GUI::DrawInfoArea()const
 	pWind->DrawRectangle(SideBarX1, CourseInfoY1, SideBarX2, CourseInfoY1 + CourseInfoHeight, FRAME);
 	pWind->DrawRectangle(SideBarX1, CourseInfoY1, SideBarX2, CourseInfoY1 + 25);
 	pWind->DrawLine(SideBarX1, CourseInfoY1 + 25, SideBarX2, CourseInfoY1 + 25);
-	pWind->DrawString(SideBarX1 + 85, CourseInfoY1 + 6, "Course Information");
+	pWind->DrawString(SideBarX1 + courseInfoFactor, CourseInfoY1 + 6, "Course Information");
 }
 
 //Dimention getters

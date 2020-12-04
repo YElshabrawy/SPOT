@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 using namespace std;
-
+#include<iostream>
 #include "..\DEFs.h"
 #include "CMUgraphicsLib\CMUgraphics.h"
 
@@ -41,14 +41,14 @@ class GUI
 
 	window* pWind;
 public:
-	//Some constants for GUI (My default = (1600*880))
-	static const int	WindWidth = 1600, WindHeight = 880,	//Window width and height
+	//Some constants for GUI (My default = 1600 x 880 with aspect ratio 20:11)
+	static const int	WindWidth = 1600, WindHeight = WindWidth * (11.0 / 20.0),	//Window width and height
 		wx = 15, wy = 15,		//Window starting coordinates
 		StatusBarHeight = 60,	//Status Bar Height
 		MenuBarHeight = 51,		//Menu Bar Height (distance from top of window to bottom line of menu bar)
 		MenuItemWidth = 51,		//Width of each item in the menu
 		MenuItemWidthGap = 20,  //Gap width between items
-		NumOfYrs = 5, // total years (to be implemented dynamically)
+		NumOfYrs = 6, // total years (to be implemented dynamically)
 		Y_div = (WindHeight - StatusBarHeight - MenuBarHeight), // 1 div from 5 equal divisions in y
 		MyFactor = 4, // used in some refinings
 		//Title Bar
@@ -57,12 +57,12 @@ public:
 		//Years Rectangle
 		Year_X1 = TitleBarWidth,
 		Year_X2 = WindWidth * 0.8125,
-		YearImgMidSubtractor = 45,
 		//Separators
 		VerticalSeparatorX = 20,
 		//Semesters
 		One_Year_Div = (Y_div - (NumOfYrs * MyFactor)) / NumOfYrs,
 		One_Semester_Div = One_Year_Div / 3,
+		YearImgMidSubtractor = (One_Year_Div - 50) / 2.0,
 		SemesterMidFactor = 20,
 		//Side Bar
 		SideBarX1 = Year_X2 + 10,
@@ -77,10 +77,12 @@ public:
 		courseInfoFactor = WindWidth * (13.0/320.0),*/
 		// Add Notes
 		NotesY1 = MenuBarHeight + MyFactor,
-		NotesHeight = 250;
-	int NotesY2 = NotesHeight - NotesHeight * 0.65;
-	int NotesX1 = WindWidth - (WindWidth - Year_X2 - 10);
-	int string_Max_Width = ((WindWidth - NotesX1) / 10) - 1;
+		NotesHeight = 250,
+		NotesY2 = NotesHeight - NotesHeight * 0.65,
+		NotesX1 = WindWidth - (WindWidth - Year_X2 - 10),
+		string_Max_Width = ((WindWidth - NotesX1) / 10) - 1,
+		myNotesFactor = (SideBarX2 - SideBarX1 - 40) / 2.0,
+		courseInfoFactor = (SideBarX2 - SideBarX1 - 95) / 2.0;
 	// Course Info
 	int CourseInfoY1 = NotesY1 + NotesHeight + MyFactor,
 		CourseInfoHeight = 250;
