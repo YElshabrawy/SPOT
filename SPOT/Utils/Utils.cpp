@@ -73,15 +73,18 @@ void addExtraSpace(Course_Code& code) {
 		// Only if there is no space
 		Course_Code output = "";
 		for (int i = 0; i < code.length(); i++) {
-			if (code[i] == '0' || code[i] == '1' || code[i] == '2' || code[i] == '3' || code[i] == '4' ||
+			bool condition = code[i] == '0' || code[i] == '1' || code[i] == '2' || code[i] == '3' || code[i] == '4' ||
 				code[i] == '5' || code[i] == '6' || code[i] == '7' || code[i] == '8' ||
-				code[i] == '9') {
+				code[i] == '9';
+			if (condition) {
+				if (code[i + 1] != NULL && code[i + 2] != NULL) {
 				output += ' ';
 				output += code[i];
 				output += code[i + 1];
 				output += code[i + 2];
 				// Assuming that all courses have 3 numbers "CODE XXX"
 				break;
+				}
 			}
 			else {
 				output += code[i];
