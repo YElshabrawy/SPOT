@@ -48,7 +48,15 @@ Action* Registrar::CreateRequiredAction()
 	case ERASE:
 		RequiredAction = new ActionEraseAll(this);
 		break;
-
+	case SWAP:
+		RequiredAction = new ActionMoveCourse(this);
+		break;
+	case CHANGE_CODE:
+		RequiredAction = new ActionChangeCode(this);
+		break;
+	default:
+		RequiredAction = new ActionCourseInfo(this);
+		break;
 
 	//TODO: Add case for each action
 	

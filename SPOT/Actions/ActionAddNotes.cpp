@@ -12,7 +12,7 @@ bool ActionAddNotes::Execute()
 	GUI* pGUI = pReg->getGUI();
 	pGUI->PrintMsg("Add Notes For The Study Plan");
 		pGUI->Notes = pGUI->GetSrting();
-		StudyPlan::PlanNotes= StudyPlan::PlanNotes + pGUI->Notes;
+		StudyPlan::PlanNotes= StudyPlan::PlanNotes +" "+ pGUI->Notes;
 		pGUI->Notes = StudyPlan::PlanNotes;
 	return true;
 }

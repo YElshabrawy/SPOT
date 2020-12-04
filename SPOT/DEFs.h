@@ -24,6 +24,9 @@ enum ActionType
 	ADD_Note,   // Add notes
 	IMPORT_PLAN, //Import plan
 	ERASE,		 //Remove all courses
+	SWAP,
+	COURSE_INFO,
+	CHANGE_CODE,	//changes course code
 
 	SAVE,		//Save a study plan to file
 	LOAD,		//Load a study plan from a file

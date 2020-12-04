@@ -120,11 +120,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actions\ActionChangeCode.cpp" />
+    <ClCompile Include="Actions\ActionCourseInfo.cpp" />
     <ClCompile Include="Actions\ActionEraseAll.cpp" />
     <ClCompile Include="Actions\ActionImportPlan.cpp" />
     <ClCompile Include="Actions\ActionAddNotes.cpp" />
     <ClCompile Include="Actions\ActionDeleteCourse.cpp" />
     <ClCompile Include="Actions\ActionAddCourse.cpp" />
+    <ClCompile Include="Actions\ActionMoveCourse.cpp" />
     <ClCompile Include="Actions\ActionSavePlan.cpp" />
     <ClCompile Include="Courses\Course.cpp" />
     <ClCompile Include="GUI\CMUgraphicsLib\CMUgraphics.cpp" />
@@ -171,12 +174,15 @@
     <ClCompile Include="Utils\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actions\ActionChangeCode.h" />
+    <ClInclude Include="Actions\ActionCourseInfo.h" />
     <ClInclude Include="Actions\ActionEraseAll.h" />
     <ClInclude Include="Actions\ActionImportPlan.h" />
     <ClInclude Include="Actions\ActionAddNotes.h" />
     <ClInclude Include="Actions\ActionDeleteCourse.h" />
     <ClInclude Include="Actions\Action.h" />
     <ClInclude Include="Actions\ActionAddCourse.h" />
+    <ClInclude Include="Actions\ActionMoveCourse.h" />
     <ClInclude Include="Actions\ActionSavePlan.h" />
     <ClInclude Include="Actions\allActions.h" />
     <ClInclude Include="Courses\Course.h" />

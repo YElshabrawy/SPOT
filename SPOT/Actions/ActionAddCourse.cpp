@@ -121,10 +121,11 @@ bool ActionAddCourse::Execute()
 		Course* pC = new Course(code, Title, crd, PreReq, CoReq, year, semester);
 		pS->AddCourse(pC, year, static_cast<SEMESTER>(semester));
 		cout << code << " is added to year " << year << " semester " << semester << endl;
+		cout << "Title : " << pC->getTitle() << endl;
 		pC->setYear(year);
 		pC->setSemester(semester);
 		/*
-		// I tried to acess length of semester list but FAILED :(
+		// I tried to access length of semester list but FAILED :(
 		//int iter = pS->getStudyPlanVector()[year - 1]->getListOfYears()[semester].size(); // number of course in such semester of year
 		//vector<AcademicYear*>* myptr = pS->getStudyPlanVector();
 		//list<Course*>* myptr2 = (*myptr)[year - 1]->getListOfYears();

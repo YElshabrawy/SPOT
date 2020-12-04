@@ -21,6 +21,8 @@ class GUI
 		//ITM_REDO,		//Redo last action
 		ITM_SAVE,		//Save the current splan
 		ITM_IMPORT,		//Import a pre-made plan or a default study plan
+		ITM_SWAP,
+		ITM_EXCHANGE,
 		ITM_Note,		//Add notes
 		ITM_ERASE,		//Clear all the data (courses)
 		ITM_EXIT,		//Exit item
@@ -42,13 +44,13 @@ class GUI
 	window* pWind;
 public:
 	//Some constants for GUI (My default = 1600 x 880 with aspect ratio 20:11)
-	static const int	WindWidth = 1600, WindHeight = WindWidth * (11.0 / 20.0),	//Window width and height
+	static const int	WindWidth = 1380, WindHeight = WindWidth * (11.0 / 20.0),	//Window width and height
 		wx = 15, wy = 15,		//Window starting coordinates
 		StatusBarHeight = 60,	//Status Bar Height
 		MenuBarHeight = 51,		//Menu Bar Height (distance from top of window to bottom line of menu bar)
 		MenuItemWidth = 51,		//Width of each item in the menu
 		MenuItemWidthGap = 20,  //Gap width between items
-		NumOfYrs = 6, // total years (to be implemented dynamically)
+		NumOfYrs = 5, // total years (to be implemented dynamically)
 		Y_div = (WindHeight - StatusBarHeight - MenuBarHeight), // 1 div from 5 equal divisions in y
 		MyFactor = 4, // used in some refinings
 		//Title Bar
@@ -82,11 +84,13 @@ public:
 		NotesX1 = WindWidth - (WindWidth - Year_X2 - 10),
 		string_Max_Width = ((WindWidth - NotesX1) / 10) - 1,
 		myNotesFactor = (SideBarX2 - SideBarX1 - 40) / 2.0,
-		courseInfoFactor = (SideBarX2 - SideBarX1 - 95) / 2.0;
+		courseInfoFactor = (SideBarX2 - SideBarX1 - 95) / 2.0,
+		InfoX1 = WindWidth - (WindWidth - Year_X2 - 10),
+		InfoY1 = NotesY2 + WindHeight * 0.36;
 	// Course Info
 	int CourseInfoY1 = NotesY1 + NotesHeight + MyFactor,
 		CourseInfoHeight = 250;
-	static string Notes;
+	static string Notes, CourseTitle, CourseCode, CourseCredit;
 
 
 
@@ -98,6 +102,7 @@ public:
 	//output functions
 	void PrintMsg(string msg) const;		//prints a message on status bar
 	void PrintNotes() const;
+	void PrintCourseInfo()const;
 	void DrawNoteArea() const;
 	void DrawInfoArea() const;
 

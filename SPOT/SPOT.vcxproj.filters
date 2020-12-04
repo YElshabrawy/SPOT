@@ -152,6 +152,9 @@
     <ClCompile Include="Actions\ActionAddNotes.cpp" />
     <ClCompile Include="Actions\ActionImportPlan.cpp" />
     <ClCompile Include="Actions\ActionEraseAll.cpp" />
+    <ClCompile Include="Actions\ActionMoveCourse.cpp" />
+    <ClCompile Include="Actions\ActionCourseInfo.cpp" />
+    <ClCompile Include="Actions\ActionChangeCode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUI\GUI.h">
@@ -242,6 +245,9 @@
     <ClInclude Include="Actions\ActionAddNotes.h" />
     <ClInclude Include="Actions\ActionImportPlan.h" />
     <ClInclude Include="Actions\ActionEraseAll.h" />
+    <ClInclude Include="Actions\ActionMoveCourse.h" />
+    <ClInclude Include="Actions\ActionCourseInfo.h" />
+    <ClInclude Include="Actions\ActionChangeCode.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="GUI\CMUgraphicsLib\Manual.txt">

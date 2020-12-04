@@ -5,3 +5,6 @@
 #include"ActionAddNotes.h"
 #include"ActionImportPlan.h"
 #include"ActionEraseAll.h"
+#include"ActionMoveCourse.h"
+#include"ActionCourseInfo.h"
+#include"ActionChangeCode.h"

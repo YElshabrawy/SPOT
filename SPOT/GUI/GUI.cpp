@@ -6,6 +6,9 @@
 #include"../Registrar.h"
 using namespace std;
 string GUI::Notes = "";
+string GUI::CourseTitle = "";
+string GUI::CourseCode = "";
+string GUI::CourseCredit = "";
 
 GUI::GUI()
 { 
@@ -49,6 +52,8 @@ void GUI::CreateMenu() const
 	//MenuItemImages[ITM_REDO] = "GUI\\Images\\Menu\\menu_redo.jpg";
 	MenuItemImages[ITM_SAVE] = "GUI\\Images\\Menu\\menu_save.jpg";
 	MenuItemImages[ITM_IMPORT] = "GUI\\Images\\Menu\\menu_import.jpg";
+	MenuItemImages[ITM_SWAP] = "GUI\\Images\\Menu\\menu_swap.jpg";
+	MenuItemImages[ITM_EXCHANGE] = "GUI\\Images\\Menu\\menu_exchange.jpg";
 	MenuItemImages[ITM_Note] = "GUI\\Images\\Menu\\menu_notes.jpg";
 	MenuItemImages[ITM_ERASE] = "GUI\\Images\\Menu\\menu_erase.jpg";
 	MenuItemImages[ITM_EXIT] = "GUI\\Images\\Menu\\menu_quit.jpg";
@@ -89,6 +94,7 @@ void GUI::UpdateInterface() const
 	PrintNotes();
 	DrawNoteArea(); 
 	DrawInfoArea();
+	PrintCourseInfo();
 	pWind->UpdateBuffer();
 	pWind->SetBuffering(false);
 
@@ -253,6 +259,8 @@ ActionData GUI::GetUserAction(string msg) const
 				case ITM_Note: return ActionData{ ADD_Note }; break; //Add Notes
 				case ITM_IMPORT: return ActionData{ IMPORT_PLAN }; break; //Import Plan
 				case ITM_ERASE: return ActionData{ ERASE }; break;
+				case ITM_SWAP: return ActionData{ SWAP }; break;
+				case ITM_EXCHANGE: return ActionData{ CHANGE_CODE }; break;
 				case ITM_EXIT: return ActionData{ EXIT }; break;		//Exit
 
 				default: return ActionData{ MENU_BAR };	//A click on empty place in menu bar
@@ -317,7 +325,7 @@ void GUI::PrintNotes() const
 	pWind->SetBrush(WHITE);
 	pWind->SetPen(BLACK);
 	string msg = Notes;
-	int Start = 0, End = 37;
+	int Start = 0, End = 37 ;
 	// Print the Notes
 	pWind->SetFont(20, BOLD, BY_NAME, "Times New Rome");
 	pWind->SetPen(BLACK);
@@ -355,6 +363,35 @@ void GUI::DrawInfoArea()const
 	pWind->DrawRectangle(SideBarX1, CourseInfoY1, SideBarX2, CourseInfoY1 + 25);
 	pWind->DrawLine(SideBarX1, CourseInfoY1 + 25, SideBarX2, CourseInfoY1 + 25);
 	pWind->DrawString(SideBarX1 + courseInfoFactor, CourseInfoY1 + 6, "Course Information");
+}
+
+void GUI::PrintCourseInfo()const
+{
+	int MsgX = InfoX1;
+	int MsgY = InfoY1;
+	pWind->SetPen(BLACK);
+	string msg1 = CourseTitle;
+	int Start = 0, End = string_Max_Width;
+	// Print the Notes
+	pWind->SetFont(17, BOLD, BY_NAME, "Times New Rome");
+	pWind->SetPen(BLACK);
+	if ((size(msg1)) > string_Max_Width)
+		for (int i = 0; i < ((size(msg1) / string_Max_Width) + 1); i++)
+		{
+			pWind->DrawString(MsgX, MsgY + 15 * i, msg1.substr(Start + string_Max_Width * i, End));
+			End = size(msg1) - End;
+			if (End < 0)
+			{
+				End = size(msg1);
+			}
+		}
+	else {
+		pWind->DrawString(MsgX, MsgY, msg1);
+		}
+	string msg2 = CourseCode;
+	pWind->DrawString(MsgX, MsgY + 70, msg2);
+	string msg3 = CourseCredit;
+	pWind->DrawString(MsgX, MsgY + 120, msg3);
 }
 
 //Dimention getters
