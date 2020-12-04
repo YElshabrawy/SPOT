@@ -45,8 +45,8 @@ void GUI::CreateMenu() const
 	string MenuItemImages[ITM_CNT];
 	MenuItemImages[ITM_ADD] = "GUI\\Images\\Menu\\menu_add.jpg";
 	MenuItemImages[ITM_DELETE] = "GUI\\Images\\Menu\\menu_delete.jpg";
-	MenuItemImages[ITM_UNDO] = "GUI\\Images\\Menu\\menu_undo.jpg";
-	MenuItemImages[ITM_REDO] = "GUI\\Images\\Menu\\menu_redo.jpg";
+	//MenuItemImages[ITM_UNDO] = "GUI\\Images\\Menu\\menu_undo.jpg";
+	//MenuItemImages[ITM_REDO] = "GUI\\Images\\Menu\\menu_redo.jpg";
 	MenuItemImages[ITM_SAVE] = "GUI\\Images\\Menu\\menu_save.jpg";
 	MenuItemImages[ITM_IMPORT] = "GUI\\Images\\Menu\\menu_import.jpg";
 	MenuItemImages[ITM_Note] = "GUI\\Images\\Menu\\menu_notes.jpg";

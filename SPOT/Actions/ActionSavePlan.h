@@ -5,7 +5,8 @@ class ActionSavePlan : public Action
 {
 public:
 	ActionSavePlan(Registrar*);
-	bool virtual Execute();
 	virtual ~ActionSavePlan();
+	bool virtual Execute();
+	void importCourseRules();
 };
 

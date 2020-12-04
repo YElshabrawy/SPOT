@@ -124,6 +124,22 @@ Course* interrogateCourse(int x, int y, Registrar* pReg) {
 	}
 }
 
+vector<string> splitString(string str, string delim)
+{
+	vector<string> output;
+	auto start = 0U;
+	auto end = str.find(delim);
+	while (end != string::npos) {
+		output.push_back(str.substr(start, end - start));
+		start = end + delim.length();
+		end = str.find(delim, start);
+	}
+	output.push_back(str.substr(start, end));
+	return output;
+}
+
+
+
 /*graphicsInfo* coursesGridArray() {
 	auto* arr = new graphicsInfo[GUI::NumOfYrs * 3][GUI::Year_X2 / CRS_WIDTH];
 
