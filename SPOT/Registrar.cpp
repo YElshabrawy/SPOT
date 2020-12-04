@@ -44,6 +44,10 @@ Action* Registrar::CreateRequiredAction()
 		break;
 	case IMPORT_PLAN:
 		RequiredAction = new ActionImportPlan(this);
+		break;
+	case ERASE:
+		RequiredAction = new ActionEraseAll(this);
+		break;
 
 
 	//TODO: Add case for each action

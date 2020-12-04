@@ -16,12 +16,13 @@ class GUI
 		//Note: Items are ordered here as they appear in the menu
 		//If you want to change the menu items order, just change the order here
 		ITM_ADD,		//Add a new course
-		ITM_DELETE,
-		ITM_UNDO,
-		ITM_REDO,
-		ITM_SAVE,
-		ITM_IMPORT,
-		ITM_Note,
+		ITM_DELETE,		//Delete a course
+		ITM_UNDO,		//Undo last action
+		ITM_REDO,		//Redo last action
+		ITM_SAVE,		//Save the current splan
+		ITM_IMPORT,		//Import a pre-made plan or a default study plan
+		ITM_Note,		//Add notes
+		ITM_ERASE,		//Clear all the data (courses)
 		ITM_EXIT,		//Exit item
 
 		ITM_CNT			//no. of menu items ==> This should be the last line in this enum

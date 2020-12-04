@@ -4,3 +4,4 @@
 #include"ActionDeleteCourse.h"
 #include"ActionAddNotes.h"
 #include"ActionImportPlan.h"
+#include"ActionEraseAll.h"

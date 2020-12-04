@@ -23,6 +23,7 @@ enum ActionType
 	DEL_CRS,	//Delete a course from study plan
 	ADD_Note,   // Add notes
 	IMPORT_PLAN, //Import plan
+	ERASE,		 //Remove all courses
 
 	SAVE,		//Save a study plan to file
 	LOAD,		//Load a study plan from a file

@@ -50,6 +50,7 @@ void GUI::CreateMenu() const
 	MenuItemImages[ITM_SAVE] = "GUI\\Images\\Menu\\menu_save.jpg";
 	MenuItemImages[ITM_IMPORT] = "GUI\\Images\\Menu\\menu_import.jpg";
 	MenuItemImages[ITM_Note] = "GUI\\Images\\Menu\\menu_notes.jpg";
+	MenuItemImages[ITM_ERASE] = "GUI\\Images\\Menu\\menu_erase.jpg";
 	MenuItemImages[ITM_EXIT] = "GUI\\Images\\Menu\\menu_quit.jpg";
 
 	//TODO: Prepare image for each menu item and add it to the list
@@ -249,6 +250,7 @@ ActionData GUI::GetUserAction(string msg) const
 				case ITM_SAVE: return ActionData{ SAVE }; break; //Save Plan
 				case ITM_Note: return ActionData{ ADD_Note }; break; //Add Notes
 				case ITM_IMPORT: return ActionData{ IMPORT_PLAN }; break; //Import Plan
+				case ITM_ERASE: return ActionData{ ERASE }; break;
 				case ITM_EXIT: return ActionData{ EXIT }; break;		//Exit
 
 				default: return ActionData{ MENU_BAR };	//A click on empty place in menu bar
