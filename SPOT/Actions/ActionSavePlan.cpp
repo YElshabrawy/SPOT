@@ -62,6 +62,7 @@ bool ActionSavePlan::Execute() {
 }
 
 void ActionSavePlan::importCourseRules() {
+	// To be implemented in RegRules later.
 	string directory = "Format Files\\Rules.txt";
 	ifstream finput(directory);
 	StudyPlan* pS = pReg->getStudyPlay();
@@ -69,8 +70,8 @@ void ActionSavePlan::importCourseRules() {
 	//line 1
 	string l1;
 	getline(finput, l1);
-	pS->TotalCredits = stoi(l1);
-	cout << "Total Credits = " << pS->TotalCredits << endl;
+	pS->MaxCredits = stoi(l1);
+	cout << "Total Credits = " << pS->MaxCredits << endl;
 
 	//line 2
 	string l2;

@@ -79,7 +79,9 @@ void Registrar::Run()
 {
 	// create all courses vector:
 	createAllCourses();
-
+	setCourseOffering();
+	cout << "The year of Offerings: " << RegRules.OffringsList.Year << endl;
+	setRules();
 	while (true)
 	{
 		//update interface here as CMU Lib doesn't refresh itself
@@ -126,3 +128,74 @@ CourseInfo Registrar::getCourseInfo(Course_Code code) {
 		}
 	}
 }
+
+void Registrar::setCourseOffering()
+{
+	AcademicYearOfferings yearOfferings;
+	char* token;
+	char* context = nullptr;
+	const int size = 300;
+	char line[size];
+	ifstream OfferingFile("Format Files\\Course_Offering.txt");
+	if (!OfferingFile)
+	{
+		cout << "Couldn't open offering file";
+	}
+	else {
+		cout << "Importing course offerings" << endl;
+
+		while (OfferingFile.getline(line, size)) {
+			vector<string> tokensVector;
+			token = strtok_s(line, ",", &context);
+			while (token != NULL) {
+				tokensVector.push_back(token);
+				token = strtok_s(NULL, ",", &context);
+			}
+			yearOfferings.Year = tokensVector[0];
+			SEMESTER sem = FALL;
+			int sem_num = stoi(tokensVector[1].erase(0, 9));
+			switch (sem_num) {
+			case 1:
+				sem = FALL;
+				break;
+			case 2:
+				sem = SPRING;
+				break;
+			case 3:
+				sem = SUMMER;
+				break;
+			default:
+				sem = FALL;
+				break;
+			}
+			tokensVector.erase(tokensVector.begin(), tokensVector.begin() + 2);
+			yearOfferings.Offerings[sem] = tokensVector;
+		}
+		OfferingFile.close();
+		cout << "Done: Importing course offerings" << endl;
+	}
+
+	RegRules.OffringsList = yearOfferings;
+}
+
+void Registrar::setRules()
+{
+	RegRules.ReqUnivCredits = pSPlan->MaxCredits;
+	RegRules.ReqMajorCredits = pSPlan->TotalMajorCredits;
+	RegRules.ReqTrackCredits = pSPlan->TotalTrackCredits;
+
+	RegRules.UnivCompulsory = pSPlan->CompUniCourses;
+	RegRules.UnivElective = pSPlan->ElectiveUniCourses;
+
+	RegRules.TrackCompulsory = pSPlan->TrackCourses;
+	RegRules.TrackElective; // was not included in the file (will be fixed later)
+
+	RegRules.MajorCompulsory = pSPlan->CompMajorCourses;
+	RegRules.MajorElective = pSPlan->ElectiveMajorCourses;
+
+	RegRules.ConcentrationCompulsory = pSPlan->CompConcentrationCourses;
+	RegRules.ConcentrationElective = pSPlan->ElectiveConcentrationCourses;
+	cout << "Registrar rules imported successfully.\n";
+
+}
+

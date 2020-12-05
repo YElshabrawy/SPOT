@@ -15,6 +15,16 @@ ActionImportPlan::~ActionImportPlan()
 bool ActionImportPlan::Execute() {
 	cout << "Import button is pressed.\n"; // for debugging
 	GUI* pGUI = pReg->getGUI();
+	// First we need to erase the current plan (Until i know how to call another action from here)
+	StudyPlan* pS = pReg->getStudyPlay();
+	vector<AcademicYear*>* pPlan = pS->getStudyPlanVector(); // pointer on the plan vector
+	for (AcademicYear* yr : *pPlan) {
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int sem = FALL; sem < SEM_CNT; sem++) {
+			pYr[sem].clear();
+		}
+	}
+	fill(Course::numOfCoursesPerSem.begin(), Course::numOfCoursesPerSem.end(), 0);
 
 	//string directory = "Format Files\\StudyPlan-ENV.txt";
 	string directory = "Format Files\\StudyPlan-CIE.txt";

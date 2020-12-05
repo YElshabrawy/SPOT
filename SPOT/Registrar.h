@@ -30,5 +30,7 @@ public:
 	void createAllCourses();
 	static vector<CourseInfo> getAllCourses();
 	CourseInfo getCourseInfo(Course_Code code);
+	void setCourseOffering();
+	void setRules();
 };
 

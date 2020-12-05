@@ -8,12 +8,13 @@ class StudyPlan:public Drawable
 {
 
 public:
-	int TotalCredits=0,				// Total no. of credit hours for courses registred in this year
-	    TotalUnivCredits=0,			// Univ Compulsory
-		TotalMajorCredits=0,		// Univ Elective
-		TotalTrackCredits=0,		// Track Compulsory
-		TotalConcentrationCredits=0,// Major Comm Compulsory
-		TotalMinorCredits=0;		// Major comm Elec
+	int TotalCredits = 0,				// Total no. of credit hours for courses registred in this year 1
+		TotalUnivCredits = 0,			// Univ Compulsory 2
+		TotalMajorCredits = 0,		// Univ Elective 3
+		TotalTrackCredits = 0,		// Track Compulsory 4
+		TotalConcentrationCredits = 0,// Major Comm Compulsory 5
+		TotalMinorCredits = 0,		// Major comm Elec 6
+		MaxCredits = 0;
 	int NumberOfConcentrations = 0,
 		ConcentrationMajorCredits = 0,
 		ConcentrationMinorCredits = 0;

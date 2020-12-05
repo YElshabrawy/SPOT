@@ -52,12 +52,14 @@ struct Rules	//contains all objects for registrations rules
 	//TODO: add more fields if needed
 
 	vector<CourseInfo> CourseCatalog;	//List of ALL courses with full info
-	vector<AcademicYearOfferings> OffringsList;	//all offerings for all acedmic years
+	//vector<AcademicYearOfferings> OffringsList;	//all offerings for all acedmic years
+	AcademicYearOfferings OffringsList;	//// for now we will leave it one year
+
 
 	int SemMinCredit;		//min no. of credit hours per semester
 	int SemMaxCredit;		//max no. of credit hours per semester
-	int ReqUnivCredits;		//total no. of credits req by Univ courses
-	int ReqTrackCredits;	//total no. of credits req by Track courses
+	int ReqUnivCredits;		//total no. of credits req by Univ courses (1)
+	int ReqTrackCredits;	//total no. of credits req by Track courses (
 	int ReqMajorCredits;	//total no. of credits req by Major courses
 
 	vector<Course_Code> UnivCompulsory;	//Univ Compulsory courses
@@ -68,5 +70,10 @@ struct Rules	//contains all objects for registrations rules
 
 	vector<Course_Code> MajorCompulsory;//Major Compulsory courses
 	vector<Course_Code> MajorElective;	//Major Elective courses
+
+	//Concentration handle
+	string Major, Concentration;
+	vector<Course_Code> ConcentrationCompulsory;
+	vector<Course_Code> ConcentrationElective;
 
 };

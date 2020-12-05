@@ -143,6 +143,8 @@ vector<string> splitString(string str, string delim)
 
 
 
+
+
 /*graphicsInfo* coursesGridArray() {
 	auto* arr = new graphicsInfo[GUI::NumOfYrs * 3][GUI::Year_X2 / CRS_WIDTH];
 
