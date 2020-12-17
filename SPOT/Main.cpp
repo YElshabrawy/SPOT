@@ -14,4 +14,5 @@ int main()
 
 	Registrar Reg;
 	Reg.Run();
+	//"A7a"
 }
