@@ -16,7 +16,7 @@ bool ActionCourseInfo::Execute()
 	if (actData.actType == DRAW_AREA) {
 		x = actData.x;
 		y = actData.y;
-		Course* pCr = interrogateCourse(x, y, pReg);
+		Course* pCr = pReg->interrogateCourse(x, y);
 		if (pCr == nullptr) {
 			// No course is sellected
 		}

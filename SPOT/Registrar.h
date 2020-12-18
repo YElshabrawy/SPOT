@@ -12,7 +12,7 @@ class Registrar
 	Rules RegRules;	//Registration rules
 	StudyPlan *pSPlan;
 	//Updated
-	static vector<CourseInfo> allCourses;
+	//static vector<CourseInfo> allCourses;
 
 public:
 	Registrar();
@@ -28,9 +28,10 @@ public:
 
 	// Updated
 	void createAllCourses();
-	static vector<CourseInfo> getAllCourses();
-	CourseInfo getCourseInfo(Course_Code code);
+	CourseInfo* inCatalog(string code, bool& exists);
+	string transformCode(string& code);
 	void setCourseOffering();
 	void setRules();
+	Course* interrogateCourse(int x, int y);
 };
 
