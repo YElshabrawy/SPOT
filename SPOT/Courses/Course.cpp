@@ -13,6 +13,8 @@ Course::Course(Course_Code r_code, string r_title, int crd):code(r_code),Title(r
 Course::Course(Course_Code r_code, string r_title, int crd,
 	vector<Course_Code> r_PreReq, vector<Course_Code> r_CoReq,
 	int r_year, SEMESTER r_sem) {
+	MyColor = MYCYAN;
+	UnknownCRS = 0;
 	code = r_code;
 	Title = r_title;
 	credits = crd;
@@ -56,6 +58,14 @@ void Course::setYear(int inputYear) {
 void Course::setSemester(SEMESTER inputSem) {
 	sem = inputSem;
 }
+void Course::changeColor(color newColor)
+{
+	MyColor = newColor;
+}
+void Course::setUnknownCrs(bool unknown)
+{
+	UnknownCRS = unknown;
+}
 //Getters
 Course_Code Course::getCode() const
 {
@@ -78,6 +88,16 @@ int Course::getYear() const {
 
 SEMESTER Course::getSemester() const {
 	return sem;
+}
+
+color Course::getColor() const
+{
+	return MyColor;
+}
+
+bool Course::isUnknown() const
+{
+	return UnknownCRS;
 }
 
 void Course::DrawMe(GUI* pG) const

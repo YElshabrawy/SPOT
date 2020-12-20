@@ -11,6 +11,8 @@ using namespace std;
 class Course : public Drawable
 {
 private:
+	color MyColor; // Color
+	bool UnknownCRS; // for courses with XXX
 	Course_Code code;	//course code: e.g. "CIE202". This is the course ID
 	string Title;		//course title: e.g. "Fundamentals of Computer Programming"
 	int credits;	//no. of course credits
@@ -36,6 +38,8 @@ public:
 	void setCoReq(vector<string> vector);
 	void setYear(int inputYear);
 	void setSemester(SEMESTER inputSem);
+	void changeColor(color newColor);
+	void setUnknownCrs(bool unknown);
 
 	//Getters
 	string getTitle() const;
@@ -43,6 +47,8 @@ public:
 	int getCredits() const;
 	int getYear() const;
 	SEMESTER getSemester() const;
+	color getColor() const;
+	bool isUnknown() const;
 
 	void DrawMe(GUI*) const;
 	virtual ~Course();

@@ -78,11 +78,17 @@ bool ActionImportPlan::Execute() {
 				iter++;
 			}
 			else {
+
 				vector<Course_Code> PreReq;
 				vector<Course_Code> CoReq;
 
 				Course* pC = new Course(token, "", 0, PreReq, CoReq, year, sem);
 				pS->AddCourse(pC, year, static_cast<SEMESTER>(sem));
+
+				if (token[token.size() - 1] == 'X' && token[token.size() - 2] == 'X' && token[token.size() - 3] == 'X') {
+					pC->changeColor(RED);
+					pC->setUnknownCrs(true);
+				}
 				cout << token << " is added to year " << year << " semester " << sem << endl;
 				int x = 0;
 				int y = 0;
