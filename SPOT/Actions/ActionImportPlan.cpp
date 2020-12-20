@@ -56,22 +56,43 @@ bool ActionImportPlan::Execute() {
 		tokens.erase(tokens.begin(), tokens.begin() + 2);
 		int iter = 0;
 		for (string token : tokens) {
-			StudyPlan* pS = pReg->getStudyPlay();
-			string title = ""; // FOR NOW
-			int crd = 0; // FOR NOW
-			vector<Course_Code> PreReq; // FOR NOW
-			vector<Course_Code> CoReq; // FOR NOW
-			Course* pC = new Course(token, title, crd, PreReq, CoReq, year, sem);
-			pS->AddCourse(pC, year, static_cast<SEMESTER>(sem));
-			cout << token << " is added to year " << year << " semester " << sem << endl;
-			int x = 0;
-			int y = 0;
-			graphicsInfo gInfo{ x, y };
-			gInfo.x = gInfo.x = GUI::TitleBarWidth + (iter * CRS_WIDTH);
-			gInfo.y = GUI::MenuBarHeight + GUI::MyFactor + ((year - 1) * GUI::One_Year_Div) + (sem * GUI::One_Semester_Div) +
-				(GUI::MyFactor * (year - 1));
-			pC->setGfxInfo(gInfo);
-			iter++;
+			bool exists;
+			CourseInfo* pCInfo = pReg->inCatalog(token, exists);
+			pCInfo = pReg->inCatalog(token, exists);
+			if (exists) {
+				StudyPlan* pS = pReg->getStudyPlay();
+				string title = pCInfo->Title; // FOR NOW
+				int crd = pCInfo->Credits; // FOR NOW
+				vector<Course_Code> PreReq = pCInfo->PreReqList; // FOR NOW
+				vector<Course_Code> CoReq = pCInfo->CoReqList; // FOR NOW
+				Course* pC = new Course(token, title, crd, PreReq, CoReq, year, sem);
+				pS->AddCourse(pC, year, static_cast<SEMESTER>(sem));
+				cout << token << " is added to year " << year << " semester " << sem << endl;
+				int x = 0;
+				int y = 0;
+				graphicsInfo gInfo{ x, y };
+				gInfo.x = gInfo.x = GUI::TitleBarWidth + (iter * CRS_WIDTH);
+				gInfo.y = GUI::MenuBarHeight + GUI::MyFactor + ((year - 1) * GUI::One_Year_Div) + (sem * GUI::One_Semester_Div) +
+					(GUI::MyFactor * (year - 1));
+				pC->setGfxInfo(gInfo);
+				iter++;
+			}
+			else {
+				vector<Course_Code> PreReq;
+				vector<Course_Code> CoReq;
+
+				Course* pC = new Course(token, "", 0, PreReq, CoReq, year, sem);
+				pS->AddCourse(pC, year, static_cast<SEMESTER>(sem));
+				cout << token << " is added to year " << year << " semester " << sem << endl;
+				int x = 0;
+				int y = 0;
+				graphicsInfo gInfo{ x, y };
+				gInfo.x = gInfo.x = GUI::TitleBarWidth + (iter * CRS_WIDTH);
+				gInfo.y = GUI::MenuBarHeight + GUI::MyFactor + ((year - 1) * GUI::One_Year_Div) + (sem * GUI::One_Semester_Div) +
+					(GUI::MyFactor * (year - 1));
+				pC->setGfxInfo(gInfo);
+				iter++;
+			}
 		}
 		i++;
 	}
