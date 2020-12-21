@@ -57,11 +57,12 @@ void StudyPlan::checkPreAndCoReq()
 						// check all the years including this year
 						for (int k = pCr->getSemester() - 1; k >= 0; k--) {
 							// check all the semester above my semester
-							if (preReq[i] == pCr->getCode()) {
-								// FOUND IT
-								found = 1;
-								break;
-							}
+							for(int num = 0; num < Course::getNumOfCrsPerSem(j, (SEMESTER)k); num++)
+								if (preReq[i] == plan[j]->getListOfYears()[k]) {
+									// FOUND IT
+									found = 1;
+									break;
+								}
 						}
 						if (found) break;
 					}

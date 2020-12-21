@@ -112,6 +112,11 @@ bool Course::isUnknown() const
 	return UnknownCRS;
 }
 
+int Course::getNumOfCrsPerSem(int year, SEMESTER sem)
+{
+	return numOfCoursesPerSem[(3 * (year - 1)) + sem];
+}
+
 void Course::DrawMe(GUI* pG) const
 {
 	pG->DrawCourse(this);

@@ -51,6 +51,7 @@ public:
 	SEMESTER getSemester() const;
 	color getColor() const;
 	bool isUnknown() const;
+	static int getNumOfCrsPerSem(int year, SEMESTER sem);
 
 	void DrawMe(GUI*) const;
 	virtual ~Course();
