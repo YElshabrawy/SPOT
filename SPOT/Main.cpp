@@ -20,4 +20,5 @@ int main()
 	//window pWind(800, 600, 400, 140);
 	//char x;
 	//cin >> x;
+	//desperate :(;
 }
