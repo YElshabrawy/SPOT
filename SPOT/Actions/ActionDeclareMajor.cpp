@@ -13,12 +13,19 @@ ActionDeclareMajor::ActionDeclareMajor(Registrar* p) :Action(p)
 bool ActionDeclareMajor::Execute()
 {
 	cout << "Declaring a major.\n";
-	
+	clicktype ctInput;
 	while (pMajorWind) {
-		if (pMajorWind == nullptr) break;
+		int x, y;
+		pMajorWind->GetMouseCoord(x, y);
+		if ((pMajorWind->GetGreen(x, y) == 0.8) && (pMajorWind->GetRed(x, y) == 0.8) && (pMajorWind->GetBlue(x, y) == 0.8))
+		{
+			delete pMajorWind;
+			pMajorWind = nullptr;
+			break;
+		}
 		UpdateWind();
 	}
-	
+
 
 	return true;
 }

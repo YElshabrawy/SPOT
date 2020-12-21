@@ -52,21 +52,24 @@ void StudyPlan::checkPreAndCoReq()
 				for (int i = 0; i < preReq.size(); i++) {
 					// For each course in the prereq
 					bool found = 0;
-
 					for (int j = pCr->getYear(); j > 0; j--) {
 						// check all the years including this year
 						for (int k = pCr->getSemester() - 1; k >= 0; k--) {
 							// check all the semester above my semester
-							for(int num = 0; num < Course::getNumOfCrsPerSem(j, (SEMESTER)k); num++)
-								if (preReq[i] == plan[j]->getListOfYears()[k]) {
+							for (int num = 0; num < Course::getNumOfCrsPerSem(j, (SEMESTER)k); num++) {
+								list<Course*>::iterator iter = plan[j]->getListOfYears()[k].begin();
+								advance(iter, num);
+								if (preReq[i] == (*iter)->getCode()) {
 									// FOUND IT
 									found = 1;
 									break;
 								}
+							}
+
+							if (found) break;
 						}
 						if (found) break;
 					}
-					
 					if (found) {
 						pCr->changeColor(MYCYAN);
 					}
