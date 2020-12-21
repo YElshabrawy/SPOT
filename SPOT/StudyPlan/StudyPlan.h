@@ -33,6 +33,7 @@ public:
 	bool DeleteCourse(Course* pC);
 	void virtual DrawMe(GUI*) const;
 	vector<AcademicYear*>* getStudyPlanVector();
+	void checkPreAndCoReq();
 	
 	virtual ~StudyPlan();
 };

@@ -27,6 +27,7 @@ enum ActionType
 	SWAP,
 	COURSE_INFO,
 	CHANGE_CODE,	//changes course code
+	DECLARE_MAJOR,
 
 	SAVE,		//Save a study plan to file
 	LOAD,		//Load a study plan from a file
@@ -52,6 +53,17 @@ struct ActionData
 	ActionType actType;
 	int x, y;
 	
+};
+
+//Errors
+enum ErrorType {
+	CRITICAL,
+	MODERATE
+};
+struct Errors
+{
+	ErrorType type;
+	string Msg;
 };
 
 

@@ -123,7 +123,7 @@ ENV 598,Senior Design Project I,1,,
 ENV 599,Senior Design Project II,3,,Prereq: ENV 598
 HIS 302,Egyptian History,2,,
 HIS 304,Arab World History,2,,
-Math 101,Calculus I,3,,
+MATH 101,Calculus I,3,,
 MATH 102,Calculus II,3,,Prereq: MATH 101
 MATH 201,Linear Algebra and Vector Geometry,3,,Prereq: MATH 102
 MATH 202,Ordinary Differential Equations,3,,Prereq: MATH 102

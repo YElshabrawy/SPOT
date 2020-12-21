@@ -1,6 +1,9 @@
 #include "Registrar.h"
 #include<iostream>
 #include<Windows.h>
+#include"GUI/CMUgraphicsLib/CMUgraphics.h"
+#include "GUI/CMUgraphicsLib/auxil.h"	// where Pause is found
+
 using namespace std;
 int main()
 {
@@ -14,5 +17,7 @@ int main()
 
 	Registrar Reg;
 	Reg.Run();
-	// Comment 1
+	//window pWind(800, 600, 400, 140);
+	//char x;
+	//cin >> x;
 }
