@@ -120,6 +120,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actions\ActionDeclareMajor.cpp" />
     <ClCompile Include="Actions\ActionChangeCode.cpp" />
     <ClCompile Include="Actions\ActionCourseInfo.cpp" />
     <ClCompile Include="Actions\ActionEraseAll.cpp" />
@@ -174,6 +175,7 @@
     <ClCompile Include="Utils\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actions\ActionDeclareMajor.h" />
     <ClInclude Include="Actions\ActionChangeCode.h" />
     <ClInclude Include="Actions\ActionCourseInfo.h" />
     <ClInclude Include="Actions\ActionEraseAll.h" />

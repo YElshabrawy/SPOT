@@ -56,6 +56,9 @@ Action* Registrar::CreateRequiredAction()
 	case CHANGE_CODE:
 		RequiredAction = new ActionChangeCode(this);
 		break;
+	case DECLARE_MAJOR:
+		RequiredAction = new ActionDeclareMajor(this);
+		break;
 	default:
 		RequiredAction = new ActionCourseInfo(this);
 		break;
@@ -88,6 +91,7 @@ void Registrar::Run()
 	{
 		//update interface here as CMU Lib doesn't refresh itself
 		//when window is minimized then restored
+		pSPlan->checkPreAndCoReq();
 		UpdateInterface();
 
 		Action* pAct = CreateRequiredAction();

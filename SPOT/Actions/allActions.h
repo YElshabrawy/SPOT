@@ -8,3 +8,4 @@
 #include"ActionMoveCourse.h"
 #include"ActionCourseInfo.h"
 #include"ActionChangeCode.h"
+#include"ActionDeclareMajor.h"

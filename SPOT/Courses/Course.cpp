@@ -82,6 +82,18 @@ int Course::getCredits() const
 	return credits;
 }
 
+vector<string> Course::getPreReq() const
+{
+	return PreReq;
+}
+
+vector<string> Course::getCoReq()
+{
+	return CoReq;
+}
+
+
+
 int Course::getYear() const {
 	return year;
 }

@@ -25,6 +25,7 @@ class GUI
 		ITM_EXCHANGE,
 		ITM_Note,		//Add notes
 		ITM_ERASE,		//Clear all the data (courses)
+		ITM_MAJOR,
 		ITM_EXIT,		//Exit item
 
 		ITM_CNT			//no. of menu items ==> This should be the last line in this enum

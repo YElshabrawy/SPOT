@@ -45,6 +45,8 @@ public:
 	string getTitle() const;
 	string getCode() const;
 	int getCredits() const;
+	vector<string> getPreReq() const;
+	vector<string> getCoReq();
 	int getYear() const;
 	SEMESTER getSemester() const;
 	color getColor() const;

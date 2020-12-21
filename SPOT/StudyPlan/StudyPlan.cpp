@@ -38,6 +38,46 @@ vector<AcademicYear*>* StudyPlan::getStudyPlanVector() {
 	return &plan;
 }
 
+void StudyPlan::checkPreAndCoReq()
+{
+	// For each crs
+	for (AcademicYear* yr : plan) {
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int sem = FALL; sem < SEM_CNT; sem++) {
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
+				// Iterate on courses
+				Course* pCr = (*it);
+				vector<string> preReq = pCr->getPreReq();
+
+				for (int i = 0; i < preReq.size(); i++) {
+					// For each course in the prereq
+					bool found = 0;
+
+					for (int j = pCr->getYear(); j > 0; j--) {
+						// check all the years including this year
+						for (int k = pCr->getSemester() - 1; k >= 0; k--) {
+							// check all the semester above my semester
+							if (preReq[i] == pCr->getCode()) {
+								// FOUND IT
+								found = 1;
+								break;
+							}
+						}
+						if (found) break;
+					}
+					
+					if (found) {
+						pCr->changeColor(MYCYAN);
+					}
+					else {
+						pCr->changeColor(GREENYELLOW);
+					}
+				}
+			}
+		}
+	}
+}
+
 StudyPlan::~StudyPlan()
 {
 }
