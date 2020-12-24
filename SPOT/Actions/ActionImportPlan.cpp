@@ -61,10 +61,10 @@ bool ActionImportPlan::Execute() {
 			pCInfo = pReg->inCatalog(token, exists);
 			if (exists) {
 				StudyPlan* pS = pReg->getStudyPlay();
-				string title = pCInfo->Title; // FOR NOW
-				int crd = pCInfo->Credits; // FOR NOW
-				vector<Course_Code> PreReq = pCInfo->PreReqList; // FOR NOW
-				vector<Course_Code> CoReq = pCInfo->CoReqList; // FOR NOW
+				string title = pCInfo->Title; 
+				int crd = pCInfo->Credits; 
+				vector<Course_Code> PreReq = pCInfo->PreReqList; 
+				vector<Course_Code> CoReq = pCInfo->CoReqList; 
 				Course* pC = new Course(token, title, crd, PreReq, CoReq, year, sem);
 				pS->AddCourse(pC, year, static_cast<SEMESTER>(sem));
 				cout << token << " is added to year " << year << " semester " << sem << endl;

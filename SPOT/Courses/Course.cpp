@@ -5,15 +5,18 @@
 
 vector<int> Course::numOfCoursesPerSem((GUI::NumOfYrs *3));
 // Constructors
-Course::Course(Course_Code r_code, string r_title, int crd):code(r_code),Title(r_title)
+/*Course::Course(Course_Code r_code, string r_title, int crd):code(r_code),Title(r_title)
 {
 	credits = crd;
-}
+	numberOfErrors.Critical_errors = 0;
+	numberOfErrors.Moderate_errors = 0;
+}*/
 
 Course::Course(Course_Code r_code, string r_title, int crd,
 	vector<Course_Code> r_PreReq, vector<Course_Code> r_CoReq,
 	int r_year, SEMESTER r_sem) {
 	MyColor = MYCYAN;
+	MyBorderColor = BLACK;
 	UnknownCRS = 0;
 	code = r_code;
 	Title = r_title;
@@ -24,6 +27,7 @@ Course::Course(Course_Code r_code, string r_title, int crd,
 	sem = r_sem;
 	//Number of years per semester
 	numOfCoursesPerSem[(3 * (year - 1)) + sem]++;
+	
 }
 
 Course::Course()
@@ -62,10 +66,43 @@ void Course::changeColor(color newColor)
 {
 	MyColor = newColor;
 }
+void Course::changeBorderColor(color newColor)
+{
+	MyBorderColor = newColor;
+}
 void Course::setUnknownCrs(bool unknown)
 {
 	UnknownCRS = unknown;
 }
+void Course::AddPreError(ErrorType Type, string msg)
+{
+	bool flag = true;
+	if (!Prereq_Error_List.empty()) {
+		// The list is not empty we first make sure the error message is not repeated
+		for (int i = 0; i < Prereq_Error_List.size(); i++) {
+			if (msg == Prereq_Error_List[i].Msg) {
+				flag = false;
+				break;
+			}
+		}
+	}
+	if (flag) {
+		Error newErr;
+		newErr.type = Type;
+		newErr.Msg = msg;
+		Prereq_Error_List.push_back(newErr);
+	}
+}
+void Course::removePreReqErrors(string code)
+{
+	for (int i = 0; i < Prereq_Error_List.size(); i++) {
+		if (Prereq_Error_List[i].Msg.find(code) != string::npos) {
+			// found
+			Prereq_Error_List.erase(Prereq_Error_List.begin()+i);
+		}
+	}
+}
+
 //Getters
 Course_Code Course::getCode() const
 {
@@ -107,6 +144,11 @@ color Course::getColor() const
 	return MyColor;
 }
 
+color Course::getBorderColor() const
+{
+	return MyBorderColor;
+}
+
 bool Course::isUnknown() const
 {
 	return UnknownCRS;
@@ -115,6 +157,11 @@ bool Course::isUnknown() const
 int Course::getNumOfCrsPerSem(int year, SEMESTER sem)
 {
 	return numOfCoursesPerSem[(3 * (year - 1)) + sem];
+}
+
+int Course::getPreErrorsNumber() const
+{
+	return Prereq_Error_List.size();
 }
 
 void Course::DrawMe(GUI* pG) const

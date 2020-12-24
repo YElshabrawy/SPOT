@@ -80,7 +80,6 @@ bool ActionAddCourse::Execute()
 		Course* pC = new Course(code, Title, crd, PreReq, CoReq, year, semester);
 		pS->AddCourse(pC, year, static_cast<SEMESTER>(semester));
 		cout << code << " is added to year " << year << " semester " << semester << endl;
-		cout << "Title : " << pC->getTitle() << endl;
 		pC->setYear(year);
 		pC->setSemester(semester);
 

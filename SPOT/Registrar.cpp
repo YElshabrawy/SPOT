@@ -145,7 +145,7 @@ void Registrar::createAllCourses() {
 			bool condition = token[0] == 'P' && token[1] == 'r' && token[2] == 'e';
 			if (condition) {
 				vector<string> preReq;
-				token.erase(0, 7);
+				token.erase(0, 8);
 				// Parse using string dilimeter " And "
 				string delim = " And ";
 				auto start = 0U;

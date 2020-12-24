@@ -12,6 +12,7 @@ class Course : public Drawable
 {
 private:
 	color MyColor; // Color
+	color MyBorderColor;
 	bool UnknownCRS; // for courses with XXX
 	Course_Code code;	//course code: e.g. "CIE202". This is the course ID
 	string Title;		//course title: e.g. "Fundamentals of Computer Programming"
@@ -23,11 +24,14 @@ private:
 	//Curret year and semester
 	int year;
 	SEMESTER sem;
+	// Errors
+	vector<Error> Prereq_Error_List;
+	vector<Error> Coreq_Error_List;
 public:
 	static vector<int> numOfCoursesPerSem;
 	//Constructors
 	Course();
-	Course(Course_Code r_code,string r_title, int crd);
+	//Course(Course_Code r_code,string r_title, int crd);
 	Course(Course_Code r_code, string r_title, int crd,
 		vector<Course_Code> r_PreReq, vector<Course_Code> r_CoReq,int r_year, SEMESTER r_sem);
 	// Setters
@@ -39,7 +43,9 @@ public:
 	void setYear(int inputYear);
 	void setSemester(SEMESTER inputSem);
 	void changeColor(color newColor);
+	void changeBorderColor(color newColor);
 	void setUnknownCrs(bool unknown);
+
 
 	//Getters
 	string getTitle() const;
@@ -50,8 +56,16 @@ public:
 	int getYear() const;
 	SEMESTER getSemester() const;
 	color getColor() const;
+	color getBorderColor() const;
 	bool isUnknown() const;
 	static int getNumOfCrsPerSem(int year, SEMESTER sem);
+	int getPreErrorsNumber() const;
+
+	//ERRORS
+	void AddPreError(ErrorType Type, string msg);
+	void AddCoError(ErrorType Type, string msg);
+	void removePreReqErrors(string code);
+
 
 	void DrawMe(GUI*) const;
 	virtual ~Course();

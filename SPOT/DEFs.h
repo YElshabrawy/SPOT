@@ -60,10 +60,13 @@ enum ErrorType {
 	CRITICAL,
 	MODERATE
 };
-struct Errors
+struct Error
 {
 	ErrorType type;
 	string Msg;
 };
 
-
+struct NumOfErrors {
+	int Critical_errors;
+	int Moderate_errors;
+};

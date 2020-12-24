@@ -107,7 +107,7 @@ void GUI::DrawCourse(const Course* pCrs)
 	if (pCrs->isSelected())
 		pWind->SetPen(HiColor, 1);
 	else
-	pWind->SetPen(DrawColor, 1);
+	pWind->SetPen(pCrs->getBorderColor(), 1);
 	pWind->SetBrush(pCrs->getColor());
 	graphicsInfo gInfo = pCrs->getGfxInfo();
 	pWind->DrawRectangle(gInfo.x, gInfo.y, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT);
