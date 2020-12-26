@@ -23,6 +23,8 @@ bool ActionDragAndDrop::Execute()
 	y = pGUI->YCoord;
 	Course* pCr = pReg->interrogateCourse(x, y);
 	int Course_X, Course_Y;
+	if (pCr == nullptr)
+		return true;
 	graphicsInfo gInfo_Old=pCr->getGfxInfo();
 
 	image systemimage= "GUI\\Images\\Menu\\test.jpg";
@@ -107,6 +109,7 @@ bool ActionDragAndDrop::Execute()
 					gInfo.y = GUI::MenuBarHeight + GUI::MyFactor + ((newYear - 1) * GUI::One_Year_Div) + (newSem * GUI::One_Semester_Div) +
 						(GUI::MyFactor * (newYear - 1));
 					pCr->setGfxInfo(gInfo);
+					pCr->Distance_Flag = false;
 					pGUI->pWind->UpdateBuffer();
 					pGUI->UpdateInterface();
 				}

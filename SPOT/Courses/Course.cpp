@@ -129,8 +129,6 @@ vector<string> Course::getCoReq()
 	return CoReq;
 }
 
-
-
 int Course::getYear() const {
 	return year;
 }

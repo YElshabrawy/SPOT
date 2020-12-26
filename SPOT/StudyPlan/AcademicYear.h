@@ -32,7 +32,6 @@ public:
 		StartingY = GUI::MenuBarHeight,
 		YearHeight = AcademicYear::AvailableY / GUI::NumOfYrs;
 
-
 	/*static int Year_Y, Year_height, Year_Number, Code_x;
 	int Year_y = Year_Y, Year_Height = Year_height, Actual_Year_Number = Year_Number;*/
 

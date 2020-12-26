@@ -65,7 +65,7 @@ public:
 	void AddPreError(ErrorType Type, string msg);
 	void AddCoError(ErrorType Type, string msg);
 	void removePreReqErrors(string code);
-
+	bool Distance_Flag = false;
 
 	void DrawMe(GUI*) const;
 	virtual ~Course();

@@ -24,6 +24,7 @@ bool StudyPlan::AddCourse(Course* pC, int year, SEMESTER sem)
 
 bool StudyPlan::DeleteCourse(Course* pC) {
 	plan[pC->getYear() - 1]->DeleteCourse(pC, pC->getSemester());
+
 	return true;
 }
 

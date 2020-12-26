@@ -104,6 +104,7 @@ void GUI::DrawCourse(const Course* pCrs)
 	pWind->SetPen(pCrs->getBorderColor(), 1);
 	pWind->SetBrush(pCrs->getColor());
 	graphicsInfo gInfo = pCrs->getGfxInfo();
+	
 	pWind->DrawRectangle(gInfo.x, gInfo.y, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT);
 	pWind->DrawLine(gInfo.x, gInfo.y + CRS_HEIGHT / 2, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT / 2);
 	
@@ -211,20 +212,6 @@ void GUI::DrawAcademicYear(const AcademicYear* pY)
 			MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor + (2 * One_Semester_Div),
 			"Summ");
 	}
-	
-		/*//To be moved
-
-		//Add notes
-		pWind->DrawRectangle(SideBarX1, NotesY1, SideBarX2, NotesY1 + NotesHeight);
-		pWind->DrawLine(SideBarX1, NotesY1 + 25, SideBarX2, NotesY1 + 25);
-		pWind->DrawString(SideBarX1 + myNotesFactor, NotesY1 + 6, "My Notes");
-		//Course Info
-		pWind->DrawRectangle(SideBarX1, CourseInfoY1, SideBarX2, CourseInfoY1 + CourseInfoHeight);
-		pWind->DrawLine(SideBarX1, CourseInfoY1 + 25, SideBarX2, CourseInfoY1 + 25);
-		pWind->DrawString(SideBarX1 + courseInfoFactor, CourseInfoY1 + 6, "Course Information");
-	
-	*/
-	
 }
 ////////////////////////    Input functions    ///////////////////
 //This function reads the position where the user clicks to determine the desired action

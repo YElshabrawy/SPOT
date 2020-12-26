@@ -17,6 +17,8 @@ bool ActionAddNotes::Execute()
 	StudyPlan* pS = pReg->getStudyPlay(); //pointer to study plan
 	    if (((pGUI->YCoord >= 10) && (pGUI->YCoord <= 30) && ((pGUI->XCoord) >= (pGUI->SideBarX1 - 45 + (pGUI->SideBarX2 - pGUI->SideBarX1) / 2)) && (pGUI->XCoord <= (pGUI->SideBarX1 - 45 + 100 + (pGUI->SideBarX2 - pGUI->SideBarX1) / 2))) && (pGUI->Last_CLick == LEFT_CLICK))
 		{
+			if (pS->PlanNotes.size() == 0)
+				return true;
 			pS->PlanNotes=pGUI->GetSrting(pS->PlanNotes);
 			pGUI->Notes = pS->PlanNotes;
 		}
