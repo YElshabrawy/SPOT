@@ -22,6 +22,9 @@ bool ActionDragAndDrop::Execute()
 	x = pGUI->XCoord;
 	y = pGUI->YCoord;
 	Course* pCr = pReg->interrogateCourse(x, y);
+	int Course_X, Course_Y;
+	graphicsInfo gInfo_Old=pCr->getGfxInfo();
+
 	image systemimage= "GUI\\Images\\Menu\\test.jpg";
 	pGUI->pWind->StoreImage(systemimage,0,0,pGUI->WindWidth, pGUI->WindHeight);
 	while (true)
@@ -29,7 +32,8 @@ bool ActionDragAndDrop::Execute()
 		/*std::this_thread::sleep_for(std::chrono::milliseconds(150));*/
 		pGUI->pWind->DrawImage(systemimage, 0, 0, pGUI->WindWidth, pGUI->WindHeight);
 		pGUI->pWind->SetBrush(LIGHTGRAY);
-		/*pGUI->pWind->DrawRectangle(pGUI->XCoord, pGUI->YCoord, pGUI->XCoord + CRS_WIDTH, pGUI->YCoord + CRS_HEIGHT);*/
+		pGUI->pWind->SetPen(LIGHTGRAY);
+		pGUI->pWind->DrawRectangle(gInfo_Old.x, gInfo_Old.y-1, gInfo_Old.x + CRS_WIDTH, gInfo_Old.y + CRS_HEIGHT,FILLED);
 		pGUI->pWind->UpdateBuffer();
 		if (pGUI->Last_CLick == LEFT_CLICK)
 			break;
