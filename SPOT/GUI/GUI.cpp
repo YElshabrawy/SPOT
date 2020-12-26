@@ -375,6 +375,11 @@ string GUI::GetSrting() const
 				KeyInput.push_back(Cursor);
 				Cursor_Position++;
 			}
+			else if (Cursor_Position < KeyInput.size() - 1)
+			{
+				KeyInput.insert(KeyInput.begin() + Cursor_Position - 1, Key);
+				Cursor_Position++;
+			}
 		}
 		};
 		userInput = "";
