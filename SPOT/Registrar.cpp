@@ -66,6 +66,11 @@ Action* Registrar::CreateRequiredAction()
 			RequiredAction = new ActionDragAndDrop(this);
 			break;
 		}
+		else if (((pGUI->YCoord >= 10) && (pGUI->YCoord <= 30) && ((pGUI->XCoord)>=(pGUI->SideBarX1-45 + (pGUI->SideBarX2 - pGUI->SideBarX1)/2)) && (pGUI->XCoord <= (pGUI->SideBarX1-45+100+(pGUI->SideBarX2 - pGUI->SideBarX1)/2 )))&&(pGUI->Last_CLick == LEFT_CLICK))
+		{
+			RequiredAction = new ActionAddNotes(this);
+			break;
+		}
 		else
 		{
 			RequiredAction = new ActionCourseInfo(this);

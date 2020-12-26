@@ -115,6 +115,7 @@ public:
 	//input functions
 	ActionData GUI::GetUserAction(string msg = "") const;
 	string GetSrting() const;
+	string GetSrting(string MSG);
 	static int getYDivStartingPos();
 
 	//Dimention getters

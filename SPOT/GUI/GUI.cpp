@@ -259,12 +259,13 @@ ActionData GUI::GetUserAction(string msg) const
 			//[1] If user clicks on the Menu bar
 			if (y >= 0 && y < MenuBarHeight)
 			{
+				XCoord = x; YCoord = y;
+				Last_CLick = ctInput;
 				//Check whick Menu item was clicked
 				//==> This assumes that menu items are lined up horizontally <==
 				int ClickedItemOrder = (x / (MenuItemWidth + MenuItemWidthGap));
 				//Divide x coord of the point clicked by the menu item width (int division)
 				//if division result is 0 ==> first item is clicked, if 1 ==> 2nd item and so on
-
 				switch (ClickedItemOrder)
 				{
 				case ITM_ADD: return ActionData{ ADD_CRS };	break;//Add course
@@ -289,7 +290,6 @@ ActionData GUI::GetUserAction(string msg) const
 				Last_CLick = ctInput;
 				return ActionData{ DRAW_AREA,x,y };	//user want clicks inside drawing area
 			}
-
 			//[3] User clicks on the status bar
 			return ActionData{ STATUS_BAR };
 		}
@@ -377,7 +377,98 @@ string GUI::GetSrting() const
 			}
 			else if (Cursor_Position < KeyInput.size() - 1)
 			{
-				KeyInput.insert(KeyInput.begin() + Cursor_Position - 1, Key);
+				KeyInput.insert(KeyInput.begin() + Cursor_Position, Key);
+				Cursor_Position++;
+			}
+		}
+		};
+		userInput = "";
+		for (int i = 0; i < KeyInput.size(); i++)
+		{
+			userInput += KeyInput[i];
+		}
+		PrintMsg(userInput);
+	}
+
+}
+string GUI::GetSrting( string Text)
+{
+	//Reads a complete string from the user until the user presses "ENTER".
+	//If the user presses "ESCAPE". This function should return an empty string.
+	//"BACKSPACE" is also supported
+	//User should see what he is typing at the status bar
+
+
+	string userInput = Text;
+	vector<char>KeyInput;
+	char Cursor = '|';
+	for (int i = 0; i < size(Text); i++)
+	{
+		KeyInput.push_back(Text[i]);
+	}
+	KeyInput.push_back(Cursor);
+	int Cursor_Position = size(Text);
+	char Key;
+	PrintMsg(Text);
+	while (1)
+	{
+		pWind->WaitKeyPress(Key);
+		switch (Key)
+		{
+		case 27: //ESCAPE key is pressed
+			PrintMsg("");
+			return Notes; //returns the same notes
+		case 13://ENTER key is pressed
+		{
+			KeyInput.erase(KeyInput.begin() + Cursor_Position);
+			userInput = "";
+			for (int i = 0; i < KeyInput.size(); i++)
+			{
+				userInput += KeyInput[i];
+			}
+			return userInput;
+		}
+		case 8:		//BackSpace is pressed
+			if ((KeyInput.size() != 0) && (Cursor_Position != 0))
+			{
+				KeyInput.erase(KeyInput.begin() + Cursor_Position - 1);
+				Cursor_Position--;
+			}
+			break;
+		case 6:// arrow right
+		{
+			if (Cursor_Position == KeyInput.size() - 1)
+				break;
+			KeyInput.erase(KeyInput.begin() + Cursor_Position);
+			KeyInput.insert(KeyInput.begin() + Cursor_Position + 1, Cursor);
+			Cursor_Position++;
+			break;
+		}
+		case 2:
+		{break; }
+
+		case 4:// arrow left
+		{
+			if (Cursor_Position == 0)
+				break;
+			KeyInput.erase(KeyInput.begin() + Cursor_Position);
+			KeyInput.insert(KeyInput.begin() + Cursor_Position - 1, Cursor);
+			Cursor_Position--;
+			break;
+		}
+
+		default:
+		{
+			if (Cursor_Position == KeyInput.size() - 1)
+			{
+				KeyInput.erase(KeyInput.begin() + Cursor_Position);
+				KeyInput.push_back(Key);
+				KeyInput.push_back(Cursor);
+				Cursor_Position++;
+			}
+			else if (Cursor_Position < KeyInput.size() - 1)
+			{
+				KeyInput.insert(KeyInput.begin() + Cursor_Position, Key);
 				Cursor_Position++;
 			}
 		}
@@ -426,6 +517,7 @@ void GUI::DrawNoteArea()const
 	pWind->DrawLine(SideBarX1, NotesY1 + 25, SideBarX2, NotesY1 + 25);
 	pWind->DrawRectangle(SideBarX1, NotesY1, SideBarX2, NotesY1 + 25);
 	pWind->DrawString(SideBarX1 + myNotesFactor , NotesY1 + 6, "My Notes");
+	pWind->DrawImage("GUI\\Images\\Menu\\Edit_Notes.jpeg", SideBarX1+(SideBarX2- SideBarX1)/2-45, 10, 100, 30);
 }
 void GUI::DrawInfoArea()const
 {
