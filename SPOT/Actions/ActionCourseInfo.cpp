@@ -10,18 +10,21 @@ ActionCourseInfo::ActionCourseInfo(Registrar* P) :Action(P)
 }
 bool ActionCourseInfo::Execute()
 {
+
 	GUI* pGUI = pReg->getGUI();
-	ActionData actData = pGUI->GetUserAction("");
 	int x, y;
-	if (actData.actType == DRAW_AREA) {
-		x = actData.x;
-		y = actData.y;
+	x = pGUI->XCoord;
+	y = pGUI->YCoord;
 		Course* pCr = pReg->interrogateCourse(x, y);
 		if (pCr == nullptr) {
-			// No course is sellected
+			return true;
 		}
 		else
 		{
+
+			pCr->changeColor(BLACK);
+			if((pReg->OldpCr!=nullptr)&&(pReg->OldpCr != pCr))
+			pReg->OldpCr->changeColor(MYCYAN);
 			string Title ="Course Title: "+pCr->getTitle();
 			string code = "Course Code: " + pCr->getCode();
 			int credits =pCr->getCredits();
@@ -33,7 +36,10 @@ bool ActionCourseInfo::Execute()
 			pGUI->CourseCode = code;
 			pGUI->CourseCredit = "Course Credits: " + String_Credits;
 		}
-	}
+		if (pReg->OldpCr != pCr)
+		pReg->OldpCr = pCr;
+		if (pReg->OldpCr == nullptr)
+			pReg->OldpCr = pCr;
 	return true;
 }
 

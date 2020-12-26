@@ -1,7 +1,10 @@
 #include "ActionAddNotes.h"
 #include "../Registrar.h"
+#include <string>
+#include "../Utils/Utils.h"
 #include "../Courses/UnivCourse.h"
 #include <iostream>
+#include <fstream>
 
 ActionAddNotes::ActionAddNotes(Registrar*P):Action(P)
 {
@@ -14,6 +17,14 @@ bool ActionAddNotes::Execute()
 		pGUI->Notes = pGUI->GetSrting();
 		StudyPlan::PlanNotes= StudyPlan::PlanNotes +" "+ pGUI->Notes;
 		pGUI->Notes = StudyPlan::PlanNotes;
+		string directory = "Format Files\\StudyPlan_Notes.txt";
+		ofstream outFile;
+		outFile.open(directory);
+		if (outFile)
+		{	
+			outFile << StudyPlan::PlanNotes;
+			outFile.close();
+		}
 	return true;
 }
 

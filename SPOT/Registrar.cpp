@@ -60,8 +60,18 @@ Action* Registrar::CreateRequiredAction()
 		RequiredAction = new ActionDeclareMajor(this);
 		break;
 	default:
-		RequiredAction = new ActionCourseInfo(this);
-		break;
+	{
+		if (pGUI->Last_CLick == RIGHT_CLICK)
+		{
+			RequiredAction = new ActionDragAndDrop(this);
+			break;
+		}
+		else
+		{
+			RequiredAction = new ActionCourseInfo(this);
+			break;
+		}
+	}
 
 	//TODO: Add case for each action
 	

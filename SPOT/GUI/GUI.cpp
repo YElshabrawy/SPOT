@@ -9,7 +9,9 @@ string GUI::Notes = "";
 string GUI::CourseTitle = "";
 string GUI::CourseCode = "";
 string GUI::CourseCredit = "";
-
+int GUI::XCoord = 0;
+int GUI::YCoord = 0;
+clicktype GUI::Last_CLick = RIGHT_CLICK;
 GUI::GUI()
 { 
 	pWind = new window(WindWidth, WindHeight,wx,wy);
@@ -18,8 +20,6 @@ GUI::GUI()
 	ClearStatusBar();
 	CreateMenu();
 }
-
-
 //Clears the status bar
 void GUI::ClearDrawingArea() const
 {
@@ -28,14 +28,12 @@ void GUI::ClearDrawingArea() const
 	pWind->DrawRectangle(0, MenuBarHeight, WindWidth, WindHeight -StatusBarHeight);
 
 }
-
 void GUI::ClearStatusBar() const
 {
 	pWind->SetBrush(StatusBarColor);
 	pWind->SetPen(StatusBarColor);
 	pWind->DrawRectangle(0, WindHeight - StatusBarHeight, WindWidth, WindHeight);
 }
-
 void GUI::CreateMenu() const
 {
 	pWind->SetBrush(StatusBarColor);
@@ -66,9 +64,7 @@ void GUI::CreateMenu() const
 		pWind->DrawImage(MenuItemImages[i], i*MenuItemWidth +(MenuItemWidthGap*i), 0, MenuItemWidth, MenuBarHeight);
 	}
 }
-
 ////////////////////////    Output functions    ///////////////////
-
 //Prints a message on the status bar
 void GUI::PrintMsg(string msg) const
 {
@@ -82,7 +78,6 @@ void GUI::PrintMsg(string msg) const
 	pWind->SetPen(MsgColor);
 	pWind->DrawString(MsgX, WindHeight - MsgY, msg);
 }
-
 //////////////////////////////////////////////////////////////////////////
 void GUI::UpdateInterface() const
 {
@@ -100,7 +95,6 @@ void GUI::UpdateInterface() const
 	pWind->SetBuffering(false);
 
 }
-
 ////////////////////////    Drawing functions    ///////////////////
 void GUI::DrawCourse(const Course* pCrs)
 {
@@ -124,7 +118,28 @@ void GUI::DrawCourse(const Course* pCrs)
 	pWind->DrawString(Code_x, Code_y, pCrs->getCode());
 	pWind->DrawString(Code_x, Code_y + CRS_HEIGHT/2, crd.str());
 }
+void GUI::DrawCourse(const Course* pCrs, int x, int y)
+{
+	if (pCrs->isSelected())
+		pWind->SetPen(HiColor, 1);
+	else
+		pWind->SetPen(pCrs->getBorderColor(), 1);
+	pWind->SetBrush(pCrs->getColor());
+	graphicsInfo gInfo = pCrs->getGfxInfo();
+	pWind->DrawRectangle(x, y,x + CRS_WIDTH, y + CRS_HEIGHT);
+	pWind->DrawLine(x, y + CRS_HEIGHT / 2, x + CRS_WIDTH, y + CRS_HEIGHT / 2);
 
+	//Write the course code and credit hours.
+	int Code_x = x + CRS_WIDTH * 0.15;
+	int Code_y = y + CRS_HEIGHT * 0.05;
+	pWind->SetFont(CRS_HEIGHT * 0.4, BOLD, BY_NAME, "Gramound");
+	pWind->SetPen(CourseCodeColor);
+
+	ostringstream crd;
+	crd << "crd:" << pCrs->getCredits();
+	pWind->DrawString(Code_x, Code_y, pCrs->getCode());
+	pWind->DrawString(Code_x, Code_y + CRS_HEIGHT / 2, crd.str());
+}
 void GUI::DrawAcademicYear(const AcademicYear* pY) 
 {
 	graphicsInfo gInfo = pY->getGfxInfo();
@@ -211,8 +226,6 @@ void GUI::DrawAcademicYear(const AcademicYear* pY)
 	*/
 	
 }
-
-
 ////////////////////////    Input functions    ///////////////////
 //This function reads the position where the user clicks to determine the desired action
 //If action is done by mouse, actData will be the filled by mouse position
@@ -272,16 +285,26 @@ ActionData GUI::GetUserAction(string msg) const
 			//[2] User clicks on the drawing area
 			if (y >= MenuBarHeight && y < WindHeight - StatusBarHeight)
 			{
+				XCoord = x; YCoord = y;
+				Last_CLick = ctInput;
 				return ActionData{ DRAW_AREA,x,y };	//user want clicks inside drawing area
 			}
 
 			//[3] User clicks on the status bar
 			return ActionData{ STATUS_BAR };
 		}
+		if (ctInput == RIGHT_CLICK)	//mouse left click
+		{
+			if (y >= MenuBarHeight && y < WindHeight - StatusBarHeight)
+			{
+				XCoord = x; YCoord = y;
+				Last_CLick = ctInput;
+				return ActionData{ DRAW_AREA,x,y };	//user want clicks inside drawing area
+			}
+		}
 	}//end while
 
 }
-
 string GUI::GetSrting() const
 {
 	//Reads a complete string from the user until the user presses "ENTER".
@@ -289,9 +312,11 @@ string GUI::GetSrting() const
 	//"BACKSPACE" is also supported
 	//User should see what he is typing at the status bar
 
-	
 
-	string userInput;
+	string userInput="";
+	vector<char>KeyInput{'|'};
+	char Cursor = '|';
+	int Cursor_Position = 0;
 	char Key;
 	while (1)
 	{
@@ -301,25 +326,66 @@ string GUI::GetSrting() const
 		{
 		case 27: //ESCAPE key is pressed
 			PrintMsg("");
-			return ""; //returns nothing as user has cancelled the input
-
-		case 13:		//ENTER key is pressed
+			return " "; //returns nothing as user has cancelled the input
+		case 13://ENTER key is pressed
+		{
+			KeyInput.erase(KeyInput.begin() + Cursor_Position);
+			userInput = "";
+			for (int i = 0; i < KeyInput.size(); i++)
+			{
+				userInput += KeyInput[i];
+			}
 			return userInput;
-
+		}
 		case 8:		//BackSpace is pressed
-			if (userInput.size() > 0)
-				userInput.resize(userInput.size() - 1);
+			if ((KeyInput.size() != 0)&&(Cursor_Position != 0))
+			{
+				KeyInput.erase(KeyInput.begin() + Cursor_Position-1);
+				Cursor_Position--;
+			}
 			break;
+		case 6:// arrow right
+		{
+			if (Cursor_Position == KeyInput.size() - 1)
+				break;
+			KeyInput.erase(KeyInput.begin() + Cursor_Position);
+			KeyInput.insert(KeyInput.begin()+ Cursor_Position+1, Cursor);
+			Cursor_Position++;
+			break;
+		}
+		case 2:
+		{break; }
+
+		case 4:// arrow left
+		{
+			if (Cursor_Position ==0)
+				break;
+			KeyInput.erase(KeyInput.begin() + Cursor_Position);
+			KeyInput.insert(KeyInput.begin() + Cursor_Position-1, Cursor);
+			Cursor_Position--;
+			break;
+		}
 
 		default:
-			userInput += Key;
+		{
+			if (Cursor_Position == KeyInput.size()-1)
+			{
+				KeyInput.erase(KeyInput.begin() + Cursor_Position);
+				KeyInput.push_back(Key);
+				KeyInput.push_back(Cursor);
+				Cursor_Position++;
+			}
+		}
 		};
-
+		userInput = "";
+		for (int i = 0; i < KeyInput.size(); i++)
+		{
+			userInput += KeyInput[i];
+		}
 		PrintMsg(userInput);
 	}
 
 }
-
 void GUI::PrintNotes() const
 {
 	int MsgX = NotesX1;
@@ -366,7 +432,6 @@ void GUI::DrawInfoArea()const
 	pWind->DrawLine(SideBarX1, CourseInfoY1 + 25, SideBarX2, CourseInfoY1 + 25);
 	pWind->DrawString(SideBarX1 + courseInfoFactor, CourseInfoY1 + 6, "Course Information");
 }
-
 void GUI::PrintCourseInfo()const
 {
 	int MsgX = InfoX1;
@@ -395,7 +460,6 @@ void GUI::PrintCourseInfo()const
 	string msg3 = CourseCredit;
 	pWind->DrawString(MsgX, MsgY + 120, msg3);
 }
-
 //Dimention getters
 int GUI::getMenuBarHeight() {
 	return MenuBarHeight;
@@ -403,14 +467,9 @@ int GUI::getMenuBarHeight() {
 int GUI::getY_div() {
 	return Y_div;
 }
-
-
 int GUI::getYDivStartingPos() {
 	return (WindHeight - StatusBarHeight);
 }
-
-
-
 GUI::~GUI()
 {
 	delete pWind;

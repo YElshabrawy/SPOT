@@ -8,4 +8,5 @@
 #include"ActionMoveCourse.h"
 #include"ActionCourseInfo.h"
 #include"ActionChangeCode.h"
+#include "ActionDragAndDrop.h"
 #include"ActionDeclareMajor.h"

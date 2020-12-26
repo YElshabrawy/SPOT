@@ -130,6 +130,7 @@
     <ClCompile Include="Actions\ActionAddCourse.cpp" />
     <ClCompile Include="Actions\ActionMoveCourse.cpp" />
     <ClCompile Include="Actions\ActionSavePlan.cpp" />
+    <ClCompile Include="Actions\ActionDragAndDrop.cpp" />
     <ClCompile Include="Courses\Course.cpp" />
     <ClCompile Include="GUI\CMUgraphicsLib\CMUgraphics.cpp" />
     <ClCompile Include="GUI\CMUgraphicsLib\colors.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="Actions\ActionMoveCourse.h" />
     <ClInclude Include="Actions\ActionSavePlan.h" />
     <ClInclude Include="Actions\allActions.h" />
+    <ClInclude Include="Actions\ActionDragAndDrop.h" />
     <ClInclude Include="Courses\Course.h" />
     <ClInclude Include="GUI\CMUgraphicsLib\CMUgraphics.h" />
     <ClInclude Include="GUI\CMUgraphicsLib\colors.h" />

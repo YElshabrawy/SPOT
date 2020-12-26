@@ -22,6 +22,8 @@ bool ActionAddCourse::Execute()
 	Course_Code code = pGUI->GetSrting();
 
 	//Input validations
+	if (code == " ")//to exit when the user presses escape
+		return true;
 	pReg->transformCode(code);
 
 	//Check if exists
@@ -30,7 +32,8 @@ bool ActionAddCourse::Execute()
 	while (exists == 0) {
 		pGUI->PrintMsg("ERROR: " + code + " is an invalid course code! Enter a valid one:");
 		code = pGUI->GetSrting();
-
+		if (code == " ")//to exit when the user presses escape
+			return true;
 		pReg->transformCode(code);
 		pCInfo = pReg->inCatalog(code, exists);
 	}

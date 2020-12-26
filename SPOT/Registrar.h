@@ -21,7 +21,7 @@ public:
 	bool ExecuteAction(Action*);
 	void UpdateInterface();
 	StudyPlan* getStudyPlay() const;
-
+	Course* OldpCr = nullptr;
 	void Run();
 
 	~Registrar();

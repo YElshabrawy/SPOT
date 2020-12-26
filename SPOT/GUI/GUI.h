@@ -27,9 +27,7 @@ class GUI
 		ITM_ERASE,		//Clear all the data (courses)
 		ITM_MAJOR,
 		ITM_EXIT,		//Exit item
-
 		ITM_CNT			//no. of menu items ==> This should be the last line in this enum
-
 	};
 
 	color DrawColor = BLACK;		//Drawing color
@@ -42,10 +40,11 @@ class GUI
 	color CourseCodeColor = WHITE;
 	string WindTitle = "Study-Plan Organizational Tool (SPOT)";
 
-	window* pWind;
+
 public:
+	window* pWind;
 	//Some constants for GUI (My default = 1600 x 880 with aspect ratio 20:11)
-	static const int	WindWidth = 1600, WindHeight = WindWidth * (11.0 / 20.0),	//Window width and height
+	static const int	WindWidth = 1350, WindHeight = WindWidth * (11.0 / 20.0),	//Window width and height
 		wx = 15, wy = 15,		//Window starting coordinates
 		StatusBarHeight = 60,	//Status Bar Height
 		MenuBarHeight = 51,		//Menu Bar Height (distance from top of window to bottom line of menu bar)
@@ -92,8 +91,8 @@ public:
 	int CourseInfoY1 = NotesY1 + NotesHeight + MyFactor,
 		CourseInfoHeight = 250;
 	static string Notes, CourseTitle, CourseCode, CourseCredit;
-
-
+	static clicktype Last_CLick;
+	static int XCoord, YCoord;
 
 	GUI();
 	void CreateMenu() const;
@@ -109,6 +108,7 @@ public:
 
 	//Drawing functions
 	void DrawCourse(const Course* );
+	void DrawCourse(const Course* ,int x,int y);
 	void DrawAcademicYear(const AcademicYear*);
 	void UpdateInterface() const;
 	
