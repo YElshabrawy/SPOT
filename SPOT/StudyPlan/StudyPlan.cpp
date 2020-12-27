@@ -1,5 +1,6 @@
 #include "StudyPlan.h"
 #include"../GUI/GUI.h"
+#include"string"
 string StudyPlan::PlanNotes = "";
 
 
@@ -115,7 +116,42 @@ void StudyPlan::checkPreAndCoReq()
 		}
 	}
 }
-
+void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
+{
+	vector<string>CoReq = pC->getCoReq();
+	vector<string>PreReq = pC->getPreReq();
+	string Code;
+	if(!((CoReq.empty())&&(PreReq.empty())))
+	for (AcademicYear* yr : plan)
+	{
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int sem = FALL; sem < SEM_CNT; sem++)
+		{
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
+			{
+				if (!((CoReq.size()) == 0))
+				for (int i = 0; i < CoReq.size(); i++)
+				{
+					if (((*it)->getCode() == CoReq[i])&&((*it)!=NULL))
+					{
+						pGUI->DrawCourse_Dependacies((*it), pC);
+						break;
+				    }
+				}
+				if (!((PreReq.size())==0))
+				for (int i = 0; i < PreReq.size(); i++)
+				{
+					Code = (*it)->getCode();
+					if ((Code== PreReq[i])&&((*it) != NULL))
+					{
+						pGUI->DrawCourse_Dependacies((*it), pC);
+						break;
+					}
+				}
+			}
+		}
+	}
+}
 StudyPlan::~StudyPlan()
 {
 }

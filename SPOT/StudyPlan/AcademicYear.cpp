@@ -68,7 +68,10 @@ void AcademicYear::DrawMe(GUI* pGUI) const
 				(*it)->setGfxInfo(New_gInfo);
 				(*it)->Distance_Flag = true;
 			}
-			(*it)->DrawMe(pGUI);	//call DrawMe for each course in this semester
+			if (((*it)->DrawMe_Flag))
+			{
+				(*it)->DrawMe(pGUI); //call DrawMe for each course in this semester
+			}                    
 			Counter++;
 		}
 	}

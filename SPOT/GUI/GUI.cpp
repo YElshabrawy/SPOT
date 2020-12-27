@@ -12,6 +12,8 @@ string GUI::CourseCredit = "";
 int GUI::XCoord = 0;
 int GUI::YCoord = 0;
 clicktype GUI::Last_CLick = RIGHT_CLICK;
+bool GUI::Draw_Dependacies_Flag = false;
+bool GUI::Draw_Dependacies_For_One_Course = false;
 GUI::GUI()
 { 
 	pWind = new window(WindWidth, WindHeight,wx,wy);
@@ -261,9 +263,20 @@ ActionData GUI::GetUserAction(string msg) const
 				case ITM_Note: return ActionData{ ADD_Note }; break; //Add Notes
 				case ITM_IMPORT: return ActionData{ IMPORT_PLAN }; break; //Import Plan
 				case ITM_ERASE: return ActionData{ ERASE }; break;
-				case ITM_SWAP: return ActionData{ SWAP }; break;
+				case ITM_SWAP:
+				{
+					if (Draw_Dependacies_Flag == true)
+						Draw_Dependacies_Flag = false;
+					else
+						Draw_Dependacies_Flag = true;
+					return ActionData{ SWAP }; break;
+				}
 				case ITM_EXCHANGE: return ActionData{ CHANGE_CODE }; break;
-				case ITM_MAJOR: return ActionData{ DECLARE_MAJOR }; break;
+				case ITM_MAJOR: 
+				{
+					Draw_Dependacies_For_One_Course = false;
+					return ActionData{ DECLARE_MAJOR }; break;
+				}
 				case ITM_EXIT: return ActionData{ EXIT }; break;		//Exit
 
 				default: return ActionData{ MENU_BAR };	//A click on empty place in menu bar
@@ -543,6 +556,38 @@ void GUI::PrintCourseInfo()const
 	pWind->DrawString(MsgX, MsgY + 70, msg2);
 	string msg3 = CourseCredit;
 	pWind->DrawString(MsgX, MsgY + 120, msg3);
+}
+void GUI::DrawCourse_Dependacies(Course* pCr, Course* DpCr) const
+{
+	pWind->SetBrush(BLACK);
+	pWind->SetPen(BLACK);
+	graphicsInfo gInfo_Of_PreOrCo = pCr->getGfxInfo();
+	graphicsInfo gInfo_Of_DepCr = DpCr->getGfxInfo();
+	if (gInfo_Of_DepCr.y == gInfo_Of_PreOrCo.y)
+	{
+
+	}
+	else
+	{
+		if (gInfo_Of_DepCr.x == gInfo_Of_PreOrCo.x)
+		{
+			pWind->DrawTriangle(gInfo_Of_DepCr.x + CRS_WIDTH, gInfo_Of_DepCr.y + CRS_HEIGHT / 2, gInfo_Of_DepCr.x + CRS_WIDTH + 5, gInfo_Of_DepCr.y + CRS_HEIGHT / 2 - 5, gInfo_Of_DepCr.x + CRS_WIDTH + 5, gInfo_Of_DepCr.y + CRS_HEIGHT / 2 + 5, FILLED);
+			pWind->SetPen(BLACK, 2);
+			pWind->DrawBezier(gInfo_Of_DepCr.x + CRS_WIDTH, gInfo_Of_DepCr.y + CRS_HEIGHT / 2, gInfo_Of_DepCr.x + CRS_WIDTH + 100, gInfo_Of_DepCr.y + 20, gInfo_Of_PreOrCo.x + CRS_WIDTH - 10, gInfo_Of_PreOrCo.y + CRS_HEIGHT - 10, gInfo_Of_PreOrCo.x + CRS_WIDTH / 2, gInfo_Of_PreOrCo.y + CRS_HEIGHT);
+		}
+		else if (gInfo_Of_DepCr.x > gInfo_Of_PreOrCo.x)
+		{
+			pWind->DrawTriangle(gInfo_Of_DepCr.x, gInfo_Of_DepCr.y + CRS_HEIGHT / 2, gInfo_Of_DepCr.x - 5, gInfo_Of_DepCr.y + CRS_HEIGHT / 2 - 5, gInfo_Of_DepCr.x - 5, gInfo_Of_DepCr.y + CRS_HEIGHT / 2 + 5, FILLED);
+			pWind->SetPen(BLACK, 2);
+			pWind->DrawBezier(gInfo_Of_DepCr.x, gInfo_Of_DepCr.y + CRS_HEIGHT / 2, gInfo_Of_DepCr.x - 70, gInfo_Of_DepCr.y, gInfo_Of_PreOrCo.x + CRS_WIDTH / 2, gInfo_Of_PreOrCo.y + 120, gInfo_Of_PreOrCo.x + CRS_WIDTH / 2, gInfo_Of_PreOrCo.y + CRS_HEIGHT);
+		}
+		else if (gInfo_Of_DepCr.x < gInfo_Of_PreOrCo.x)
+		{
+			pWind->DrawTriangle(gInfo_Of_DepCr.x + CRS_WIDTH, gInfo_Of_DepCr.y + CRS_HEIGHT / 2, gInfo_Of_DepCr.x + CRS_WIDTH + 5, gInfo_Of_DepCr.y + CRS_HEIGHT / 2 - 5, gInfo_Of_DepCr.x + CRS_WIDTH + 5, gInfo_Of_DepCr.y + CRS_HEIGHT / 2 + 5, FILLED);
+			pWind->SetPen(BLACK, 2);
+			pWind->DrawBezier(gInfo_Of_DepCr.x + CRS_WIDTH, gInfo_Of_DepCr.y + CRS_HEIGHT / 2, gInfo_Of_DepCr.x + CRS_WIDTH + 60, gInfo_Of_DepCr.y + 20, gInfo_Of_PreOrCo.x + CRS_WIDTH - 10, gInfo_Of_PreOrCo.y + CRS_HEIGHT - 10, gInfo_Of_PreOrCo.x + CRS_WIDTH / 2, gInfo_Of_PreOrCo.y + CRS_HEIGHT);
+		}
+	}
 }
 //Dimention getters
 int GUI::getMenuBarHeight() {

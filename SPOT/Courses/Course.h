@@ -28,6 +28,7 @@ private:
 	vector<Error> Prereq_Error_List;
 	vector<Error> Coreq_Error_List;
 public:
+	bool DrawMe_Flag=true;
 	static vector<int> numOfCoursesPerSem;
 	//Constructors
 	Course();

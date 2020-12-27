@@ -93,7 +93,8 @@ public:
 	static string Notes, CourseTitle, CourseCode, CourseCredit;
 	static clicktype Last_CLick;
 	static int XCoord, YCoord;
-
+	static bool Draw_Dependacies_Flag;
+	static bool Draw_Dependacies_For_One_Course;
 	GUI();
 	void CreateMenu() const;
 	void ClearDrawingArea() const;
@@ -111,7 +112,7 @@ public:
 	void DrawCourse(const Course* ,int x,int y);
 	void DrawAcademicYear(const AcademicYear*);
 	void UpdateInterface() const;
-	
+	void DrawCourse_Dependacies(Course* pCr, Course* DpCr) const;
 	//input functions
 	ActionData GUI::GetUserAction(string msg = "") const;
 	string GetSrting() const;

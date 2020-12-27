@@ -157,6 +157,8 @@
     <ClCompile Include="Actions\ActionChangeCode.cpp" />
     <ClCompile Include="Actions\ActionDeclareMajor.cpp" />
     <ClCompile Include="Actions\ActionDragAndDrop.cpp" />
+    <ClCompile Include="Actions\ActionCourseDependancies.cpp" />
+    <ClCompile Include="Actions\ActionDDOOC.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUI\GUI.h">
@@ -252,6 +254,8 @@
     <ClInclude Include="Actions\ActionChangeCode.h" />
     <ClInclude Include="Actions\ActionDeclareMajor.h" />
     <ClInclude Include="Actions\ActionDragAndDrop.h" />
+    <ClInclude Include="Actions\ActionCourseDependancies.h" />
+    <ClInclude Include="Actions\ActionDDOOC.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="GUI\CMUgraphicsLib\Manual.txt">

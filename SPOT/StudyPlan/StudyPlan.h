@@ -34,7 +34,7 @@ public:
 	void virtual DrawMe(GUI*) const;
 	vector<AcademicYear*>* getStudyPlanVector();
 	void checkPreAndCoReq();
-	
+	void FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI);
 	virtual ~StudyPlan();
 };
 

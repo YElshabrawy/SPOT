@@ -1,9 +1,9 @@
-#include "Registrar.h"
+#include"Registrar.h"
 #include<iostream>
 #include<iterator>
-#include "Actions/allActions.h"
+#include"Actions/allActions.h"
 #include"Utils/Utils.h"
-#include <algorithm>
+#include<algorithm>
 
 
 
@@ -51,13 +51,13 @@ Action* Registrar::CreateRequiredAction()
 		RequiredAction = new ActionEraseAll(this);
 		break;
 	case SWAP:
-		RequiredAction = new ActionMoveCourse(this);
+		RequiredAction = new ActionCourseDependancies(this);
 		break;
 	case CHANGE_CODE:
 		RequiredAction = new ActionChangeCode(this);
 		break;
 	case DECLARE_MAJOR:
-		RequiredAction = new ActionDeclareMajor(this);
+		RequiredAction = new ActionDDOOC(this);//declare major photo till i get a photo for this one
 		break;
 	default:
 	{
@@ -108,7 +108,6 @@ void Registrar::Run()
 		//when window is minimized then restored
 		pSPlan->checkPreAndCoReq();
 		UpdateInterface();
-
 		Action* pAct = CreateRequiredAction();
 		if (pAct)	//if user doesn't cancel
 		{
@@ -122,6 +121,16 @@ void Registrar::Run()
 void Registrar::UpdateInterface()
 {
 	pGUI->UpdateInterface();	//update interface items
+	if (pGUI->Draw_Dependacies_Flag)
+	{
+		Action* pAct = new ActionCourseDependancies(this);
+		ExecuteAction(pAct);
+	}
+	else if (pGUI->Draw_Dependacies_For_One_Course)
+	{
+		Action* pAct = new  ActionDDOOC(this);
+		ExecuteAction(pAct);
+	}
 	pSPlan->DrawMe(pGUI);		//make study plan draw itself
 }
 

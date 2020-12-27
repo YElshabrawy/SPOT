@@ -22,6 +22,7 @@ public:
 	void UpdateInterface();
 	StudyPlan* getStudyPlay() const;
 	Course* OldpCr = nullptr;
+	Course* OldpCr_For_DDOOC = nullptr;
 	void Run();
 
 	~Registrar();

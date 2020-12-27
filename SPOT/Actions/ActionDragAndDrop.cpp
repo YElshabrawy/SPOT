@@ -3,8 +3,6 @@
 #include <iostream>
 #include"../GUI/GUI.h"
 #include"../Utils/Utils.h"
-#include <thread>
-#include <chrono>
 
 
 ActionDragAndDrop::ActionDragAndDrop(Registrar* p) :Action(p)
@@ -18,7 +16,9 @@ ActionDragAndDrop::~ActionDragAndDrop()
 bool ActionDragAndDrop::Execute()
 {
 	GUI* pGUI = pReg->getGUI();
-	int x, y;
+	pGUI->Draw_Dependacies_Flag = false;
+	pGUI->Draw_Dependacies_For_One_Course = false;
+	int x, y,flag=0;
 	x = pGUI->XCoord;
 	y = pGUI->YCoord;
 	Course* pCr = pReg->interrogateCourse(x, y);
@@ -28,17 +28,12 @@ bool ActionDragAndDrop::Execute()
 	graphicsInfo gInfo_Old=pCr->getGfxInfo();
 
 	image systemimage= "GUI\\Images\\Menu\\test.jpg";
-	pGUI->pWind->StoreImage(systemimage,0,0,pGUI->WindWidth, pGUI->WindHeight);
 	while (true)
 	{
-		/*std::this_thread::sleep_for(std::chrono::milliseconds(150));*/
-		pGUI->pWind->DrawImage(systemimage, 0, 0, pGUI->WindWidth, pGUI->WindHeight);
-		pGUI->pWind->SetBrush(LIGHTGRAY);
-		pGUI->pWind->SetPen(LIGHTGRAY);
-		pGUI->pWind->DrawRectangle(gInfo_Old.x, gInfo_Old.y-1, gInfo_Old.x + CRS_WIDTH, gInfo_Old.y + CRS_HEIGHT,FILLED);
-		pGUI->pWind->UpdateBuffer();
 		if (pGUI->Last_CLick == LEFT_CLICK)
+		{
 			break;
+		}
 		if (pCr == nullptr) {
 			break;
 			return true;
@@ -46,7 +41,19 @@ bool ActionDragAndDrop::Execute()
 		else
 		{
 			pGUI->pWind->GetMouseCoord(x, y);
-			pGUI->DrawCourse(pCr, x, y);
+			if (flag == 0)
+			{
+				pCr->DrawMe_Flag = false;
+				pReg->UpdateInterface();
+				pGUI->pWind->StoreImage(systemimage, 0, 0, pGUI->WindWidth, pGUI->WindHeight);
+				flag = 1;
+			}
+			else
+			{
+				pGUI->DrawCourse(pCr, x, y);
+			}
+				pGUI->pWind->DrawImage(systemimage, 0, 0, pGUI->WindWidth, pGUI->WindHeight);
+				pGUI->pWind->UpdateBuffer();
 			StudyPlan* pS = pReg->getStudyPlay();
 			int oldYear = pCr->getYear();
 			int newYear = NULL;
@@ -110,6 +117,7 @@ bool ActionDragAndDrop::Execute()
 						(GUI::MyFactor * (newYear - 1));
 					pCr->setGfxInfo(gInfo);
 					pCr->Distance_Flag = false;
+					pCr->DrawMe_Flag = true;
 					pGUI->pWind->UpdateBuffer();
 					pGUI->UpdateInterface();
 				}

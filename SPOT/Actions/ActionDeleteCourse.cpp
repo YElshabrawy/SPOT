@@ -15,7 +15,8 @@ ActionDeleteCourse::~ActionDeleteCourse()
 bool ActionDeleteCourse::Execute() {
 	cout << "Delete button is pressed.\n"; // for debugging
 	GUI* pGUI = pReg->getGUI();
-	
+	pGUI->Draw_Dependacies_Flag = false;
+	pGUI->Draw_Dependacies_For_One_Course = false;
 	ActionData actData = pGUI->GetUserAction("Select the course you want to delete");
 	int x, y;
 	if (actData.actType == DRAW_AREA) {

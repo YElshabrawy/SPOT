@@ -123,6 +123,7 @@
     <ClCompile Include="Actions\ActionDeclareMajor.cpp" />
     <ClCompile Include="Actions\ActionChangeCode.cpp" />
     <ClCompile Include="Actions\ActionCourseInfo.cpp" />
+    <ClCompile Include="Actions\ActionDDOOC.cpp" />
     <ClCompile Include="Actions\ActionEraseAll.cpp" />
     <ClCompile Include="Actions\ActionImportPlan.cpp" />
     <ClCompile Include="Actions\ActionAddNotes.cpp" />
@@ -131,6 +132,7 @@
     <ClCompile Include="Actions\ActionMoveCourse.cpp" />
     <ClCompile Include="Actions\ActionSavePlan.cpp" />
     <ClCompile Include="Actions\ActionDragAndDrop.cpp" />
+    <ClCompile Include="Actions\ActionCourseDependancies.cpp" />
     <ClCompile Include="Courses\Course.cpp" />
     <ClCompile Include="GUI\CMUgraphicsLib\CMUgraphics.cpp" />
     <ClCompile Include="GUI\CMUgraphicsLib\colors.cpp" />
@@ -189,6 +191,8 @@
     <ClInclude Include="Actions\ActionSavePlan.h" />
     <ClInclude Include="Actions\allActions.h" />
     <ClInclude Include="Actions\ActionDragAndDrop.h" />
+    <ClInclude Include="Actions\ActionCourseDependancies.h" />
+    <ClInclude Include="Actions\ActionDDOOC.h" />
     <ClInclude Include="Courses\Course.h" />
     <ClInclude Include="GUI\CMUgraphicsLib\CMUgraphics.h" />
     <ClInclude Include="GUI\CMUgraphicsLib\colors.h" />
