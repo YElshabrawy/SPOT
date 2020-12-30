@@ -159,6 +159,58 @@ void StudyPlan::checkPreAndCoReq()
 		}
 	}
 }
+void StudyPlan::checkCreditHrs(int min, int max)
+{
+	// For each semester, check if total courses chs are between the range of min n max where min and max are constants from RegRules
+	//for (AcademicYear* yr : plan)
+	for (int a = 0; a < plan.size(); a++) {
+		AcademicYear* yr = plan[a];
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int sem = FALL; sem < SEM_CNT - 1; sem++) {
+			int semCHs = 0; // semester CHs
+			string semName;
+			int yearNum = a+1;
+			switch (sem) {
+			case 0: semName = "Fall"; break;
+			case 1: semName = "Spring"; break;
+			case 2: semName = "Summer"; break;
+			}
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
+				semCHs += (*it)->getCredits();
+				yearNum = (*it)->getYear();
+			}
+			if (semCHs < min) {
+				// Error less than
+				string errMsg = semName + " of year " + to_string(yearNum) + " has CH's ("+ to_string(semCHs) + ") less than " + to_string(min);
+				Error newErr;
+				newErr.type = MODERATE;
+				newErr.Msg = errMsg;
+				CH_Error_List.push_back(newErr);
+			}
+			else if (semCHs > max) {
+				// Error more than
+				string errMsg = semName + " of year " + to_string(yearNum) + " has CH's (" + to_string(semCHs) + ")  more than " + to_string(max);
+				Error newErr;
+				newErr.type = MODERATE;
+				newErr.Msg = errMsg;
+				CH_Error_List.push_back(newErr);
+			}
+			else {
+				// No err (REMOVE IT)
+				for (int i = 0; i < CH_Error_List.size(); i++) {
+					string checkMsg = semName + " of year " + to_string(yearNum);
+					bool condition = CH_Error_List[i].Msg.find(checkMsg) != string::npos;
+					if (condition) 
+						CH_Error_List.erase(CH_Error_List.begin() + i);
+					
+				}
+				
+
+			}
+		}
+	}
+	cout << "Total errors = " << CH_Error_List.size() << endl;
+}
 void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 {
 	vector<string>CoReq = pC->getCoReq();

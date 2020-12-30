@@ -57,6 +57,8 @@ void GUI::CreateMenu() const
 	MenuItemImages[ITM_Note] = "GUI\\Images\\Menu\\menu_notes.jpg";
 	MenuItemImages[ITM_ERASE] = "GUI\\Images\\Menu\\menu_erase.jpg";
 	MenuItemImages[ITM_MAJOR] = "GUI\\Images\\Menu\\menu_major.jpg";
+	MenuItemImages[ITM_CRS_DEP] = "GUI\\Images\\Menu\\menu_crs_dep.jpg";
+	MenuItemImages[ITM_PLAN_DEP] = "GUI\\Images\\Menu\\menu_plan_dep.jpg";
 	MenuItemImages[ITM_EXIT] = "GUI\\Images\\Menu\\menu_quit.jpg";
 
 	//TODO: Prepare image for each menu item and add it to the list
@@ -263,19 +265,21 @@ ActionData GUI::GetUserAction(string msg) const
 				case ITM_Note: return ActionData{ ADD_Note }; break; //Add Notes
 				case ITM_IMPORT: return ActionData{ IMPORT_PLAN }; break; //Import Plan
 				case ITM_ERASE: return ActionData{ ERASE }; break;
-				case ITM_SWAP:
+				case ITM_SWAP: return ActionData{ SWAP }; break;
+				case ITM_EXCHANGE: return ActionData{ CHANGE_CODE }; break;
+				case ITM_MAJOR: return ActionData{ DECLARE_MAJOR }; break;
+				case ITM_CRS_DEP:
+				{
+					Draw_Dependacies_For_One_Course = false;
+					return ActionData{ CRS_DEP }; break;
+				}
+				case ITM_PLAN_DEP:
 				{
 					if (Draw_Dependacies_Flag == true)
 						Draw_Dependacies_Flag = false;
 					else
 						Draw_Dependacies_Flag = true;
-					return ActionData{ SWAP }; break;
-				}
-				case ITM_EXCHANGE: return ActionData{ CHANGE_CODE }; break;
-				case ITM_MAJOR: 
-				{
-					Draw_Dependacies_For_One_Course = false;
-					return ActionData{ DECLARE_MAJOR }; break;
+					return ActionData{ PLAN_DEP }; break;
 				}
 				case ITM_EXIT: return ActionData{ EXIT }; break;		//Exit
 

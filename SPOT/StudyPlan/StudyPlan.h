@@ -6,6 +6,8 @@
 //A full study plan for as student
 class StudyPlan:public Drawable
 {
+private:
+	vector<Error> CH_Error_List;
 
 public:
 	int TotalCredits = 0,				// Total no. of credit hours for courses registred in this year 1
@@ -34,6 +36,7 @@ public:
 	void virtual DrawMe(GUI*) const;
 	vector<AcademicYear*>* getStudyPlanVector();
 	void checkPreAndCoReq();
+	void checkCreditHrs(int min, int max);
 	void FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI);
 	virtual ~StudyPlan();
 };
