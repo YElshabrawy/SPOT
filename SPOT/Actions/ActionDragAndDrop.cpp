@@ -61,6 +61,7 @@ bool ActionDragAndDrop::Execute()
 			SEMESTER newSem;
 			if (pGUI->pWind->GetMouseClick(x, y))
 			{
+				pCr->DrawMe_Flag = true;
 				if (x > GUI::VerticalSeparatorX && x < GUI::Year_X2) {
 					// The click X is inside the boundaries
 					//Get the Year
@@ -117,7 +118,7 @@ bool ActionDragAndDrop::Execute()
 						(GUI::MyFactor * (newYear - 1));
 					pCr->setGfxInfo(gInfo);
 					pCr->Distance_Flag = false;
-					pCr->DrawMe_Flag = true;
+					
 					pGUI->pWind->UpdateBuffer();
 					pGUI->UpdateInterface();
 				}

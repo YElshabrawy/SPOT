@@ -50,11 +50,54 @@ void StudyPlan::checkPreAndCoReq()
 				// Iterate on courses
 				Course* pCr = (*it);
 				vector<string> preReq = pCr->getPreReq();
+				vector<string> coReq = pCr->getCoReq();
 
+				// Co req Check
+				for (int i = 0; i < coReq.size(); i++) {
+					// For each course in the coreq
+					string co_crs = coReq[i];
+					bool found = false;
+					int currentYr = pCr->getYear() - 1;
+					SEMESTER currentSem = pCr->getSemester();
+					list<Course*>* pYr2 = plan[currentYr]->getListOfYears();
+					for (auto iter = pYr2[currentSem].begin(); iter != pYr2[currentSem].end(); iter++) {
+						if ((*iter)->getCode() == co_crs) {
+							// FOUND IT
+							found = true;
+							break;
+						}
+
+					}
+
+					if (found) {
+						// Safe!
+						pCr->removeCoReqErrors(co_crs);
+					}
+					else {
+						// Critical error: (Prereq not found)
+						string ErrorMsg = co_crs + " is a corequisite to " + pCr->getCode();
+						cout << "ERR :: " << ErrorMsg << endl;
+						pCr->AddCoError(CRITICAL, ErrorMsg);
+					}
+				}
+				if (!coReq.empty()) {
+					// This course has a coreq
+					int err_num = pCr->getCoErrorsNumber(); // number of errors
+					int co_num = coReq.size(); // number of prerequisite courses
+					if (err_num == 0)
+						pCr->changeBorderColor(BLACK);
+					else
+						pCr->changeBorderColor(GREEN);
+
+				}
+				
+				//============================================================================
+				
+				// Pre req Check
 				for (int i = 0; i < preReq.size(); i++) {
 					// For each course in the prereq
 					string pre_crs = preReq[i];
-					bool found = 0;
+					bool found = false;
 					int currentYear = pCr->getYear() - 1; // its index not its number
 
 					for (int j = currentYear; j >= 0; j--) {

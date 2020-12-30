@@ -92,12 +92,41 @@ void Course::AddPreError(ErrorType Type, string msg)
 		Prereq_Error_List.push_back(newErr);
 	}
 }
+void Course::AddCoError(ErrorType Type, string msg)
+{
+	bool flag = true;
+	if (!Coreq_Error_List.empty()) {
+		// The list is not empty we first make sure the error message is not repeated
+		for (int i = 0; i < Coreq_Error_List.size(); i++) {
+			if (msg == Coreq_Error_List[i].Msg) {
+				flag = false;
+				break;
+			}
+		}
+	}
+	if (flag) {
+		Error newErr;
+		newErr.type = Type;
+		newErr.Msg = msg;
+		Coreq_Error_List.push_back(newErr);
+	}
+}
 void Course::removePreReqErrors(string code)
 {
 	for (int i = 0; i < Prereq_Error_List.size(); i++) {
 		if (Prereq_Error_List[i].Msg.find(code) != string::npos) {
 			// found
 			Prereq_Error_List.erase(Prereq_Error_List.begin()+i);
+		}
+	}
+}
+
+void Course::removeCoReqErrors(string code)
+{
+	for (int i = 0; i < Coreq_Error_List.size(); i++) {
+		if (Coreq_Error_List[i].Msg.find(code) != string::npos) {
+			// found
+			Coreq_Error_List.erase(Coreq_Error_List.begin() + i);
 		}
 	}
 }
@@ -159,6 +188,11 @@ int Course::getNumOfCrsPerSem(int year, SEMESTER sem)
 int Course::getPreErrorsNumber() const
 {
 	return Prereq_Error_List.size();
+}
+
+int Course::getCoErrorsNumber() const
+{
+	return Coreq_Error_List.size();
 }
 
 void Course::DrawMe(GUI* pG) const

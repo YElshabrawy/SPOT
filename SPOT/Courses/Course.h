@@ -60,12 +60,14 @@ public:
 	color getBorderColor() const;
 	bool isUnknown() const;
 	static int getNumOfCrsPerSem(int year, SEMESTER sem);
-	int getPreErrorsNumber() const;
 
 	//ERRORS
 	void AddPreError(ErrorType Type, string msg);
 	void AddCoError(ErrorType Type, string msg);
 	void removePreReqErrors(string code);
+	void removeCoReqErrors(string code);
+	int getPreErrorsNumber() const;
+	int getCoErrorsNumber() const;
 	bool Distance_Flag = false;
 
 	void DrawMe(GUI*) const;
