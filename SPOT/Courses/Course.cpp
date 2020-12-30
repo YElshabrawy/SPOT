@@ -33,6 +33,7 @@ Course::Course()
 {
 	code = "";
 	Title = "";
+	Done = false;
 }
 
 Course::~Course()
@@ -40,6 +41,18 @@ Course::~Course()
 }
 
 //Setters
+void Course::setCoursedone(bool Case)
+{
+	Done = Case;
+}
+void Course::setCoursepending(bool Case)
+{
+	pending = Case;
+}
+void Course::setCourseinprogress(bool Case)
+{
+	inprogress = Case;
+}
 void Course::setCode(Course_Code i_code) {
 	code = i_code;
 }
@@ -132,6 +145,19 @@ void Course::removeCoReqErrors(string code)
 }
 
 //Getters
+
+bool Course::getCoursedone()const
+{
+	return Done;
+}
+bool Course::getCoursepending()const
+{
+	return pending;
+}
+bool Course::getCourseinprogress()const
+{
+	return inprogress;
+}
 Course_Code Course::getCode() const
 {
 	return code;

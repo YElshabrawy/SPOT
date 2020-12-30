@@ -18,7 +18,9 @@ private:
 	string Title;		//course title: e.g. "Fundamentals of Computer Programming"
 	int credits;	//no. of course credits
 	string type;	//Univ, track, or major.....etc.
-	bool Done=false;		//Done or not yet?
+	bool Done;		//Done or not yet?
+	bool pending;	//Course Pending"Currently taking"
+	bool inprogress;//course in progress
 	vector<Course_Code> PreReq;	//list of prerequisites
 	vector<Course_Code> CoReq;	//list of prerequisites
 	//Curret year and semester
@@ -46,9 +48,15 @@ public:
 	void changeColor(color newColor);
 	void changeBorderColor(color newColor);
 	void setUnknownCrs(bool unknown);
+	void setCoursedone(bool Case);//set course to (wither done or not done) 
+	void setCoursepending(bool Case);
+	void setCourseinprogress(bool Case);
 
 
 	//Getters
+	bool getCoursedone()const;
+	bool getCoursepending()const;
+	bool getCourseinprogress()const;
 	string getTitle() const;
 	string getCode() const;
 	int getCredits() const;
