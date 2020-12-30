@@ -35,6 +35,10 @@ bool ActionCourseInfo::Execute()
 			pGUI->CourseTitle = Title;
 			pGUI->CourseCode = code;
 			pGUI->CourseCredit = "Course Credits: " + String_Credits;
+			pGUI->PrintMsg("Is The Course Done?");
+			string msg=pGUI->GetSrting();
+			//checks
+
 		}
 		if (pReg->OldpCr != pCr)
 		pReg->OldpCr = pCr;

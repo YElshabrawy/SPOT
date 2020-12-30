@@ -18,7 +18,7 @@ private:
 	string Title;		//course title: e.g. "Fundamentals of Computer Programming"
 	int credits;	//no. of course credits
 	string type;	//Univ, track, or major.....etc.
-	bool Done;		//Done or not yet?
+	bool Done=false;		//Done or not yet?
 	vector<Course_Code> PreReq;	//list of prerequisites
 	vector<Course_Code> CoReq;	//list of prerequisites
 	//Curret year and semester
