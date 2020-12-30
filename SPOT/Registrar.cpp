@@ -57,7 +57,7 @@ Action* Registrar::CreateRequiredAction()
 		RequiredAction = new ActionChangeCode(this);
 		break;
 	case DECLARE_MAJOR:
-		RequiredAction = new ActionDDOOC(this);//declare major photo till i get a photo for this one
+		RequiredAction = new ActionDeclareMajor(this);//declare major photo till i get a photo for this one
 		break;
 	default:
 	{
@@ -188,7 +188,7 @@ void Registrar::createAllCourses() {
 			bool condition = token[0] == 'C' && token[1] == 'o' && token[2] == 'r';
 			if (condition) {
 				vector<string> coReq;
-				token.erase(0, 6);
+				token.erase(0, 7);
 				// Parse using string dilimeter " And "
 				string delim = " And ";
 				auto start = 0U;
