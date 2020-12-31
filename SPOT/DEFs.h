@@ -28,6 +28,8 @@ enum ActionType
 	COURSE_INFO,
 	CHANGE_CODE,	//changes course code
 	DECLARE_MAJOR,
+	CRS_DEP,
+	PLAN_DEP,
 
 	SAVE,		//Save a study plan to file
 	LOAD,		//Load a study plan from a file

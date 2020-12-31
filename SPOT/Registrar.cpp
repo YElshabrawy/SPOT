@@ -51,13 +51,19 @@ Action* Registrar::CreateRequiredAction()
 		RequiredAction = new ActionEraseAll(this);
 		break;
 	case SWAP:
-		RequiredAction = new ActionCourseDependancies(this);
+		RequiredAction = new ActionMoveCourse(this);
 		break;
 	case CHANGE_CODE:
 		RequiredAction = new ActionChangeCode(this);
 		break;
 	case DECLARE_MAJOR:
 		RequiredAction = new ActionDeclareMajor(this);//declare major photo till i get a photo for this one
+		break;
+	case CRS_DEP:
+		RequiredAction = new ActionDDOOC(this);
+		break;
+	case PLAN_DEP:
+		RequiredAction = new ActionCourseDependancies(this);
 		break;
 	default:
 	{
@@ -107,6 +113,7 @@ void Registrar::Run()
 		//update interface here as CMU Lib doesn't refresh itself
 		//when window is minimized then restored
 		pSPlan->checkPreAndCoReq();
+		pSPlan->checkCreditHrs(RegRules.SemMinCredit, RegRules.SemMaxCredit);
 		UpdateInterface();
 		Action* pAct = CreateRequiredAction();
 		if (pAct)	//if user doesn't cancel
@@ -331,6 +338,10 @@ void Registrar::setRules()
 
 	RegRules.ConcentrationCompulsory = pSPlan->CompConcentrationCourses;
 	RegRules.ConcentrationElective = pSPlan->ElectiveConcentrationCourses;
+
+	//Min / Max CH
+	RegRules.SemMinCredit = 12;
+	RegRules.SemMaxCredit = 21;
 	cout << "Registrar rules imported successfully.\n";
 
 }
