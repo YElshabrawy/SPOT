@@ -536,7 +536,7 @@ void GUI::DrawInfoArea()const
 }
 void GUI::PrintCourseInfo()const
 {
-	int MsgX = InfoX1;
+	int MsgX = InfoX1+5;
 	int MsgY = InfoY1;
 	pWind->SetPen(BLACK);
 	string msg1 = CourseTitle;
@@ -557,12 +557,13 @@ void GUI::PrintCourseInfo()const
 	else {
 		pWind->DrawString(MsgX, MsgY, msg1);
 		}
+
 	string msg2 = CourseCode;
-	pWind->DrawString(MsgX, MsgY + 40, msg2);
+	pWind->DrawString(MsgX, MsgY + 60, msg2);
 	string msg3 = CourseCredit;
-	pWind->DrawString(MsgX, MsgY + 80, msg3);
+	pWind->DrawString(MsgX, MsgY + 90, msg3);
 	string msg4 = CourseStatus;
-	pWind->DrawString(MsgX, MsgY + 100, msg4);
+	pWind->DrawString(MsgX, MsgY + 120, msg4);
 
 }
 void GUI::DrawCourse_Dependacies(Course* pCr, Course* DpCr) const
