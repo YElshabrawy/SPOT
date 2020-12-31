@@ -43,7 +43,7 @@ bool ActionAddCourse::Execute()
 	if (actData.actType == DRAW_AREA)	//user clicked inside drawing area
 	{
 		int year = NULL;
-		SEMESTER semester;
+		SEMESTER semester = FALL;
 
 		//get coord where user clicked
 		x = actData.x;

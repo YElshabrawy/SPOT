@@ -263,6 +263,7 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 				{
 					if (((*it)->getCode() == CoReq[i])&&((*it)!=NULL))
 					{
+						pGUI->pWind->SetPen(RED,2);
 						pGUI->DrawCourse_Dependacies((*it), pC);
 						break;
 				    }
@@ -273,6 +274,7 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 					Code = (*it)->getCode();
 					if ((Code== PreReq[i])&&((*it) != NULL))
 					{
+						pGUI->pWind->SetPen(BLUE,2);
 						pGUI->DrawCourse_Dependacies((*it), pC);
 						break;
 					}

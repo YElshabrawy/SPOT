@@ -94,6 +94,7 @@ void GUI::UpdateInterface() const
 	PrintNotes();
 	DrawNoteArea(); 
 	DrawInfoArea();
+	DrawReportArea();
 	PrintCourseInfo();
 	
 	pWind->UpdateBuffer();
@@ -200,8 +201,10 @@ void GUI::DrawAcademicYear(const AcademicYear* pY)
 		1, (4 * One_Year_Div) - YearImgMidSubtractor + (3 * MyFactor), 18, 50);
 	pWind->DrawImage("GUI\\Images\\Years\\Year_Five.jpg",
 		1, (5 * One_Year_Div) - YearImgMidSubtractor + (4 * MyFactor), 18, 50);
-	pWind->DrawImage("GUI\\Images\\Years\\Year_Six.jpg",
-		1, (6 * One_Year_Div) - YearImgMidSubtractor + (5 * MyFactor), 18, 50);
+	if (NumOfYrs > 5) {
+		pWind->DrawImage("GUI\\Images\\Years\\Year_Six.jpg",
+			1, (6 * One_Year_Div) - YearImgMidSubtractor + (5 * MyFactor), 18, 50);
+	}
 
 	// Draw Semesters 
 	pWind->SetFont(15, BOLD, BY_NAME, "Times New Rome");
@@ -514,7 +517,7 @@ void GUI::PrintNotes() const
 }
 void GUI::DrawNoteArea()const
 {
-	pWind->SetFont(15, BOLD, BY_NAME, "Times New Rome");
+	pWind->SetFont(15, ITALICIZED, BY_NAME, "Times New Rome");
 	pWind->SetBrush(WHITE);
 	pWind->SetPen(BLACK);
 	pWind->DrawRectangle(SideBarX1, NotesY1, SideBarX2, NotesY1 + NotesHeight, FRAME);
@@ -524,9 +527,21 @@ void GUI::DrawNoteArea()const
 	pWind->DrawString(SideBarX1 + myNotesFactor , NotesY1 + 6, "My Notes");
 	pWind->DrawImage("GUI\\Images\\Menu\\Edit_Notes.jpeg", SideBarX1+(SideBarX2- SideBarX1)/2-45, 10, 100, 30);
 }
+void GUI::DrawReportArea() const
+{
+	pWind->SetFont(15, ITALICIZED, BY_NAME, "Times New Rome");
+	pWind->SetBrush(WHITE);
+	pWind->SetPen(BLACK);
+	pWind->DrawRectangle(SideBarX1, ReportAreaY1, SideBarX2, ReportAreaY1 + ReportAreaHeight, FRAME);
+	pWind->SetBrush(WHITE);
+	pWind->DrawLine(SideBarX1, ReportAreaY1 + 25, SideBarX2, ReportAreaY1 + 25);
+	pWind->DrawRectangle(SideBarX1, ReportAreaY1, SideBarX2, ReportAreaY1 + 25);
+	pWind->DrawString(SideBarX1 + myReportFactor, ReportAreaY1 + 6, "Live Report");
+	//pWind->DrawImage("GUI\\Images\\Menu\\Edit_Notes.jpeg", SideBarX1 + (SideBarX2 - SideBarX1) / 2 - 45, 10, 100, 30);
+}
 void GUI::DrawInfoArea()const
 {
-	pWind->SetFont(15, BOLD, BY_NAME, "Times New Rome");
+	pWind->SetFont(15, ITALICIZED, BY_NAME, "Times New Rome");
 	pWind->SetBrush(WHITE);
 	pWind->SetPen(BLACK);
 	pWind->DrawRectangle(SideBarX1, CourseInfoY1, SideBarX2, CourseInfoY1 + CourseInfoHeight, FRAME);
@@ -569,34 +584,34 @@ void GUI::PrintCourseInfo()const
 void GUI::DrawCourse_Dependacies(Course* pCr, Course* DpCr) const
 {
 	pWind->SetBrush(BLACK);
-	pWind->SetPen(BLACK);
+	//pWind->SetPen(BLACK);
 	graphicsInfo gInfo_Of_PreOrCo = pCr->getGfxInfo();
 	graphicsInfo gInfo_Of_DepCr = DpCr->getGfxInfo();
-	if (gInfo_Of_DepCr.y == gInfo_Of_PreOrCo.y)
+	/*if (gInfo_Of_DepCr.y == gInfo_Of_PreOrCo.y)
 	{
 
-	}
-	else
-	{
+	}*/
+	//else
+	//{
 		if (gInfo_Of_DepCr.x == gInfo_Of_PreOrCo.x)
 		{
 			pWind->DrawTriangle(gInfo_Of_DepCr.x + CRS_WIDTH, gInfo_Of_DepCr.y + CRS_HEIGHT / 2, gInfo_Of_DepCr.x + CRS_WIDTH + 5, gInfo_Of_DepCr.y + CRS_HEIGHT / 2 - 5, gInfo_Of_DepCr.x + CRS_WIDTH + 5, gInfo_Of_DepCr.y + CRS_HEIGHT / 2 + 5, FILLED);
-			pWind->SetPen(BLACK, 2);
+			//pWind->SetPen(BLACK, 2);
 			pWind->DrawBezier(gInfo_Of_DepCr.x + CRS_WIDTH, gInfo_Of_DepCr.y + CRS_HEIGHT / 2, gInfo_Of_DepCr.x + CRS_WIDTH + 100, gInfo_Of_DepCr.y + 20, gInfo_Of_PreOrCo.x + CRS_WIDTH - 10, gInfo_Of_PreOrCo.y + CRS_HEIGHT - 10, gInfo_Of_PreOrCo.x + CRS_WIDTH / 2, gInfo_Of_PreOrCo.y + CRS_HEIGHT);
 		}
 		else if (gInfo_Of_DepCr.x > gInfo_Of_PreOrCo.x)
 		{
 			pWind->DrawTriangle(gInfo_Of_DepCr.x, gInfo_Of_DepCr.y + CRS_HEIGHT / 2, gInfo_Of_DepCr.x - 5, gInfo_Of_DepCr.y + CRS_HEIGHT / 2 - 5, gInfo_Of_DepCr.x - 5, gInfo_Of_DepCr.y + CRS_HEIGHT / 2 + 5, FILLED);
-			pWind->SetPen(BLACK, 2);
+			//pWind->SetPen(BLACK, 2);
 			pWind->DrawBezier(gInfo_Of_DepCr.x, gInfo_Of_DepCr.y + CRS_HEIGHT / 2, gInfo_Of_DepCr.x - 70, gInfo_Of_DepCr.y, gInfo_Of_PreOrCo.x + CRS_WIDTH / 2, gInfo_Of_PreOrCo.y + 120, gInfo_Of_PreOrCo.x + CRS_WIDTH / 2, gInfo_Of_PreOrCo.y + CRS_HEIGHT);
 		}
 		else if (gInfo_Of_DepCr.x < gInfo_Of_PreOrCo.x)
 		{
 			pWind->DrawTriangle(gInfo_Of_DepCr.x + CRS_WIDTH, gInfo_Of_DepCr.y + CRS_HEIGHT / 2, gInfo_Of_DepCr.x + CRS_WIDTH + 5, gInfo_Of_DepCr.y + CRS_HEIGHT / 2 - 5, gInfo_Of_DepCr.x + CRS_WIDTH + 5, gInfo_Of_DepCr.y + CRS_HEIGHT / 2 + 5, FILLED);
-			pWind->SetPen(BLACK, 2);
+			//pWind->SetPen(BLACK, 2);
 			pWind->DrawBezier(gInfo_Of_DepCr.x + CRS_WIDTH, gInfo_Of_DepCr.y + CRS_HEIGHT / 2, gInfo_Of_DepCr.x + CRS_WIDTH + 60, gInfo_Of_DepCr.y + 20, gInfo_Of_PreOrCo.x + CRS_WIDTH - 10, gInfo_Of_PreOrCo.y + CRS_HEIGHT - 10, gInfo_Of_PreOrCo.x + CRS_WIDTH / 2, gInfo_Of_PreOrCo.y + CRS_HEIGHT);
 		}
-	}
+	//}
 }
 //Dimention getters
 int GUI::getMenuBarHeight() {
