@@ -179,36 +179,71 @@ void StudyPlan::checkCreditHrs(int min, int max)
 				semCHs += (*it)->getCredits();
 				yearNum = (*it)->getYear();
 			}
+			// If the error does not exist create an error
+			bool exists = false;
+			string checkMsg = semName + " of year " + to_string(yearNum);
+			for (int i = 0; i < CH_Error_List.size(); i++) {
+				bool condition = CH_Error_List[i].Msg.find(checkMsg) != string::npos;
+				if (condition) {
+					exists = true;
+				}
+			}
 			if (semCHs < min) {
-				// Error less than
-				string errMsg = semName + " of year " + to_string(yearNum) + " has CH's ("+ to_string(semCHs) + ") less than " + to_string(min);
-				Error newErr;
-				newErr.type = MODERATE;
-				newErr.Msg = errMsg;
-				CH_Error_List.push_back(newErr);
+				if (!exists) {
+					// Error less than
+					string errMsg = semName + " of year " + to_string(yearNum) + " has CH's ("+ to_string(semCHs) + ") less than " + to_string(min);
+					Error newErr;
+					newErr.type = MODERATE;
+					newErr.Msg = errMsg;
+					CH_Error_List.push_back(newErr);
+				}
+				else {
+					// Modify its message
+					string newErrMsg = semName + " of year " + to_string(yearNum) + " has CH's (" + to_string(semCHs) + ") less than " + to_string(min);
+					string checkMsg = semName + " of year " + to_string(yearNum);
+					for (int i = 0; i < CH_Error_List.size(); i++) {
+						bool condition = CH_Error_List[i].Msg.find(checkMsg) != string::npos;
+						if (condition) {
+							CH_Error_List[i].Msg = newErrMsg;
+						}
+					}
+				}
 			}
 			else if (semCHs > max) {
-				// Error more than
-				string errMsg = semName + " of year " + to_string(yearNum) + " has CH's (" + to_string(semCHs) + ")  more than " + to_string(max);
-				Error newErr;
-				newErr.type = MODERATE;
-				newErr.Msg = errMsg;
-				CH_Error_List.push_back(newErr);
+				if (!exists) {
+					// Error more than
+					string errMsg = semName + " of year " + to_string(yearNum) + " has CH's (" + to_string(semCHs) + ")  more than " + to_string(max);
+					Error newErr;
+					newErr.type = MODERATE;
+					newErr.Msg = errMsg;
+					CH_Error_List.push_back(newErr);
+				}
+				else {
+					// Modify its message
+					string newErrMsg = semName + " of year " + to_string(yearNum) + " has CH's (" + to_string(semCHs) + ") more than " + to_string(min);
+					string checkMsg = semName + " of year " + to_string(yearNum);
+					for (int i = 0; i < CH_Error_List.size(); i++) {
+						bool condition = CH_Error_List[i].Msg.find(checkMsg) != string::npos;
+						if (condition) {
+							CH_Error_List[i].Msg = newErrMsg;
+						}
+					}
+				}
 			}
 			else {
 				// No err (REMOVE IT)
+				string checkMsg = semName + " of year " + to_string(yearNum);
 				for (int i = 0; i < CH_Error_List.size(); i++) {
-					string checkMsg = semName + " of year " + to_string(yearNum);
 					bool condition = CH_Error_List[i].Msg.find(checkMsg) != string::npos;
-					if (condition) 
+					if (condition) {
 						CH_Error_List.erase(CH_Error_List.begin() + i);
+					}
 				}
 				
 
 			}
 		}
 	}
-	cout << "Total errors = " << CH_Error_List.size() << endl;
 }
 void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 {

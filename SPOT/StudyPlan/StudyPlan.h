@@ -7,7 +7,7 @@
 class StudyPlan:public Drawable
 {
 private:
-	vector<Error> CH_Error_List;
+	vector<Error> CH_Error_List; // Holds all the modirate errors for the CH issues
 
 public:
 	int TotalCredits = 0,				// Total no. of credit hours for courses registred in this year 1
