@@ -220,7 +220,7 @@ void StudyPlan::checkCreditHrs(int min, int max)
 				}
 				else {
 					// Modify its message
-					string newErrMsg = semName + " of year " + to_string(yearNum) + " has CH's (" + to_string(semCHs) + ") more than " + to_string(min);
+					string newErrMsg = semName + " of year " + to_string(yearNum) + " has CH's (" + to_string(semCHs) + ") more than " + to_string(max);
 					string checkMsg = semName + " of year " + to_string(yearNum);
 					for (int i = 0; i < CH_Error_List.size(); i++) {
 						bool condition = CH_Error_List[i].Msg.find(checkMsg) != string::npos;
