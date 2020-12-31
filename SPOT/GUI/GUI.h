@@ -92,7 +92,7 @@ public:
 	// Course Info
 	int CourseInfoY1 = NotesY1 + NotesHeight + MyFactor,
 		CourseInfoHeight = 250;
-	static string Notes, CourseTitle, CourseCode, CourseCredit;
+	static string Notes, CourseTitle, CourseCode, CourseCredit, CourseStatus;
 	static clicktype Last_CLick;
 	static int XCoord, YCoord;
 	static bool Draw_Dependacies_Flag;

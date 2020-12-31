@@ -9,6 +9,7 @@ string GUI::Notes = "";
 string GUI::CourseTitle = "";
 string GUI::CourseCode = "";
 string GUI::CourseCredit = "";
+string GUI::CourseStatus = "";//string to hold course status for printing 
 int GUI::XCoord = 0;
 int GUI::YCoord = 0;
 clicktype GUI::Last_CLick = RIGHT_CLICK;
@@ -554,12 +555,15 @@ void GUI::PrintCourseInfo()const
 			}
 		}
 	else {
-		pWind->DrawString(MsgX, MsgY, msg1);
+		pWind->DrawString(MsgX, MsgY+20, msg1);
 		}
 	string msg2 = CourseCode;
-	pWind->DrawString(MsgX, MsgY + 70, msg2);
+	pWind->DrawString(MsgX, MsgY + 80, msg2);
 	string msg3 = CourseCredit;
-	pWind->DrawString(MsgX, MsgY + 120, msg3);
+	pWind->DrawString(MsgX, MsgY + 130, msg3);
+	string msg4 = CourseStatus;
+	pWind->DrawString(MsgX, MsgY + 170, msg4);
+
 }
 void GUI::DrawCourse_Dependacies(Course* pCr, Course* DpCr) const
 {
