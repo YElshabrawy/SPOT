@@ -23,7 +23,7 @@ bool ActionCourseInfo::Execute()
 		}
 		else
 		{
-			pGUI->CourseStatus = "";
+			pGUI->CourseStatus = "Course Status: ";
 			pReg->UpdateInterface();
 			pCr->changeColor(BLACK);
 			if((pReg->OldpCr!=nullptr)&&(pReg->OldpCr != pCr))
@@ -68,22 +68,22 @@ bool ActionCourseInfo::Execute()
 			}
 			else
 			{
-					pGUI->PrintMsg("Wrong input)");
+					/*pGUI->PrintMsg("Wrong input)");*/
 			}
 
 			}
 			if (pCr->getCoursedone() == true)
 			{
-				pGUI->CourseStatus = "Done";
+				pGUI->CourseStatus = "Course Status: Done";
 
 			}
 			else if (pCr->getCourseinprogress() == true)
 			{
-				pGUI->CourseStatus = "Inprogress";
+				pGUI->CourseStatus = "Course Status: Inprogress";
 			}
 			else if (pCr->getCoursepending() == true)
 			{
-				pGUI->CourseStatus = "Pending";
+				pGUI->CourseStatus = "Course Status: Pending ";
 			}
 			else
 			{

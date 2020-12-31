@@ -46,7 +46,7 @@ class GUI
 public:
 	window* pWind;
 	//Some constants for GUI (My default = 1600 x 880 with aspect ratio 20:11)
-	static const int	WindWidth = 1600, WindHeight = WindWidth * (11.0 / 20.0),	//Window width and height
+	static const int	WindWidth = 1300, WindHeight = WindWidth * (11.0 / 20.0),	//Window width and height
 		wx = 15, wy = 15,		//Window starting coordinates
 		StatusBarHeight = 60,	//Status Bar Height
 		MenuBarHeight = 51,		//Menu Bar Height (distance from top of window to bottom line of menu bar)
@@ -84,11 +84,11 @@ public:
 		NotesHeight = 250,
 		NotesY2 = NotesHeight - NotesHeight * 0.65,
 		NotesX1 = WindWidth - (WindWidth - Year_X2 - 10),
-		string_Max_Width = ((WindWidth - NotesX1) / 10) - 1,
+		string_Max_Width = ((WindWidth - NotesX1) / 7) - 10,
 		myNotesFactor = (SideBarX2 - SideBarX1 - 40) / 2.0,
 		courseInfoFactor = (SideBarX2 - SideBarX1 - 95) / 2.0,
 		InfoX1 = WindWidth - (WindWidth - Year_X2 - 10),
-		InfoY1 = NotesY2 + WindHeight * 0.36;
+		InfoY1 = NotesHeight + MenuBarHeight + NotesY1;
 	// Course Info
 	int CourseInfoY1 = NotesY1 + NotesHeight + MyFactor,
 		CourseInfoHeight = 250;
