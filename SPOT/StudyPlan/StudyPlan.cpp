@@ -202,7 +202,6 @@ void StudyPlan::checkCreditHrs(int min, int max)
 					bool condition = CH_Error_List[i].Msg.find(checkMsg) != string::npos;
 					if (condition) 
 						CH_Error_List.erase(CH_Error_List.begin() + i);
-					
 				}
 				
 
