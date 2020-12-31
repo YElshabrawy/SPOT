@@ -18,7 +18,7 @@ bool ActionDragAndDrop::Execute()
 	GUI* pGUI = pReg->getGUI();
 	pGUI->Draw_Dependacies_Flag = false;
 	pGUI->Draw_Dependacies_For_One_Course = false;
-	int x, y,flag=0;
+	int x, y,flag=0,Error_Flag=0;
 	x = pGUI->XCoord;
 	y = pGUI->YCoord;
 	Course* pCr = pReg->interrogateCourse(x, y);
@@ -48,7 +48,7 @@ bool ActionDragAndDrop::Execute()
 				pGUI->pWind->StoreImage(systemimage, 0, 0, pGUI->WindWidth, pGUI->WindHeight);
 				flag = 1;
 			}
-			else
+			else if(Error_Flag!=1)
 			{
 				pGUI->DrawCourse(pCr, x, y);
 			}
@@ -78,12 +78,23 @@ bool ActionDragAndDrop::Execute()
 							if (y > yi && y < s1) newSem = FALL;
 							else if (y > s1 && y < s2) newSem = SPRING;
 							else if (y > s2 && y < yf) newSem = SUMMER;
+							else
+							{
+								Error_Flag = 1;
+							}
 						}
 					}
 				}
 				else {
 					//The user clicked outside the region
 				}
+				if (Error_Flag == 1)
+				{
+					pCr->Distance_Flag = true;
+					return true;
+				}
+				else
+		        {
 				if (newYear != NULL) {
 					// Delete crs
 					pS->DeleteCourse(pCr);
@@ -108,19 +119,21 @@ bool ActionDragAndDrop::Execute()
 						}
 					}
 					// add it again :)
-					pS->AddCourse(pCr, newYear, newSem);
-					pCr->numOfCoursesPerSem[(3 * (newYear - 1)) + newSem]++;
-					pCr->setYear(newYear);
-					pCr->setSemester(newSem);
-					int iter = pCr->numOfCoursesPerSem[(3 * (newYear - 1)) + newSem] - 1;
-					gInfo.x = GUI::TitleBarWidth + (iter * CRS_WIDTH);
-					gInfo.y = GUI::MenuBarHeight + GUI::MyFactor + ((newYear - 1) * GUI::One_Year_Div) + (newSem * GUI::One_Semester_Div) +
-						(GUI::MyFactor * (newYear - 1));
-					pCr->setGfxInfo(gInfo);
-					pCr->Distance_Flag = false;
-					
-					pGUI->pWind->UpdateBuffer();
-					pGUI->UpdateInterface();
+
+						pS->AddCourse(pCr, newYear, newSem);
+						pCr->numOfCoursesPerSem[(3 * (newYear - 1)) + newSem]++;
+						pCr->setYear(newYear);
+						pCr->setSemester(newSem);
+						int iter = pCr->numOfCoursesPerSem[(3 * (newYear - 1)) + newSem] - 1;
+						gInfo.x = GUI::TitleBarWidth + (iter * CRS_WIDTH);
+						gInfo.y = GUI::MenuBarHeight + GUI::MyFactor + ((newYear - 1) * GUI::One_Year_Div) + (newSem * GUI::One_Semester_Div) +
+							(GUI::MyFactor * (newYear - 1));
+						pCr->setGfxInfo(gInfo);
+						pCr->Distance_Flag = false;
+
+						pGUI->pWind->UpdateBuffer();
+						pGUI->UpdateInterface();
+					}
 				}
 				//if (pReg->OldpCr != pCr)
 				//	pReg->OldpCr = pCr;
