@@ -551,14 +551,14 @@ void GUI::PrintCourseInfo()const
 			}
 		}
 	else {
-		pWind->DrawString(MsgX, MsgY+20, msg1);
+		pWind->DrawString(MsgX, MsgY, msg1);
 		}
 	string msg2 = CourseCode;
-	pWind->DrawString(MsgX, MsgY + 80, msg2);
+	pWind->DrawString(MsgX, MsgY + 40, msg2);
 	string msg3 = CourseCredit;
-	pWind->DrawString(MsgX, MsgY + 130, msg3);
+	pWind->DrawString(MsgX, MsgY + 80, msg3);
 	string msg4 = CourseStatus;
-	pWind->DrawString(MsgX, MsgY + 170, msg4);
+	pWind->DrawString(MsgX, MsgY + 100, msg4);
 
 }
 void GUI::DrawCourse_Dependacies(Course* pCr, Course* DpCr) const
