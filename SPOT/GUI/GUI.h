@@ -93,7 +93,7 @@ public:
 		InfoY1 = NotesHeight + MenuBarHeight + NotesY1;
 	// Course Info
 	int CourseInfoY1 = NotesY1 + NotesHeight + MyFactor;
-	string Notes, CourseTitle, CourseCode, CourseCredit, CourseStatus,CourseGrade;
+	string Notes, CourseTitle, CourseCode, CourseCredit, CourseStatus,CourseGrade,studentLevel;
 	int CourseInfoHeight = Y_div/3;
 
 	// Report Area

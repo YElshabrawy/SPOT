@@ -23,6 +23,7 @@ private:
 	bool inprogress;//course in progress
 	bool Exempted;//course exempted
 	bool Replaced;//course replaced
+	bool studentleveltoken;
 	string Grade;//Holds the course Grade
 	vector<Course_Code> PreReq;	//list of prerequisites
 	vector<Course_Code> CoReq;	//list of prerequisites
@@ -41,6 +42,7 @@ public:
 	Course(Course_Code r_code, string r_title, int crd,
 		vector<Course_Code> r_PreReq, vector<Course_Code> r_CoReq,int r_year, SEMESTER r_sem);
 	// Setters
+	void setToken(bool Case);
 	void setCode(Course_Code i_code);
 	void setTitle(string i_title);
 	void setCredits(int i_cr);
@@ -61,6 +63,7 @@ public:
 
 	//Getters
 	string getGrade()const;
+	bool getToken()const;
 	bool getCourseReplaced()const;
 	bool getCourseExempted()const;
 	bool getCoursedone()const;

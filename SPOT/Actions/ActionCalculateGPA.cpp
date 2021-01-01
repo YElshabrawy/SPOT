@@ -70,7 +70,7 @@ bool ActionCalculateGPA::Execute()
 	}
 	GPA = total / totaldonehours;
 	GPA = ceil(GPA * 100.0) / 100.0;
-	cout << GPA;
+	cout << GPA<<endl;
 	return true;
 }
 double ActionCalculateGPA::getGPA() const

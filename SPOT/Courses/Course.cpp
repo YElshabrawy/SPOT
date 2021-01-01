@@ -34,6 +34,7 @@ Course::Course()
 	code = "";
 	Title = "";
 	Grade = "";
+	studentleveltoken = false;
 	Done = false;
 }
 
@@ -42,6 +43,10 @@ Course::~Course()
 }
 
 //Setters
+void  Course::setToken(bool Case)
+{
+	studentleveltoken = Case;
+}
 void Course::setCourseExempted(bool Case)
 {
 	Exempted = Case;
@@ -159,6 +164,10 @@ void Course::removeCoReqErrors(string code)
 
 //Getters
 
+bool Course::getToken()const
+{
+	return studentleveltoken;
+}
 string Course::getGrade()const
 {
 	return Grade;

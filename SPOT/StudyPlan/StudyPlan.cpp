@@ -326,6 +326,55 @@ void StudyPlan::LiveReport(GUI* pGUI, int Min_Crs, int Max_Crs)const
 	}
 
 }
+void StudyPlan::GenerateStudentLevel()
+{
+	GUI* pGUI;
+	for (AcademicYear* yr : plan) {
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int sem = FALL; sem < SEM_CNT; sem++) {
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
+				// Iterate on courses
+				Course* pCr = (*it);
+				if (pCr->getCoursedone() == true && pCr->getToken()==false)
+				{
+					pCr->setToken(true);
+					int credits = pCr->getCredits();
+					TotalDoneHours = TotalDoneHours + credits;
+
+				}
+			}
+		}
+	}
+	if (TotalDoneHours <= 32)
+	{
+		StudentLevel = "Foundation";
+	}
+	else if (TotalDoneHours<=67 && TotalDoneHours >= 32)
+	{
+		StudentLevel = "Sophomore";
+	}
+	else if (TotalDoneHours <=101 && TotalDoneHours >= 67)
+	{
+		StudentLevel = "Junior";
+	}
+	else if (TotalDoneHours <=135 && TotalDoneHours >= 101)
+	{
+		StudentLevel = "SeniorI";
+	}
+	else if (TotalDoneHours <= 162 && TotalDoneHours >= 135)
+	{
+		StudentLevel = "SeniorII";
+	}
+	//pGUI->studentLevel = StudentLevel;
+	cout << TotalDoneHours << endl;
+	cout << StudentLevel << endl;
+	cout << TotalDoneHours << endl;
+
+	cout << "Generate student level called"<<endl;
+}
+
 StudyPlan::~StudyPlan()
 {
 }
+
+

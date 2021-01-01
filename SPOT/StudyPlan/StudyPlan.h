@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include<string>
 #include "AcademicYear.h"
 #include "../GUI/Drawable.h"
 
@@ -20,6 +21,8 @@ public:
 	int NumberOfConcentrations = 0,
 		ConcentrationMajorCredits = 0,
 		ConcentrationMinorCredits = 0;
+	int TotalDoneHours=0;
+	string StudentLevel;
 	vector<Course_Code> CompUniCourses,
 		ElectiveUniCourses,
 		TrackCourses,
@@ -27,6 +30,7 @@ public:
 		ElectiveMajorCourses,
 		CompConcentrationCourses,
 		ElectiveConcentrationCourses;
+
 
 	string PlanNotes;
 	vector<AcademicYear*> plan;	//plan is a list of academic years
@@ -39,6 +43,7 @@ public:
 	void checkCreditHrs(int min, int max);
 	void LiveReport(GUI* pGUI,int min,int max)const;
 	void FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI);
+	void GenerateStudentLevel();
 	virtual ~StudyPlan();
 };
 

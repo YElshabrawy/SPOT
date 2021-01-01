@@ -129,6 +129,7 @@ bool ActionCourseInfo::Execute()
 					pCr->setCourseinprogress(false);
 					pCr->setCourseExempted(false);
 					pCr->setCourseReplaced(false);
+					pCr->setToken(false);
 					pGUI->CourseGrade += "Null";
 					cond0 = true;
 
@@ -140,6 +141,7 @@ bool ActionCourseInfo::Execute()
 					pCr->setCourseinprogress(true);
 					pCr->setCourseExempted(false);
 					pCr->setCourseReplaced(false);
+					pCr->setToken(false);
 					pGUI->CourseGrade += "Null";
 					cond0 = true;
 				}
