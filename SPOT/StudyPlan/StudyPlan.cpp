@@ -1,9 +1,6 @@
 #include "StudyPlan.h"
 #include"../GUI/GUI.h"
 #include"string"
-string StudyPlan::PlanNotes = "";
-
-
 StudyPlan::StudyPlan()
 {
 	//By default, the study plan starts with 5 years
@@ -179,36 +176,73 @@ void StudyPlan::checkCreditHrs(int min, int max)
 				semCHs += (*it)->getCredits();
 				yearNum = (*it)->getYear();
 			}
+			// If the error does not exist create an error
+			bool exists = false;
+			string checkMsg = semName + " of year " + to_string(yearNum);
+			for (int i = 0; i < CH_Error_List.size(); i++) {
+				bool condition = CH_Error_List[i].Msg.find(checkMsg) != string::npos;
+				if (condition) {
+					exists = true;
+				}
+			}
 			if (semCHs < min) {
-				// Error less than
-				string errMsg = semName + " of year " + to_string(yearNum) + " has CH's ("+ to_string(semCHs) + ") less than " + to_string(min);
-				Error newErr;
-				newErr.type = MODERATE;
-				newErr.Msg = errMsg;
-				CH_Error_List.push_back(newErr);
+				if (!exists) {
+					// Error less than
+					string errMsg = semName + " of year " + to_string(yearNum) + " has CH's ("+ to_string(semCHs) + ") less than " + to_string(min);
+					Error newErr;
+					newErr.type = MODERATE;
+					newErr.Msg = errMsg;
+					Sem_Credits.push_back(semCHs);
+					CH_Error_List.push_back(newErr);
+				}
+				else {
+					// Modify its message
+					string newErrMsg = semName + " of year " + to_string(yearNum) + " has CH's (" + to_string(semCHs) + ") less than " + to_string(min);
+					string checkMsg = semName + " of year " + to_string(yearNum);
+					for (int i = 0; i < CH_Error_List.size(); i++) {
+						bool condition = CH_Error_List[i].Msg.find(checkMsg) != string::npos;
+						if (condition) {
+							CH_Error_List[i].Msg = newErrMsg;
+						}
+					}
+				}
 			}
 			else if (semCHs > max) {
-				// Error more than
-				string errMsg = semName + " of year " + to_string(yearNum) + " has CH's (" + to_string(semCHs) + ")  more than " + to_string(max);
-				Error newErr;
-				newErr.type = MODERATE;
-				newErr.Msg = errMsg;
-				CH_Error_List.push_back(newErr);
+				if (!exists) {
+					// Error more than
+					string errMsg = semName + " of year " + to_string(yearNum) + " has CH's (" + to_string(semCHs) + ")  more than " + to_string(max);
+					Error newErr;
+					newErr.type = MODERATE;
+					newErr.Msg = errMsg;
+					CH_Error_List.push_back(newErr);
+					Sem_Credits.push_back(semCHs);
+				}
+				else {
+					// Modify its message
+					string newErrMsg = semName + " of year " + to_string(yearNum) + " has CH's (" + to_string(semCHs) + ") more than " + to_string(max);
+					string checkMsg = semName + " of year " + to_string(yearNum);
+					for (int i = 0; i < CH_Error_List.size(); i++) {
+						bool condition = CH_Error_List[i].Msg.find(checkMsg) != string::npos;
+						if (condition) {
+							CH_Error_List[i].Msg = newErrMsg;
+						}
+					}
+				}
 			}
 			else {
 				// No err (REMOVE IT)
+				string checkMsg = semName + " of year " + to_string(yearNum);
 				for (int i = 0; i < CH_Error_List.size(); i++) {
-					string checkMsg = semName + " of year " + to_string(yearNum);
 					bool condition = CH_Error_List[i].Msg.find(checkMsg) != string::npos;
-					if (condition) 
+					if (condition) {
 						CH_Error_List.erase(CH_Error_List.begin() + i);
+					}
 				}
 				
 
 			}
 		}
 	}
-	cout << "Total errors = " << CH_Error_List.size() << endl;
 }
 void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 {
@@ -228,6 +262,7 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 				{
 					if (((*it)->getCode() == CoReq[i])&&((*it)!=NULL))
 					{
+						pGUI->pWind->SetPen(RED,2);
 						pGUI->DrawCourse_Dependacies((*it), pC);
 						break;
 				    }
@@ -238,6 +273,7 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 					Code = (*it)->getCode();
 					if ((Code== PreReq[i])&&((*it) != NULL))
 					{
+						pGUI->pWind->SetPen(BLUE,2);
 						pGUI->DrawCourse_Dependacies((*it), pC);
 						break;
 					}
@@ -245,6 +281,50 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 			}
 		}
 	}
+}
+void StudyPlan::LiveReport(GUI* pGUI, int Min_Crs, int Max_Crs)const
+{
+	int Co_Error_Number, Pre_Error_Number,I=0;
+	vector<Error> Co_Errors; 
+	vector<Error> Pre_Errors;
+	for (AcademicYear* yr : plan)
+	{
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int sem = FALL; sem < SEM_CNT; sem++)
+		{
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
+			{
+				Co_Error_Number=(*it)->getCoErrorsNumber();
+				Pre_Error_Number=(*it)->getPreErrorsNumber();
+				if (Co_Error_Number != 0)
+				{
+					Co_Errors = (*it)->getCoReqErrors();
+					for (int i = 0; i < Co_Errors.size(); i++)
+					{
+						pGUI->PrintCriticalError(Co_Errors[i],I);
+						I += 2;
+					}
+
+				}
+				else if (Pre_Error_Number != 0)
+				{
+					Pre_Errors = (*it)->getPreReqErrors();
+					for (int i = 0; i < Pre_Errors.size(); i++)
+					{
+						pGUI->PrintCriticalError(Pre_Errors[i], I);
+						I += 2;
+					}
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < CH_Error_List.size(); i++)
+	{
+		pGUI->PrintPrintModerateError(CH_Error_List[i], I, Sem_Credits[i], Min_Crs, Max_Crs);
+		I += 3;
+	}
+
 }
 StudyPlan::~StudyPlan()
 {

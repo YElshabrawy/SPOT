@@ -1,10 +1,7 @@
 #include "ActionAddNotes.h"
 #include "../Registrar.h"
 #include <string>
-#include "../Utils/Utils.h"
-#include "../Courses/UnivCourse.h"
 #include <iostream>
-#include <fstream>
 
 ActionAddNotes::ActionAddNotes(Registrar*P):Action(P)
 {

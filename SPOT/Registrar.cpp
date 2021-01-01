@@ -117,6 +117,7 @@ void Registrar::Run()
 		//when window is minimized then restored
 		pSPlan->checkPreAndCoReq();
 		pSPlan->checkCreditHrs(RegRules.SemMinCredit, RegRules.SemMaxCredit);
+		pSPlan->LiveReport(pGUI,RegRules.SemMinCredit, RegRules.SemMaxCredit);
 		UpdateInterface();
 		Action* pAct = CreateRequiredAction();
 		if (pAct)	//if user doesn't cancel
@@ -141,7 +142,8 @@ void Registrar::UpdateInterface()
 		Action* pAct = new  ActionDDOOC(this);
 		ExecuteAction(pAct);
 	}
-	pSPlan->DrawMe(pGUI);		//make study plan draw itself
+	pSPlan->DrawMe(pGUI);
+	pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);//make study plan draw itself
 }
 
 Registrar::~Registrar()

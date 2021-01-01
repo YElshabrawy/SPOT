@@ -64,7 +64,9 @@ public:
 	string getCode() const;
 	int getCredits() const;
 	vector<string> getPreReq() const;
-	vector<string> getCoReq();
+	vector<string> getCoReq() const;
+	vector<Error> getPreReqErrors() const;
+	vector<Error> getCoReqErrors() const;
 	int getYear() const;
 	SEMESTER getSemester() const;
 	color getColor() const;
