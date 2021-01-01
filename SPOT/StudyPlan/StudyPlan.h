@@ -8,6 +8,7 @@ class StudyPlan:public Drawable
 {
 private:
 	vector<Error> CH_Error_List; // Holds all the modirate errors for the CH issues
+	Major major;
 
 public:
 	int TotalCredits = 0,				// Total no. of credit hours for courses registred in this year 1
@@ -38,6 +39,9 @@ public:
 	void checkPreAndCoReq();
 	void checkCreditHrs(int min, int max);
 	void FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI);
+	void importProgramReq();
+	void setMajor(Major major);
+	Major getMajor() const;
 	virtual ~StudyPlan();
 };
 

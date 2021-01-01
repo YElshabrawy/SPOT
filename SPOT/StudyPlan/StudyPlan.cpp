@@ -1,6 +1,9 @@
 #include "StudyPlan.h"
 #include"../GUI/GUI.h"
 #include"string"
+#include "../Rules.h"
+#include "../Utils/Utils.h"
+#include <fstream>
 string StudyPlan::PlanNotes = "";
 
 
@@ -282,6 +285,15 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 			}
 		}
 	}
+}
+
+void StudyPlan::setMajor(Major major)
+{
+	this->major = major;
+}
+Major StudyPlan::getMajor() const
+{
+	return major;
 }
 StudyPlan::~StudyPlan()
 {
