@@ -8,24 +8,10 @@
 ActionCalculateGPA::ActionCalculateGPA(Registrar* P) :Action(P)
 {
 }
-double total = 0;
-int totaldonehours = 0;
-double GPA;
 
 bool ActionCalculateGPA::Execute()
 {
-	//enum Grade:double{A=4,Amin=3.7,B};
-	const double A = 4.0;
-	const double A_MINUS = 3.67;
-	const double B_PLUS = 3.33;
-	const double B = 3.0;
-	const double B_MINUS = 2.67;
-	const double C_PLUS = 2.33;
-	const double C = 2.0;
-	const double C_MINUS = 1.67;
-	const double F = 0.0;
-
-	StudyPlan* plan = pReg->getStudyPlay();
+		StudyPlan* plan = pReg->getStudyPlay();
 	vector<AcademicYear*>* pPlan = plan->getStudyPlanVector(); // pointer on the plan vector
 	for (AcademicYear* yr : *pPlan)
 	{
@@ -84,9 +70,13 @@ bool ActionCalculateGPA::Execute()
 	}
 	GPA = total / totaldonehours;
 	GPA = ceil(GPA * 100.0) / 100.0;
+	cout << GPA;
 	return true;
 }
-
+double ActionCalculateGPA::getGPA() const
+{
+	return GPA;
+}
 ActionCalculateGPA::~ActionCalculateGPA()
 {
 }

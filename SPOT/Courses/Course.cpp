@@ -42,6 +42,14 @@ Course::~Course()
 }
 
 //Setters
+void Course::setCourseExempted(bool Case)
+{
+	Exempted = Case;
+}
+void Course::setCourseReplaced(bool Case)
+{
+	Replaced = Case;
+}
 void Course::setGrade(string grade)
 {
 	Grade = grade;
@@ -166,6 +174,14 @@ vector<Error>Course::getPreReqErrors() const
 vector<Error> Course::getCoReqErrors() const
 {
 	return Coreq_Error_List;
+}
+bool Course::getCourseReplaced()const
+{
+	return Replaced;
+}
+bool Course::getCourseExempted()const
+{
+	return Exempted;
 }
 bool Course::getCoursedone()const
 {

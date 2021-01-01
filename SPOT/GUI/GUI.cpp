@@ -300,6 +300,7 @@ ActionData GUI::GetUserAction(string msg) const
 				case ITM_SWAP: return ActionData{ SWAP }; break;
 				case ITM_EXCHANGE: return ActionData{ CHANGE_CODE }; break;
 				case ITM_MAJOR: return ActionData{ DECLARE_MAJOR }; break;
+				case ITM_GPA:return ActionData{ CAL_GPA }; break;
 				case ITM_CRS_DEP:
 				{
 					Draw_Dependacies_For_One_Course = false;
@@ -626,6 +627,7 @@ void GUI::DrawInfoArea()const
 	pWind->DrawLine(SideBarX1, CourseInfoY1 + 25, SideBarX2, CourseInfoY1 + 25);
 	pWind->DrawString(SideBarX1 + courseInfoFactor, CourseInfoY1 + 6, "Course Information");
 }
+
 void GUI::PrintCourseInfo()const
 {
 	int MsgX = InfoX1+5;
