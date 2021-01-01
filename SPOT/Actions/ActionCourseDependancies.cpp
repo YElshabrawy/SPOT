@@ -1,7 +1,5 @@
 #include "ActionCourseDependancies.h"
 #include "../Registrar.h"
-#include "../Utils/Utils.h"
-#include "../Courses/UnivCourse.h"
 #include <iostream>
 
 ActionCourseDependancies::ActionCourseDependancies(Registrar* P) :Action(P)

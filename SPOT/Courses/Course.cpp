@@ -146,6 +146,14 @@ void Course::removeCoReqErrors(string code)
 
 //Getters
 
+vector<Error>Course::getPreReqErrors() const
+{
+	return Prereq_Error_List;
+}
+vector<Error> Course::getCoReqErrors() const
+{
+	return Coreq_Error_List;
+}
 bool Course::getCoursedone()const
 {
 	return Done;
@@ -178,7 +186,7 @@ vector<string> Course::getPreReq() const
 	return PreReq;
 }
 
-vector<string> Course::getCoReq()
+vector<string> Course::getCoReq() const
 {
 	return CoReq;
 }

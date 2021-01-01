@@ -5,11 +5,6 @@
 #include <iostream>
 #include"../Registrar.h"
 using namespace std;
-string GUI::Notes = "";
-string GUI::CourseTitle = "";
-string GUI::CourseCode = "";
-string GUI::CourseCredit = "";
-string GUI::CourseStatus = "";//string to hold course status for printing 
 int GUI::XCoord = 0;
 int GUI::YCoord = 0;
 clicktype GUI::Last_CLick = RIGHT_CLICK;
@@ -492,24 +487,25 @@ string GUI::GetSrting( string Text)
 }
 void GUI::PrintNotes() const
 {
-	int MsgX = NotesX1;
-	int MsgY = NotesY2;
-	pWind->SetBrush(WHITE);
-	pWind->SetPen(BLACK);
+	int MsgX = NotesX1+5;
+	int MsgY = NotesY1+MyFactor*6+5;
 	string msg = Notes;
-	int Start = 0, End = 37 ;
-	// Print the Notes
-	pWind->SetFont(20, BOLD, BY_NAME, "Times New Rome");
+	int Size = size(msg);
+	int Test_Msg=0;
+	int Start =1, End = string_Max_Width;
+	pWind->SetFont(15, BOLD, BY_NAME, "Times New Rome");
 	pWind->SetPen(BLACK);
-	if ((size(msg)) > string_Max_Width)
-		for (int i = 0; i < ((size(Notes) / 37) + 1); i++)
+	if (Size-1 > string_Max_Width)
+		for (int i = 0; i < ((Size/string_Max_Width)+1); i++)
 		{
-			pWind->DrawString(MsgX, MsgY + 15 * i, msg.substr(Start + 37 * i, End));
-			End = size(msg) - End;
-			if (End < 0)
+			if (Test_Msg > Size-1)
 			{
-				End = size(msg);
+				End = Size-i-Start;
 			}
+				pWind->DrawString(MsgX, MsgY + 15 * i, msg.substr(Start, End));
+				Start += string_Max_Width;
+				Test_Msg= Start+ string_Max_Width;
+					End = string_Max_Width;
 		}
 	else
 		pWind->DrawString(MsgX, MsgY, msg);
@@ -539,6 +535,54 @@ void GUI::DrawReportArea() const
 	pWind->DrawString(SideBarX1 + myReportFactor, ReportAreaY1 + 6, "Live Report");
 	//pWind->DrawImage("GUI\\Images\\Menu\\Edit_Notes.jpeg", SideBarX1 + (SideBarX2 - SideBarX1) / 2 - 45, 10, 100, 30);
 }
+void GUI::PrintCriticalError(Error Er, int I)const
+{
+	int MsgX = NotesX1 + 5;
+	int MsgY = NotesY1 + MyFactor *10+ 5 +NotesHeight*2;
+	string msg = Er.Msg;
+	int Size = size(msg);
+	int Test_Msg = 0;
+
+	pWind->SetBrush(RED);
+	pWind->SetPen(RED);
+	pWind->DrawRectangle(NotesX1+5, MsgY + 15 * I, MsgX+ MyFactor * 22, MsgY + 15 * I+14, FILLED);
+	pWind->SetPen(WHITE);
+	pWind->SetFont(12, BOLD, BY_NAME, "Times New Rome");
+	pWind->DrawString(NotesX1 + 5, MsgY + 15 * I, "CRITICAL ERROR:");
+
+	pWind->SetPen(BLACK);
+	pWind->SetFont(12, BOLD, BY_NAME, "Times New Rome");
+    pWind->DrawString(MsgX, MsgY+15*(I+1), msg);
+}
+void GUI::PrintPrintModerateError(Error Er, int I, int Sem_Total_Crs,int Min_Crs,int Max_Crs)const
+{
+	int MsgX = NotesX1 + 5;
+	int MsgY = NotesY1 + MyFactor * 10 + 5 + NotesHeight * 2;
+	string msg = Er.Msg;
+	string Petition;
+	int Size = size(msg);
+
+	pWind->SetBrush(GOLD);
+	pWind->SetPen(GOLD);
+	pWind->DrawRectangle(NotesX1 + 5, MsgY + 15 * I, MsgX + MyFactor * 25, MsgY + 15 * I + 14, FILLED);
+	pWind->SetPen(WHITE);
+	pWind->SetFont(12, BOLD, BY_NAME, "Times New Rome");
+	pWind->DrawString(NotesX1 + 5, MsgY + 15 * I, "MODERATE ERROR:");
+
+	pWind->SetPen(BLACK);
+	pWind->SetFont(12, BOLD, BY_NAME, "Times New Rome");
+	pWind->DrawString(MsgX, MsgY + 15 * (I + 1), msg);
+	if (Sem_Total_Crs < Min_Crs)
+	{
+		Petition = "You May Need An Underload Petition";
+		pWind->DrawString(MsgX, MsgY + 15 * (I + 2), Petition);
+	}
+	else if ((Sem_Total_Crs > Max_Crs))
+	{
+		Petition = "You May Need An Overload Petition";
+		pWind->DrawString(MsgX, MsgY + 15 * (I + 2), Petition);
+	}
+}
 void GUI::DrawInfoArea()const
 {
 	pWind->SetFont(15, ITALICIZED, BY_NAME, "Times New Rome");
@@ -552,26 +596,30 @@ void GUI::DrawInfoArea()const
 void GUI::PrintCourseInfo()const
 {
 	int MsgX = InfoX1+5;
-	int MsgY = InfoY1;
-	pWind->SetPen(BLACK);
+	int MsgY = InfoY1-20;
 	string msg1 = CourseTitle;
+	int Size = size(msg1);
+	int Test_Msg = 0;
 	int Start = 0, End = string_Max_Width;
-	// Print the Notes
-	pWind->SetFont(17, BOLD, BY_NAME, "Times New Rome");
+	pWind->SetFont(15, BOLD, BY_NAME, "Times New Rome");
 	pWind->SetPen(BLACK);
-	if ((size(msg1)) > string_Max_Width)
-		for (int i = 0; i < ((size(msg1) / string_Max_Width) + 1); i++)
+	if (Size> string_Max_Width)
+		for (int i = 0; i < ((Size / (string_Max_Width))+1);i++)
 		{
-			pWind->DrawString(MsgX, MsgY + 15 * i, msg1.substr(Start + string_Max_Width * i, End));
-			End = size(msg1) - End;
-			if (End < 0)
+			if (Test_Msg > Size)
 			{
-				End = size(msg1);
+				End = Size - Start;
 			}
+			pWind->DrawString(MsgX, MsgY + 15 * i, msg1.substr(Start, End));
+			Start += string_Max_Width;
+			Test_Msg = Start + string_Max_Width;
+			End = string_Max_Width;
 		}
-	else {
+
+	else 
+	{
 		pWind->DrawString(MsgX, MsgY, msg1);
-		}
+	}
 
 	string msg2 = CourseCode;
 	pWind->DrawString(MsgX, MsgY + 60, msg2);

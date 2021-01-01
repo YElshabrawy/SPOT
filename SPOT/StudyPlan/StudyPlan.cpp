@@ -1,9 +1,6 @@
 #include "StudyPlan.h"
 #include"../GUI/GUI.h"
 #include"string"
-string StudyPlan::PlanNotes = "";
-
-
 StudyPlan::StudyPlan()
 {
 	//By default, the study plan starts with 5 years
@@ -195,6 +192,7 @@ void StudyPlan::checkCreditHrs(int min, int max)
 					Error newErr;
 					newErr.type = MODERATE;
 					newErr.Msg = errMsg;
+					Sem_Credits.push_back(semCHs);
 					CH_Error_List.push_back(newErr);
 				}
 				else {
@@ -217,6 +215,7 @@ void StudyPlan::checkCreditHrs(int min, int max)
 					newErr.type = MODERATE;
 					newErr.Msg = errMsg;
 					CH_Error_List.push_back(newErr);
+					Sem_Credits.push_back(semCHs);
 				}
 				else {
 					// Modify its message
@@ -282,6 +281,50 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 			}
 		}
 	}
+}
+void StudyPlan::LiveReport(GUI* pGUI, int Min_Crs, int Max_Crs)const
+{
+	int Co_Error_Number, Pre_Error_Number,I=0;
+	vector<Error> Co_Errors; 
+	vector<Error> Pre_Errors;
+	for (AcademicYear* yr : plan)
+	{
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int sem = FALL; sem < SEM_CNT; sem++)
+		{
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
+			{
+				Co_Error_Number=(*it)->getCoErrorsNumber();
+				Pre_Error_Number=(*it)->getPreErrorsNumber();
+				if (Co_Error_Number != 0)
+				{
+					Co_Errors = (*it)->getCoReqErrors();
+					for (int i = 0; i < Co_Errors.size(); i++)
+					{
+						pGUI->PrintCriticalError(Co_Errors[i],I);
+						I += 2;
+					}
+
+				}
+				else if (Pre_Error_Number != 0)
+				{
+					Pre_Errors = (*it)->getPreReqErrors();
+					for (int i = 0; i < Pre_Errors.size(); i++)
+					{
+						pGUI->PrintCriticalError(Pre_Errors[i], I);
+						I += 2;
+					}
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < CH_Error_List.size(); i++)
+	{
+		pGUI->PrintPrintModerateError(CH_Error_List[i], I, Sem_Credits[i], Min_Crs, Max_Crs);
+		I += 3;
+	}
+
 }
 StudyPlan::~StudyPlan()
 {
