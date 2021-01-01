@@ -36,7 +36,7 @@ Action* Registrar::CreateRequiredAction()
 		RequiredAction = new ActionAddCourse(this);
 		break;
 	case CAL_GPA:	//add_course action
-		RequiredAction = new ActionCourseInfo(this);
+		RequiredAction = new ActionCalculateGPA(this);
 		break;
 	case DEL_CRS:
 		RequiredAction = new ActionDeleteCourse(this);

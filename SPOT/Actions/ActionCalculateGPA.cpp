@@ -14,6 +14,7 @@ double GPA;
 
 bool ActionCalculateGPA::Execute()
 {
+	cout << "nvnnkdn"<<endl;
 	//enum Grade:double{A=4,Amin=3.7,B};
 	const double A = 4.0;
 	const double A_MINUS = 3.67;
@@ -84,6 +85,7 @@ bool ActionCalculateGPA::Execute()
 	}
 	GPA = total / totaldonehours;
 	GPA = ceil(GPA * 100.0) / 100.0;
+	cout << GPA;
 	return true;
 }
 
