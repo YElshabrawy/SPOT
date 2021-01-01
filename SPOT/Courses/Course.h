@@ -21,6 +21,8 @@ private:
 	bool Done;		//Done or not yet?
 	bool pending;	//Course Pending"Currently taking"
 	bool inprogress;//course in progress
+	bool Exempted;//course exempted
+	bool Replaced;//course replaced
 	string Grade;//Holds the course Grade
 	vector<Course_Code> PreReq;	//list of prerequisites
 	vector<Course_Code> CoReq;	//list of prerequisites
@@ -53,10 +55,14 @@ public:
 	void setCoursepending(bool Case);
 	void setCourseinprogress(bool Case);
 	void setGrade(string grade);
+	void setCourseExempted(bool Case);
+	void setCourseReplaced(bool Case);
 
 
 	//Getters
 	string getGrade()const;
+	bool getCourseReplaced()const;
+	bool getCourseExempted()const;
 	bool getCoursedone()const;
 	bool getCoursepending()const;
 	bool getCourseinprogress()const;

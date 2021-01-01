@@ -44,7 +44,7 @@ bool ActionCourseInfo::Execute()
 			//Course Status
 			bool cond0 = false;
 			do{
-				pGUI->PrintMsg("Input Course Status (Pending/Done/IN Progress)");
+				pGUI->PrintMsg("Input Course Status (Pending/Done/IN Progress/Replaced/Exempted)");
 				string msg=pGUI->GetSrting();
 				for_each(msg.begin(), msg.end(), [](char& c)
 				{
@@ -56,6 +56,8 @@ bool ActionCourseInfo::Execute()
 				pCr->setCoursedone(true);
 				pCr->setCoursepending(false);
 				pCr->setCourseinprogress(false);
+				pCr->setCourseExempted(false);
+				pCr->setCourseReplaced(false);
 				cond0 = true;
 				//if course is Done,Input its grade
 				bool cond = false;
@@ -74,7 +76,7 @@ bool ActionCourseInfo::Execute()
 					}*/
 					if (grademsg == "A" || grademsg == "B" || grademsg == "C" || grademsg == "F")
 					{
-						pGUI->CourseGrade = grademsg;
+						pGUI->CourseGrade += grademsg;
 						pCr->setGrade(grademsg);
 						cond = true;
 					}
@@ -121,20 +123,47 @@ bool ActionCourseInfo::Execute()
 				} while (cond==false);
 				}
 				else if (msg == "PENDING" || msg == "P" || msg == "STILL" || msg == "NO" || msg == "PEND")
-			{
+				{
 					pCr->setCoursepending(true);
 					pCr->setCoursedone(false);
 					pCr->setCourseinprogress(false);
+					pCr->setCourseExempted(false);
+					pCr->setCourseReplaced(false);
+					pGUI->CourseGrade += "Null";
 					cond0 = true;
 
-			}
+				}
 				else if(msg == "I" || msg == "IN" || msg == "IN PROGRESS" || msg == "INPROGRESS" )
-			{
+				{
 					pCr->setCoursedone(false);
 					pCr->setCoursepending(false);
 					pCr->setCourseinprogress(true);
+					pCr->setCourseExempted(false);
+					pCr->setCourseReplaced(false);
+					pGUI->CourseGrade += "Null";
 					cond0 = true;
-			}
+				}
+				else if (msg == "E" || msg == "EXEMPTED" || msg == "EX" || msg == "EXMPTED")
+				{
+					pCr->setCoursedone(true);
+					pCr->setCoursepending(false);
+					pCr->setCourseinprogress(false);
+					pCr->setCourseExempted(true);
+					pCr->setCourseReplaced(false);
+					pGUI->CourseGrade += "passed";
+					cond0 = true;
+				}
+				else if (msg == "R" || msg == "REPLACED" || msg == "REPLACE" || msg == "REP")
+				{
+					pCr->setCoursedone(true);
+					pCr->setCoursepending(false);
+					pCr->setCourseinprogress(false);
+					pCr->setCourseExempted(false);
+					pCr->setCourseReplaced(true);
+					pGUI->CourseGrade += "---";
+					cond0 = true;
+				}
+
 				else
 			{
 					/*pGUI->PrintMsg("Wrong input)");*/
@@ -153,6 +182,14 @@ bool ActionCourseInfo::Execute()
 			else if (pCr->getCoursepending() == true)
 			{
 				pGUI->CourseStatus = "Course Status: Pending ";
+			}
+			else if (pCr->getCourseExempted() == true)
+			{
+				pGUI->CourseStatus = "Course Status: Exempted(Done) ";
+			}
+			else if (pCr->getCourseReplaced() == true)
+			{
+				pGUI->CourseStatus = "Course Status: Replaced(Done) ";
 			}
 			else
 			{
