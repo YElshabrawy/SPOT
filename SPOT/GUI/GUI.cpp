@@ -100,16 +100,48 @@ void GUI::UpdateInterface() const
 ////////////////////////    Drawing functions    ///////////////////
 void GUI::DrawCourse(const Course* pCrs)
 {
+	pWind->SetBrush(pCrs->getColor());
+	graphicsInfo gInfo = pCrs->getGfxInfo();
+	pWind->SetPen(pCrs->getBorderColor(), 1);
 	if (pCrs->isSelected())
 		pWind->SetPen(HiColor, 1);
 	else
-	pWind->SetPen(pCrs->getBorderColor(), 1);
-	pWind->SetBrush(pCrs->getColor());
-	graphicsInfo gInfo = pCrs->getGfxInfo();
-	
-	pWind->DrawRectangle(gInfo.x, gInfo.y, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT);
+	{
+		
+			if (pCrs->getType() == maj)
+			{
+				pWind->SetBrush(GOLDENROD);
+				pWind->DrawRectangle(gInfo.x, gInfo.y, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT);
+			}
+			else if (pCrs->getType() == Track)
+			{
+				pWind->SetBrush(DARKGREEN);
+				pWind->DrawRectangle(gInfo.x, gInfo.y, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT);
+			}
+			else if (pCrs->getType() == Elective)
+			{
+				pWind->SetBrush(BLUEVIOLET);
+				pWind->DrawRectangle(gInfo.x, gInfo.y, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT, FILLED, 10, 10);
+			}
+			else if (pCrs->getType() == Minor)
+			{
+				pWind->SetBrush(ORANGE);
+				pWind->SetPen(ORANGE, 1);
+				pWind->DrawRectangle(gInfo.x, gInfo.y, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT);
+			}
+			else if (pCrs->getType() == concentration)
+			{
+				pWind->SetBrush(YELLOW);
+				pWind->DrawRectangle(gInfo.x, gInfo.y, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT);
+			}
+			else
+			{
+				pWind->SetPen(pCrs->getBorderColor(), 1);
+				pWind->DrawRectangle(gInfo.x, gInfo.y, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT);
+			}
+	}
+
 	pWind->DrawLine(gInfo.x, gInfo.y + CRS_HEIGHT / 2, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT / 2);
-	
 	//Write the course code and credit hours.
 	int Code_x = gInfo.x + CRS_WIDTH * 0.15;
 	int Code_y = gInfo.y + CRS_HEIGHT * 0.05;
@@ -563,8 +595,8 @@ void GUI::PrintPrintModerateError(Error Er, int I, int Sem_Total_Crs,int Min_Crs
 	string Petition;
 	int Size = size(msg);
 
-	pWind->SetBrush(GOLD);
-	pWind->SetPen(GOLD);
+	pWind->SetBrush(GOLDENROD);
+	pWind->SetPen(GOLDENROD);
 	pWind->DrawRectangle(NotesX1 + 5, MsgY + 15 * I, MsgX + MyFactor * 25, MsgY + 15 * I + 14, FILLED);
 	pWind->SetPen(WHITE);
 	pWind->SetFont(12, BOLD, BY_NAME, "Times New Rome");
@@ -593,16 +625,6 @@ void GUI::DrawInfoArea()const
 	pWind->DrawRectangle(SideBarX1, CourseInfoY1, SideBarX2, CourseInfoY1 + 25);
 	pWind->DrawLine(SideBarX1, CourseInfoY1 + 25, SideBarX2, CourseInfoY1 + 25);
 	pWind->DrawString(SideBarX1 + courseInfoFactor, CourseInfoY1 + 6, "Course Information");
-}
-void GUI::DrawGPAArea()const
-{
-	pWind->SetFont(15, BOLD, BY_NAME, "Times New Rome");
-	pWind->SetBrush(WHITE);
-	pWind->SetPen(BLACK);
-	pWind->DrawRectangle(SideBarX1, 550, SideBarX2, 600, FRAME);
-	pWind->DrawRectangle(SideBarX1, 550, SideBarX2, 570);
-	pWind->DrawLine(SideBarX1, CourseInfoY1 + 25, SideBarX2, CourseInfoY1 + 25);
-	pWind->DrawString(SideBarX1 + 75, 550 + 3, "GPA");
 }
 void GUI::PrintCourseInfo()const
 {

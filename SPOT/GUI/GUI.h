@@ -48,7 +48,7 @@ class GUI
 public:
 	window* pWind;
 	//Some constants for GUI (My default = 1600 x 880 with aspect ratio 20:11)
-	static const int	WindWidth = 1200, WindHeight = WindWidth * (11.0 / 20.0),	//Window width and height
+	static const int	WindWidth = 1300, WindHeight = WindWidth * (11.0 / 20.0),	//Window width and height
 		wx = 15, wy = 15,		//Window starting coordinates
 		StatusBarHeight = 60,	//Status Bar Height
 		MenuBarHeight = 51,		//Menu Bar Height (distance from top of window to bottom line of menu bar)
@@ -133,9 +133,6 @@ public:
 	//Dimention getters
 	static int getMenuBarHeight();
 	static int getY_div();
-
-	
-	
 
 	~GUI();
 };

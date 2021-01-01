@@ -326,6 +326,89 @@ void StudyPlan::LiveReport(GUI* pGUI, int Min_Crs, int Max_Crs)const
 	}
 
 }
+void StudyPlan::Set_Course_Type()
+{
+	string Code;
+		for (AcademicYear* yr : plan)
+		{
+			list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+			for (int sem = FALL; sem < SEM_CNT; sem++)
+			{
+				for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
+				{
+					Code = (*it)->getCode();
+					for (int i = 0; i < pRules->UnivCompulsoryCourses.size(); i++)
+					{
+						if (Code == pRules->UnivCompulsoryCourses[i])
+						{
+							(*it)->Set_Type(Uni);
+							break;
+                        }
+					}
+					for (int i = 0; i < pRules->UnivElectiveCourses.size(); i++)
+					{
+						if (Code == pRules->UnivElectiveCourses[i])
+						{
+							(*it)->Set_Type(Elective);
+							break;
+						}
+					}
+					for (int i = 0; i < pRules->TrackCompulsoryCourses.size(); i++)
+					{
+						if (Code == pRules->TrackCompulsoryCourses[i])
+						{
+							(*it)->Set_Type(Track);
+							break;
+						}
+					}
+					for (int i = 0; i < pRules->MajorCompulsoryCourses.size(); i++)
+					{
+						if (Code == pRules->MajorCompulsoryCourses[i])
+						{
+							(*it)->Set_Type(maj);
+							break;
+						}
+					}
+					for (int i = 0; i < pRules->MajorElectiveCourses.size(); i++)
+					{
+						if (Code == pRules->MajorElectiveCourses[i])
+						{
+							(*it)->Set_Type(Elective);
+							break;
+						}
+					}
+					//for (int i = 0; i < pRules->Concentrations[0].ConcentrationCompulsoryCourses.size(); i++)
+					//{
+					//	if (Code == pRules->Concentrations[0].ConcentrationCompulsoryCourses[i])
+					//	{
+					//		(*it)->Set_Type(concentration);
+					//		break;
+					//	}
+					//}
+					//for (int i = 0; i < pRules->Concentrations[0].ConcentrationElectiveCourses.size(); i++)
+					//{
+					//	if (Code == pRules->Concentrations[0].ConcentrationElectiveCourses[i])
+					//	{
+					//		(*it)->Set_Type(Elective);
+					//		break;
+					//	}
+					//}
+				}
+			}
+		}
+}
+void StudyPlan::setMajor(Major major)
+{
+	this->major = major;
+}
+Major StudyPlan::getMajor() const
+{
+	return major;
+}
+void StudyPlan::Set_Plan_Rules(Rules &RegRules)
+{
+	pRules = &RegRules;
+}
 StudyPlan::~StudyPlan()
 {
 }
