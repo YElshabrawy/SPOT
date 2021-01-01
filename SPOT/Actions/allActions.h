@@ -12,3 +12,4 @@
 #include"ActionChangeCode.h"
 #include"ActionDragAndDrop.h"
 #include"ActionDeclareMajor.h"
+#include"ActionCalculateGPA.h"

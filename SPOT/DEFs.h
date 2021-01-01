@@ -30,6 +30,7 @@ enum ActionType
 	DECLARE_MAJOR,
 	CRS_DEP,
 	PLAN_DEP,
+	CAL_GPA,
 
 	SAVE,		//Save a study plan to file
 	LOAD,		//Load a study plan from a file

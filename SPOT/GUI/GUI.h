@@ -28,8 +28,10 @@ class GUI
 		ITM_MAJOR,
 		ITM_CRS_DEP,
 		ITM_PLAN_DEP,
+		ITM_GPA,		//gpa item
 		ITM_EXIT,		//Exit item
 		ITM_CNT			//no. of menu items ==> This should be the last line in this enum
+		
 	};
 
 	color DrawColor = BLACK;		//Drawing color
@@ -46,7 +48,7 @@ class GUI
 public:
 	window* pWind;
 	//Some constants for GUI (My default = 1600 x 880 with aspect ratio 20:11)
-	static const int	WindWidth = 1600, WindHeight = WindWidth * (11.0 / 20.0),	//Window width and height
+	static const int	WindWidth = 1200, WindHeight = WindWidth * (11.0 / 20.0),	//Window width and height
 		wx = 15, wy = 15,		//Window starting coordinates
 		StatusBarHeight = 60,	//Status Bar Height
 		MenuBarHeight = 51,		//Menu Bar Height (distance from top of window to bottom line of menu bar)
@@ -92,7 +94,7 @@ public:
 	// Course Info
 	int CourseInfoY1 = NotesY1 + NotesHeight + MyFactor,
 		CourseInfoHeight = 250;
-	static string Notes, CourseTitle, CourseCode, CourseCredit, CourseStatus;
+	static string Notes, CourseTitle, CourseCode, CourseCredit, CourseStatus,CourseGrade;
 	static clicktype Last_CLick;
 	static int XCoord, YCoord;
 	static bool Draw_Dependacies_Flag;
@@ -108,6 +110,7 @@ public:
 	void PrintCourseInfo()const;
 	void DrawNoteArea() const;
 	void DrawInfoArea() const;
+	void DrawGPAArea()const;
 
 	//Drawing functions
 	void DrawCourse(const Course* );

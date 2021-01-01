@@ -10,6 +10,7 @@ string GUI::CourseTitle = "";
 string GUI::CourseCode = "";
 string GUI::CourseCredit = "";
 string GUI::CourseStatus = "";//string to hold course status for printing 
+string GUI::CourseGrade = "";
 int GUI::XCoord = 0;
 int GUI::YCoord = 0;
 clicktype GUI::Last_CLick = RIGHT_CLICK;
@@ -61,6 +62,7 @@ void GUI::CreateMenu() const
 	MenuItemImages[ITM_CRS_DEP] = "GUI\\Images\\Menu\\menu_crs_dep.jpg";
 	MenuItemImages[ITM_PLAN_DEP] = "GUI\\Images\\Menu\\menu_plan_dep.jpg";
 	MenuItemImages[ITM_EXIT] = "GUI\\Images\\Menu\\menu_quit.jpg";
+	MenuItemImages[ITM_GPA]= "GUI\\Images\\Menu\\menu_gpa.jpg";
 
 	//TODO: Prepare image for each menu item and add it to the list
 
@@ -94,6 +96,7 @@ void GUI::UpdateInterface() const
 	PrintNotes();
 	DrawNoteArea(); 
 	DrawInfoArea();
+	DrawGPAArea();
 	PrintCourseInfo();
 	
 	pWind->UpdateBuffer();
@@ -534,6 +537,16 @@ void GUI::DrawInfoArea()const
 	pWind->DrawLine(SideBarX1, CourseInfoY1 + 25, SideBarX2, CourseInfoY1 + 25);
 	pWind->DrawString(SideBarX1 + courseInfoFactor, CourseInfoY1 + 6, "Course Information");
 }
+void GUI::DrawGPAArea()const
+{
+	pWind->SetFont(15, BOLD, BY_NAME, "Times New Rome");
+	pWind->SetBrush(WHITE);
+	pWind->SetPen(BLACK);
+	pWind->DrawRectangle(SideBarX1, 550, SideBarX2, 600, FRAME);
+	pWind->DrawRectangle(SideBarX1, 550, SideBarX2, 570);
+	pWind->DrawLine(SideBarX1, CourseInfoY1 + 25, SideBarX2, CourseInfoY1 + 25);
+	pWind->DrawString(SideBarX1 + 75, 550 + 3, "GPA");
+}
 void GUI::PrintCourseInfo()const
 {
 	int MsgX = InfoX1;
@@ -563,6 +576,10 @@ void GUI::PrintCourseInfo()const
 	pWind->DrawString(MsgX, MsgY + 80, msg3);
 	string msg4 = CourseStatus;
 	pWind->DrawString(MsgX, MsgY + 100, msg4);
+	string msg5 = CourseGrade;
+	pWind->DrawString(MsgX, MsgY + 120, msg5);
+
+
 
 }
 void GUI::DrawCourse_Dependacies(Course* pCr, Course* DpCr) const

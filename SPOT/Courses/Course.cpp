@@ -33,6 +33,7 @@ Course::Course()
 {
 	code = "";
 	Title = "";
+	Grade = "";
 	Done = false;
 }
 
@@ -41,6 +42,10 @@ Course::~Course()
 }
 
 //Setters
+void Course::setGrade(string grade)
+{
+	Grade = grade;
+}
 void Course::setCoursedone(bool Case)
 {
 	Done = Case;
@@ -145,7 +150,10 @@ void Course::removeCoReqErrors(string code)
 }
 
 //Getters
-
+string Course::getGrade()const
+{
+	return Grade;
+}
 bool Course::getCoursedone()const
 {
 	return Done;

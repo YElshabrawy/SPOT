@@ -24,6 +24,7 @@ bool ActionCourseInfo::Execute()
 		else
 		{
 			pGUI->CourseStatus = "";
+			pGUI->CourseGrade = "";
 			pReg->UpdateInterface();
 			pCr->changeColor(BLACK);
 			if((pReg->OldpCr!=nullptr)&&(pReg->OldpCr != pCr))
@@ -40,38 +41,105 @@ bool ActionCourseInfo::Execute()
 			pGUI->CourseCredit = "Course Credits: " + String_Credits;
 			pReg->UpdateInterface();
 			//Course Status
-			pGUI->PrintMsg("Input Course Status (Pending/Done/IN Progress)");
-			string msg=pGUI->GetSrting();
-			for_each(msg.begin(), msg.end(), [](char& c)
+			bool cond0 = false;
+			do{
+				pGUI->PrintMsg("Input Course Status (Pending/Done/IN Progress)");
+				string msg=pGUI->GetSrting();
+				for_each(msg.begin(), msg.end(), [](char& c)
 				{
 					c = ::toupper(c);
 				});
-			//checks
-			if(msg=="TRUE"||msg=="YES" || msg == "DONE" || msg == "D" || msg == "1")
-			{
+				//checks
+				if(msg=="TRUE"||msg=="YES" || msg == "DONE" || msg == "D" || msg == "1")
+				{
 				pCr->setCoursedone(true);
 				pCr->setCoursepending(false);
 				pCr->setCourseinprogress(false);
-			}
-			else if (msg == "PENDING" || msg == "P" || msg == "STILL" || msg == "NO" || msg == "PEND")
+				cond0 = true;
+				//if course is Done,Input its grade
+				bool cond = false;
+				do
+				{
+					pGUI->PrintMsg("Input Course Grade");
+					string grademsg = pGUI->GetSrting();
+					for_each(grademsg.begin(), grademsg.end(), [](char& c)
+						{
+							c = ::toupper(c);
+						});
+
+					/*if (grademsg == "A" || grademsg == "A minus" || grademsg == "A-" || grademsg == "Aminus" || grademsg == "B" || grademsg == "B minus" || grademsg == "B-" || grademsg == "Bminus" || grademsg == "C" || grademsg == "C minus" || grademsg == "C-" || grademsg == "Cminus" || grademsg == "F")
+					{
+						pGUI->CourseGrade = grademsg;
+					}*/
+					if (grademsg == "A" || grademsg == "B" || grademsg == "C" || grademsg == "F")
+					{
+						pGUI->CourseGrade = grademsg;
+						pCr->setGrade(grademsg);
+						cond = true;
+					}
+					else if (grademsg == "A MINUS" || grademsg == "A-" || grademsg == "AMINUS")
+					{
+						grademsg = "A-";
+						pGUI->CourseGrade = grademsg;
+						pCr->setGrade("A_MINUS");
+						cond = true;
+					}
+					else if (grademsg == "B MINUS" || grademsg == "B-" || grademsg == "BMINUS")
+					{
+						grademsg = "B-";
+						pGUI->CourseGrade = grademsg;
+						pCr->setGrade("B_MINUS");
+						cond = true;
+					}
+					else if (grademsg == "B PLUS" || grademsg == "B+" || grademsg == "BPLUS")
+					{
+						grademsg = "B+";
+						pGUI->CourseGrade = grademsg;
+						pCr->setGrade("B_PLUS");
+						cond = true;
+					}
+					else if (grademsg == "C PLUS" || grademsg == "C+" || grademsg == "CPLUS")
+					{
+						grademsg = "C+";
+						pGUI->CourseGrade = grademsg;
+						pCr->setGrade("C_PLUS");
+						cond = true;
+					}
+					else if (grademsg == "C MINUS" || grademsg == "C-" || grademsg == "CMINUS")
+					{
+						grademsg = "C-";
+						pGUI->CourseGrade = grademsg;
+						pCr->setGrade("C_MINUS");
+						cond = true;
+					}
+					else
+					{
+						pGUI->PrintMsg("Wrong grade");
+						cond = false;
+					}
+				} while (cond==false);
+				}
+				else if (msg == "PENDING" || msg == "P" || msg == "STILL" || msg == "NO" || msg == "PEND")
 			{
 					pCr->setCoursepending(true);
 					pCr->setCoursedone(false);
 					pCr->setCourseinprogress(false);
+					cond0 = true;
 
 			}
-			else if(msg == "I" || msg == "IN" || msg == "IN PROGRESS" || msg == "INPROGRESS" )
+				else if(msg == "I" || msg == "IN" || msg == "IN PROGRESS" || msg == "INPROGRESS" )
 			{
 					pCr->setCoursedone(false);
 					pCr->setCoursepending(false);
 					pCr->setCourseinprogress(true);
+					cond0 = true;
 			}
-			else
+				else
 			{
 					pGUI->PrintMsg("Wrong input)");
 			}
-
-			}
+			}while (cond0 == false);
+		}
 			if (pCr->getCoursedone() == true)
 			{
 				pGUI->CourseStatus = "Done";
