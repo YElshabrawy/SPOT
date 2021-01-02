@@ -375,10 +375,6 @@ void StudyPlan::GenerateStudentLevel(GUI* pGUI)
 	pGUI->studentLevel =StudentLevel;
 }
 
-StudyPlan::~StudyPlan()
-{
-
-}
 int StudyPlan::Get_Page_Number()const
 {
 	return No_Of_Pages;
