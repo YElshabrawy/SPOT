@@ -35,5 +35,6 @@ public:
 	void setRules();
 	Course* interrogateCourse(int x, int y);
 	void importProgramReq();
+	Rules const* getRegRules() const;
 };
 

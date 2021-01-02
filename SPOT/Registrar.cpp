@@ -115,6 +115,7 @@ void Registrar::Run()
 		//when window is minimized then restored
 		pSPlan->checkPreAndCoReq();
 		pSPlan->checkCreditHrs(RegRules.SemMinCredit, RegRules.SemMaxCredit);
+		pSPlan->checkProgramReq();
 		UpdateInterface();
 		Action* pAct = CreateRequiredAction();
 		if (pAct)	//if user doesn't cancel
@@ -514,4 +515,9 @@ void Registrar::importProgramReq()
 
 
 
+}
+
+Rules const* Registrar::getRegRules() const
+{
+	return 	&RegRules;
 }

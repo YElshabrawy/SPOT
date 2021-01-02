@@ -19,16 +19,14 @@ StudyPlan::StudyPlan()
 //year idetifies year number to add course to 1=first, 2 = 2nd,....
 bool StudyPlan::AddCourse(Course* pC, int year, SEMESTER sem)
 {
-	//TODO: add all requried checks to add the course 
-	// DONE IN ACTIONADDCOURSE
-
 	plan[year - 1]->AddCourse(pC, sem);
+	TotalCredits += pC->getCredits();
 	return true;
 }
 
 bool StudyPlan::DeleteCourse(Course* pC) {
 	plan[pC->getYear() - 1]->DeleteCourse(pC, pC->getSemester());
-
+	TotalCredits -= pC->getCredits();
 	return true;
 }
 
@@ -286,6 +284,12 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 		}
 	}
 }
+
+void StudyPlan::checkProgramReq()
+{
+	cout << "TotalCredits = " << TotalCredits << endl;
+}
+
 
 void StudyPlan::setMajor(Major major)
 {

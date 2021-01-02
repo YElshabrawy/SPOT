@@ -39,6 +39,7 @@ public:
 	void checkPreAndCoReq();
 	void checkCreditHrs(int min, int max);
 	void FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI);
+	void checkProgramReq();
 	void importProgramReq();
 	void setMajor(Major major);
 	Major getMajor() const;
