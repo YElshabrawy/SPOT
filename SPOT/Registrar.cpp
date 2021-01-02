@@ -4,7 +4,7 @@
 #include"Actions/allActions.h"
 #include"Utils/Utils.h"
 #include<algorithm>
-
+using namespace std;
 
 
 Registrar::Registrar()
@@ -34,6 +34,9 @@ Action* Registrar::CreateRequiredAction()
 	{
 	case ADD_CRS:	//add_course action
 		RequiredAction = new ActionAddCourse(this);
+		break;
+	case CAL_GPA:	//add_course action
+		RequiredAction = new ActionCalculateGPA(this);
 		break;
 	case DEL_CRS:
 		RequiredAction = new ActionDeleteCourse(this);
@@ -104,11 +107,13 @@ bool Registrar::ExecuteAction(Action* pAct)
 void Registrar::Run()
 {
 	// create all courses vector:
+
 	createAllCourses();
 	setCourseOffering();
 	cout << "The year of Offerings: " << RegRules.OffringsList.Year << endl;
-	importProgramReq();
 	//setRules();
+	pSPlan->Set_Course_Type();
+
 	while (true)
 	{
 		//update interface here as CMU Lib doesn't refresh itself
@@ -116,6 +121,10 @@ void Registrar::Run()
 		pSPlan->checkPreAndCoReq();
 		pSPlan->checkCreditHrs(RegRules.SemMinCredit, RegRules.SemMaxCredit);
 		pSPlan->checkProgramReq();
+		importProgramReq();
+		pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);
+		setRules();
+		pSPlan->Set_Course_Type();
 		UpdateInterface();
 		Action* pAct = CreateRequiredAction();
 		if (pAct)	//if user doesn't cancel
@@ -140,7 +149,8 @@ void Registrar::UpdateInterface()
 		Action* pAct = new  ActionDDOOC(this);
 		ExecuteAction(pAct);
 	}
-	pSPlan->DrawMe(pGUI);		//make study plan draw itself
+	pSPlan->DrawMe(pGUI);
+	pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);//make study plan draw itself
 }
 
 Registrar::~Registrar()
@@ -322,6 +332,7 @@ void Registrar::setCourseOffering()
 	RegRules.OffringsList = yearOfferings;
 }
 
+
 //void Registrar::setRules()
 //{
 //	RegRules.ReqUnivCredits = pSPlan->MaxCredits;
@@ -343,6 +354,12 @@ void Registrar::setCourseOffering()
 //
 //
 //}
+
+void Registrar::setRules()
+{
+	pSPlan->Set_Plan_Rules(RegRules);
+}
+
 
 Course* Registrar::interrogateCourse(int x, int y)
 {
@@ -511,9 +528,8 @@ void Registrar::importProgramReq()
 		RegRules.Concentrations[index].ConcentrationElectiveCourses = splitString(M, ",");
 		
 	}
+
 	finput.close();
-
-
 
 }
 
@@ -521,3 +537,6 @@ Rules const* Registrar::getRegRules() const
 {
 	return 	&RegRules;
 }
+
+}
+

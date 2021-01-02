@@ -2,13 +2,16 @@
 #include <vector>
 #include "AcademicYear.h"
 #include "../GUI/Drawable.h"
+#include"../Rules.h"
 
 //A full study plan for as student
 class StudyPlan:public Drawable
 {
 private:
 	vector<Error> CH_Error_List; // Holds all the modirate errors for the CH issues
+	vector<int> Sem_Credits;
 	Major major;
+	Rules* pRules;
 
 public:
 	int TotalCredits = 0,				// Total no. of credit hours for courses registred in this year 1
@@ -29,7 +32,7 @@ public:
 		CompConcentrationCourses,
 		ElectiveConcentrationCourses;
 
-	static string PlanNotes;
+	string PlanNotes;
 	vector<AcademicYear*> plan;	//plan is a list of academic years
 	StudyPlan();
 	bool AddCourse(Course* , int year, SEMESTER);
@@ -37,11 +40,13 @@ public:
 	void virtual DrawMe(GUI*) const;
 	vector<AcademicYear*>* getStudyPlanVector();
 	void checkPreAndCoReq();
+	void Set_Course_Type();
 	void checkCreditHrs(int min, int max);
+	void LiveReport(GUI* pGUI,int min,int max)const;
 	void FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI);
 	void checkProgramReq();
-	void importProgramReq();
 	void setMajor(Major major);
+	void Set_Plan_Rules(Rules& RegRules);
 	Major getMajor() const;
 	virtual ~StudyPlan();
 };

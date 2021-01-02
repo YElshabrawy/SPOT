@@ -28,8 +28,10 @@ class GUI
 		ITM_MAJOR,
 		ITM_CRS_DEP,
 		ITM_PLAN_DEP,
+		ITM_GPA,		//gpa item
 		ITM_EXIT,		//Exit item
 		ITM_CNT			//no. of menu items ==> This should be the last line in this enum
+		
 	};
 
 	color DrawColor = BLACK;		//Drawing color
@@ -84,20 +86,20 @@ public:
 		NotesHeight = (Y_div / 3) - MyFactor * 2,
 		NotesY2 = NotesHeight - NotesHeight * 0.65,
 		NotesX1 = WindWidth - (WindWidth - Year_X2 - 10),
-		string_Max_Width = ((WindWidth - NotesX1) / 7) - 10,
+		string_Max_Width = ((WindWidth - NotesX1) / 6)-11,
 		myNotesFactor = (SideBarX2 - SideBarX1 - 40) / 2.0,
 		courseInfoFactor = (SideBarX2 - SideBarX1 - 95) / 2.0,
 		InfoX1 = WindWidth - (WindWidth - Year_X2 - 10),
 		InfoY1 = NotesHeight + MenuBarHeight + NotesY1;
 	// Course Info
-	int CourseInfoY1 = NotesY1 + NotesHeight + MyFactor,
-		CourseInfoHeight = Y_div/3;
+	int CourseInfoY1 = NotesY1 + NotesHeight + MyFactor;
+	string Notes, CourseTitle, CourseCode, CourseCredit, CourseStatus,CourseGrade;
+	int CourseInfoHeight = Y_div/3;
+
 	// Report Area
 	int ReportAreaY1 = CourseInfoY1 + CourseInfoHeight + MyFactor,
 		ReportAreaHeight = (Y_div / 3) - MyFactor,
 		myReportFactor = (SideBarX2 - SideBarX1 - 52) / 2.0;
-
-	static string Notes, CourseTitle, CourseCode, CourseCredit, CourseStatus;
 	static clicktype Last_CLick;
 	static int XCoord, YCoord;
 	static bool Draw_Dependacies_Flag;
@@ -109,12 +111,13 @@ public:
 
 	//output functions
 	void PrintMsg(string msg) const;		//prints a message on status bar
-	void PrintNotes() const;
-	void PrintCourseInfo()const;
 	void DrawNoteArea() const;
-	void DrawReportArea() const;
+	void PrintNotes() const;
 	void DrawInfoArea() const;
-
+	void PrintCourseInfo()const;
+	void DrawReportArea() const;
+	void PrintCriticalError(Error Er,int I)const;
+	void PrintPrintModerateError(Error Er, int I, int Sem_Total_Crs,int Min_Crs,int Max_Crs)const;
 	//Drawing functions
 	void DrawCourse(const Course* );
 	void DrawCourse(const Course* ,int x,int y);
@@ -131,9 +134,5 @@ public:
 	static int getMenuBarHeight();
 	static int getY_div();
 
-	
-	
-
 	~GUI();
 };
-

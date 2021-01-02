@@ -1,5 +1,5 @@
 #pragma once
-#include "ActionDDOOC.h"
+#include"ActionDDOOC.h"
 #include"ActionCourseDependancies.h"
 #include"ActionAddCourse.h"
 #include"ActionSavePlan.h"
@@ -12,3 +12,4 @@
 #include"ActionChangeCode.h"
 #include"ActionDragAndDrop.h"
 #include"ActionDeclareMajor.h"
+#include"ActionCalculateGPA.h"

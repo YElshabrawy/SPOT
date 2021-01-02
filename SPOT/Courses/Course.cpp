@@ -33,6 +33,7 @@ Course::Course()
 {
 	code = "";
 	Title = "";
+	Grade = "";
 	Done = false;
 }
 
@@ -41,6 +42,18 @@ Course::~Course()
 }
 
 //Setters
+void Course::setCourseExempted(bool Case)
+{
+	Exempted = Case;
+}
+void Course::setCourseReplaced(bool Case)
+{
+	Replaced = Case;
+}
+void Course::setGrade(string grade)
+{
+	Grade = grade;
+}
 void Course::setCoursedone(bool Case)
 {
 	Done = Case;
@@ -73,6 +86,10 @@ void Course::setYear(int inputYear) {
 }
 void Course::setSemester(SEMESTER inputSem) {
 	sem = inputSem;
+}
+void Course::Set_Type(Type intype)
+{
+	type = intype;
 }
 void Course::changeColor(color newColor)
 {
@@ -146,6 +163,26 @@ void Course::removeCoReqErrors(string code)
 
 //Getters
 
+string Course::getGrade()const
+{
+	return Grade;
+}
+vector<Error>Course::getPreReqErrors() const
+{
+	return Prereq_Error_List;
+}
+vector<Error> Course::getCoReqErrors() const
+{
+	return Coreq_Error_List;
+}
+bool Course::getCourseReplaced()const
+{
+	return Replaced;
+}
+bool Course::getCourseExempted()const
+{
+	return Exempted;
+}
 bool Course::getCoursedone()const
 {
 	return Done;
@@ -162,12 +199,10 @@ Course_Code Course::getCode() const
 {
 	return code;
 }
-
 string Course::getTitle() const
 {
 	return Title;
 }
-
 int Course::getCredits() const
 {
 	return credits;
@@ -178,7 +213,7 @@ vector<string> Course::getPreReq() const
 	return PreReq;
 }
 
-vector<string> Course::getCoReq()
+vector<string> Course::getCoReq() const
 {
 	return CoReq;
 }
@@ -190,7 +225,10 @@ int Course::getYear() const {
 SEMESTER Course::getSemester() const {
 	return sem;
 }
-
+Type Course::getType()const
+{
+	return type;
+}
 color Course::getColor() const
 {
 	return MyColor;
@@ -210,6 +248,7 @@ int Course::getNumOfCrsPerSem(int year, SEMESTER sem)
 {
 	return numOfCoursesPerSem[(3 * (year - 1)) + sem];
 }
+
 
 int Course::getPreErrorsNumber() const
 {

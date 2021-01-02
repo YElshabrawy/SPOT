@@ -1,5 +1,4 @@
 #pragma once
-
 //This header file contains some defenitions to be used all over the application
 #include <string>
 #include<vector>
@@ -16,7 +15,16 @@ enum SEMESTER
 	SEM_CNT	//number of semesters 
 };
 
-
+enum Type
+{
+	maj,
+	Elective,
+	Minor,
+	concentration,
+	Track,
+	Uni,
+	NOTYPE
+};
 //All possible actions
 enum ActionType
 {
@@ -91,6 +99,7 @@ enum Major {
 struct Concentration {
 	int ID; // number of concentration
 	int CompulsoryCredits, ElectiveCredits; // Chs of such concentrations
+
 	// Courses
 	vector<Course_Code> ConcentrationCompulsoryCourses;
 	vector<Course_Code> ConcentrationElectiveCourses;

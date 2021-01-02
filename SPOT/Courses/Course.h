@@ -17,15 +17,19 @@ private:
 	Course_Code code;	//course code: e.g. "CIE202". This is the course ID
 	string Title;		//course title: e.g. "Fundamentals of Computer Programming"
 	int credits;	//no. of course credits
-	string type;	//Univ, track, or major.....etc.
+	Type type= NOTYPE;	//Univ, track, or major.....etc.
 	bool Done;		//Done or not yet?
 	bool pending;	//Course Pending"Currently taking"
 	bool inprogress;//course in progress
+	bool Exempted;//course exempted
+	bool Replaced;//course replaced
+	string Grade;//Holds the course Grade
 	vector<Course_Code> PreReq;	//list of prerequisites
 	vector<Course_Code> CoReq;	//list of prerequisites
 	//Curret year and semester
 	int year;
 	SEMESTER sem;
+	
 	// Errors
 	vector<Error> Prereq_Error_List;
 	vector<Error> Coreq_Error_List;
@@ -45,15 +49,22 @@ public:
 	void setCoReq(vector<string> vector);
 	void setYear(int inputYear);
 	void setSemester(SEMESTER inputSem);
+	void Set_Type(Type intype);
 	void changeColor(color newColor);
 	void changeBorderColor(color newColor);
 	void setUnknownCrs(bool unknown);
 	void setCoursedone(bool Case);//set course to (wither done or not done) 
 	void setCoursepending(bool Case);
 	void setCourseinprogress(bool Case);
+	void setGrade(string grade);
+	void setCourseExempted(bool Case);
+	void setCourseReplaced(bool Case);
 
 
 	//Getters
+	string getGrade()const;
+	bool getCourseReplaced()const;
+	bool getCourseExempted()const;
 	bool getCoursedone()const;
 	bool getCoursepending()const;
 	bool getCourseinprogress()const;
@@ -61,9 +72,12 @@ public:
 	string getCode() const;
 	int getCredits() const;
 	vector<string> getPreReq() const;
-	vector<string> getCoReq();
+	vector<string> getCoReq() const;
+	vector<Error> getPreReqErrors() const;
+	vector<Error> getCoReqErrors() const;
 	int getYear() const;
 	SEMESTER getSemester() const;
+	Type getType()const;
 	color getColor() const;
 	color getBorderColor() const;
 	bool isUnknown() const;
@@ -77,7 +91,6 @@ public:
 	int getPreErrorsNumber() const;
 	int getCoErrorsNumber() const;
 	bool Distance_Flag = false;
-
 	void DrawMe(GUI*) const;
 	virtual ~Course();
 
