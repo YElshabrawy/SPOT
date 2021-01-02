@@ -115,7 +115,7 @@ void Registrar::Run()
 	{
 		//update interface here as CMU Lib doesn't refresh itself
 		//when window is minimized then restored
-		pSPlan->GenerateStudentLevel();
+		pSPlan->GenerateStudentLevel(pGUI);
 		pSPlan->checkPreAndCoReq();
 		pSPlan->checkCreditHrs(RegRules.SemMinCredit, RegRules.SemMaxCredit);
 		pSPlan->LiveReport(pGUI,RegRules.SemMinCredit, RegRules.SemMaxCredit);

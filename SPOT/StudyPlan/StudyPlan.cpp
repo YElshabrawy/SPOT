@@ -326,9 +326,8 @@ void StudyPlan::LiveReport(GUI* pGUI, int Min_Crs, int Max_Crs)const
 	}
 
 }
-void StudyPlan::GenerateStudentLevel()
+void StudyPlan::GenerateStudentLevel(GUI* pGUI)
 {
-	GUI* pGUI;
 	for (AcademicYear* yr : plan) {
 		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
 		for (int sem = FALL; sem < SEM_CNT; sem++) {
@@ -366,11 +365,11 @@ void StudyPlan::GenerateStudentLevel()
 		StudentLevel = "SeniorII";
 	}
 	//pGUI->studentLevel = StudentLevel;
-	cout << TotalDoneHours << endl;
-	cout << StudentLevel << endl;
-	cout << TotalDoneHours << endl;
-
-	cout << "Generate student level called"<<endl;
+	cout << TotalDoneHours << endl;//debugging 
+	cout << StudentLevel << endl;//debugging 
+	cout << TotalDoneHours << endl;//debugging 
+	cout << "Generate student level called"<<endl;//debugging
+	pGUI->studentLevel =StudentLevel;
 }
 
 StudyPlan::~StudyPlan()

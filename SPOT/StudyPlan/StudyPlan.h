@@ -43,7 +43,7 @@ public:
 	void checkCreditHrs(int min, int max);
 	void LiveReport(GUI* pGUI,int min,int max)const;
 	void FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI);
-	void GenerateStudentLevel();
+	void GenerateStudentLevel(GUI* pGUI);
 	virtual ~StudyPlan();
 };
 
