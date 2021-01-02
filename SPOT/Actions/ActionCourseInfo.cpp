@@ -29,7 +29,32 @@ bool ActionCourseInfo::Execute()
 			pReg->UpdateInterface();
 			pCr->changeColor(BLACK);
 			if ((pReg->OldpCr != nullptr) && (pReg->OldpCr != pCr))
-				pReg->OldpCr->changeColor(MYCYAN);
+			{
+				if (pReg->OldpCr->getType() == maj)
+				{
+					pReg->OldpCr->changeColor(GOLDENROD);
+				}
+				else if (pReg->OldpCr->getType() == Uni)
+				{
+					pReg->OldpCr->changeColor(SLATEGREY);
+				}
+				else if (pReg->OldpCr->getType() == Track)
+				{
+					pReg->OldpCr->changeColor(DARKGREEN);
+				}
+				else if (pReg->OldpCr->getType() == Elective)
+				{
+					pReg->OldpCr->changeColor(FIREBRICK);
+				}
+				else if (pReg->OldpCr->getType() == concentration)
+				{
+					pReg->OldpCr->changeColor(DARKMAGENTA);
+				}
+				else
+				{
+					pReg->OldpCr->changeColor(MYCYAN);
+				}
+			}
 			string Title = "Course Title: " + pCr->getTitle();
 			string code = "Course Code: " + pCr->getCode();
 			int credits = pCr->getCredits();

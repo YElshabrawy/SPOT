@@ -415,6 +415,10 @@ void StudyPlan::Set_Course_Type()
 						if (Code == pRules->UnivCompulsoryCourses[i])
 						{
 							(*it)->Set_Type(Uni);
+							if ((*it)->getColor()==BLACK)
+							{
+								break;
+							}
 							(*it)->changeColor(SLATEGREY);
 							break;
                         }
@@ -424,6 +428,10 @@ void StudyPlan::Set_Course_Type()
 						if (Code == pRules->UnivElectiveCourses[i])
 						{
 							(*it)->Set_Type(Elective);
+							if ((*it)->getColor() == BLACK)
+							{
+								break;
+							}
 							(*it)->changeColor(FIREBRICK);
 							break;
 						}
@@ -433,6 +441,10 @@ void StudyPlan::Set_Course_Type()
 						if (Code == pRules->TrackCompulsoryCourses[i])
 						{
 							(*it)->Set_Type(Track);
+							if ((*it)->getColor() == BLACK)
+							{
+								break;
+							}
 							(*it)->changeColor(DARKGREEN);
 							break;
 						}
@@ -442,6 +454,10 @@ void StudyPlan::Set_Course_Type()
 						if (Code == pRules->MajorCompulsoryCourses[i])
 						{
 							(*it)->Set_Type(maj);
+							if ((*it)->getColor() == BLACK)
+							{
+								break;
+							}
 							(*it)->changeColor(GOLDENROD);
 							break;
 						}
@@ -451,6 +467,10 @@ void StudyPlan::Set_Course_Type()
 						if (Code == pRules->MajorElectiveCourses[i])
 						{
 							(*it)->Set_Type(Elective);
+							if ((*it)->getColor() == BLACK)
+							{
+								break;
+							}
 							(*it)->changeColor(FIREBRICK);
 							break;
 						}
@@ -462,6 +482,10 @@ void StudyPlan::Set_Course_Type()
 							if (Code == pRules->Concentrations[0].ConcentrationCompulsoryCourses[i])
 							{
 								(*it)->Set_Type(concentration);
+								if ((*it)->getColor() == BLACK)
+								{
+									break;
+								}
 								(*it)->changeColor(DARKMAGENTA);
 								break;
 							}
@@ -471,6 +495,10 @@ void StudyPlan::Set_Course_Type()
 							if (Code == pRules->Concentrations[0].ConcentrationElectiveCourses[i])
 							{
 								(*it)->Set_Type(Elective);
+								if ((*it)->getColor() == BLACK)
+								{
+									break;
+								}
 								(*it)->changeColor(FIREBRICK);
 								break;
 							}
