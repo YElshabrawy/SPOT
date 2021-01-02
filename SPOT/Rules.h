@@ -49,31 +49,37 @@ struct AcademicYearOfferings
 
 struct Rules	//contains all objects for registrations rules
 {
-	//TODO: add more fields if needed
-
 	vector<CourseInfo> CourseCatalog;	//List of ALL courses with full info
+
 	//vector<AcademicYearOfferings> OffringsList;	//all offerings for all acedmic years
 	AcademicYearOfferings OffringsList;	//// for now we will leave it one year
 
+	int SemMinCredit,		//min no. of credit hours per semester
+		SemMaxCredit;		//max no. of credit hours per semester
 
-	int SemMinCredit;		//min no. of credit hours per semester
-	int SemMaxCredit;		//max no. of credit hours per semester
-	int ReqUnivCredits;		//total no. of credits req by Univ courses (1)
-	int ReqTrackCredits;	//total no. of credits req by Track courses (
-	int ReqMajorCredits;	//total no. of credits req by Major courses
+	int TotalCHs;			// Number of CHs should be done
 
-	vector<Course_Code> UnivCompulsory;	//Univ Compulsory courses
-	vector<Course_Code> UnivElective;	//Univ Elective courses
+	int	UnivCompulsoryCredits,   // min no. of CHs of comp univ courses
+		UnivElectiveCredits,	 // min no. of CHs of elective univ courses
+		ReqUnivCredits = UnivCompulsoryCredits + UnivElectiveCredits; 
+	    //Total no. of credits req by Univ courses (comp + elective)
 
-	vector<Course_Code> TrackCompulsory;//Track Compulsory courses
-	vector<Course_Code> TrackElective;	//Track Elective courses (added for future)
+	int ReqTrackCredits;	//Total no. of credits req by Track courses (Only Comp)
 
-	vector<Course_Code> MajorCompulsory;//Major Compulsory courses
-	vector<Course_Code> MajorElective;	//Major Elective courses
+	int MajorCompulsoryCredits, // min no. of CHs of comp major courses
+		MajorElectiveCredits, // min no. of CHs of elective major courses
+		ReqMajorCredits = MajorCompulsoryCredits + MajorElectiveCredits;	
+		//Total no. of credits req by Major courses (comp + elective)
 
-	//Concentration handle
-	string Major, Concentration;
-	vector<Course_Code> ConcentrationCompulsory;
-	vector<Course_Code> ConcentrationElective;
+	int NumOfConcentrations; // Number of concentrations in major
 
+	vector<Course_Code> UnivCompulsoryCourses;	//Univ Compulsory courses
+	vector<Course_Code> UnivElectiveCourses;	//Univ Elective courses
+
+	vector<Course_Code> TrackCompulsoryCourses;//Track Compulsory courses
+
+	vector<Course_Code> MajorCompulsoryCourses;//Major Compulsory courses
+	vector<Course_Code> MajorElectiveCourses;	//Major Elective courses
+
+	vector<Concentration> Concentrations; // Concentrations
 };

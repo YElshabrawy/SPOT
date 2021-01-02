@@ -92,11 +92,15 @@ void Course::setYear(int inputYear) {
 void Course::setSemester(SEMESTER inputSem) {
 	sem = inputSem;
 }
+void Course::Set_Type(Type intype)
+{
+	type = intype;
+}
 void Course::changeColor(color newColor)
 {
 	MyColor = newColor;
 }
-void Course::changeBorderColor(color newColor)
+void Course::changeBorderColor( color newColor)
 {
 	MyBorderColor = newColor;
 }
@@ -204,12 +208,10 @@ Course_Code Course::getCode() const
 {
 	return code;
 }
-
 string Course::getTitle() const
 {
 	return Title;
 }
-
 int Course::getCredits() const
 {
 	return credits;
@@ -232,7 +234,10 @@ int Course::getYear() const {
 SEMESTER Course::getSemester() const {
 	return sem;
 }
-
+Type Course::getType()const
+{
+	return type;
+}
 color Course::getColor() const
 {
 	return MyColor;
@@ -252,6 +257,7 @@ int Course::getNumOfCrsPerSem(int year, SEMESTER sem)
 {
 	return numOfCoursesPerSem[(3 * (year - 1)) + sem];
 }
+
 
 int Course::getPreErrorsNumber() const
 {

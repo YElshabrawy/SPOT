@@ -130,7 +130,6 @@ bool ActionDragAndDrop::Execute()
 							(GUI::MyFactor * (newYear - 1));
 						pCr->setGfxInfo(gInfo);
 						pCr->Distance_Flag = false;
-
 						pGUI->pWind->UpdateBuffer();
 						pGUI->UpdateInterface();
 					}

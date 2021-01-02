@@ -3,7 +3,9 @@
 using namespace std;
 #include<iostream>
 #include "..\DEFs.h"
+#include<vector>
 #include "CMUgraphicsLib\CMUgraphics.h"
+#include <algorithm>
 
 class Course;
 class AcademicYear;
@@ -48,7 +50,7 @@ class GUI
 public:
 	window* pWind;
 	//Some constants for GUI (My default = 1600 x 880 with aspect ratio 20:11)
-	static const int	WindWidth = 1200, WindHeight = WindWidth * (11.0 / 20.0),	//Window width and height
+	static const int	WindWidth = 1300, WindHeight = WindWidth * (11.0 / 20.0),	//Window width and height
 		wx = 15, wy = 15,		//Window starting coordinates
 		StatusBarHeight = 60,	//Status Bar Height
 		MenuBarHeight = 51,		//Menu Bar Height (distance from top of window to bottom line of menu bar)
@@ -95,7 +97,8 @@ public:
 	int CourseInfoY1 = NotesY1 + NotesHeight + MyFactor;
 	string Notes, CourseTitle, CourseCode, CourseCredit, CourseStatus,CourseGrade,studentLevel;
 	int CourseInfoHeight = Y_div/3;
-
+	vector<string>ReportLines;
+	vector<string>NotesLines;
 	// Report Area
 	int ReportAreaY1 = CourseInfoY1 + CourseInfoHeight + MyFactor,
 		ReportAreaHeight = (Y_div / 3) - MyFactor,
@@ -108,34 +111,38 @@ public:
 	void CreateMenu() const;
 	void ClearDrawingArea() const;
 	void ClearStatusBar() const;	//Clears the status bar
-
+	void ClearReportArea() const;
+	void ClearNotesArea() const;
 	//output functions
 	void PrintMsg(string msg) const;		//prints a message on status bar
 	void DrawNoteArea() const;
-	void PrintNotes() const;
+	void SegmentNotes();
 	void DrawInfoArea() const;
 	void PrintCourseInfo()const;
 	void DrawReportArea() const;
-	void PrintCriticalError(Error Er,int I)const;
-	void PrintPrintModerateError(Error Er, int I, int Sem_Total_Crs,int Min_Crs,int Max_Crs)const;
+	void AddCriticalErrorLines(Error Er);
+	void AddModerateErrorLines(Error Er, int Sem_Total_Crs,int Min_Crs,int Max_Crs);
 	//Drawing functions
 	void DrawCourse(const Course* );
 	void DrawCourse(const Course* ,int x,int y);
 	void DrawAcademicYear(const AcademicYear*);
 	void UpdateInterface() const;
 	void DrawCourse_Dependacies(Course* pCr, Course* DpCr) const;
+	void DrawLiveReportPages(int Number_Lines,int Page_Number);
+	void DrawNotesPages(int Number_Lines, int Page_Number) const;
 	//input functions
 	ActionData GUI::GetUserAction(string msg = "") const;
 	string GetSrting() const;
 	string GetSrting(string MSG);
 	static int getYDivStartingPos();
-
+	static int Current_Page_Report;
+	static int Report_Stop, Report_Start,Notes_Stop,Notes_Start;
+	int Total_Number_Pages_In_Report;
+	int Total_Number_Pages_In_Notes;
+	static int Current_Page_Notes;
 	//Dimention getters
 	static int getMenuBarHeight();
 	static int getY_div();
-
-	
-	
 
 	~GUI();
 };

@@ -3,6 +3,7 @@
 #include<string>
 #include "AcademicYear.h"
 #include "../GUI/Drawable.h"
+#include"../Rules.h"
 
 //A full study plan for as student
 class StudyPlan:public Drawable
@@ -10,6 +11,10 @@ class StudyPlan:public Drawable
 private:
 	vector<Error> CH_Error_List; // Holds all the modirate errors for the CH issues
 	vector<int> Sem_Credits;
+	vector<Error>TOTAL_ERRORS_TO_DRAW;
+	int Report_Lines;
+	Major major;
+	Rules* pRules;
 public:
 	int TotalCredits = 0,				// Total no. of credit hours for courses registred in this year 1
 		TotalUnivCredits = 0,			// Univ Compulsory 2
@@ -30,7 +35,7 @@ public:
 		ElectiveMajorCourses,
 		CompConcentrationCourses,
 		ElectiveConcentrationCourses;
-
+	int No_Of_Pages;
 
 	string PlanNotes;
 	vector<AcademicYear*> plan;	//plan is a list of academic years
@@ -40,10 +45,22 @@ public:
 	void virtual DrawMe(GUI*) const;
 	vector<AcademicYear*>* getStudyPlanVector();
 	void checkPreAndCoReq();
+	void Set_Course_Type();
 	void checkCreditHrs(int min, int max);
-	void LiveReport(GUI* pGUI,int min,int max)const;
+	void LiveReport(GUI* pGUI,int min,int max);
 	void FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI);
 	void GenerateStudentLevel(GUI* pGUI);
+	void setMajor(Major major);
+	void Add_Error(Error ER);
+	vector<Error> Get_ALL_ERROR()const;
+	void Set_Plan_Rules(Rules& RegRules);
+	Major getMajor() const;
+	void increment_Report_Lines(int Number_Of_Inc);
+	int get_Report_Lines()const;
+	vector<int> get_Sem_Credits()const;
+	void Set_Report_Lines();
+	void Set_Page_Number(int Number_Of_lines);
+	int Get_Page_Number()const;
 	virtual ~StudyPlan();
 };
 
