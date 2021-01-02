@@ -25,19 +25,19 @@ int	Sci_Flag = 0, Eng_Flag = 0,DoubleMajor_flag=0,SingleMajor_flag=0;
 				pMajorWind = nullptr;
 				break;
 			}
-			pMajorWind->DrawImage("GUI\\Images\\Major_img\\DoubleMajor.jpg", MajorWindWidth / 8, MajorWindWidth / 4 - 10, MajorWindWidth / 4, MajorWindWidth / 4);
-			pMajorWind->DrawImage("GUI\\Images\\Major_img\\DeclareSingleMajor.jpg", MajorWindWidth * (5.0 / 8), 0, MajorWindWidth / 4, MajorWindWidth /1.5);
+			pMajorWind->DrawImage("GUI\\Images\\Major_img\\DeclareDoubleMajor.jpg", MajorWindWidth / 8, 60.5);
+			pMajorWind->DrawImage("GUI\\Images\\Major_img\\DeclareDoubleConcentration.jpg", MajorWindWidth * (5.0 / 8), 60.5);
 			ctInput = pMajorWind->GetMouseClick(x, y);
 			if (ctInput == 1) {
 				pMajorWind->GetMouseCoord(x, y);
 
-			if ((x >= (MajorWindWidth / 8)) && (x <= ((MajorWindWidth / 8) + (MajorWindWidth / 4))) && (y >= (MajorWindWidth / 4 - 10)) && (y <= (MajorWindWidth / 4 - 10) + (MajorWindWidth / 4)))
+			if ((x >= (MajorWindWidth / 8)) && (x <= ((MajorWindWidth / 8) + 200)) && (y >= 0) && (y <= (60.5) + 481))
 			{
 				DoubleMajor_flag = 1;
 				UpdateWind();
 				break;
 			}
-			if ((x >= MajorWindWidth * (5.0 / 8)) && (x <= ((MajorWindWidth * (5.0 / 8)) + (MajorWindWidth / 4))) && (y >= (MajorWindWidth / 4 - 10)) && (y <= (MajorWindWidth / 4 - 10) + (MajorWindWidth / 4)))
+			if ((x >= MajorWindWidth * (5.0 / 8)) && (x <= ((MajorWindWidth * (5.0 / 8)) + (MajorWindWidth / 4))) && (y >=0) && (y <= (60.5) + (MajorWindWidth / 1.5)))
 			{
 				SingleMajor_flag = 1;
 				UpdateWind();
