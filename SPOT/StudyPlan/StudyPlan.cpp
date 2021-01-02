@@ -4,7 +4,7 @@
 #include "../Rules.h"
 #include "../Utils/Utils.h"
 #include <fstream>
-string StudyPlan::PlanNotes = "";
+
 
 StudyPlan::StudyPlan()
 {
@@ -20,12 +20,14 @@ bool StudyPlan::AddCourse(Course* pC, int year, SEMESTER sem)
 {
 	plan[year - 1]->AddCourse(pC, sem);
 	TotalCredits += pC->getCredits();
+	setCourseTypeCredits(pC->getType(), 0, pC->getCredits());
 	return true;
 }
 
 bool StudyPlan::DeleteCourse(Course* pC) {
 	plan[pC->getYear() - 1]->DeleteCourse(pC, pC->getSemester());
 	TotalCredits -= pC->getCredits();
+	setCourseTypeCredits(pC->getType(), 1, pC->getCredits());
 	return true;
 }
 
@@ -289,6 +291,100 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 void StudyPlan::checkProgramReq()
 {
 	cout << "TotalCredits = " << TotalCredits << endl;
+	cout << "TotalMajorCredits = " << TotalMajorCredits << endl;
+	cout << "TotalElectiveCredits = " << TotalElectiveCredits << endl;
+	cout << "TotalMinorCredits = " << TotalMinorCredits << endl;
+	cout << "TotalConcentrationCredits = " << TotalConcentrationCredits << endl;
+	cout << "TotalTrackCredits = " << TotalTrackCredits << endl;
+	cout << "TotalUnivCredits = " << TotalUnivCredits << endl;
+
+	// Check TotalCredits
+	string errMsg = "The total CHs (" + to_string(TotalCredits) + ") are less than " + to_string(pRules->TotalCHs);
+	string checkMsg = "The total CHs";
+	lazyCheck(TotalCredits, pRules->TotalCHs, errMsg, checkMsg);
+	
+	// Check TotalMajorCredits
+	errMsg = "The total major CHs (" + to_string(TotalMajorCredits) + ") are less than " + to_string(pRules->ReqMajorCredits);
+	checkMsg = "The total major CHs";
+	lazyCheck(TotalMajorCredits, pRules->ReqMajorCredits, errMsg, checkMsg);
+
+	// Check TotalTrackCredits
+	errMsg = "The total track CHs (" + to_string(TotalTrackCredits) + ") are less than " + to_string(pRules->ReqTrackCredits);
+	checkMsg = "The total track CHs";
+	lazyCheck(TotalTrackCredits, pRules->ReqTrackCredits, errMsg, checkMsg);
+
+	// Check TotalUnivCredits
+	errMsg = "The total university CHs (" + to_string(TotalUnivCredits) + ") are less than " + to_string(pRules->ReqUnivCredits);
+	checkMsg = "The total university CHs";
+	lazyCheck(TotalUnivCredits, pRules->ReqUnivCredits, errMsg, checkMsg);
+
+	// Check TotalUnivCredits
+	errMsg = "The total concentration CHs (" + to_string(TotalUnivCredits) + ") are less than " + to_string(pRules->ReqUnivCredits);
+	checkMsg = "The total concentration CHs";
+	int ReqConcentrationCredits = 0;
+	if (concentrationNumber > 0) {
+		// First we need to remove the No Concentrencration error if exists :)
+		string concMsg = "No concentration is selected yet! Your major requires one.";
+		for (int i = 0; i < Program_Req_Errors.size(); i++) {
+			if (Program_Req_Errors[i].Msg.find(concMsg) != string::npos)
+				Program_Req_Errors.erase(Program_Req_Errors.begin() + i);
+		}
+
+		// Then check for the concentration requirements
+		ReqConcentrationCredits += pRules->Concentrations[concentrationNumber - 1].CompulsoryCredits;
+		ReqConcentrationCredits += pRules->Concentrations[concentrationNumber - 1].ElectiveCredits;
+		lazyCheck(TotalConcentrationCredits, ReqConcentrationCredits, errMsg, checkMsg);
+	}
+	else {
+		// No concentration is selected! the user should select one!
+		errMsg = "No concentration is selected yet! Your major requires one.";
+		// Check if this error already exists
+		bool exists = false;
+		for (int i = 0; i < Program_Req_Errors.size(); i++) {
+			if (Program_Req_Errors[i].Msg.find(errMsg) != string::npos) {
+				exists = true;
+			}
+		}
+		if (!exists) {
+			// The error does not exist so create it !
+			Error err;
+			err.Msg = errMsg;
+			err.type = CRITICAL;
+			Program_Req_Errors.push_back(err);
+		}
+	}
+
+	cout << "ERRRRR :: num = " << Program_Req_Errors.size() << endl;
+	cout << Program_Req_Errors[4].Msg << endl;
+
+}
+
+void StudyPlan::lazyCheck(int compared, int original, string errMsg, string checkMsg) {
+	if (compared < original) {
+		// Check if already exists. If so modify its message!
+		bool exists = false;
+		for (int i = 0; i < Program_Req_Errors.size(); i++) {
+			if (Program_Req_Errors[i].Msg.find(checkMsg) != string::npos) {
+				exists = true;
+				Program_Req_Errors[i].Msg = errMsg; // modify
+			}
+		}
+		if (!exists) {
+			// The error does not exist so create it !
+			Error err;
+			err.Msg = errMsg;
+			err.type = CRITICAL;
+			Program_Req_Errors.push_back(err);
+		}
+	}
+	else {
+		// Does not exist at all!
+		for (int i = 0; i < Program_Req_Errors.size(); i++) {
+			if (Program_Req_Errors[i].Msg.find(checkMsg) != string::npos)
+				Program_Req_Errors.erase(Program_Req_Errors.begin() + i);
+		}
+
+	}
 }
 
 
@@ -300,9 +396,38 @@ Major StudyPlan::getMajor() const
 {
 	return major;
 }
-StudyPlan::~StudyPlan() 
+
+void StudyPlan::setCourseTypeCredits(Type type, int mode, int hours)
 {
+	// If mode is 0 => Add Course 
+	// If mode is 1 => Delete Course 
+	switch (type)
+	{
+	case maj:
+		(mode == 0) ? TotalMajorCredits += hours : TotalMajorCredits -= hours;
+		break;
+	case Elective:
+		(mode == 0) ? TotalElectiveCredits += hours : TotalElectiveCredits -= hours;
+		break;
+	case Minor:
+		(mode == 0) ? TotalMinorCredits += hours : TotalMinorCredits -= hours;
+		break;
+	case concentration:
+		(mode == 0) ? TotalConcentrationCredits += hours : TotalConcentrationCredits -= hours;
+		break;
+	case Track:
+		(mode == 0) ? TotalTrackCredits += hours : TotalTrackCredits -= hours;
+		break;
+	case Uni:
+		(mode == 0) ? TotalUnivCredits += hours : TotalUnivCredits -= hours;
+		break;
+	case NOTYPE:
+		break;
+	default:
+		break;
+	}
 }
+
 
 
 void StudyPlan::LiveReport(GUI* pGUI, int Min_Crs, int Max_Crs)const

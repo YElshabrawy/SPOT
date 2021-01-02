@@ -66,6 +66,7 @@ bool ActionImportPlan::Execute() {
 				vector<Course_Code> PreReq = pCInfo->PreReqList; 
 				vector<Course_Code> CoReq = pCInfo->CoReqList; 
 				Course* pC = new Course(token, title, crd, PreReq, CoReq, year, sem);
+				pC->Set_Type(pCInfo->type);
 				pS->AddCourse(pC, year, static_cast<SEMESTER>(sem));
 				cout << token << " is added to year " << year << " semester " << sem << endl;
 				int x = 0;

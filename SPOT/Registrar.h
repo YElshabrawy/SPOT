@@ -37,6 +37,7 @@ public:
 
 	void importProgramReq();
 	Rules const* getRegRules() const;
+	void setCatalogCoursesType();
 
 };
 

@@ -81,11 +81,11 @@ bool ActionAddCourse::Execute()
 		vector<Course_Code> PreReq = pCInfo->PreReqList;
 		vector<Course_Code> CoReq = pCInfo->CoReqList;
 		Course* pC = new Course(code, Title, crd, PreReq, CoReq, year, semester);
+		pC->Set_Type(pCInfo->type);
 		pS->AddCourse(pC, year, static_cast<SEMESTER>(semester));
 		cout << code << " is added to year " << year << " semester " << semester << endl;
 		pC->setYear(year);
 		pC->setSemester(semester);
-
 		int iter = pC->numOfCoursesPerSem[(3 * (year - 1)) + semester] - 1;
 		gInfo.x = GUI::TitleBarWidth + (iter * CRS_WIDTH);
 		gInfo.y = GUI::MenuBarHeight + GUI::MyFactor + ((year - 1) * GUI::One_Year_Div) + (semester * GUI::One_Semester_Div) +

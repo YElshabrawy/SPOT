@@ -35,7 +35,7 @@ Action* Registrar::CreateRequiredAction()
 	case ADD_CRS:	//add_course action
 		RequiredAction = new ActionAddCourse(this);
 		break;
-	case CAL_GPA:	//add_course action
+	case CAL_GPA:	
 		RequiredAction = new ActionCalculateGPA(this);
 		break;
 	case DEL_CRS:
@@ -112,8 +112,10 @@ void Registrar::Run()
 	setCourseOffering();
 	cout << "The year of Offerings: " << RegRules.OffringsList.Year << endl;
 	//setRules();
+	importProgramReq();
 	pSPlan->Set_Course_Type();
-
+	setCatalogCoursesType(); // Only once for now
+	setRules();
 	while (true)
 	{
 		//update interface here as CMU Lib doesn't refresh itself
@@ -121,9 +123,7 @@ void Registrar::Run()
 		pSPlan->checkPreAndCoReq();
 		pSPlan->checkCreditHrs(RegRules.SemMinCredit, RegRules.SemMaxCredit);
 		pSPlan->checkProgramReq();
-		importProgramReq();
 		pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);
-		setRules();
 		pSPlan->Set_Course_Type();
 		UpdateInterface();
 		Action* pAct = CreateRequiredAction();
@@ -332,29 +332,6 @@ void Registrar::setCourseOffering()
 	RegRules.OffringsList = yearOfferings;
 }
 
-
-//void Registrar::setRules()
-//{
-//	RegRules.ReqUnivCredits = pSPlan->MaxCredits;
-//	RegRules.ReqMajorCredits = pSPlan->TotalMajorCredits;
-//	RegRules.ReqTrackCredits = pSPlan->TotalTrackCredits;
-//
-//	RegRules.UnivCompulsory = pSPlan->CompUniCourses;
-//	RegRules.UnivElective = pSPlan->ElectiveUniCourses;
-//
-//	RegRules.TrackCompulsory = pSPlan->TrackCourses;
-//	RegRules.TrackElective; // was not included in the file (will be fixed later)
-//
-//	RegRules.MajorCompulsory = pSPlan->CompMajorCourses;
-//	RegRules.MajorElective = pSPlan->ElectiveMajorCourses;
-//
-//	RegRules.ConcentrationCompulsory = pSPlan->CompConcentrationCourses;
-//	RegRules.ConcentrationElective = pSPlan->ElectiveConcentrationCourses;
-//
-//
-//
-//}
-
 void Registrar::setRules()
 {
 	pSPlan->Set_Plan_Rules(RegRules);
@@ -438,6 +415,7 @@ void Registrar::importProgramReq()
 	vector<string> l2_tokens = splitString(l2, ",");
 	RegRules.UnivCompulsoryCredits = stoi(l2_tokens[0]);
 	RegRules.UnivElectiveCredits = stoi(l2_tokens[1]);
+	RegRules.ReqUnivCredits = RegRules.UnivCompulsoryCredits + RegRules.UnivElectiveCredits;
 	cout << "Univ Compulsory = " << RegRules.UnivCompulsoryCredits << endl;
 	cout << "Univ Elective = " << RegRules.UnivElectiveCredits << endl;
 
@@ -453,6 +431,7 @@ void Registrar::importProgramReq()
 	vector<string> l4_tokens = splitString(l4, ",");
 	RegRules.MajorCompulsoryCredits = stoi(l4_tokens[0]);
 	RegRules.MajorElectiveCredits = stoi(l4_tokens[1]);
+	RegRules.ReqMajorCredits = RegRules.MajorCompulsoryCredits + RegRules.MajorElectiveCredits;
 	cout << "Major Compulsory = " << RegRules.MajorCompulsoryCredits << endl;
 	cout << "Major Elective = " << RegRules.MajorElectiveCredits << endl;
 
@@ -538,5 +517,71 @@ Rules const* Registrar::getRegRules() const
 	return 	&RegRules;
 }
 
+void Registrar::setCatalogCoursesType()
+{
+	for (CourseInfo &c : RegRules.CourseCatalog) {
+		string Code = c.Code;
+		for (int i = 0; i < RegRules.UnivCompulsoryCourses.size(); i++)
+		{
+			if (Code == RegRules.UnivCompulsoryCourses[i])
+			{
+				c.type = Uni;
+				break;
+			}
+		}
+		for (int i = 0; i < RegRules.UnivElectiveCourses.size(); i++)
+		{
+			if (Code == RegRules.UnivElectiveCourses[i])
+			{
+				c.type = Elective;
+				break;
+			}
+		}
+		for (int i = 0; i < RegRules.TrackCompulsoryCourses.size(); i++)
+		{
+			if (Code == RegRules.TrackCompulsoryCourses[i])
+			{
+				c.type = Track;
+				break;
+			}
+		}
+		for (int i = 0; i < RegRules.MajorCompulsoryCourses.size(); i++)
+		{
+			if (Code == RegRules.MajorCompulsoryCourses[i])
+			{
+				c.type = maj;
+				break;
+			}
+		}
+		for (int i = 0; i < RegRules.MajorElectiveCourses.size(); i++)
+		{
+			if (Code == RegRules.MajorElectiveCourses[i])
+			{
+				c.type = Elective;
+				break;
+			}
+		}
+		for (int num = 0; num < RegRules.NumOfConcentrations; num++) {
+
+			for (int i = 0; i < RegRules.Concentrations[num].ConcentrationCompulsoryCourses.size(); i++)
+			{
+				if (Code == RegRules.Concentrations[num].ConcentrationCompulsoryCourses[i])
+				{
+					c.type = (concentration);
+					break;
+				}
+			}
+			for (int i = 0; i < RegRules.Concentrations[num].ConcentrationElectiveCourses.size(); i++)
+			{
+				if (Code == RegRules.Concentrations[num].ConcentrationElectiveCourses[i])
+				{
+					c.type = (Elective);
+					break;
+				}
+			}
+		}
+	}
 }
+
+
 

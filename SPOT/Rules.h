@@ -16,7 +16,7 @@ struct CourseInfo
 	vector<Course_Code> PreReqList;	//Pre-requesite list of courses codes
 	vector<Course_Code> CoReqList;	//Co-requesite list of courses codes
 	int Credits;
-	string type;	//Univ, track, major course
+	Type type;	//Univ, track, major course
 	void printCourse() {
 		cout << "Displaying the course info.\n"
 			<< "Course ID: " << Code << endl
@@ -61,14 +61,14 @@ struct Rules	//contains all objects for registrations rules
 
 	int	UnivCompulsoryCredits,   // min no. of CHs of comp univ courses
 		UnivElectiveCredits,	 // min no. of CHs of elective univ courses
-		ReqUnivCredits = UnivCompulsoryCredits + UnivElectiveCredits; 
+		ReqUnivCredits; 
 	    //Total no. of credits req by Univ courses (comp + elective)
 
 	int ReqTrackCredits;	//Total no. of credits req by Track courses (Only Comp)
 
 	int MajorCompulsoryCredits, // min no. of CHs of comp major courses
 		MajorElectiveCredits, // min no. of CHs of elective major courses
-		ReqMajorCredits = MajorCompulsoryCredits + MajorElectiveCredits;	
+		ReqMajorCredits;	
 		//Total no. of credits req by Major courses (comp + elective)
 
 	int NumOfConcentrations; // Number of concentrations in major

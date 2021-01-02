@@ -9,17 +9,19 @@ class StudyPlan:public Drawable
 {
 private:
 	vector<Error> CH_Error_List; // Holds all the modirate errors for the CH issues
+	vector<Error> Program_Req_Errors;
 	vector<int> Sem_Credits;
 	Major major;
 	Rules* pRules;
-
+	int concentrationNumber = 0; // Indicates which concentration is sellected (0 = no conc selected yet)
 public:
 	int TotalCredits = 0,				// Total no. of credit hours for courses registred in this year 1
-		TotalUnivCredits = 0,			// Univ Compulsory 2
 		TotalMajorCredits = 0,		// Univ Elective 3
-		TotalTrackCredits = 0,		// Track Compulsory 4
-		TotalConcentrationCredits = 0,// Major Comm Compulsory 5
+		TotalElectiveCredits = 0,
 		TotalMinorCredits = 0,		// Major comm Elec 6
+		TotalConcentrationCredits = 0,// Major Comm Compulsory 5
+		TotalTrackCredits = 0,		// Track Compulsory 4
+		TotalUnivCredits = 0,			// Univ Compulsory 2
 		MaxCredits = 0;
 	int NumberOfConcentrations = 0,
 		ConcentrationMajorCredits = 0,
@@ -48,6 +50,8 @@ public:
 	void setMajor(Major major);
 	void Set_Plan_Rules(Rules& RegRules);
 	Major getMajor() const;
+	void setCourseTypeCredits(Type type, int mode, int hours);
+	void lazyCheck(int compared, int original, string errMsg, string checkMsg);
 	virtual ~StudyPlan();
 };
 
