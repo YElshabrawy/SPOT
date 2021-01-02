@@ -3,6 +3,8 @@
 #include<iterator>
 #include"Actions/allActions.h"
 #include"Utils/Utils.h"
+#include<vector>
+#include"DEFs.h"
 #include<algorithm>
 
 
@@ -120,7 +122,11 @@ void Registrar::Run()
 		pSPlan->checkPreAndCoReq();
 		pSPlan->checkCreditHrs(RegRules.SemMinCredit, RegRules.SemMaxCredit);
 		importProgramReq();
+		pGUI->ReportLines.clear();
 		pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);
+		pSPlan->Set_Page_Number((pGUI->ReportAreaHeight / 15) - 2);
+		pGUI->Total_Number_Pages_In_Report=(pSPlan->Get_Page_Number());
+		pGUI->DrawLiveReportPages((pGUI->ReportAreaHeight/15)-2, pGUI->Current_Page_Report);
 		setRules();
 		pSPlan->Set_Course_Type();
 		UpdateInterface();
@@ -148,6 +154,8 @@ void Registrar::UpdateInterface()
 		ExecuteAction(pAct);
 	}
 	pSPlan->DrawMe(pGUI);
+	pGUI->DrawLiveReportPages((pGUI->ReportAreaHeight / 15) - 2, pGUI->Current_Page_Report);
+	pGUI->DrawNotesPages((pGUI->NotesHeight / 15) - 2, pGUI->Current_Page_Notes);
 	pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);//make study plan draw itself
 }
 

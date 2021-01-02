@@ -95,7 +95,7 @@ void Course::changeColor(color newColor)
 {
 	MyColor = newColor;
 }
-void Course::changeBorderColor(color newColor)
+void Course::changeBorderColor( color newColor)
 {
 	MyBorderColor = newColor;
 }

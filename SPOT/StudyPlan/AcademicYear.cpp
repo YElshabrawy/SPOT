@@ -19,22 +19,37 @@ bool AcademicYear::AddCourse(Course* pC, SEMESTER sem)
 	//This function still needs many checks to be compelete
 	YearCourses[sem].push_back(pC);
 	TotalCredits += pC->getCredits();
-	pC->Distance_Flag = false;
-	return true;
+	if (pC->CCC_Flag == true)
+	{
+		pC->CCC_Flag = false;
+		pC->Distance_Flag = true;
+		return true;
+	}
+	else
+	{
+		pC->Distance_Flag = false;
+		return true;
+	}
 }
 
 bool AcademicYear::DeleteCourse(Course* pC, SEMESTER sem) {
 
 	YearCourses[sem].remove(pC);
 	TotalCredits -= pC->getCredits();
-	pC->Distance_Flag = false;
-
 	Course::numOfCoursesPerSem[(3 * (pC->getYear() - 1)) + sem]--;
-	for (int sem = FALL; sem < SEM_CNT; sem++)
-	for (auto it = YearCourses[sem].begin(); it != YearCourses[sem].end(); ++it)
-		 {
-				 (*it)->Distance_Flag = false;
-		 }
+	if (pC->CCC_Flag == true)
+	{
+		pC->CCC_Flag = false;
+		return true;
+	}
+
+	pC->Distance_Flag = false;
+		for (int sem = FALL; sem < SEM_CNT; sem++)
+			for (auto it = YearCourses[sem].begin(); it != YearCourses[sem].end(); ++it)
+			{
+				(*it)->Distance_Flag = false;
+			}
+
 	return true;
 }
 
@@ -58,6 +73,7 @@ void AcademicYear::DrawMe(GUI* pGUI) const
 				graphicsInfo New_gInfo{ new_x, new_y };
 				(*it)->Distance_Flag = true;
 				(*it)->setGfxInfo(New_gInfo);
+				
 			}
 			else if((Counter>0)&&((!(*it)->Distance_Flag))&&(*it != NULL))
 			{
@@ -71,7 +87,7 @@ void AcademicYear::DrawMe(GUI* pGUI) const
 			if (((*it)->DrawMe_Flag))
 			{
 				(*it)->DrawMe(pGUI); //call DrawMe for each course in this semester
-			}                    
+			}  
 			Counter++;
 		}
 	}

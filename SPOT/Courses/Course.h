@@ -35,6 +35,7 @@ private:
 	vector<Error> Coreq_Error_List;
 public:
 	bool DrawMe_Flag=true;
+	bool CCC_Flag = false;
 	static vector<int> numOfCoursesPerSem;
 	//Constructors
 	Course();

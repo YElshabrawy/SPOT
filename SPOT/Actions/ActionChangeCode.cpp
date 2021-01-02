@@ -47,9 +47,10 @@ bool ActionChangeCode::Execute()
 			int year = pCr->getYear();
 			SEMESTER sem = pCr->getSemester();
 			StudyPlan* pS = pReg->getStudyPlay();
-			int newx = 0, newy = 0;
-			graphicsInfo anew_ginfo{ newx, newy };
-			anew_ginfo= pCr->getGfxInfo();
+			graphicsInfo Old_ginfo{ x,y };
+			Old_ginfo = pCr->getGfxInfo();
+			graphicsInfo anew_ginfo{ Old_ginfo.x, Old_ginfo.y };
+			pCr->CCC_Flag = true;
 			pS->DeleteCourse(pCr);
 			//CourseInfo chosenCourseInfo = pReg->getCourseInfo(code);
 			string Title = pCInfo->Title;
@@ -57,11 +58,9 @@ bool ActionChangeCode::Execute()
 			vector<Course_Code> PreReq = pCInfo->PreReqList;
 			vector<Course_Code> CoReq = pCInfo->CoReqList;
 			Course* pnewcR = new  Course(code, Title, crd, PreReq, CoReq, year, sem);
+			pnewcR->CCC_Flag = true;
 			pnewcR->setGfxInfo(anew_ginfo);
 			pS->AddCourse(pnewcR,year,sem);
-			
-
-
 		}
 	}
 	return true;

@@ -18,6 +18,8 @@ bool ActionAddNotes::Execute()
 				return true;
 			pS->PlanNotes=pGUI->GetSrting(pS->PlanNotes);
 			pGUI->Notes = pS->PlanNotes;
+			pGUI->NotesLines.clear();
+			pGUI->SegmentNotes();
 		}
 		else
 		{
@@ -26,8 +28,11 @@ bool ActionAddNotes::Execute()
 			pGUI->Notes = pGUI->GetSrting();
 			pS->PlanNotes = pS->PlanNotes + " " + pGUI->Notes;
 			pGUI->Notes = pS->PlanNotes;
+			pGUI->NotesLines.clear();
+			pGUI->SegmentNotes();
+			pGUI->Total_Number_Pages_In_Notes = (pGUI->NotesLines.size() / ((pGUI->NotesHeight / 15) - 2));
+			return true;
 		}
-	return true;
 }
 
 ActionAddNotes::~ActionAddNotes()
