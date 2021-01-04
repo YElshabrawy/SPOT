@@ -40,7 +40,7 @@ enum ActionType
 	CRS_DEP,
 	PLAN_DEP,
 	CAL_GPA,		//Calculate GPA
-
+	Filter,			//apply Filter
 	SAVE,		//Save a study plan to file
 	LOAD,		//Load a study plan from a file
 

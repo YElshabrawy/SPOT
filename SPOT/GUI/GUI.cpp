@@ -77,6 +77,7 @@ void GUI::CreateMenu() const
 	MenuItemImages[ITM_MAJOR] = "GUI\\Images\\Menu\\menu_major.jpg";
 	MenuItemImages[ITM_CRS_DEP] = "GUI\\Images\\Menu\\menu_crs_dep.jpg";
 	MenuItemImages[ITM_PLAN_DEP] = "GUI\\Images\\Menu\\menu_plan_dep.jpg";
+	MenuItemImages[ITM_Filter] = "GUI\\Images\\Menu\\menu_filter.jpg";
 	MenuItemImages[ITM_EXIT] = "GUI\\Images\\Menu\\menu_quit.jpg";
 	MenuItemImages[ITM_GPA]= "GUI\\Images\\Menu\\menu_gpa.jpg";
 
@@ -298,6 +299,7 @@ ActionData GUI::GetUserAction(string msg) const
 				case ITM_EXCHANGE: return ActionData{ CHANGE_CODE }; break;
 				case ITM_MAJOR: return ActionData{ DECLARE_MAJOR }; break;
 				case ITM_GPA:return ActionData{ CAL_GPA }; break;
+				case ITM_Filter:return ActionData{ Filter }; break;
 				case ITM_CRS_DEP:
 				{
 					Draw_Dependacies_For_One_Course = false;
