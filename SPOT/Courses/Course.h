@@ -23,6 +23,7 @@ private:
 	bool inprogress;//course in progress
 	bool Exempted;//course exempted
 	bool Replaced;//course replaced
+	bool studentleveltoken;
 	string Grade;//Holds the course Grade
 	vector<Course_Code> PreReq;	//list of prerequisites
 	vector<Course_Code> CoReq;	//list of prerequisites
@@ -34,7 +35,10 @@ private:
 	vector<Error> Prereq_Error_List;
 	vector<Error> Coreq_Error_List;
 public:
+	//string coursestatus;
 	bool DrawMe_Flag=true;
+	bool CCC_Flag = false;
+	bool Distance_Flag = false;
 	static vector<int> numOfCoursesPerSem;
 	//Constructors
 	Course();
@@ -42,6 +46,7 @@ public:
 	Course(Course_Code r_code, string r_title, int crd,
 		vector<Course_Code> r_PreReq, vector<Course_Code> r_CoReq,int r_year, SEMESTER r_sem);
 	// Setters
+	void setToken(bool Case);
 	void setCode(Course_Code i_code);
 	void setTitle(string i_title);
 	void setCredits(int i_cr);
@@ -63,6 +68,7 @@ public:
 
 	//Getters
 	string getGrade()const;
+	bool getToken()const;
 	bool getCourseReplaced()const;
 	bool getCourseExempted()const;
 	bool getCoursedone()const;
@@ -90,10 +96,10 @@ public:
 	void removeCoReqErrors(string code);
 	int getPreErrorsNumber() const;
 	int getCoErrorsNumber() const;
-	bool Distance_Flag = false;
 	void DrawMe(GUI*) const;
 	virtual ~Course();
-
+	Course(const Course& CopiedCrs);
+	Course operator=(const Course& CopiedCrs);
 	void printCourse() const;
 	Course* getCoursePtr();
 	

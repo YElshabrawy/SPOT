@@ -3,14 +3,23 @@
 #include<iterator>
 #include"Actions/allActions.h"
 #include"Utils/Utils.h"
+#include<vector>
+#include"DEFs.h"
 #include<algorithm>
 using namespace std;
 
+StudyPlan* Registrar::pSPlan = new StudyPlan;
+int Registrar::SPSC = 2;
 
 Registrar::Registrar()
 {
 	pGUI = new GUI;	//create interface object
 	pSPlan = new StudyPlan;	//create a study plan.
+	/*for (int i = 0; i < 10; i++)
+	{*/
+		List_Of_All_StudyPlans.push_back(pSPlan);
+	/*}*/
+	Current_Study_Plan = 0;
 }
 
 //returns a pointer to GUI
@@ -29,38 +38,50 @@ Action* Registrar::CreateRequiredAction()
 {	
 	ActionData actData = pGUI->GetUserAction("Pick an action from the menu");
 	Action* RequiredAction = nullptr;
-
 	switch (actData.actType)
 	{
 	case ADD_CRS:	//add_course action
 		RequiredAction = new ActionAddCourse(this);
+		Add_Flag = true;
 		break;
 	case CAL_GPA:	
 		RequiredAction = new ActionCalculateGPA(this);
 		break;
+	case Filter:	//add_course action
+		RequiredAction = new ActionFilter(this);
+		break;
 	case DEL_CRS:
 		RequiredAction = new ActionDeleteCourse(this);
+		Delete_Flag = true;
 		break;
 	case SAVE: // save plan
 		RequiredAction = new ActionSavePlan(this);
 		break;
 	case ADD_Note:
+	{
 		RequiredAction = new ActionAddNotes(this);
+		Note_Flag = true;
 		break;
+	}
 	case IMPORT_PLAN:
+	{
 		RequiredAction = new ActionImportPlan(this);
+		Import_Flag = true;
 		break;
+	}
 	case ERASE:
 		RequiredAction = new ActionEraseAll(this);
-		break;
-	case SWAP:
-		RequiredAction = new ActionMoveCourse(this);
+		Erase_Flag = true;
 		break;
 	case CHANGE_CODE:
 		RequiredAction = new ActionChangeCode(this);
+		ChangeCode_Flag = true;
 		break;
 	case DECLARE_MAJOR:
 		RequiredAction = new ActionDeclareMajor(this);//declare major photo till i get a photo for this one
+		break;
+	case DECLARE_MINOR:
+		RequiredAction = new ActionDeclareMinor(this);
 		break;
 	case CRS_DEP:
 		RequiredAction = new ActionDDOOC(this);
@@ -68,16 +89,24 @@ Action* Registrar::CreateRequiredAction()
 	case PLAN_DEP:
 		RequiredAction = new ActionCourseDependancies(this);
 		break;
+	case UNDO:
+		RequiredAction = new ActionUndo(this);
+		break;
+	case REDO:
+		RequiredAction = new ActionRedo(this);
+		break;
 	default:
 	{
 		if (pGUI->Last_CLick == RIGHT_CLICK)
 		{
 			RequiredAction = new ActionDragAndDrop(this);
+			Drag_Flag = true;
 			break;
 		}
 		else if (((pGUI->YCoord >= 10) && (pGUI->YCoord <= 30) && ((pGUI->XCoord)>=(pGUI->SideBarX1-45 + (pGUI->SideBarX2 - pGUI->SideBarX1)/2)) && (pGUI->XCoord <= (pGUI->SideBarX1-45+100+(pGUI->SideBarX2 - pGUI->SideBarX1)/2 )))&&(pGUI->Last_CLick == LEFT_CLICK))
 		{
 			RequiredAction = new ActionAddNotes(this);
+			Note_Flag = true;
 			break;
 		}
 		else
@@ -99,6 +128,17 @@ Action* Registrar::CreateRequiredAction()
 //Executes the action, Releases its memory, and return true if done, false if cancelled
 bool Registrar::ExecuteAction(Action* pAct)
 {
+	if ((Delete_Flag == true)|| (Import_Flag == true) || (Add_Flag == true) || (Erase_Flag == true) || (Drag_Flag == true) || (Note_Flag == true) || (ChangeCode_Flag == true))
+	{
+		Add_To_StudyPlan(*pSPlan);
+		Import_Flag = false;
+		Delete_Flag = false;
+		Add_Flag = false;
+		Erase_Flag = false;
+		Drag_Flag = false;
+		Note_Flag = false;
+		ChangeCode_Flag = false;
+	}
 	bool done = pAct->Execute();
 	delete pAct;	//free memory of that action object (either action is exec or cancelled)
 	return done;
@@ -115,21 +155,36 @@ void Registrar::Run()
 	pSPlan->Set_Course_Type();
 	setCatalogCoursesType(); // Only once for now
 	setRules();
+	RegRules.SemMinCredit = 12;
+	RegRules.SemMaxCredit = 21;
+
 	while (true)
 	{
+
 		//update interface here as CMU Lib doesn't refresh itself
-		//when window is minimized then restored
+		//when window is minimized then restored..
+		setRules();
+		pSPlan->Set_Course_Type();
+		pSPlan->GenerateStudentLevel(pGUI);
 		pSPlan->checkPreAndCoReq();
 		pSPlan->checkCreditHrs(RegRules.SemMinCredit, RegRules.SemMaxCredit);
 		pSPlan->checkProgramReq();
 		pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);
-		pSPlan->Set_Course_Type();
+//<<<<<<< HEAD
+//		pSPlan->Set_Course_Type();
+//=======
+		pGUI->Total_Number_Pages_In_Report=(pSPlan->Get_Page_Number());
+		pGUI->DrawLiveReportPages((pGUI->ReportAreaHeight/15)-2, pGUI->Current_Page_Report);
+		pGUI->NotesLines.clear();
 		UpdateInterface();
 		Action* pAct = CreateRequiredAction();
 		if (pAct)	//if user doesn't cancel
 		{
-			if (ExecuteAction(pAct))	//if action is not cancelled
+	
+			if (ExecuteAction(pAct))
+			{//if action is not cancelled
 				UpdateInterface();
+			}
 		}
 	}
 }
@@ -137,6 +192,14 @@ void Registrar::Run()
 
 void Registrar::UpdateInterface()
 {
+	/*delete pSPlan;*/
+    pSPlan = List_Of_All_StudyPlans[Current_Study_Plan];
+	pGUI->Notes = pSPlan->PlanNotes;
+	pGUI->NotesLines.clear();
+	pGUI->SegmentNotes();
+	//pSPlan->checkPreAndCoReq();
+	pGUI->Total_Number_Study_Plans = List_Of_All_StudyPlans.size();
+	pGUI->Current_StudyPlan = Current_Study_Plan;
 	pGUI->UpdateInterface();	//update interface items
 	if (pGUI->Draw_Dependacies_Flag)
 	{
@@ -148,8 +211,13 @@ void Registrar::UpdateInterface()
 		Action* pAct = new  ActionDDOOC(this);
 		ExecuteAction(pAct);
 	}
+	//pSPlan->Set_Page_Number((pGUI->ReportAreaHeight / 15) - 2);
+	pGUI->ReportLines.clear();
 	pSPlan->DrawMe(pGUI);
 	pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);//make study plan draw itself
+	pGUI->Total_Number_Pages_In_Report = (pSPlan->Get_Page_Number());
+	pGUI->DrawLiveReportPages((pGUI->ReportAreaHeight / 15) - 2, pGUI->Current_Page_Report);
+	pGUI->DrawNotesPages((pGUI->NotesHeight / 15) - 2, pGUI->Current_Page_Notes);
 }
 
 Registrar::~Registrar()
@@ -590,4 +658,38 @@ void Registrar::setCatalogCoursesType()
 }
 
 
-
+void Registrar::Increment_Current_StudyPlan()
+{
+	if(Current_Study_Plan<(List_Of_All_StudyPlans.size()-1))
+	Current_Study_Plan++;
+}
+void Registrar::Decrement_Current_StudyPlan()
+{
+	if (Current_Study_Plan > 0)
+	Current_Study_Plan--;
+}
+void Registrar::Add_To_StudyPlan(StudyPlan &pS_New)
+{
+	if (Current_Study_Plan <= List_Of_All_StudyPlans.size() - 1)
+	{
+		StudyPlan*pS_Old = new StudyPlan;
+		*pS_Old = pS_New;
+		if (SPSC == 2)
+		{
+			List_Of_All_StudyPlans.push_back(pS_Old);
+			--SPSC;
+		}
+		else
+		{
+			if (Current_Study_Plan < List_Of_All_StudyPlans.size() - 1)
+				List_Of_All_StudyPlans.erase(List_Of_All_StudyPlans.begin() + Current_Study_Plan + 1, List_Of_All_StudyPlans.end() - Current_Study_Plan);
+			List_Of_All_StudyPlans.insert(List_Of_All_StudyPlans.end() - SPSC, pS_Old);
+		}
+		Current_Study_Plan++;
+		pSPlan = List_Of_All_StudyPlans[Current_Study_Plan];
+	}
+}
+int  Registrar::GetCurrent_Study_Plan() const
+{
+	return Current_Study_Plan;
+}

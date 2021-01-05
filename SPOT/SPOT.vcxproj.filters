@@ -160,6 +160,8 @@
     <ClCompile Include="Actions\ActionCourseDependancies.cpp" />
     <ClCompile Include="Actions\ActionDDOOC.cpp" />
     <ClCompile Include="Actions\ActionCalculateGPA.cpp" />
+    <ClCompile Include="Actions\ActionRedo.cpp" />
+    <ClCompile Include="Actions\ActionUndo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUI\GUI.h">
@@ -258,6 +260,8 @@
     <ClInclude Include="Actions\ActionCourseDependancies.h" />
     <ClInclude Include="Actions\ActionDDOOC.h" />
     <ClInclude Include="Actions\ActionCalculateGPA.h" />
+    <ClInclude Include="Actions\ActionRedo.h" />
+    <ClInclude Include="Actions\ActionUndo.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="GUI\CMUgraphicsLib\Manual.txt">

@@ -10,7 +10,18 @@ class Registrar
 {
 	GUI *pGUI;	//pointer to GUI 
 	Rules RegRules;	//Registration rules
-	StudyPlan *pSPlan;
+	static StudyPlan *pSPlan;
+	vector<StudyPlan*>List_Of_All_StudyPlans;
+	StudyPlan* pS_Old;
+	bool Import_Flag= false;
+	bool Delete_Flag = false;
+	bool Add_Flag = false;
+	bool Erase_Flag = false;
+	bool Drag_Flag = false;
+	bool Note_Flag = false;
+	bool ChangeCode_Flag = false;
+	int Current_Study_Plan = 0;
+	static int SPSC;
 	//Updated
 	//static vector<CourseInfo> allCourses;
 
@@ -35,8 +46,11 @@ public:
 	void setRules();
 	Course* interrogateCourse(int x, int y);
 
-	void importProgramReq();
 	void setCatalogCoursesType();
-
+	void importProgramReq();
+	void Increment_Current_StudyPlan();
+	void Decrement_Current_StudyPlan();
+	void Add_To_StudyPlan(StudyPlan &pS_New);
+	int GetCurrent_Study_Plan()const;
 };
 

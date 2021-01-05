@@ -15,7 +15,11 @@ void Drawable::setGfxInfo(graphicsInfo g)
 {
 	GfxInfo = g;
 }
-
+Drawable::Drawable(const Drawable& CopiedDW)
+{
+	GfxInfo = CopiedDW.GfxInfo;
+	Selected = CopiedDW.Selected;
+}
 graphicsInfo Drawable::getGfxInfo() const
 {
 	return GfxInfo;

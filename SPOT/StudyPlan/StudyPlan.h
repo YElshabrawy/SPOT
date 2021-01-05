@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include<string>
+#include<iterator>
 #include "AcademicYear.h"
 #include "../GUI/Drawable.h"
 #include"../Rules.h"
@@ -13,6 +15,8 @@ private:
 	vector<Error> Course_Offering_Errors; // Holds all the modirate errors for adding a course out of offering list
 
 	vector<int> Sem_Credits;
+	int Report_Lines;
+	Course* pCrs;
 	Major major;
 	Rules* pRules;
 	int concentrationNumber = 0; // Indicates which concentration is sellected (0 = no conc selected yet)
@@ -31,6 +35,8 @@ public:
 	int NumberOfConcentrations = 0,
 		ConcentrationMajorCredits = 0,
 		ConcentrationMinorCredits = 0;
+	int TotalDoneHours=0;
+	string StudentLevel;
 	vector<Course_Code> CompUniCourses,
 		ElectiveUniCourses,
 		TrackCourses,
@@ -38,8 +44,8 @@ public:
 		ElectiveMajorCourses,
 		CompConcentrationCourses,
 		ElectiveConcentrationCourses;
-
-	string PlanNotes;
+	int No_Of_Pages;
+	string PlanNotes="";
 	vector<AcademicYear*> plan;	//plan is a list of academic years
 	StudyPlan();
 	bool AddCourse(Course* , int year, SEMESTER);
@@ -49,15 +55,24 @@ public:
 	void checkPreAndCoReq();
 	void Set_Course_Type();
 	void checkCreditHrs(int min, int max);
-	void LiveReport(GUI* pGUI,int min,int max)const;
+	void LiveReport(GUI* pGUI,int min,int max);
 	void FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI);
 	void checkProgramReq();
 	void setMajor(Major major);
-	void Set_Plan_Rules(Rules& RegRules);
 	Major getMajor() const;
+	void Set_Plan_Rules(Rules& RegRules);
 	void setCourseTypeCredits(Type type, int mode, int hours);
 	void lazyCheck(int compared, int original, string errMsg, string checkMsg);
 	void checkOffering(string code, int crsYear, SEMESTER sem);
+	void GenerateStudentLevel(GUI* pGUI);
+	void increment_Report_Lines(int Number_Of_Inc);
+	int get_Report_Lines()const;
+	vector<int> get_Sem_Credits()const;
+	void Set_Report_Lines();
+	void Set_Page_Number(int Number_Of_lines);
+	int Get_Page_Number()const;
+	StudyPlan(const StudyPlan& CopiedSP);
+	StudyPlan operator=(const StudyPlan& CopiedSP);
 	virtual ~StudyPlan();
 };
 

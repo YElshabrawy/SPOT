@@ -33,21 +33,20 @@ enum ActionType
 	ADD_Note,   // Add notes
 	IMPORT_PLAN, //Import plan
 	ERASE,		 //Remove all courses
-	SWAP,
 	COURSE_INFO,
 	CHANGE_CODE,	//changes course code
 	DECLARE_MAJOR,
+	DECLARE_MINOR,
 	CRS_DEP,
 	PLAN_DEP,
-	CAL_GPA,
+	CAL_GPA,		//Calculate GPA
+	Filter,			//apply Filter
 
 	SAVE,		//Save a study plan to file
 	LOAD,		//Load a study plan from a file
 
 	UNDO,		//Undo the last Action preformed
 	REDO,		//Redo the last Action canceled
-
-	EXIT,		//Exit the application
 
 	STATUS_BAR,	//A click on the status bar
 	MENU_BAR,	//A click on an empty place in the menu bar

@@ -10,7 +10,6 @@ vector<int> Course::numOfCoursesPerSem((GUI::NumOfYrs *3));
 	numberOfErrors.Critical_errors = 0;
 	numberOfErrors.Moderate_errors = 0;
 }*/
-
 Course::Course(Course_Code r_code, string r_title, int crd,
 	vector<Course_Code> r_PreReq, vector<Course_Code> r_CoReq,
 	int r_year, SEMESTER r_sem) {
@@ -28,20 +27,22 @@ Course::Course(Course_Code r_code, string r_title, int crd,
 	numOfCoursesPerSem[(3 * (year - 1)) + sem]++;
 	
 }
-
 Course::Course()
 {
 	code = "";
 	Title = "";
 	Grade = "";
+	studentleveltoken = false;
 	Done = false;
 }
-
 Course::~Course()
 {
 }
-
 //Setters
+void  Course::setToken(bool Case)
+{
+	studentleveltoken = Case;
+}
 void Course::setCourseExempted(bool Case)
 {
 	Exempted = Case;
@@ -95,7 +96,7 @@ void Course::changeColor(color newColor)
 {
 	MyColor = newColor;
 }
-void Course::changeBorderColor(color newColor)
+void Course::changeBorderColor( color newColor)
 {
 	MyBorderColor = newColor;
 }
@@ -150,7 +151,6 @@ void Course::removePreReqErrors(string code)
 		}
 	}
 }
-
 void Course::removeCoReqErrors(string code)
 {
 	for (int i = 0; i < Coreq_Error_List.size(); i++) {
@@ -160,9 +160,11 @@ void Course::removeCoReqErrors(string code)
 		}
 	}
 }
-
 //Getters
-
+bool Course::getToken()const
+{
+	return studentleveltoken;
+}
 string Course::getGrade()const
 {
 	return Grade;
@@ -207,21 +209,18 @@ int Course::getCredits() const
 {
 	return credits;
 }
-
+//Vector getters
 vector<string> Course::getPreReq() const
 {
 	return PreReq;
 }
-
 vector<string> Course::getCoReq() const
 {
 	return CoReq;
 }
-
 int Course::getYear() const {
 	return year;
 }
-
 SEMESTER Course::getSemester() const {
 	return sem;
 }
@@ -233,38 +232,30 @@ color Course::getColor() const
 {
 	return MyColor;
 }
-
 color Course::getBorderColor() const
 {
 	return MyBorderColor;
 }
-
 bool Course::isUnknown() const
 {
 	return UnknownCRS;
 }
-
 int Course::getNumOfCrsPerSem(int year, SEMESTER sem)
 {
 	return numOfCoursesPerSem[(3 * (year - 1)) + sem];
 }
-
-
 int Course::getPreErrorsNumber() const
 {
 	return Prereq_Error_List.size();
 }
-
 int Course::getCoErrorsNumber() const
 {
 	return Coreq_Error_List.size();
 }
-
 void Course::DrawMe(GUI* pG) const
 {
 	pG->DrawCourse(this);
 }
-
 void Course::printCourse() const {
 	cout << "Displaying the course info.\n"
 		<< "Course ID: " << code << endl
@@ -282,7 +273,68 @@ void Course::printCourse() const {
 	}
 	cout << endl << endl;
 }
-
 Course* Course::getCoursePtr() {
 	return this;
+}
+Course::Course(const Course& CopiedCrs)
+{
+	MyColor =CopiedCrs.MyColor;
+	MyBorderColor = CopiedCrs.MyBorderColor;
+	UnknownCRS = CopiedCrs.UnknownCRS;
+	code = CopiedCrs.code;
+	Title = CopiedCrs.Title;
+	credits = CopiedCrs.credits;
+	type = CopiedCrs.type;
+	Done = CopiedCrs.Done;
+    pending = CopiedCrs.pending;
+	inprogress = CopiedCrs.inprogress;
+	Exempted = CopiedCrs.Exempted;
+	Replaced = CopiedCrs.Replaced;
+    studentleveltoken = CopiedCrs.studentleveltoken;
+	Grade = CopiedCrs.Grade;
+	year = CopiedCrs.year;
+	sem = CopiedCrs.sem;
+	DrawMe_Flag= CopiedCrs.DrawMe_Flag;
+	CCC_Flag= CopiedCrs.CCC_Flag;
+	Distance_Flag= CopiedCrs.Distance_Flag;
+	for (int i = 0; i < CopiedCrs.CoReq.size(); i++)
+	{
+		CoReq.push_back(CopiedCrs.CoReq[i]);
+	}
+	for (int i = 0; i < CopiedCrs.PreReq.size(); i++)
+	{
+		PreReq.push_back(CopiedCrs.PreReq[i]);
+	}
+
+}
+Course Course::operator=(const Course& CopiedCrs)
+{
+	MyColor = CopiedCrs.MyColor;
+	MyBorderColor = CopiedCrs.MyBorderColor;
+	UnknownCRS = CopiedCrs.UnknownCRS;
+	code = CopiedCrs.code;
+	Title = CopiedCrs.Title;
+	credits = CopiedCrs.credits;
+	type = CopiedCrs.type;
+	Done = CopiedCrs.Done;
+	pending = CopiedCrs.pending;
+	inprogress = CopiedCrs.inprogress;
+	Exempted = CopiedCrs.Exempted;
+	Replaced = CopiedCrs.Replaced;
+	studentleveltoken = CopiedCrs.studentleveltoken;
+	Grade = CopiedCrs.Grade;
+	year = CopiedCrs.year;
+	sem = CopiedCrs.sem;
+	DrawMe_Flag = CopiedCrs.DrawMe_Flag;
+	CCC_Flag = CopiedCrs.CCC_Flag;
+	Distance_Flag = CopiedCrs.Distance_Flag;
+	for (int i = 0; i < CopiedCrs.CoReq.size(); i++)
+	{
+		CoReq.push_back(CopiedCrs.CoReq[i]);
+	}
+	for (int i = 0; i < CopiedCrs.PreReq.size(); i++)
+	{
+		PreReq.push_back(CopiedCrs.PreReq[i]);
+	}
+	return (*this);
 }

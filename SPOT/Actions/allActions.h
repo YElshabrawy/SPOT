@@ -1,4 +1,6 @@
 #pragma once
+#include "ActionUndo.h"
+#include "ActionRedo.h"
 #include"ActionDDOOC.h"
 #include"ActionCourseDependancies.h"
 #include"ActionAddCourse.h"
@@ -13,3 +15,5 @@
 #include"ActionDragAndDrop.h"
 #include"ActionDeclareMajor.h"
 #include"ActionCalculateGPA.h"
+#include "ActionFilter.h"
+#include"ActionDeclareMinor.h";

@@ -3,7 +3,9 @@
 using namespace std;
 #include<iostream>
 #include "..\DEFs.h"
+#include<vector>
 #include "CMUgraphicsLib\CMUgraphics.h"
+#include <algorithm>
 
 class Course;
 class AcademicYear;
@@ -17,8 +19,8 @@ class GUI
 		//If you want to change the menu items order, just change the order here
 		ITM_ADD,		//Add a new course
 		ITM_DELETE,		//Delete a course
-		//ITM_UNDO,		//Undo last action
-		//ITM_REDO,		//Redo last action
+		ITM_UNDO,		//Undo last action
+		ITM_REDO,		//Redo last action
 		ITM_SAVE,		//Save the current splan
 		ITM_IMPORT,		//Import a pre-made plan or a default study plan
 		ITM_SWAP,
@@ -26,9 +28,11 @@ class GUI
 		ITM_Note,		//Add notes
 		ITM_ERASE,		//Clear all the data (courses)
 		ITM_MAJOR,
+		ITM_MINOR, //Minor decleration
 		ITM_CRS_DEP,
 		ITM_PLAN_DEP,
 		ITM_GPA,		//gpa item
+		ITM_Filter,		//Filter item
 		ITM_EXIT,		//Exit item
 		ITM_CNT			//no. of menu items ==> This should be the last line in this enum
 		
@@ -93,9 +97,10 @@ public:
 		InfoY1 = NotesHeight + MenuBarHeight + NotesY1;
 	// Course Info
 	int CourseInfoY1 = NotesY1 + NotesHeight + MyFactor;
-	string Notes, CourseTitle, CourseCode, CourseCredit, CourseStatus,CourseGrade;
+	string Notes, CourseTitle, CourseCode, CourseCredit, CourseStatus,CourseGrade,studentLevel;
 	int CourseInfoHeight = Y_div/3;
-
+	vector<string>ReportLines;
+	vector<string>NotesLines;
 	// Report Area
 	int ReportAreaY1 = CourseInfoY1 + CourseInfoHeight + MyFactor,
 		ReportAreaHeight = (Y_div / 3) - MyFactor,
@@ -108,28 +113,36 @@ public:
 	void CreateMenu() const;
 	void ClearDrawingArea() const;
 	void ClearStatusBar() const;	//Clears the status bar
-
+	void ClearReportArea() const;
+	void ClearNotesArea() const;
 	//output functions
 	void PrintMsg(string msg) const;		//prints a message on status bar
 	void DrawNoteArea() const;
-	void PrintNotes() const;
+	void SegmentNotes();
 	void DrawInfoArea() const;
 	void PrintCourseInfo()const;
 	void DrawReportArea() const;
-	void PrintCriticalError(Error Er,int I)const;
-	void PrintPrintModerateError(Error Er, int I, int Sem_Total_Crs,int Min_Crs,int Max_Crs)const;
+	void AddCriticalErrorLines(Error Er);
+	void AddModerateErrorLines(Error Er, int Sem_Total_Crs,int Min_Crs,int Max_Crs);
 	//Drawing functions
 	void DrawCourse(const Course* );
 	void DrawCourse(const Course* ,int x,int y);
 	void DrawAcademicYear(const AcademicYear*);
 	void UpdateInterface() const;
 	void DrawCourse_Dependacies(Course* pCr, Course* DpCr) const;
+	void DrawLiveReportPages(int Number_Lines,int Page_Number);
+	void DrawNotesPages(int Number_Lines, int Page_Number) const;
 	//input functions
 	ActionData GUI::GetUserAction(string msg = "") const;
 	string GetSrting() const;
 	string GetSrting(string MSG);
 	static int getYDivStartingPos();
-
+	static int Current_Page_Report;
+	static int Report_Stop, Report_Start,Notes_Stop,Notes_Start;
+	int Total_Number_Pages_In_Report;
+	int Total_Number_Pages_In_Notes;
+	static int Current_Page_Notes;
+	int Total_Number_Study_Plans, Current_StudyPlan;
 	//Dimention getters
 	static int getMenuBarHeight();
 	static int getY_div();

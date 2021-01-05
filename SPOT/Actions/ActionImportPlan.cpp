@@ -106,8 +106,6 @@ bool ActionImportPlan::Execute() {
 		}
 		i++;
 	}
-
 	finput.close();
-
 	return true;
 }

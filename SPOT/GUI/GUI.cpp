@@ -10,6 +10,12 @@ int GUI::YCoord = 0;
 clicktype GUI::Last_CLick = RIGHT_CLICK;
 bool GUI::Draw_Dependacies_Flag = false;
 bool GUI::Draw_Dependacies_For_One_Course = false;
+int  GUI::Current_Page_Report = 0;
+int  GUI::Current_Page_Notes = 0;
+int  GUI::Report_Stop = 0;
+int  GUI::Report_Start = 0;
+int  GUI::Notes_Stop = 0;
+int  GUI::Notes_Start = 0;
 GUI::GUI()
 { 
 	pWind = new window(WindWidth, WindHeight,wx,wy);
@@ -32,6 +38,22 @@ void GUI::ClearStatusBar() const
 	pWind->SetPen(StatusBarColor);
 	pWind->DrawRectangle(0, WindHeight - StatusBarHeight, WindWidth, WindHeight);
 }
+void GUI::ClearReportArea() const
+{
+	pWind->SetBrush(BkGrndColor);
+	pWind->SetPen(BkGrndColor);
+	pWind->DrawRectangle(SideBarX1, ReportAreaY1+27, SideBarX2, ReportAreaY1 + ReportAreaHeight);
+	pWind->SetPen(BLACK);
+	pWind->DrawRectangle(SideBarX1, ReportAreaY1, SideBarX2, ReportAreaY1 + ReportAreaHeight, FRAME);
+}
+void GUI::ClearNotesArea() const
+{
+	pWind->SetBrush(BkGrndColor);
+	pWind->SetPen(BkGrndColor);
+	pWind->DrawRectangle(SideBarX1, NotesY1 + 27, SideBarX2, NotesY1 + NotesHeight);
+	pWind->SetPen(BLACK);
+	pWind->DrawRectangle(SideBarX1, NotesY1, SideBarX2, NotesY1 + NotesHeight, FRAME);
+}
 void GUI::CreateMenu() const
 {
 	pWind->SetBrush(StatusBarColor);
@@ -44,8 +66,26 @@ void GUI::CreateMenu() const
 	string MenuItemImages[ITM_CNT];
 	MenuItemImages[ITM_ADD] = "GUI\\Images\\Menu\\menu_add.jpg";
 	MenuItemImages[ITM_DELETE] = "GUI\\Images\\Menu\\menu_delete.jpg";
-	//MenuItemImages[ITM_UNDO] = "GUI\\Images\\Menu\\menu_undo.jpg";
-	//MenuItemImages[ITM_REDO] = "GUI\\Images\\Menu\\menu_redo.jpg";
+	if ((Current_StudyPlan > 0) && (Current_StudyPlan < Total_Number_Study_Plans))
+	{
+		MenuItemImages[ITM_UNDO] = "GUI\\Images\\Menu\\menu_undo.jpg";
+		MenuItemImages[ITM_REDO] = "GUI\\Images\\Menu\\menu_redo.jpg";
+	}
+	else if ((Current_StudyPlan == 0) && (1<Total_Number_Study_Plans))
+	{
+		MenuItemImages[ITM_UNDO] = "GUI\\Images\\Menu\\menu_undo_gray.jpg";
+		MenuItemImages[ITM_REDO] = "GUI\\Images\\Menu\\menu_redo.jpg";
+	}
+	else
+	{
+		MenuItemImages[ITM_UNDO] = "GUI\\Images\\Menu\\menu_undo_gray.jpg";
+		MenuItemImages[ITM_REDO] = "GUI\\Images\\Menu\\menu_redo_gray.jpg";
+	}
+	if ((Current_StudyPlan == Total_Number_Study_Plans-1)&&(Current_StudyPlan!=0))
+	{
+		MenuItemImages[ITM_UNDO] = "GUI\\Images\\Menu\\menu_undo.jpg";
+		MenuItemImages[ITM_REDO] = "GUI\\Images\\Menu\\menu_redo_gray.jpg";
+	}
 	MenuItemImages[ITM_SAVE] = "GUI\\Images\\Menu\\menu_save.jpg";
 	MenuItemImages[ITM_IMPORT] = "GUI\\Images\\Menu\\menu_import.jpg";
 	MenuItemImages[ITM_SWAP] = "GUI\\Images\\Menu\\menu_swap.jpg";
@@ -53,8 +93,10 @@ void GUI::CreateMenu() const
 	MenuItemImages[ITM_Note] = "GUI\\Images\\Menu\\menu_notes.jpg";
 	MenuItemImages[ITM_ERASE] = "GUI\\Images\\Menu\\menu_erase.jpg";
 	MenuItemImages[ITM_MAJOR] = "GUI\\Images\\Menu\\menu_major.jpg";
+	MenuItemImages[ITM_MINOR] = "GUI\\Images\\Menu\\MinorDecleration.jpg";
 	MenuItemImages[ITM_CRS_DEP] = "GUI\\Images\\Menu\\menu_crs_dep.jpg";
 	MenuItemImages[ITM_PLAN_DEP] = "GUI\\Images\\Menu\\menu_plan_dep.jpg";
+	MenuItemImages[ITM_Filter] = "GUI\\Images\\Menu\\menu_filter.jpg";
 	MenuItemImages[ITM_EXIT] = "GUI\\Images\\Menu\\menu_quit.jpg";
 	MenuItemImages[ITM_GPA]= "GUI\\Images\\Menu\\menu_gpa.jpg";
 
@@ -87,7 +129,8 @@ void GUI::UpdateInterface() const
 	CreateMenu();
 	ClearStatusBar();
 	ClearDrawingArea();
-	PrintNotes();
+	ClearReportArea();
+	ClearNotesArea();
 	DrawNoteArea(); 
 	DrawInfoArea();
 	DrawReportArea();
@@ -107,38 +150,14 @@ void GUI::DrawCourse(const Course* pCrs)
 		pWind->SetPen(HiColor, 1);
 	else
 	{
-		
-			if (pCrs->getType() == maj)
-			{
-				pWind->SetBrush(GOLDENROD);
-				pWind->DrawRectangle(gInfo.x, gInfo.y, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT);
-			}
-			else if (pCrs->getType() == Track)
-			{
-				pWind->SetBrush(DARKGREEN);
-				pWind->DrawRectangle(gInfo.x, gInfo.y, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT);
-			}
-			else if (pCrs->getType() == Elective)
+		pWind->SetPen(pCrs->getBorderColor(), 1);
+			if (pCrs->getType() == Elective)
 			{
 				pWind->SetBrush(BLUEVIOLET);
 				pWind->DrawRectangle(gInfo.x, gInfo.y, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT, FILLED, 10, 10);
 			}
-			else if (pCrs->getType() == Minor)
-			{
-				pWind->SetBrush(ORANGE);
-				pWind->SetPen(ORANGE, 1);
-				pWind->DrawRectangle(gInfo.x, gInfo.y, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT);
-			}
-			else if (pCrs->getType() == concentration)
-			{
-				pWind->SetBrush(YELLOW);
-				pWind->DrawRectangle(gInfo.x, gInfo.y, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT);
-			}
 			else
-			{
-				pWind->SetPen(pCrs->getBorderColor(), 1);
 				pWind->DrawRectangle(gInfo.x, gInfo.y, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT);
-			}
 	}
 
 	pWind->DrawLine(gInfo.x, gInfo.y + CRS_HEIGHT / 2, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT / 2);
@@ -300,7 +319,18 @@ ActionData GUI::GetUserAction(string msg) const
 				case ITM_SWAP: return ActionData{ SWAP }; break;
 				case ITM_EXCHANGE: return ActionData{ CHANGE_CODE }; break;
 				case ITM_MAJOR: return ActionData{ DECLARE_MAJOR }; break;
+				case ITM_MINOR: return ActionData{ DECLARE_MINOR }; break;
 				case ITM_GPA:return ActionData{ CAL_GPA }; break;
+
+					if (Current_StudyPlan < Total_Number_Study_Plans - 1)
+					{
+				     case ITM_REDO:return ActionData{ REDO }; break;
+					}
+					if (Current_StudyPlan != 0)
+					{
+					 case ITM_UNDO:return ActionData{ UNDO }; break;
+					}
+				case ITM_Filter:return ActionData{ Filter }; break;
 				case ITM_CRS_DEP:
 				{
 					Draw_Dependacies_For_One_Course = false;
@@ -325,6 +355,36 @@ ActionData GUI::GetUserAction(string msg) const
 			{
 				XCoord = x; YCoord = y;
 				Last_CLick = ctInput;
+				if ((x >= (SideBarX1 + 2)) && (x <= (SideBarX1 + 24)) && (y >= (ReportAreaY1 + 2)) && (y <= (ReportAreaY1 + 24)))
+				{
+					if ((Current_Page_Report <= Total_Number_Pages_In_Report) && (Current_Page_Report != 0))
+					{
+						Current_Page_Report--;
+					}
+				}
+				else if ((x >= (SideBarX2 - 24)) && (x <= (SideBarX2 - 2)) && (y >= ReportAreaY1 + 2) && (y <= ReportAreaY1 + 24))
+				{
+					if (Current_Page_Report < Total_Number_Pages_In_Report)
+					{
+						Current_Page_Report++;
+					}
+				}
+
+				if ((x >= (SideBarX1 + 2)) && (x <= (SideBarX1 + 24)) && (y >= (NotesY1 + 2)) && (y <= (NotesY1 + 24)))
+				{
+					if ((Current_Page_Notes <= Total_Number_Pages_In_Notes) && (Current_Page_Notes != 0))
+					{
+						Current_Page_Notes--;
+					}
+				}
+				else if ((x >= (SideBarX2 - 24)) && (x <= (SideBarX2 - 2)) && (y >= NotesY1 + 2) && (y <= NotesY1 + 24))
+				{
+					if (Current_Page_Notes < Total_Number_Pages_In_Notes)
+					{
+						Current_Page_Notes++;
+					}
+				}
+
 				return ActionData{ DRAW_AREA,x,y };	//user want clicks inside drawing area
 			}
 			//[3] User clicks on the status bar
@@ -519,31 +579,25 @@ string GUI::GetSrting( string Text)
 	}
 
 }
-void GUI::PrintNotes() const
+void GUI::SegmentNotes()
 {
-	int MsgX = NotesX1+5;
-	int MsgY = NotesY1+MyFactor*6+5;
 	string msg = Notes;
 	int Size = size(msg);
 	int Test_Msg=0;
+    NotesLines.clear();
 	int Start =1, End = string_Max_Width;
-	pWind->SetFont(15, BOLD, BY_NAME, "Times New Rome");
-	pWind->SetPen(BLACK);
-	if (Size-1 > string_Max_Width)
+	if(Notes.size()!=0)
 		for (int i = 0; i < ((Size/string_Max_Width)+1); i++)
-		{
-			if (Test_Msg > Size-1)
-			{
-				End = Size-i-Start;
-			}
-				pWind->DrawString(MsgX, MsgY + 15 * i, msg.substr(Start, End));
-				Start += string_Max_Width;
-				Test_Msg= Start+ string_Max_Width;
-					End = string_Max_Width;
-		}
-	else
-		pWind->DrawString(MsgX, MsgY, msg);
-
+	    {
+		  if (Test_Msg > Size-1)
+		  {
+			End = Size-i-Start;
+		  }
+		  NotesLines.push_back(msg.substr(Start, End));
+		  Start += string_Max_Width;
+		  Test_Msg= Start+ string_Max_Width;
+		  End = string_Max_Width;
+	    }
 }
 void GUI::DrawNoteArea()const
 {
@@ -554,8 +608,29 @@ void GUI::DrawNoteArea()const
 	pWind->SetBrush(WHITE);
 	pWind->DrawLine(SideBarX1, NotesY1 + 25, SideBarX2, NotesY1 + 25);
 	pWind->DrawRectangle(SideBarX1, NotesY1, SideBarX2, NotesY1 + 25);
-	pWind->DrawString(SideBarX1 + myNotesFactor , NotesY1 + 6, "My Notes");
+	string str = to_string(Current_Page_Notes+1);
+	pWind->DrawString(SideBarX1 + myNotesFactor-20 , NotesY1 + 6,("My Notes Page "+str));
 	pWind->DrawImage("GUI\\Images\\Menu\\Edit_Notes.jpeg", SideBarX1+(SideBarX2- SideBarX1)/2-45, 10, 100, 30);
+	if ((Current_Page_Notes == 0) && (Total_Number_Pages_In_Notes >=1))
+	{
+		pWind->DrawImage("GUI/Images/Menu/prevgray.jpg", SideBarX1 + 2, NotesY1 + 2);
+		pWind->DrawImage("GUI/Images/Menu/nextblue.jpg", SideBarX2 - 24, NotesY1 + 2);
+	}
+	else if ((Current_Page_Notes > 0) && (Total_Number_Pages_In_Notes > Current_Page_Notes))
+	{
+		pWind->DrawImage("GUI/Images/Menu/prevblue.jpg", SideBarX1 + 2, NotesY1 + 2);
+		pWind->DrawImage("GUI/Images/Menu/nextblue.jpg", SideBarX2 - 24, NotesY1 + 2);
+	}
+	else if ((Current_Page_Notes > 0) && (Total_Number_Pages_In_Notes == Current_Page_Notes))
+	{
+		pWind->DrawImage("GUI/Images/Menu/prevblue.jpg", SideBarX1 + 2, NotesY1 + 2);
+		pWind->DrawImage("GUI/Images/Menu/nextgray.jpg", SideBarX2 - 24, NotesY1 + 2);
+	}
+	else
+	{
+		pWind->DrawImage("GUI/Images/Menu/prevgray.jpg", SideBarX1 + 2, NotesY1 + 2);
+		pWind->DrawImage("GUI/Images/Menu/nextgray.jpg", SideBarX2 - 24, NotesY1 + 2);
+	}
 }
 void GUI::DrawReportArea() const
 {
@@ -566,55 +641,50 @@ void GUI::DrawReportArea() const
 	pWind->SetBrush(WHITE);
 	pWind->DrawLine(SideBarX1, ReportAreaY1 + 25, SideBarX2, ReportAreaY1 + 25);
 	pWind->DrawRectangle(SideBarX1, ReportAreaY1, SideBarX2, ReportAreaY1 + 25);
-	pWind->DrawString(SideBarX1 + myReportFactor, ReportAreaY1 + 6, "Live Report");
+	string str = to_string(Current_Page_Report + 1);
+	if (Total_Number_Pages_In_Report == 0)
+		str = "1";
+	pWind->DrawString(SideBarX1 + myReportFactor-20, ReportAreaY1 + 6, ("Live Report Page "+str));
+	if ((Current_Page_Report == 0)&&(Total_Number_Pages_In_Report>1))
+	{
+		pWind->DrawImage("GUI/Images/Menu/prevgray.jpg", SideBarX1 + 2, ReportAreaY1 + 2);
+		pWind->DrawImage("GUI/Images/Menu/nextblue.jpg", SideBarX2 - 24, ReportAreaY1 + 2);
+	}
+	else if ((Current_Page_Report > 0) && (Total_Number_Pages_In_Report > Current_Page_Report))
+	{
+		pWind->DrawImage("GUI/Images/Menu/prevblue.jpg", SideBarX1 + 2, ReportAreaY1 + 2);
+		pWind->DrawImage("GUI/Images/Menu/nextblue.jpg", SideBarX2 - 24, ReportAreaY1 + 2);
+	}
+	else if ((Current_Page_Report > 0) && (Total_Number_Pages_In_Report== Current_Page_Report))
+	{
+		pWind->DrawImage("GUI/Images/Menu/prevblue.jpg", SideBarX1 + 2, ReportAreaY1 + 2);
+		pWind->DrawImage("GUI/Images/Menu/nextgray.jpg", SideBarX2 - 24, ReportAreaY1 + 2);
+	}
+	else
+	{
+		pWind->DrawImage("GUI/Images/Menu/prevgray.jpg", SideBarX1 + 2, ReportAreaY1 + 2);
+		pWind->DrawImage("GUI/Images/Menu/nextgray.jpg", SideBarX2 - 24, ReportAreaY1 + 2);
+	}
 	//pWind->DrawImage("GUI\\Images\\Menu\\Edit_Notes.jpeg", SideBarX1 + (SideBarX2 - SideBarX1) / 2 - 45, 10, 100, 30);
 }
-void GUI::PrintCriticalError(Error Er, int I)const
+void GUI::AddCriticalErrorLines(Error Er)
 {
-	int MsgX = NotesX1 + 5;
-	int MsgY = NotesY1 + MyFactor *10+ 5 +NotesHeight*2;
 	string msg = Er.Msg;
-	int Size = size(msg);
-	int Test_Msg = 0;
-
-	pWind->SetBrush(RED);
-	pWind->SetPen(RED);
-	pWind->DrawRectangle(NotesX1+5, MsgY + 15 * I, MsgX+ MyFactor * 22, MsgY + 15 * I+14, FILLED);
-	pWind->SetPen(WHITE);
-	pWind->SetFont(12, BOLD, BY_NAME, "Times New Rome");
-	pWind->DrawString(NotesX1 + 5, MsgY + 15 * I, "CRITICAL ERROR:");
-
-	pWind->SetPen(BLACK);
-	pWind->SetFont(12, BOLD, BY_NAME, "Times New Rome");
-    pWind->DrawString(MsgX, MsgY+15*(I+1), msg);
+	ReportLines.push_back("CRITICAL ERROR:");
+	ReportLines.push_back(msg);
 }
-void GUI::PrintPrintModerateError(Error Er, int I, int Sem_Total_Crs,int Min_Crs,int Max_Crs)const
+void GUI::AddModerateErrorLines(Error Er, int Sem_Total_Crs,int Min_Crs,int Max_Crs)
 {
-	int MsgX = NotesX1 + 5;
-	int MsgY = NotesY1 + MyFactor * 10 + 5 + NotesHeight * 2;
 	string msg = Er.Msg;
-	string Petition;
-	int Size = size(msg);
-
-	pWind->SetBrush(GOLDENROD);
-	pWind->SetPen(GOLDENROD);
-	pWind->DrawRectangle(NotesX1 + 5, MsgY + 15 * I, MsgX + MyFactor * 25, MsgY + 15 * I + 14, FILLED);
-	pWind->SetPen(WHITE);
-	pWind->SetFont(12, BOLD, BY_NAME, "Times New Rome");
-	pWind->DrawString(NotesX1 + 5, MsgY + 15 * I, "MODERATE ERROR:");
-
-	pWind->SetPen(BLACK);
-	pWind->SetFont(12, BOLD, BY_NAME, "Times New Rome");
-	pWind->DrawString(MsgX, MsgY + 15 * (I + 1), msg);
+	ReportLines.push_back("MODERATE ERROR:");
+	ReportLines.push_back(msg);
 	if (Sem_Total_Crs < Min_Crs)
 	{
-		Petition = "You May Need An Underload Petition";
-		pWind->DrawString(MsgX, MsgY + 15 * (I + 2), Petition);
+		ReportLines.push_back("You May Need An Underload Petition");
 	}
 	else if ((Sem_Total_Crs > Max_Crs))
 	{
-		Petition = "You May Need An Overload Petition";
-		pWind->DrawString(MsgX, MsgY + 15 * (I + 2), Petition);
+		ReportLines.push_back("You May Need An Overload Petition");
 	}
 }
 void GUI::DrawInfoArea()const
@@ -627,7 +697,80 @@ void GUI::DrawInfoArea()const
 	pWind->DrawLine(SideBarX1, CourseInfoY1 + 25, SideBarX2, CourseInfoY1 + 25);
 	pWind->DrawString(SideBarX1 + courseInfoFactor, CourseInfoY1 + 6, "Course Information");
 }
+void GUI::DrawLiveReportPages(int Number_Lines, int Page_Number)
+{
+	ClearReportArea();
+	int MsgX = NotesX1 + 5;
+    int MsgY = NotesY1 + MyFactor * 10 + 5 + NotesHeight * 2;
+	int Counter = 0;
+	Report_Start = 0;
+	Report_Stop = 11;
+	Report_Start += Number_Lines * Page_Number ;
+	Report_Stop += Number_Lines * Page_Number;
 
+	if (Report_Stop > ReportLines.size())
+		Report_Stop = ReportLines.size();
+	if (!ReportLines.empty())
+	{
+		for (int i = Report_Start; i < Report_Stop; i++)
+		{
+			if (ReportLines[i] == "MODERATE ERROR:")
+			{
+				pWind->SetBrush(GOLDENROD);
+				pWind->SetPen(GOLDENROD);
+				pWind->DrawRectangle(NotesX1 + 5, MsgY + 15 * Counter, MsgX + MyFactor * 25, MsgY + 15 * Counter + 14, FILLED);
+				pWind->SetPen(WHITE);
+				pWind->SetFont(12, BOLD, BY_NAME, "Times New Rome");
+				pWind->DrawString(NotesX1 + 5, MsgY + 15 * Counter, ReportLines[i]);
+				Counter++;
+			}
+			else if (ReportLines[i] == "CRITICAL ERROR:")
+			{
+				pWind->SetBrush(RED);
+				pWind->SetPen(RED);
+				pWind->DrawRectangle(NotesX1 + 5, MsgY + 15 * Counter, MsgX + MyFactor * 22, MsgY + 15 * Counter + 14, FILLED);
+				pWind->SetPen(WHITE);
+				pWind->SetFont(12, BOLD, BY_NAME, "Times New Rome");
+				pWind->DrawString(NotesX1 + 5, MsgY + 15 * Counter, ReportLines[i]);
+				Counter++;
+			}
+			else
+			{
+				pWind->SetPen(BLACK);
+				pWind->SetFont(12, BOLD, BY_NAME, "Times New Rome");
+				pWind->DrawString(NotesX1 + 5, MsgY + 15 * Counter, ReportLines[i]);
+				Counter++;
+			}
+		}
+	}
+}
+void GUI::DrawNotesPages(int Number_Lines, int Page_Number)const
+{
+	ClearNotesArea();
+	int MsgX = NotesX1+5;
+    int MsgY = NotesY1+MyFactor*6+5;
+	int Counter = 0;
+
+	Notes_Start = 0;
+	Notes_Stop = 11;
+	Notes_Start += Number_Lines * Page_Number;
+    Notes_Stop += Number_Lines * Page_Number;
+	
+	if (Notes_Stop > NotesLines.size())
+		Notes_Stop = NotesLines.size();
+
+	if (!NotesLines.empty())
+	{
+		for (int i = Notes_Start; i < Notes_Stop; i++)
+		{
+
+			pWind->SetFont(14, BOLD, BY_NAME, "Times New Rome");
+	        pWind->SetPen(BLACK);
+			pWind->DrawString(NotesX1 + 5, MsgY + 15 * Counter, NotesLines[i]);
+			Counter++;
+		}
+	}
+}
 void GUI::PrintCourseInfo()const
 {
 	int MsgX = InfoX1+5;
@@ -668,16 +811,22 @@ void GUI::PrintCourseInfo()const
 }
 void GUI::DrawCourse_Dependacies(Course* pCr, Course* DpCr) const
 {
-	pWind->SetBrush(BLACK);
+	//pWind->SetBrush(BLACK);
 	//pWind->SetPen(BLACK);
 	graphicsInfo gInfo_Of_PreOrCo = pCr->getGfxInfo();
 	graphicsInfo gInfo_Of_DepCr = DpCr->getGfxInfo();
-	/*if (gInfo_Of_DepCr.y == gInfo_Of_PreOrCo.y)
+	if ((gInfo_Of_DepCr.y == gInfo_Of_PreOrCo.y)&&((abs(gInfo_Of_DepCr.x+CRS_WIDTH-gInfo_Of_PreOrCo.x)==40)))
 	{
-
-	}*/
-	//else
-	//{
+		pWind->DrawTriangle(gInfo_Of_DepCr.x + CRS_WIDTH, gInfo_Of_DepCr.y + CRS_HEIGHT / 2, gInfo_Of_DepCr.x + CRS_WIDTH + 5, gInfo_Of_DepCr.y + CRS_HEIGHT / 2 - 5, gInfo_Of_DepCr.x + CRS_WIDTH + 5, gInfo_Of_DepCr.y + CRS_HEIGHT / 2 + 5, FILLED);
+		pWind->DrawLine(gInfo_Of_DepCr.x + CRS_WIDTH, gInfo_Of_DepCr.y + CRS_HEIGHT / 2, gInfo_Of_PreOrCo.x, gInfo_Of_PreOrCo.y + CRS_HEIGHT / 2);
+	}
+	else if ((gInfo_Of_DepCr.y == gInfo_Of_PreOrCo.y) && ((abs(gInfo_Of_PreOrCo.x + CRS_WIDTH - gInfo_Of_DepCr.x) == 40)))
+	{
+		pWind->DrawTriangle(gInfo_Of_DepCr.x, gInfo_Of_DepCr.y + CRS_HEIGHT / 2, gInfo_Of_DepCr.x - 5, gInfo_Of_DepCr.y + CRS_HEIGHT / 2 - 5, gInfo_Of_DepCr.x - 5, gInfo_Of_DepCr.y + CRS_HEIGHT / 2 + 5, FILLED);
+		pWind->DrawLine(gInfo_Of_PreOrCo.x + CRS_WIDTH, gInfo_Of_PreOrCo.y + CRS_HEIGHT / 2, gInfo_Of_DepCr.x, gInfo_Of_DepCr.y + CRS_HEIGHT / 2);
+	}
+	else
+	{
 		if (gInfo_Of_DepCr.x == gInfo_Of_PreOrCo.x)
 		{
 			pWind->DrawTriangle(gInfo_Of_DepCr.x + CRS_WIDTH, gInfo_Of_DepCr.y + CRS_HEIGHT / 2, gInfo_Of_DepCr.x + CRS_WIDTH + 5, gInfo_Of_DepCr.y + CRS_HEIGHT / 2 - 5, gInfo_Of_DepCr.x + CRS_WIDTH + 5, gInfo_Of_DepCr.y + CRS_HEIGHT / 2 + 5, FILLED);
@@ -696,7 +845,7 @@ void GUI::DrawCourse_Dependacies(Course* pCr, Course* DpCr) const
 			//pWind->SetPen(BLACK, 2);
 			pWind->DrawBezier(gInfo_Of_DepCr.x + CRS_WIDTH, gInfo_Of_DepCr.y + CRS_HEIGHT / 2, gInfo_Of_DepCr.x + CRS_WIDTH + 60, gInfo_Of_DepCr.y + 20, gInfo_Of_PreOrCo.x + CRS_WIDTH - 10, gInfo_Of_PreOrCo.y + CRS_HEIGHT - 10, gInfo_Of_PreOrCo.x + CRS_WIDTH / 2, gInfo_Of_PreOrCo.y + CRS_HEIGHT);
 		}
-	//}
+	}
 }
 //Dimention getters
 int GUI::getMenuBarHeight() {
