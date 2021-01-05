@@ -125,6 +125,7 @@
     <ClCompile Include="Actions\ActionChangeCode.cpp" />
     <ClCompile Include="Actions\ActionCourseInfo.cpp" />
     <ClCompile Include="Actions\ActionDDOOC.cpp" />
+    <ClCompile Include="Actions\ActionDeclareMinor.cpp" />
     <ClCompile Include="Actions\ActionEraseAll.cpp" />
     <ClCompile Include="Actions\ActionFilter.cpp" />
     <ClCompile Include="Actions\ActionImportPlan.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="Actions\ActionDeclareMajor.h" />
     <ClInclude Include="Actions\ActionChangeCode.h" />
     <ClInclude Include="Actions\ActionCourseInfo.h" />
+    <ClInclude Include="Actions\ActionDeclareMinor.h" />
     <ClInclude Include="Actions\ActionEraseAll.h" />
     <ClInclude Include="Actions\ActionFilter.h" />
     <ClInclude Include="Actions\ActionImportPlan.h" />

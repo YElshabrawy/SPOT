@@ -161,6 +161,7 @@
     <ClCompile Include="Actions\ActionDDOOC.cpp" />
     <ClCompile Include="Actions\ActionCalculateGPA.cpp" />
     <ClCompile Include="Actions\ActionFilter.cpp" />
+    <ClCompile Include="Actions\ActionDeclareMinor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUI\GUI.h">
@@ -260,6 +261,7 @@
     <ClInclude Include="Actions\ActionDDOOC.h" />
     <ClInclude Include="Actions\ActionCalculateGPA.h" />
     <ClInclude Include="Actions\ActionFilter.h" />
+    <ClInclude Include="Actions\ActionDeclareMinor.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="GUI\CMUgraphicsLib\Manual.txt">

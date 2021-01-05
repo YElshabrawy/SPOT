@@ -28,6 +28,7 @@ class GUI
 		ITM_Note,		//Add notes
 		ITM_ERASE,		//Clear all the data (courses)
 		ITM_MAJOR,
+		ITM_MINOR, //Minor decleration
 		ITM_CRS_DEP,
 		ITM_PLAN_DEP,
 		ITM_GPA,		//gpa item

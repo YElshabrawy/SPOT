@@ -37,6 +37,7 @@ enum ActionType
 	COURSE_INFO,
 	CHANGE_CODE,	//changes course code
 	DECLARE_MAJOR,
+	DECLARE_MINOR,
 	CRS_DEP,
 	PLAN_DEP,
 	CAL_GPA,		//Calculate GPA

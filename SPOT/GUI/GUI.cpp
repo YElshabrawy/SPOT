@@ -75,6 +75,7 @@ void GUI::CreateMenu() const
 	MenuItemImages[ITM_Note] = "GUI\\Images\\Menu\\menu_notes.jpg";
 	MenuItemImages[ITM_ERASE] = "GUI\\Images\\Menu\\menu_erase.jpg";
 	MenuItemImages[ITM_MAJOR] = "GUI\\Images\\Menu\\menu_major.jpg";
+	MenuItemImages[ITM_MINOR] = "GUI\\Images\\Menu\\MinorDecleration.jpg";
 	MenuItemImages[ITM_CRS_DEP] = "GUI\\Images\\Menu\\menu_crs_dep.jpg";
 	MenuItemImages[ITM_PLAN_DEP] = "GUI\\Images\\Menu\\menu_plan_dep.jpg";
 	MenuItemImages[ITM_Filter] = "GUI\\Images\\Menu\\menu_filter.jpg";
@@ -298,6 +299,7 @@ ActionData GUI::GetUserAction(string msg) const
 				case ITM_SWAP: return ActionData{ SWAP }; break;
 				case ITM_EXCHANGE: return ActionData{ CHANGE_CODE }; break;
 				case ITM_MAJOR: return ActionData{ DECLARE_MAJOR }; break;
+				case ITM_MINOR: return ActionData{ DECLARE_MINOR }; break;
 				case ITM_GPA:return ActionData{ CAL_GPA }; break;
 				case ITM_Filter:return ActionData{ Filter }; break;
 				case ITM_CRS_DEP:

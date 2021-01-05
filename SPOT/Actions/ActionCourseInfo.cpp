@@ -24,7 +24,7 @@ bool ActionCourseInfo::Execute()
 		else
 		{
 
-			pGUI->CourseGrade = "Course Grade:";
+			pGUI->CourseGrade = "Course Grade: ";
 			pGUI->CourseStatus = "Course Status: ";
 			pReg->UpdateInterface();
 			pCr->changeColor(BLACK);

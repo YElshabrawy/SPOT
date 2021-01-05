@@ -216,12 +216,11 @@ int Course::getCredits() const
 {
 	return credits;
 }
-
+//Vector getters
 vector<string> Course::getPreReq() const
 {
 	return PreReq;
 }
-
 vector<string> Course::getCoReq() const
 {
 	return CoReq;

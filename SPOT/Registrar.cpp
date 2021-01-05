@@ -67,6 +67,9 @@ Action* Registrar::CreateRequiredAction()
 	case DECLARE_MAJOR:
 		RequiredAction = new ActionDeclareMajor(this);//declare major photo till i get a photo for this one
 		break;
+	case DECLARE_MINOR:
+		RequiredAction = new ActionDeclareMinor(this);
+		break;
 	case CRS_DEP:
 		RequiredAction = new ActionDDOOC(this);
 		break;
