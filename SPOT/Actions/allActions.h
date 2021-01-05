@@ -1,4 +1,6 @@
 #pragma once
+#include "ActionUndo.h"
+#include "ActionRedo.h"
 #include"ActionDDOOC.h"
 #include"ActionCourseDependancies.h"
 #include"ActionAddCourse.h"

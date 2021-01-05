@@ -19,24 +19,20 @@ bool StudyPlan::AddCourse(Course* pC, int year, SEMESTER sem)
 	plan[year - 1]->AddCourse(pC, sem);
 	return true;
 }
-
 bool StudyPlan::DeleteCourse(Course* pC) {
 	plan[pC->getYear() - 1]->DeleteCourse(pC, pC->getSemester());
 
 	return true;
 }
-
 void StudyPlan::DrawMe(GUI* pGUI) const
 {
 	//Plan draws all year inside it.
 	for (int i = 0; i < plan.size(); i++)
 		plan[i]->DrawMe(pGUI);
 }
-
 vector<AcademicYear*>* StudyPlan::getStudyPlanVector() {
 	return &plan;
 }
-
 void StudyPlan::checkPreAndCoReq()
 {
 	// For each crs
@@ -327,6 +323,7 @@ void StudyPlan::LiveReport(GUI* pGUI, int Min_Crs, int Max_Crs)
 		pGUI->AddModerateErrorLines(CH_Error_List[i], Sem_Credits[i], Min_Crs, Max_Crs);
 		increment_Report_Lines(3);
 	}
+	Set_Page_Number((pGUI->Y_div/45)-2);
 	pGUI->Total_Number_Pages_In_Report = (Get_Page_Number());
 }
 void StudyPlan::GenerateStudentLevel(GUI* pGUI)
@@ -374,7 +371,6 @@ void StudyPlan::GenerateStudentLevel(GUI* pGUI)
 	cout << "Generate student level called"<<endl;//debugging
 	pGUI->studentLevel =StudentLevel;
 }
-
 int StudyPlan::Get_Page_Number()const
 {
 	return No_Of_Pages;
@@ -391,17 +387,9 @@ void StudyPlan::Set_Report_Lines()
 {
 	Report_Lines = 0;
 }
-void StudyPlan::Add_Error(Error ER)
-{
-	TOTAL_ERRORS_TO_DRAW.push_back(ER);
-}
-vector<Error>StudyPlan::Get_ALL_ERROR()const
-{
-	return TOTAL_ERRORS_TO_DRAW;
-}
 void StudyPlan::Set_Course_Type()
 {
-	string Code;
+	string Code="";
 		for (AcademicYear* yr : plan)
 		{
 			list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
@@ -527,6 +515,144 @@ vector<int> StudyPlan::get_Sem_Credits()const
 void StudyPlan::Set_Plan_Rules(Rules &RegRules)
 {
 	pRules = &RegRules;
+}
+StudyPlan::StudyPlan(const StudyPlan& CopiedSP):Drawable()
+{
+	PlanNotes = CopiedSP.PlanNotes;
+	Report_Lines = CopiedSP.Report_Lines;
+	No_Of_Pages = CopiedSP.No_Of_Pages;
+	TotalDoneHours = CopiedSP.TotalDoneHours;
+	ConcentrationMinorCredits = CopiedSP.ConcentrationMinorCredits;
+	ConcentrationMajorCredits = CopiedSP.ConcentrationMajorCredits;
+	NumberOfConcentrations = CopiedSP.NumberOfConcentrations;
+	MaxCredits = CopiedSP.MaxCredits;
+	TotalMinorCredits = CopiedSP.TotalMinorCredits;
+	TotalConcentrationCredits = CopiedSP.TotalConcentrationCredits;
+	TotalTrackCredits = CopiedSP.TotalTrackCredits;
+	TotalMajorCredits = CopiedSP.TotalMajorCredits;
+	TotalUnivCredits = CopiedSP.TotalUnivCredits;
+	TotalCredits = CopiedSP.TotalCredits;
+	StudentLevel = CopiedSP.StudentLevel;
+	major = CopiedSP.major;
+	pRules = CopiedSP.pRules;
+	for (int i = 0; i < CopiedSP.Sem_Credits.size(); i++)
+	{
+		Sem_Credits.push_back(CopiedSP.Sem_Credits[i]);
+	}
+	for (int i = 0; i < CopiedSP.CH_Error_List.size(); i++)
+	{
+		CH_Error_List.push_back(CopiedSP.CH_Error_List[i]);
+	}
+	for (int i = 0; i < CopiedSP.CompUniCourses.size(); i++)
+	{
+		CompUniCourses.push_back(CopiedSP.CompUniCourses[i]);
+	}
+	for (int i = 0; i < CopiedSP.ElectiveUniCourses.size(); i++)
+	{
+		ElectiveUniCourses.push_back(CopiedSP.ElectiveUniCourses[i]);
+	}
+	for (int i = 0; i < CopiedSP.TrackCourses.size(); i++)
+	{
+		TrackCourses.push_back(CopiedSP.TrackCourses[i]);
+	}
+	for (int i = 0; i < CopiedSP.CompMajorCourses.size(); i++)
+	{
+		CompMajorCourses.push_back(CopiedSP.CompMajorCourses[i]);
+	}
+	for (int i = 0; i < CopiedSP.ElectiveMajorCourses.size(); i++)
+	{
+		ElectiveMajorCourses.push_back(CopiedSP.ElectiveMajorCourses[i]);
+	}
+	for (int i = 0; i < CopiedSP.CompConcentrationCourses.size(); i++)
+	{
+		CompConcentrationCourses.push_back(CopiedSP.CompConcentrationCourses[i]);
+	}
+	for (int i = 0; i < CopiedSP.ElectiveConcentrationCourses.size(); i++)
+	{
+		ElectiveConcentrationCourses.push_back(CopiedSP.ElectiveConcentrationCourses[i]);
+	}
+
+}
+StudyPlan StudyPlan::operator=(const StudyPlan& CopiedSP)
+{
+	PlanNotes = CopiedSP.PlanNotes;
+	Report_Lines = CopiedSP.Report_Lines;
+	No_Of_Pages = CopiedSP.No_Of_Pages;
+	TotalDoneHours = CopiedSP.TotalDoneHours;
+	ConcentrationMinorCredits = CopiedSP.ConcentrationMinorCredits;
+	ConcentrationMajorCredits = CopiedSP.ConcentrationMajorCredits;
+	NumberOfConcentrations = CopiedSP.NumberOfConcentrations;
+	MaxCredits = CopiedSP.MaxCredits;
+	TotalMinorCredits = CopiedSP.TotalMinorCredits;
+	TotalConcentrationCredits = CopiedSP.TotalConcentrationCredits;
+	TotalTrackCredits = CopiedSP.TotalTrackCredits;
+	TotalMajorCredits = CopiedSP.TotalMajorCredits;
+	TotalUnivCredits = CopiedSP.TotalUnivCredits;
+	TotalCredits = CopiedSP.TotalCredits;
+	StudentLevel = CopiedSP.StudentLevel;
+	major = CopiedSP.major;
+	pRules = CopiedSP.pRules;
+	for (int i = 0; i < CopiedSP.Sem_Credits.size(); i++)
+	{
+		Sem_Credits.push_back(CopiedSP.Sem_Credits[i]);
+	}
+	for (int i = 0; i < CopiedSP.CH_Error_List.size(); i++)
+	{
+		CH_Error_List.push_back(CopiedSP.CH_Error_List[i]);
+	}
+	for (int i = 0; i < CopiedSP.CompUniCourses.size(); i++)
+	{
+		CompUniCourses.push_back(CopiedSP.CompUniCourses[i]);
+	}
+	for (int i = 0; i < CopiedSP.ElectiveUniCourses.size(); i++)
+	{
+		ElectiveUniCourses.push_back(CopiedSP.ElectiveUniCourses[i]);
+	}
+	for (int i = 0; i < CopiedSP.TrackCourses.size(); i++)
+	{
+		TrackCourses.push_back(CopiedSP.TrackCourses[i]);
+	}
+	for (int i = 0; i < CopiedSP.CompMajorCourses.size(); i++)
+	{
+		CompMajorCourses.push_back(CopiedSP.CompMajorCourses[i]);
+	}
+	for (int i = 0; i < CopiedSP.ElectiveMajorCourses.size(); i++)
+	{
+		ElectiveMajorCourses.push_back(CopiedSP.ElectiveMajorCourses[i]);
+	}
+	for (int i = 0; i < CopiedSP.CompConcentrationCourses.size(); i++)
+	{
+		CompConcentrationCourses.push_back(CopiedSP.CompConcentrationCourses[i]);
+	}
+	for (int i = 0; i < CopiedSP.ElectiveConcentrationCourses.size(); i++)
+	{
+		ElectiveConcentrationCourses.push_back(CopiedSP.ElectiveConcentrationCourses[i]);
+	}
+	int counter =0;
+
+	for (AcademicYear* yr : CopiedSP.plan)
+	{
+		/*plan.push_back(new AcademicYear);*/
+		list<Course*>* pYr = yr->getListOfYears();// pointer to the year
+		for (int sem = FALL; sem < SEM_CNT; sem++)
+		{
+			counter = 0;
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
+			{
+				pCrs = new Course;
+				pCrs = (*it);
+				Course* pcrs = new Course;
+				*pcrs = *pCrs;
+				pcrs->setGfxInfo((*it)->getGfxInfo());
+				counter++;
+				AddCourse(pcrs, pcrs->getYear(), pcrs->getSemester());
+				/*delete pCrs;*/
+
+			}
+
+		}
+	}
+	return (*this);
 }
 StudyPlan::~StudyPlan()
 {

@@ -42,7 +42,6 @@ public:
 	bool DeleteCourse(Course*, SEMESTER);
 
 	list<Course*>* getListOfYears() ;
-
 	void virtual DrawMe(GUI*) const;
 };
 

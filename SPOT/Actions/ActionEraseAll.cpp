@@ -23,6 +23,5 @@ bool ActionEraseAll::Execute() {
 		}
 	}
 	fill(Course::numOfCoursesPerSem.begin(), Course::numOfCoursesPerSem.end(), 0);
-
 	return true;
 }

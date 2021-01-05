@@ -30,6 +30,7 @@ public:
 	void setSelected(bool );
 	bool isSelected() const;
 	void virtual DrawMe(GUI*) const = 0;
+	Drawable::Drawable(const Drawable& CopiedDW);
 	virtual ~Drawable();
 };
 

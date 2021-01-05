@@ -42,7 +42,7 @@ void GUI::ClearReportArea() const
 {
 	pWind->SetBrush(BkGrndColor);
 	pWind->SetPen(BkGrndColor);
-	pWind->DrawRectangle(SideBarX1, ReportAreaY1+25, SideBarX2, ReportAreaY1 + ReportAreaHeight);
+	pWind->DrawRectangle(SideBarX1, ReportAreaY1+27, SideBarX2, ReportAreaY1 + ReportAreaHeight);
 	pWind->SetPen(BLACK);
 	pWind->DrawRectangle(SideBarX1, ReportAreaY1, SideBarX2, ReportAreaY1 + ReportAreaHeight, FRAME);
 }
@@ -50,7 +50,7 @@ void GUI::ClearNotesArea() const
 {
 	pWind->SetBrush(BkGrndColor);
 	pWind->SetPen(BkGrndColor);
-	pWind->DrawRectangle(SideBarX1, NotesY1 + 25, SideBarX2, NotesY1 + NotesHeight);
+	pWind->DrawRectangle(SideBarX1, NotesY1 + 27, SideBarX2, NotesY1 + NotesHeight);
 	pWind->SetPen(BLACK);
 	pWind->DrawRectangle(SideBarX1, NotesY1, SideBarX2, NotesY1 + NotesHeight, FRAME);
 }
@@ -66,8 +66,26 @@ void GUI::CreateMenu() const
 	string MenuItemImages[ITM_CNT];
 	MenuItemImages[ITM_ADD] = "GUI\\Images\\Menu\\menu_add.jpg";
 	MenuItemImages[ITM_DELETE] = "GUI\\Images\\Menu\\menu_delete.jpg";
-	//MenuItemImages[ITM_UNDO] = "GUI\\Images\\Menu\\menu_undo.jpg";
-	//MenuItemImages[ITM_REDO] = "GUI\\Images\\Menu\\menu_redo.jpg";
+	if ((Current_StudyPlan > 0) && (Current_StudyPlan < Total_Number_Study_Plans))
+	{
+		MenuItemImages[ITM_UNDO] = "GUI\\Images\\Menu\\menu_undo.jpg";
+		MenuItemImages[ITM_REDO] = "GUI\\Images\\Menu\\menu_redo.jpg";
+	}
+	else if ((Current_StudyPlan == 0) && (1<Total_Number_Study_Plans))
+	{
+		MenuItemImages[ITM_UNDO] = "GUI\\Images\\Menu\\menu_undo_gray.jpg";
+		MenuItemImages[ITM_REDO] = "GUI\\Images\\Menu\\menu_redo.jpg";
+	}
+	else
+	{
+		MenuItemImages[ITM_UNDO] = "GUI\\Images\\Menu\\menu_undo_gray.jpg";
+		MenuItemImages[ITM_REDO] = "GUI\\Images\\Menu\\menu_redo_gray.jpg";
+	}
+	if ((Current_StudyPlan == Total_Number_Study_Plans-1)&&(Current_StudyPlan!=0))
+	{
+		MenuItemImages[ITM_UNDO] = "GUI\\Images\\Menu\\menu_undo.jpg";
+		MenuItemImages[ITM_REDO] = "GUI\\Images\\Menu\\menu_redo_gray.jpg";
+	}
 	MenuItemImages[ITM_SAVE] = "GUI\\Images\\Menu\\menu_save.jpg";
 	MenuItemImages[ITM_IMPORT] = "GUI\\Images\\Menu\\menu_import.jpg";
 	MenuItemImages[ITM_SWAP] = "GUI\\Images\\Menu\\menu_swap.jpg";
@@ -109,6 +127,8 @@ void GUI::UpdateInterface() const
 	CreateMenu();
 	ClearStatusBar();
 	ClearDrawingArea();
+	ClearReportArea();
+	ClearNotesArea();
 	DrawNoteArea(); 
 	DrawInfoArea();
 	DrawReportArea();
@@ -298,6 +318,14 @@ ActionData GUI::GetUserAction(string msg) const
 				case ITM_EXCHANGE: return ActionData{ CHANGE_CODE }; break;
 				case ITM_MAJOR: return ActionData{ DECLARE_MAJOR }; break;
 				case ITM_GPA:return ActionData{ CAL_GPA }; break;
+					if (Current_StudyPlan < Total_Number_Study_Plans - 1)
+					{
+				     case ITM_REDO:return ActionData{ REDO }; break;
+					}
+					if (Current_StudyPlan != 0)
+					{
+					 case ITM_UNDO:return ActionData{ UNDO }; break;
+					}
 				case ITM_CRS_DEP:
 				{
 					Draw_Dependacies_For_One_Course = false;
@@ -551,7 +579,9 @@ void GUI::SegmentNotes()
 	string msg = Notes;
 	int Size = size(msg);
 	int Test_Msg=0;
+    NotesLines.clear();
 	int Start =1, End = string_Max_Width;
+	if(Notes.size()!=0)
 		for (int i = 0; i < ((Size/string_Max_Width)+1); i++)
 	    {
 		  if (Test_Msg > Size-1)
@@ -607,6 +637,8 @@ void GUI::DrawReportArea() const
 	pWind->DrawLine(SideBarX1, ReportAreaY1 + 25, SideBarX2, ReportAreaY1 + 25);
 	pWind->DrawRectangle(SideBarX1, ReportAreaY1, SideBarX2, ReportAreaY1 + 25);
 	string str = to_string(Current_Page_Report + 1);
+	if (Total_Number_Pages_In_Report == 0)
+		str = "1";
 	pWind->DrawString(SideBarX1 + myReportFactor-20, ReportAreaY1 + 6, ("Live Report Page "+str));
 	if ((Current_Page_Report == 0)&&(Total_Number_Pages_In_Report>1))
 	{

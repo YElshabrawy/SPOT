@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include<string>
+#include<iterator>
 #include "AcademicYear.h"
 #include "../GUI/Drawable.h"
 #include"../Rules.h"
@@ -11,8 +12,8 @@ class StudyPlan:public Drawable
 private:
 	vector<Error> CH_Error_List; // Holds all the modirate errors for the CH issues
 	vector<int> Sem_Credits;
-	vector<Error>TOTAL_ERRORS_TO_DRAW;
 	int Report_Lines;
+	Course* pCrs;
 	Major major;
 	Rules* pRules;
 public:
@@ -36,8 +37,7 @@ public:
 		CompConcentrationCourses,
 		ElectiveConcentrationCourses;
 	int No_Of_Pages;
-
-	string PlanNotes;
+	string PlanNotes="";
 	vector<AcademicYear*> plan;	//plan is a list of academic years
 	StudyPlan();
 	bool AddCourse(Course* , int year, SEMESTER);
@@ -51,8 +51,6 @@ public:
 	void FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI);
 	void GenerateStudentLevel(GUI* pGUI);
 	void setMajor(Major major);
-	void Add_Error(Error ER);
-	vector<Error> Get_ALL_ERROR()const;
 	void Set_Plan_Rules(Rules& RegRules);
 	Major getMajor() const;
 	void increment_Report_Lines(int Number_Of_Inc);
@@ -61,6 +59,8 @@ public:
 	void Set_Report_Lines();
 	void Set_Page_Number(int Number_Of_lines);
 	int Get_Page_Number()const;
+	StudyPlan(const StudyPlan& CopiedSP);
+	StudyPlan operator=(const StudyPlan& CopiedSP);
 	virtual ~StudyPlan();
 };
 

@@ -27,7 +27,7 @@ bool AcademicYear::AddCourse(Course* pC, SEMESTER sem)
 	}
 	else
 	{
-		pC->Distance_Flag = false;
+		/*pC->Distance_Flag = false;*/
 		return true;
 	}
 }

@@ -19,8 +19,8 @@ class GUI
 		//If you want to change the menu items order, just change the order here
 		ITM_ADD,		//Add a new course
 		ITM_DELETE,		//Delete a course
-		//ITM_UNDO,		//Undo last action
-		//ITM_REDO,		//Redo last action
+		ITM_UNDO,		//Undo last action
+		ITM_REDO,		//Redo last action
 		ITM_SAVE,		//Save the current splan
 		ITM_IMPORT,		//Import a pre-made plan or a default study plan
 		ITM_SWAP,
@@ -140,6 +140,7 @@ public:
 	int Total_Number_Pages_In_Report;
 	int Total_Number_Pages_In_Notes;
 	static int Current_Page_Notes;
+	int Total_Number_Study_Plans, Current_StudyPlan;
 	//Dimention getters
 	static int getMenuBarHeight();
 	static int getY_div();

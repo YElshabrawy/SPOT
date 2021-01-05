@@ -37,6 +37,7 @@ private:
 public:
 	bool DrawMe_Flag=true;
 	bool CCC_Flag = false;
+	bool Distance_Flag = false;
 	static vector<int> numOfCoursesPerSem;
 	//Constructors
 	Course();
@@ -94,10 +95,10 @@ public:
 	void removeCoReqErrors(string code);
 	int getPreErrorsNumber() const;
 	int getCoErrorsNumber() const;
-	bool Distance_Flag = false;
 	void DrawMe(GUI*) const;
 	virtual ~Course();
-
+	Course(const Course& CopiedCrs);
+	Course operator=(const Course& CopiedCrs);
 	void printCourse() const;
 	Course* getCoursePtr();
 	

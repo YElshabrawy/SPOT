@@ -91,12 +91,8 @@ bool ActionAddCourse::Execute()
 		gInfo.y = GUI::MenuBarHeight + GUI::MyFactor + ((year - 1) * GUI::One_Year_Div) + (semester * GUI::One_Semester_Div) +
 			(GUI::MyFactor * (year - 1));
 		pC->setGfxInfo(gInfo);
-
 		}
 	}
-
-	
-
 	return true;
 }
 
