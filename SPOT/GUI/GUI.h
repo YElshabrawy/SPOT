@@ -23,7 +23,6 @@ class GUI
 		ITM_REDO,		//Redo last action
 		ITM_SAVE,		//Save the current splan
 		ITM_IMPORT,		//Import a pre-made plan or a default study plan
-		ITM_SWAP,
 		ITM_EXCHANGE,
 		ITM_Note,		//Add notes
 		ITM_ERASE,		//Clear all the data (courses)
@@ -33,7 +32,6 @@ class GUI
 		ITM_PLAN_DEP,
 		ITM_GPA,		//gpa item
 		ITM_Filter,		//Filter item
-		ITM_EXIT,		//Exit item
 		ITM_CNT			//no. of menu items ==> This should be the last line in this enum
 		
 	};
