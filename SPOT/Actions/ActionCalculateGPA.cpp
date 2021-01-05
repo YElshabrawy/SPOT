@@ -9,6 +9,7 @@ ActionCalculateGPA::ActionCalculateGPA(Registrar* P) :Action(P)
 {
 }
 
+
 bool ActionCalculateGPA::Execute()
 {
 		StudyPlan* plan = pReg->getStudyPlay();

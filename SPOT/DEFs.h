@@ -37,10 +37,11 @@ enum ActionType
 	COURSE_INFO,
 	CHANGE_CODE,	//changes course code
 	DECLARE_MAJOR,
+	DECLARE_MINOR,
 	CRS_DEP,
 	PLAN_DEP,
 	CAL_GPA,		//Calculate GPA
-
+	Filter,			//apply Filter
 	SAVE,		//Save a study plan to file
 	LOAD,		//Load a study plan from a file
 

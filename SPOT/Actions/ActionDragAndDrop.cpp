@@ -65,7 +65,8 @@ bool ActionDragAndDrop::Execute()
 				if (x > GUI::VerticalSeparatorX && x < GUI::Year_X2) {
 					// The click X is inside the boundaries
 					//Get the Year
-					for (int i = 1; i <= GUI::NumOfYrs; i++) {
+					for (int i = 1; i <= GUI::NumOfYrs; i++) 
+					{
 						int yi = (GUI::MenuBarHeight + (i * GUI::MyFactor) + ((i - 1) * GUI::One_Year_Div));
 						int yf = (GUI::MenuBarHeight + (i * GUI::MyFactor) + (i * GUI::One_Year_Div));
 

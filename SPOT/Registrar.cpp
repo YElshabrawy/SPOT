@@ -45,6 +45,9 @@ Action* Registrar::CreateRequiredAction()
 	case CAL_GPA:	//add_course action
 		RequiredAction = new ActionCalculateGPA(this);
 		break;
+	case Filter:	//add_course action
+		RequiredAction = new ActionFilter(this);
+		break;
 	case DEL_CRS:
 		RequiredAction = new ActionDeleteCourse(this);
 		Delete_Flag = true;
@@ -77,6 +80,9 @@ Action* Registrar::CreateRequiredAction()
 		break;
 	case DECLARE_MAJOR:
 		RequiredAction = new ActionDeclareMajor(this);//declare major photo till i get a photo for this one
+		break;
+	case DECLARE_MINOR:
+		RequiredAction = new ActionDeclareMinor(this);
 		break;
 	case CRS_DEP:
 		RequiredAction = new ActionDDOOC(this);

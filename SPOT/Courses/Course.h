@@ -35,6 +35,7 @@ private:
 	vector<Error> Prereq_Error_List;
 	vector<Error> Coreq_Error_List;
 public:
+	//string coursestatus;
 	bool DrawMe_Flag=true;
 	bool CCC_Flag = false;
 	bool Distance_Flag = false;

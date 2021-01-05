@@ -28,9 +28,11 @@ class GUI
 		ITM_Note,		//Add notes
 		ITM_ERASE,		//Clear all the data (courses)
 		ITM_MAJOR,
+		ITM_MINOR, //Minor decleration
 		ITM_CRS_DEP,
 		ITM_PLAN_DEP,
 		ITM_GPA,		//gpa item
+		ITM_Filter,		//Filter item
 		ITM_EXIT,		//Exit item
 		ITM_CNT			//no. of menu items ==> This should be the last line in this enum
 		

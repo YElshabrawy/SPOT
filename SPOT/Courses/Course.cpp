@@ -209,6 +209,7 @@ int Course::getCredits() const
 {
 	return credits;
 }
+//Vector getters
 vector<string> Course::getPreReq() const
 {
 	return PreReq;
