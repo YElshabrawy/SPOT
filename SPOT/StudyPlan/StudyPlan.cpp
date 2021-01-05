@@ -4,6 +4,7 @@
 #include "../Rules.h"
 #include "../Utils/Utils.h"
 #include <fstream>
+#include <iterator>
 
 
 StudyPlan::StudyPlan()
@@ -21,6 +22,7 @@ bool StudyPlan::AddCourse(Course* pC, int year, SEMESTER sem)
 	plan[year - 1]->AddCourse(pC, sem);
 	TotalCredits += pC->getCredits();
 	setCourseTypeCredits(pC->getType(), 0, pC->getCredits());
+	checkOffering(pC->getCode(), year-1, sem);
 	return true;
 }
 
@@ -28,6 +30,10 @@ bool StudyPlan::DeleteCourse(Course* pC) {
 	plan[pC->getYear() - 1]->DeleteCourse(pC, pC->getSemester());
 	TotalCredits -= pC->getCredits();
 	setCourseTypeCredits(pC->getType(), 1, pC->getCredits());
+	// Delete the couurse offering error
+	for (int i = 0; i < Course_Offering_Errors.size(); i++) 
+		if (Course_Offering_Errors[i].Msg.find(pC->getCode()) != string::npos)
+			Course_Offering_Errors.erase(Course_Offering_Errors.begin() + i);
 	return true;
 }
 
@@ -287,16 +293,15 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 		}
 	}
 }
-
 void StudyPlan::checkProgramReq()
 {
-	cout << "TotalCredits = " << TotalCredits << endl;
+	/*cout << "TotalCredits = " << TotalCredits << endl;
 	cout << "TotalMajorCredits = " << TotalMajorCredits << endl;
 	cout << "TotalElectiveCredits = " << TotalElectiveCredits << endl;
 	cout << "TotalMinorCredits = " << TotalMinorCredits << endl;
 	cout << "TotalConcentrationCredits = " << TotalConcentrationCredits << endl;
 	cout << "TotalTrackCredits = " << TotalTrackCredits << endl;
-	cout << "TotalUnivCredits = " << TotalUnivCredits << endl;
+	cout << "TotalUnivCredits = " << TotalUnivCredits << endl;*/
 
 	// Check TotalCredits
 	string errMsg = "The total CHs (" + to_string(TotalCredits) + ") are less than " + to_string(pRules->TotalCHs);
@@ -354,9 +359,6 @@ void StudyPlan::checkProgramReq()
 		}
 	}
 
-	cout << "ERRRRR :: num = " << Program_Req_Errors.size() << endl;
-	cout << Program_Req_Errors[4].Msg << endl;
-
 }
 
 void StudyPlan::lazyCheck(int compared, int original, string errMsg, string checkMsg) {
@@ -387,6 +389,83 @@ void StudyPlan::lazyCheck(int compared, int original, string errMsg, string chec
 	}
 }
 
+void StudyPlan::checkOffering(string code, int crsYear, SEMESTER sem)
+{
+	int currentYearNum = 0;
+	if (currentYear.empty()) {
+		// The user hasen't declared an offering 
+		currentYearAvailable = false;
+		string errMsg = "Please choose the current year.";
+		Error err;
+		err.Msg = errMsg;
+		err.type = CRITICAL;
+		Course_Offering_Errors.push_back(err);
+	} 
+	else {
+		currentYearAvailable = true;
+		// First: remove the "Please choose the current year." error
+		for (int i = 0; i < Course_Offering_Errors.size(); i++) {
+			if (Course_Offering_Errors[i].Msg.find("Please choose the current year.") != string::npos)
+				Course_Offering_Errors.erase(Course_Offering_Errors.begin() + i);
+		}
+
+		// Then : Check each course
+		int index = 0; // default value = 0
+		for (int i = 0; i < pRules->OffringsList.size(); i++) {
+			if (pRules->OffringsList[i].Year == currentYear) {
+				index = i;
+				break;
+			}
+		}
+		if (pRules->OffringsList.size() > index + crsYear) {
+
+
+			vector<Course_Code> crss = (pRules->OffringsList[index + crsYear].Offerings)[sem];
+			bool exists = false;
+			for (Course_Code c : crss) {
+				if (c == code) {
+					exists = true;
+					break;
+				}
+			}
+
+			if (!exists) {
+				// The current course isnt offered this year!
+				Error err;
+				string semName;
+				switch (sem)
+				{
+				case FALL:
+					semName = "fall";
+					break;
+				case SPRING:
+					semName = "spring";
+					break;
+				case SUMMER:
+					semName = "summer";
+					break;
+				default:
+					semName = "NaN";
+					break;
+				}
+				// This index exists
+				string errMsg = code + " isn't offered in " + pRules->OffringsList[index + crsYear].Year
+					+ "'s " + semName;
+				err.Msg = errMsg;
+				err.type = MODERATE;
+				Course_Offering_Errors.push_back(err);
+
+			}
+		}
+		else
+			cout << "This year is not incluided in the offering files!" << endl;
+			
+	}
+	cout << "ERR :: num of errooorrrs = " << Course_Offering_Errors.size() << endl;
+	for (int i = 0; i < Course_Offering_Errors.size(); i++)
+		cout << Course_Offering_Errors[i].Msg << endl;
+}
+
 
 void StudyPlan::setMajor(Major major)
 {
@@ -396,7 +475,6 @@ Major StudyPlan::getMajor() const
 {
 	return major;
 }
-
 void StudyPlan::setCourseTypeCredits(Type type, int mode, int hours)
 {
 	// If mode is 0 => Add Course 
@@ -427,9 +505,6 @@ void StudyPlan::setCourseTypeCredits(Type type, int mode, int hours)
 		break;
 	}
 }
-
-
-
 void StudyPlan::LiveReport(GUI* pGUI, int Min_Crs, int Max_Crs)const
 {
 	int Co_Error_Number, Pre_Error_Number,I=0;
@@ -477,79 +552,81 @@ void StudyPlan::LiveReport(GUI* pGUI, int Min_Crs, int Max_Crs)const
 void StudyPlan::Set_Course_Type()
 {
 	string Code;
-		for (AcademicYear* yr : plan)
+	for (AcademicYear* yr : plan)
+	{
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int sem = FALL; sem < SEM_CNT; sem++)
 		{
-			list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
-			for (int sem = FALL; sem < SEM_CNT; sem++)
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
 			{
-				for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
+				Code = (*it)->getCode();
+				for (int i = 0; i < pRules->UnivCompulsoryCourses.size(); i++)
 				{
-					Code = (*it)->getCode();
-					for (int i = 0; i < pRules->UnivCompulsoryCourses.size(); i++)
+					if (Code == pRules->UnivCompulsoryCourses[i])
 					{
-						if (Code == pRules->UnivCompulsoryCourses[i])
-						{
-							(*it)->Set_Type(Uni);
-							break;
-                        }
+						(*it)->Set_Type(Uni);
+						break;
 					}
-					for (int i = 0; i < pRules->UnivElectiveCourses.size(); i++)
-					{
-						if (Code == pRules->UnivElectiveCourses[i])
-						{
-							(*it)->Set_Type(Elective);
-							break;
-						}
-					}
-					for (int i = 0; i < pRules->TrackCompulsoryCourses.size(); i++)
-					{
-						if (Code == pRules->TrackCompulsoryCourses[i])
-						{
-							(*it)->Set_Type(Track);
-							break;
-						}
-					}
-					for (int i = 0; i < pRules->MajorCompulsoryCourses.size(); i++)
-					{
-						if (Code == pRules->MajorCompulsoryCourses[i])
-						{
-							(*it)->Set_Type(maj);
-							break;
-						}
-					}
-					for (int i = 0; i < pRules->MajorElectiveCourses.size(); i++)
-					{
-						if (Code == pRules->MajorElectiveCourses[i])
-						{
-							(*it)->Set_Type(Elective);
-							break;
-						}
-					}
-					//for (int i = 0; i < pRules->Concentrations[0].ConcentrationCompulsoryCourses.size(); i++)
-					//{
-					//	if (Code == pRules->Concentrations[0].ConcentrationCompulsoryCourses[i])
-					//	{
-					//		(*it)->Set_Type(concentration);
-					//		break;
-					//	}
-					//}
-					//for (int i = 0; i < pRules->Concentrations[0].ConcentrationElectiveCourses.size(); i++)
-					//{
-					//	if (Code == pRules->Concentrations[0].ConcentrationElectiveCourses[i])
-					//	{
-					//		(*it)->Set_Type(Elective);
-					//		break;
-					//	}
-					//}
 				}
+				for (int i = 0; i < pRules->UnivElectiveCourses.size(); i++)
+				{
+					if (Code == pRules->UnivElectiveCourses[i])
+					{
+						(*it)->Set_Type(Elective);
+						break;
+					}
+				}
+				for (int i = 0; i < pRules->TrackCompulsoryCourses.size(); i++)
+				{
+					if (Code == pRules->TrackCompulsoryCourses[i])
+					{
+						(*it)->Set_Type(Track);
+						break;
+					}
+				}
+				for (int i = 0; i < pRules->MajorCompulsoryCourses.size(); i++)
+				{
+					if (Code == pRules->MajorCompulsoryCourses[i])
+					{
+						(*it)->Set_Type(maj);
+						break;
+					}
+				}
+				for (int i = 0; i < pRules->MajorElectiveCourses.size(); i++)
+				{
+					if (Code == pRules->MajorElectiveCourses[i])
+					{
+						(*it)->Set_Type(Elective);
+						break;
+					}
+				}
+				//for (int i = 0; i < pRules->Concentrations[0].ConcentrationCompulsoryCourses.size(); i++)
+				//{
+				//	if (Code == pRules->Concentrations[0].ConcentrationCompulsoryCourses[i])
+				//	{
+				//		(*it)->Set_Type(concentration);
+				//		break;
+				//	}
+				//}
+				//for (int i = 0; i < pRules->Concentrations[0].ConcentrationElectiveCourses.size(); i++)
+				//{
+				//	if (Code == pRules->Concentrations[0].ConcentrationElectiveCourses[i])
+				//	{
+				//		(*it)->Set_Type(Elective);
+				//		break;
+				//	}
+				//}
+
 			}
 		}
+	}
 }
 
 void StudyPlan::Set_Plan_Rules(Rules &RegRules)
 {
 	pRules = &RegRules;
 }
+
 StudyPlan::~StudyPlan()
 {
 }

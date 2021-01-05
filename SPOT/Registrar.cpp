@@ -110,7 +110,6 @@ void Registrar::Run()
 
 	createAllCourses();
 	setCourseOffering();
-	cout << "The year of Offerings: " << RegRules.OffringsList.Year << endl;
 	//setRules();
 	importProgramReq();
 	pSPlan->Set_Course_Type();
@@ -285,10 +284,9 @@ string Registrar::transformCode(string& code)
 
 void Registrar::setCourseOffering()
 {
-	AcademicYearOfferings yearOfferings;
 	char* token;
 	char* context = nullptr;
-	const int size = 300;
+	const int size = 300; // Remember to increase this later!
 	char line[size];
 	ifstream OfferingFile("Format Files\\Course_Offering.txt");
 	if (!OfferingFile)
@@ -298,6 +296,9 @@ void Registrar::setCourseOffering()
 	else {
 		cout << "Importing course offerings" << endl;
 
+		vector< AcademicYearOfferings> v; // store all the years
+		int i = 0;
+		string currentYear = "";
 		while (OfferingFile.getline(line, size)) {
 			vector<string> tokensVector;
 			token = strtok_s(line, ",", &context);
@@ -305,7 +306,9 @@ void Registrar::setCourseOffering()
 				tokensVector.push_back(token);
 				token = strtok_s(NULL, ",", &context);
 			}
+			AcademicYearOfferings yearOfferings;
 			yearOfferings.Year = tokensVector[0];
+			string thisYear = tokensVector[0];
 			SEMESTER sem = FALL;
 			int sem_num = stoi(tokensVector[1].erase(0, 9));
 			switch (sem_num) {
@@ -323,13 +326,21 @@ void Registrar::setCourseOffering()
 				break;
 			}
 			tokensVector.erase(tokensVector.begin(), tokensVector.begin() + 2);
-			yearOfferings.Offerings[sem] = tokensVector;
+			if (thisYear != currentYear) {
+				yearOfferings.Offerings[sem] = tokensVector;
+				v.push_back(yearOfferings);
+				currentYear = thisYear;
+				i++;
+			}
+			else {
+				v[i-1].Offerings[sem] = tokensVector;
+			}
 		}
 		OfferingFile.close();
+		RegRules.OffringsList = v;
 		cout << "Done: Importing course offerings" << endl;
 	}
 
-	RegRules.OffringsList = yearOfferings;
 }
 
 void Registrar::setRules()
@@ -510,11 +521,6 @@ void Registrar::importProgramReq()
 
 	finput.close();
 
-}
-
-Rules const* Registrar::getRegRules() const
-{
-	return 	&RegRules;
 }
 
 void Registrar::setCatalogCoursesType()

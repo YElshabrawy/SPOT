@@ -9,11 +9,16 @@ class StudyPlan:public Drawable
 {
 private:
 	vector<Error> CH_Error_List; // Holds all the modirate errors for the CH issues
-	vector<Error> Program_Req_Errors;
+	vector<Error> Program_Req_Errors; // Holds all the critical program requirements errors
+	vector<Error> Course_Offering_Errors; // Holds all the modirate errors for adding a course out of offering list
+
 	vector<int> Sem_Credits;
 	Major major;
 	Rules* pRules;
 	int concentrationNumber = 0; // Indicates which concentration is sellected (0 = no conc selected yet)
+
+	bool currentYearAvailable; // true if user chose a current year. false if not.
+	string currentYear = "2020\\2021"; // Current Year of offerings (In date)
 public:
 	int TotalCredits = 0,				// Total no. of credit hours for courses registred in this year 1
 		TotalMajorCredits = 0,		// Univ Elective 3
@@ -52,6 +57,7 @@ public:
 	Major getMajor() const;
 	void setCourseTypeCredits(Type type, int mode, int hours);
 	void lazyCheck(int compared, int original, string errMsg, string checkMsg);
+	void checkOffering(string code, int crsYear, SEMESTER sem);
 	virtual ~StudyPlan();
 };
 
