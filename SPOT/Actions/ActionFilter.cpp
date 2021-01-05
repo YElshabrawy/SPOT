@@ -71,6 +71,27 @@ void ActionFilter::Filteringcolour(color col)
 		}
 	}
 }
+void ActionFilter::FilteringType(Type type)
+{
+	StudyPlan* plan = pReg->getStudyPlay();
+	vector<AcademicYear*>* pPlan = plan->getStudyPlanVector(); // pointer on the plan vector
+	for (AcademicYear* yr : *pPlan)//
+	{
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int i = 0; i < SEM_CNT; i++)
+		{
+			for (auto it = pYr[i].begin(); it != pYr[i].end(); it++)
+			{
+				// Iterate on courses
+				Course* pCr = (*it);
+				if (pCr->getType() != type)
+				{
+					pCr->DrawMe_Flag = false;
+				}
+			}
+		}
+	}
+}
 //void ActionFilter::FilteringStatus(string s)
 //{
 //	StudyPlan* plan = pReg->getStudyPlay();
@@ -119,6 +140,7 @@ bool ActionFilter::Execute()
 	int x, y;
 	int year;
 	SEMESTER sem;
+	Type type;
 	color color= WHITESMOKE;
 	double One_Year_Div = pGUI->One_Year_Div;
 	double YearImgMidSubtractor = pGUI->YearImgMidSubtractor;
@@ -219,7 +241,7 @@ bool ActionFilter::Execute()
 		}
 	}
 		//filtering based on colour AKA Filtering Major Track Concentration Minor Extra
-		if(x>=(GUI::Year_X1)&&x<=(GUI::Year_X2))
+		/*if(x>=(GUI::Year_X1)&&x<=(GUI::Year_X2))
 			{
 				color = pGUI->pWind->GetColor(x, y);
 				while (color == WHITESMOKE)
@@ -235,8 +257,15 @@ bool ActionFilter::Execute()
 				Filteringcolour(color);
 				pReg->UpdateInterface();
 
-			}
-
+			}*/
+		//filtering based on type
+		if (x >= (GUI::Year_X1) && x <= (GUI::Year_X2))
+		{
+			Course* pCr = pReg->interrogateCourse(x, y);
+			type = pCr->getType();
+			FilteringType(type);
+			pReg->UpdateInterface();
+		}
 			while (key != 4)
 			{
 				key = pGUI->pWind->GetKeyPress(c);
