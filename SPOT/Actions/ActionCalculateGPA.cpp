@@ -88,11 +88,12 @@ bool ActionCalculateGPA::Execute()
 	GPA = total / totaldonehours;
 	GPA = ceil(GPA * 100.0) / 100.0;
 	GUI* pGUI = pReg->getGUI();
-	if ((GPA!=0)&&(totaldonehours!=0))
+	if ((total !=0)&&(totaldonehours!=0))
 	{
 		string str = to_string(GPA);
 		pGUI->GPA = str;
 	}
+
 	for(int i=0;i< GPA_OF_All_Semesters.size();i++)
 	pGUI->GPA_Semesters.push_back(GPA_OF_All_Semesters[i]);
 	cout << GPA<<endl;

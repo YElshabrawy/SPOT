@@ -916,7 +916,7 @@ void GUI::DrawInfoPages()const
 		pWind->DrawString(MsgX, MsgY+20,  "• Student GPA: "+GPA);
 		pWind->DrawString(MsgX, MsgY+40,  "• Done Credits: "+Done_Credits);
 		pWind->DrawString(MsgX, MsgY+60,  "• Student Major: "+Your_Major);
-		pWind->DrawString(MsgX, MsgY+80, "• Concentration: "+ Your_Concentration);
+		pWind->DrawString(MsgX, MsgY+80,  "• Concentration: "+ Your_Concentration);
 		pWind->DrawString(MsgX, MsgY+100, "• Minor : "+ Your_Minor);
 		pWind->DrawString(MsgX, MsgY+120, "• Double  Major: "+Double_Major);
 		pWind->DrawString(MsgX, MsgY+140, "• Double Concentration: "+Double_Concentration);
