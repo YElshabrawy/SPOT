@@ -60,7 +60,7 @@ bool ActionDeclareMinor::Execute()
 		cout << MinorCourses[2] << endl;
 		cout << MinorCourses[3] << endl;
 		cout << MinorCourses[4] << endl;
-		cout << "Minor Already Declared"<<endl;
+		cout << "Minor Already Declared"<<endl;//to be changed
 		cout << Minor<<endl;
 		return true;
 	}

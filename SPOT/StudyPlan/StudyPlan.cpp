@@ -314,8 +314,8 @@ void StudyPlan::checkProgramReq()
 	lazyCheck(TotalTrackCredits, pRules->ReqTrackCredits, errMsg, checkMsg);
 
 	// Check TotalUnivCredits
-	errMsg = "The total university CHs (" + to_string(TotalUnivCredits) + ") are less than " + to_string(pRules->ReqUnivCredits);
-	checkMsg = "The total university CHs";
+	errMsg = "The total univ CHs (" + to_string(TotalUnivCredits) + ") are less than " + to_string(pRules->ReqUnivCredits);
+	checkMsg = "The total univ CHs";
 	lazyCheck(TotalUnivCredits, pRules->ReqUnivCredits, errMsg, checkMsg);
 
 	// Check TotalUnivCredits
@@ -324,7 +324,7 @@ void StudyPlan::checkProgramReq()
 	int ReqConcentrationCredits = 0;
 	if (concentrationNumber > 0) {
 		// First we need to remove the No Concentrencration error if exists :)
-		string concMsg = "No concentration is selected yet! Your major requires one.";
+		string concMsg = "No concentration is selected yet!";
 		for (int i = 0; i < Program_Req_Errors.size(); i++) {
 			if (Program_Req_Errors[i].Msg.find(concMsg) != string::npos)
 				Program_Req_Errors.erase(Program_Req_Errors.begin() + i);
@@ -337,7 +337,7 @@ void StudyPlan::checkProgramReq()
 	}
 	else {
 		// No concentration is selected! the user should select one!
-		errMsg = "No concentration is selected yet! Your major requires one.";
+		errMsg = "No concentration is selected yet!";
 		// Check if this error already exists
 		bool exists = false;
 		for (int i = 0; i < Program_Req_Errors.size(); i++) {
