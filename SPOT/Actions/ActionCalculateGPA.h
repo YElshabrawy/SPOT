@@ -5,7 +5,7 @@ class ActionCalculateGPA :
 	public Action
 {
 private:
-	double GPA;
+	double GPA=0;
 	const double A = 4.0;
 	const double A_MINUS = 3.67;
 	const double B_PLUS = 3.33;

@@ -10,7 +10,6 @@ using namespace std;
 
 StudyPlan* Registrar::pSPlan = new StudyPlan;
 int Registrar::SPSC = 2;
-
 Registrar::Registrar()
 {
 	pGUI = new GUI;	//create interface object
@@ -21,19 +20,16 @@ Registrar::Registrar()
 	/*}*/
 	Current_Study_Plan = 0;
 }
-
 //returns a pointer to GUI
 GUI* Registrar::getGUI() const
 {
 	return pGUI;
 }
-
 //returns the study plan
 StudyPlan* Registrar::getStudyPlay() const
 {
 	return pSPlan;
 }
-
 Action* Registrar::CreateRequiredAction() 
 {	
 	ActionData actData = pGUI->GetUserAction("Pick an action from the menu");
@@ -52,6 +48,39 @@ Action* Registrar::CreateRequiredAction()
 		break;
 	case DEL_CRS:
 		RequiredAction = new ActionDeleteCourse(this);
+		if ((OldpCr != nullptr))
+		{
+			pGUI->CourseGrade = "Course Grade: ";
+			pGUI->CourseStatus = "Course Status: ";
+			pGUI->CourseCredit = "Course Credits: ";
+			pGUI->CourseTitle = "Course Title: ";
+			pGUI->CourseCode = "Course Code: ";
+			if (OldpCr->getType() == maj)
+			{
+				OldpCr->changeColor(GOLDENROD);
+			}
+			else if (OldpCr->getType() == Uni)
+			{
+				OldpCr->changeColor(SLATEGREY);
+			}
+			else if (OldpCr->getType() == Track)
+			{
+				OldpCr->changeColor(DARKGREEN);
+			}
+			else if (OldpCr->getType() == Elective)
+			{
+				OldpCr->changeColor(FIREBRICK);
+			}
+			else if (OldpCr->getType() == concentration)
+			{
+				OldpCr->changeColor(DARKMAGENTA);
+			}
+			else
+			{
+				OldpCr->changeColor(MYCYAN);
+			}
+			OldpCr = nullptr;
+		}
 		Delete_Flag = true;
 		break;
 	case SAVE: // save plan
@@ -91,9 +120,75 @@ Action* Registrar::CreateRequiredAction()
 		break;
 	case UNDO:
 		RequiredAction = new ActionUndo(this);
+		if ((OldpCr != nullptr))
+		{
+			pGUI->CourseGrade = "Course Grade: ";
+			pGUI->CourseStatus = "Course Status: ";
+			pGUI->CourseCredit = "Course Credits: ";
+			pGUI->CourseTitle = "Course Title: ";
+			pGUI->CourseCode = "Course Code: ";
+			if (OldpCr->getType() == maj)
+			{
+				OldpCr->changeColor(GOLDENROD);
+			}
+			else if (OldpCr->getType() == Uni)
+			{
+				OldpCr->changeColor(SLATEGREY);
+			}
+			else if (OldpCr->getType() == Track)
+			{
+				OldpCr->changeColor(DARKGREEN);
+			}
+			else if (OldpCr->getType() == Elective)
+			{
+				OldpCr->changeColor(FIREBRICK);
+			}
+			else if (OldpCr->getType() == concentration)
+			{
+				OldpCr->changeColor(DARKMAGENTA);
+			}
+			else
+			{
+				OldpCr->changeColor(MYCYAN);
+			}
+			OldpCr = nullptr;
+		}
 		break;
 	case REDO:
 		RequiredAction = new ActionRedo(this);
+		if ((OldpCr != nullptr))
+		{
+			pGUI->CourseGrade = "Course Grade: ";
+			pGUI->CourseStatus = "Course Status: ";
+			pGUI->CourseCredit = "Course Credits: ";
+			pGUI->CourseTitle = "Course Title: ";
+			pGUI->CourseCode = "Course Code: ";
+			if (OldpCr->getType() == maj)
+			{
+				OldpCr->changeColor(GOLDENROD);
+			}
+			else if (OldpCr->getType() == Uni)
+			{
+				OldpCr->changeColor(SLATEGREY);
+			}
+			else if (OldpCr->getType() == Track)
+			{
+				OldpCr->changeColor(DARKGREEN);
+			}
+			else if (OldpCr->getType() == Elective)
+			{
+				OldpCr->changeColor(FIREBRICK);
+			}
+			else if (OldpCr->getType() == concentration)
+			{
+				OldpCr->changeColor(DARKMAGENTA);
+			}
+			else
+			{
+				OldpCr->changeColor(MYCYAN);
+			}
+			OldpCr = nullptr;
+		}
 		break;
 	default:
 	{
@@ -124,7 +219,6 @@ Action* Registrar::CreateRequiredAction()
 	}
 	return RequiredAction;
 }
-
 //Executes the action, Releases its memory, and return true if done, false if cancelled
 bool Registrar::ExecuteAction(Action* pAct)
 {
@@ -143,7 +237,6 @@ bool Registrar::ExecuteAction(Action* pAct)
 	delete pAct;	//free memory of that action object (either action is exec or cancelled)
 	return done;
 }
-
 void Registrar::Run()
 {
 	// create all courses vector:
@@ -188,8 +281,6 @@ void Registrar::Run()
 		}
 	}
 }
-
-
 void Registrar::UpdateInterface()
 {
 	/*delete pSPlan;*/
@@ -219,12 +310,10 @@ void Registrar::UpdateInterface()
 	pGUI->DrawLiveReportPages((pGUI->ReportAreaHeight / 15) - 2, pGUI->Current_Page_Report);
 	pGUI->DrawNotesPages((pGUI->NotesHeight / 15) - 2, pGUI->Current_Page_Notes);
 }
-
 Registrar::~Registrar()
 {
 	delete pGUI;
 }
-
 // Updated
 void Registrar::createAllCourses() {
 	// Create a vector of all courses //
@@ -294,7 +383,6 @@ void Registrar::createAllCourses() {
 	RegRules.CourseCatalog = c;
 	cout << "All Courses In (./Format Files/All_Courses.txt) Are Loaded Successfully.\n";
 }
-
 CourseInfo* Registrar::inCatalog(string code, bool& exists)
 {
 	// Returns a pointer to the right corse info.
@@ -316,7 +404,6 @@ CourseInfo* Registrar::inCatalog(string code, bool& exists)
 	return nullptr;
 	}
 }
-
 string Registrar::transformCode(string& code)
 {
 	//Transform code to UPPER
@@ -349,7 +436,6 @@ string Registrar::transformCode(string& code)
 
 	return code;
 }
-
 void Registrar::setCourseOffering()
 {
 	char* token;
@@ -410,13 +496,10 @@ void Registrar::setCourseOffering()
 	}
 
 }
-
 void Registrar::setRules()
 {
 	pSPlan->Set_Plan_Rules(RegRules);
 }
-
-
 Course* Registrar::interrogateCourse(int x, int y)
 {
 	Course* output = nullptr;
@@ -450,7 +533,6 @@ Course* Registrar::interrogateCourse(int x, int y)
 		return nullptr;
 	}
 }
-
 void Registrar::importProgramReq()
 {
 	// First according to the major select the file you want to read from
@@ -590,7 +672,6 @@ void Registrar::importProgramReq()
 	finput.close();
 
 }
-
 void Registrar::setCatalogCoursesType()
 {
 	for (CourseInfo &c : RegRules.CourseCatalog) {
@@ -656,8 +737,6 @@ void Registrar::setCatalogCoursesType()
 		}
 	}
 }
-
-
 void Registrar::Increment_Current_StudyPlan()
 {
 	if(Current_Study_Plan<(List_Of_All_StudyPlans.size()-1))

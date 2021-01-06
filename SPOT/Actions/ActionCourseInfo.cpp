@@ -65,12 +65,13 @@ bool ActionCourseInfo::Execute()
 			pGUI->CourseTitle = Title;
 			pGUI->CourseCode = code;
 			pGUI->CourseCredit = "Course Credits: " + String_Credits;
+			pGUI->CourseGrade= "Course Grade: " + pCr->getGrade();
 			pReg->UpdateInterface();
 			//Course Status
 			bool cond0 = false;
 			if (pReg->OldpCr == pCr)// 2 clicks on the course
 			{
-				do {
+				{
 					pGUI->PrintMsg("Input Course Status (Pending/Done/IN Progress/Replaced/Exempted)");
 					string msg = pGUI->GetSrting();
 					for_each(msg.begin(), msg.end(), [](char& c)
@@ -197,7 +198,7 @@ bool ActionCourseInfo::Execute()
 					{
 						/*pGUI->PrintMsg("Wrong input)");*/
 					}
-				} while (cond0 == false);
+				}
 			}
 			if (pCr->getCoursedone() == true)
 			{
@@ -222,7 +223,7 @@ bool ActionCourseInfo::Execute()
 			}
 			else
 			{
-				pGUI->CourseStatus = "";
+				pGUI->CourseStatus ="Course Status: ";
 			}
 
 		}

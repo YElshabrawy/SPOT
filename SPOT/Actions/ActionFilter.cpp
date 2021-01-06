@@ -151,7 +151,7 @@ bool ActionFilter::Execute()
 		y = actData.y;
 		cout << "YESSSSSS" << endl;// debug to check that the year and semester are counted from drawing area
 		keytype key;
-		char c;
+		char c=NULL;
 		key = pGUI->pWind->GetKeyPress(c);
 		//filter year
 		if (((x >= 1) && (x <= 19)) && (y >= ((1 * One_Year_Div) - YearImgMidSubtractor + (0 * MyFactor))) && (y <= (82 + ((6 * One_Year_Div) - YearImgMidSubtractor + (5 * MyFactor)))))
@@ -259,17 +259,27 @@ bool ActionFilter::Execute()
 
 			}*/
 		//filtering based on type
+		bool Flag=false;
 		if (x >= (GUI::Year_X1) && x <= (GUI::Year_X2))
 		{
 			Course* pCr = pReg->interrogateCourse(x, y);
-			type = pCr->getType();
-			FilteringType(type);
+			if (pCr != nullptr)
+			{
+				type = pCr->getType();
+				FilteringType(type);
+			}
+			else
+				Flag = true;
 			pReg->UpdateInterface();
 		}
-			while (key != 4)
+			while ((c==NULL))
 			{
-				key = pGUI->pWind->GetKeyPress(c);
+				if (Flag == true)
+					break;
+				char FLAG;
+				c = pGUI->pWind->GetKeyPress(FLAG);
 			}
+
 		UNFiltering();
 	}
 

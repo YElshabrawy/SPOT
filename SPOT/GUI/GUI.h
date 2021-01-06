@@ -1,4 +1,8 @@
 #pragma once
+#pragma warning(disable: 4244)
+#pragma warning(disable: 4267)
+#pragma warning(disable: 26495)
+#pragma warning(disable: 26812)
 #include <string>
 using namespace std;
 #include<iostream>
@@ -50,7 +54,7 @@ class GUI
 public:
 	window* pWind;
 	//Some constants for GUI (My default = 1600 x 880 with aspect ratio 20:11)
-	static const int	WindWidth = 1600, WindHeight = WindWidth * (11.0 / 20.0),	//Window width and height
+	static const int	WindWidth = 1300, WindHeight = WindWidth * (11.0 / 20.0),	//Window width and height
 		wx = 15, wy = 15,		//Window starting coordinates
 		StatusBarHeight = 60,	//Status Bar Height
 		MenuBarHeight = 51,		//Menu Bar Height (distance from top of window to bottom line of menu bar)
@@ -95,7 +99,8 @@ public:
 		InfoY1 = NotesHeight + MenuBarHeight + NotesY1;
 	// Course Info
 	int CourseInfoY1 = NotesY1 + NotesHeight + MyFactor;
-	string Notes, CourseTitle, CourseCode, CourseCredit, CourseStatus,CourseGrade,studentLevel;
+	string Notes, CourseTitle, CourseCode, CourseCredit, CourseStatus,CourseGrade,
+	Student_Level = "---",GPA="---",Student_Name = "---",Student_ID = "---",Done_Credits = "---",Your_Major = "---",Your_Minor = "---",Your_Concentration = "---",Double_Major = "---",Double_Concentration = "---";
 	int CourseInfoHeight = Y_div/3;
 	vector<string>ReportLines;
 	vector<string>NotesLines;
@@ -113,15 +118,17 @@ public:
 	void ClearStatusBar() const;	//Clears the status bar
 	void ClearReportArea() const;
 	void ClearNotesArea() const;
+	void ClearInfoArea() const;
 	//output functions
 	void PrintMsg(string msg) const;		//prints a message on status bar
 	void DrawNoteArea() const;
 	void SegmentNotes();
 	void DrawInfoArea() const;
-	void PrintCourseInfo()const;
+	void DrawInfoPages()const;
 	void DrawReportArea() const;
 	void AddCriticalErrorLines(Error Er);
 	void AddModerateErrorLines(Error Er, int Sem_Total_Crs,int Min_Crs,int Max_Crs);
+	void AddModerateErrorLines(Error Er);
 	//Drawing functions
 	void DrawCourse(const Course* );
 	void DrawCourse(const Course* ,int x,int y);
@@ -135,11 +142,13 @@ public:
 	string GetSrting() const;
 	string GetSrting(string MSG);
 	static int getYDivStartingPos();
-	static int Current_Page_Report;
-	static int Report_Stop, Report_Start,Notes_Stop,Notes_Start;
+	static int Report_Stop, Report_Start,Notes_Stop,Notes_Start,Info_Start,Info_Stop;
 	int Total_Number_Pages_In_Report;
+	static int Current_Page_Report;
 	int Total_Number_Pages_In_Notes;
 	static int Current_Page_Notes;
+	int Total_Number_Pages_In_Info=4;
+	static int Current_Page_Info;
 	int Total_Number_Study_Plans, Current_StudyPlan;
 	//Dimention getters
 	static int getMenuBarHeight();

@@ -14,7 +14,6 @@ StudyPlan::StudyPlan()
 	for (int i = 0; i < GUI::NumOfYrs; i++)
 		 plan.push_back(new AcademicYear);
 }
-
 //adds a course to the study plan in certain year, semester
 //year idetifies year number to add course to 1=first, 2 = 2nd,....
 bool StudyPlan::AddCourse(Course* pC, int year, SEMESTER sem)
@@ -356,7 +355,6 @@ void StudyPlan::checkProgramReq()
 	}
 
 }
-
 void StudyPlan::lazyCheck(int compared, int original, string errMsg, string checkMsg) {
 	if (compared < original) {
 		// Check if already exists. If so modify its message!
@@ -384,7 +382,6 @@ void StudyPlan::lazyCheck(int compared, int original, string errMsg, string chec
 
 	}
 }
-
 void StudyPlan::checkOffering(string code, int crsYear, SEMESTER sem)
 {
 	int currentYearNum = 0;
@@ -459,8 +456,6 @@ void StudyPlan::checkOffering(string code, int crsYear, SEMESTER sem)
 	}
 
 }
-
-
 void StudyPlan::setMajor(Major major)
 {
 	this->major = major;
@@ -539,6 +534,18 @@ void StudyPlan::LiveReport(GUI* pGUI, int Min_Crs, int Max_Crs)
 		}
 	}
 
+	for (int i = 0; i < Program_Req_Errors.size(); i++)
+	{
+		pGUI->AddCriticalErrorLines(Program_Req_Errors[i]);
+		increment_Report_Lines(2);
+	}
+
+	for (int i = 0; i < Course_Offering_Errors.size(); i++)
+	{
+		pGUI->AddModerateErrorLines(Course_Offering_Errors[i]);
+		increment_Report_Lines(2);
+	}
+
 	for (int i = 0; i < CH_Error_List.size(); i++)
 	{
 		pGUI->AddModerateErrorLines(CH_Error_List[i], Sem_Credits[i], Min_Crs, Max_Crs);
@@ -590,7 +597,10 @@ void StudyPlan::GenerateStudentLevel(GUI* pGUI)
 	cout << StudentLevel << endl;//debugging 
 	cout << TotalDoneHours << endl;//debugging 
 	cout << "Generate student level called"<<endl;//debugging
-	pGUI->studentLevel =StudentLevel;
+	pGUI->Student_Level =StudentLevel;
+	string str = to_string(TotalDoneHours);
+	pGUI->GPA = str;
+	pGUI->Done_Credits = str;
 }
 int StudyPlan::Get_Page_Number()const
 {
@@ -748,8 +758,6 @@ void StudyPlan::Set_Course_Type()
 			}
 	}
 }
-
-
 void  StudyPlan::Set_Page_Number( int Number_Of_lines)
 {
 	No_Of_Pages=Report_Lines/ Number_Of_lines;
@@ -758,12 +766,10 @@ vector<int> StudyPlan::get_Sem_Credits()const
 {
 	return Sem_Credits;
 }
-
 void StudyPlan::Set_Plan_Rules(Rules &RegRules)
 {
 	pRules = &RegRules;
 }
-
 StudyPlan::StudyPlan(const StudyPlan& CopiedSP):Drawable()
 {
 	PlanNotes = CopiedSP.PlanNotes;

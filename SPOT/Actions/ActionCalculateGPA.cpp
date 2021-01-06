@@ -71,6 +71,12 @@ bool ActionCalculateGPA::Execute()
 	}
 	GPA = total / totaldonehours;
 	GPA = ceil(GPA * 100.0) / 100.0;
+	if ((GPA!=0)&&(totaldonehours!=0))
+	{
+		string str = to_string(GPA);
+		GUI* pGUI = pReg->getGUI();
+		pGUI->GPA = str;
+	}
 	cout << GPA<<endl;
 	return true;
 }
