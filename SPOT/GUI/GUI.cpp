@@ -398,9 +398,24 @@ ActionData GUI::GetUserAction(string msg) const
 				}
 				else if ((x >= (SideBarX2 - 24)) && (x <= (SideBarX2 - 2)) && (y >= CourseInfoY1 + 2) && (y <= CourseInfoY1 + 24))
 				{
-					if (Current_Page_Info < Total_Number_Pages_In_Info)
+					if ((Current_Page_Info < Total_Number_Pages_In_Info)&&(Current_Page_Info!= Total_Number_Pages_In_Info-1))
 					{
 						Current_Page_Info++;
+					}
+				}
+				if (Current_Page_Info == 0)
+				{
+					if ((x >= (InfoX1 + 5)) && (x <= (SideBarX2 - 20)) && (y >= InfoY1 - 10) && (y <= InfoY1 +5))
+					{
+						Current_Page_Info = 1;
+					}
+					else if ((x >= (InfoX1 + 5)) && (x <= (SideBarX2 - 20)) && (y >= InfoY1 - 20+(Y_div / 15) * 2) && (y <= InfoY1 - 5 + (Y_div / 15) * 2))
+					{
+						Current_Page_Info = 2;
+					}
+					else if ((x >= (InfoX1 + 5)) && (x <= (SideBarX2 - 20)) && (y >= InfoY1 - 20 + (Y_div / 12) * 3) && (y <= InfoY1 - 5 + (Y_div / 12) * 3))
+					{
+						Current_Page_Info = 3;
 					}
 				}
 
@@ -742,12 +757,12 @@ void GUI::DrawInfoArea()const
 		pWind->DrawImage("GUI/Images/Menu/prevgray.jpg", SideBarX1 + 2, CourseInfoY1 + 2);
 		pWind->DrawImage("GUI/Images/Menu/nextblue.jpg", SideBarX2 - 24,CourseInfoY1 + 2);
 	}
-	else if ((Current_Page_Info > 0) && (Total_Number_Pages_In_Info > Current_Page_Info))
+	else if ((Current_Page_Info > 0) && (Total_Number_Pages_In_Info > Current_Page_Info+1))
 	{
 		pWind->DrawImage("GUI/Images/Menu/prevblue.jpg", SideBarX1 + 2, CourseInfoY1 + 2);
 		pWind->DrawImage("GUI/Images/Menu/nextblue.jpg", SideBarX2 - 24,CourseInfoY1 + 2);
 	}
-	else if ((Current_Page_Info > 0) && (Total_Number_Pages_In_Info == Current_Page_Info))
+	else if ((Current_Page_Info > 0) && (Total_Number_Pages_In_Info-1 == Current_Page_Info))
 	{
 		pWind->DrawImage("GUI/Images/Menu/prevblue.jpg", SideBarX1 + 2, CourseInfoY1 + 2);
 		pWind->DrawImage("GUI/Images/Menu/nextgray.jpg", SideBarX2 - 24,CourseInfoY1 + 2);
@@ -838,10 +853,17 @@ void GUI::DrawInfoPages()const
 	{
 		int MsgX = InfoX1 + 5;
 		int MsgY = InfoY1 - 20;
-		pWind->SetFont(15, BOLD, BY_NAME, "Times New Rome");
+		if (WindWidth <= 1200)
+		{
+			pWind->SetFont(14, ITALICIZED, BY_NAME, "Times New Rome");
+		}
+		else
+		{
+			pWind->SetFont(15, ITALICIZED, BY_NAME, "Times New Rome");
+		}
 		pWind->SetPen(BLACK);
-		pWind->DrawString(MsgX, MsgY, "• Course Information In Page 2");
-		pWind->DrawString(MsgX, MsgY, "____________________________");
+		pWind->DrawString(MsgX, MsgY+10, "• Course Information In Page 2");
+		pWind->DrawString(MsgX, MsgY+10, "____________________________");
 		pWind->DrawString(MsgX, MsgY+(Y_div/15)*2, "• Student Information In Page 3");
 		pWind->DrawString(MsgX, MsgY + (Y_div / 15) * 2, "____________________________");
 		pWind->DrawString(MsgX, MsgY+ (Y_div / 12)*3, "• Transcript Information In Page 4");
@@ -891,19 +913,114 @@ void GUI::DrawInfoPages()const
 		pWind->SetFont(15, BOLD, BY_NAME, "Times New Rome");
 		pWind->SetPen(BLACK);
 		pWind->DrawString(MsgX, MsgY,     "• Student Level: "+Student_Level);
-		pWind->DrawString(MsgX, MsgY+20,  "• Student ID: 201901607");
-		pWind->DrawString(MsgX, MsgY+40,  "• Student GPA: "+GPA);
-		pWind->DrawString(MsgX, MsgY+60,  "• Done Credits: "+Done_Credits);
-		pWind->DrawString(MsgX, MsgY+80,  "• Student Major: "+Your_Major);
-		pWind->DrawString(MsgX, MsgY+100, "• Concentration: "+ Your_Concentration);
-		pWind->DrawString(MsgX, MsgY+120, "• Minor : "+ Your_Minor);
-		pWind->DrawString(MsgX, MsgY+140, "• Double  Major: "+Double_Major);
-		pWind->DrawString(MsgX, MsgY+160, "• Double Concentration: "+Double_Concentration);
+		pWind->DrawString(MsgX, MsgY+20,  "• Student GPA: "+GPA);
+		pWind->DrawString(MsgX, MsgY+40,  "• Done Credits: "+Done_Credits);
+		pWind->DrawString(MsgX, MsgY+60,  "• Student Major: "+Your_Major);
+		pWind->DrawString(MsgX, MsgY+80, "• Concentration: "+ Your_Concentration);
+		pWind->DrawString(MsgX, MsgY+100, "• Minor : "+ Your_Minor);
+		pWind->DrawString(MsgX, MsgY+120, "• Double  Major: "+Double_Major);
+		pWind->DrawString(MsgX, MsgY+140, "• Double Concentration: "+Double_Concentration);
 
 	}
 	else if(Current_Page_Info == 3)
 	{
+		int MsgX = 2+(SideBarX2 -SideBarX1)/5;
+		int MsgY = InfoY1 - 20;
+		if (WindWidth <= 1200)
+		{
+			pWind->SetFont(14, ITALICIZED, BY_NAME, "Times New Rome");
+		}
+		else
+		{
+			pWind->SetFont(15, ITALICIZED, BY_NAME, "Times New Rome");
+		}
 
+		pWind->DrawString(4+InfoX1+  MsgX * 0, MsgY, "Year 1");
+		pWind->DrawLine(InfoX1-2 + MsgX * 1, CourseInfoY1 + 25, InfoX1-2+ MsgX * 1, CourseInfoY1+CourseInfoHeight);
+		pWind->DrawString(InfoX1 + MsgX * 1, MsgY,  "Year 2");
+		pWind->DrawLine(InfoX1 - 4 + MsgX * 2, CourseInfoY1 + 25, InfoX1 - 4 + MsgX * 2, CourseInfoY1 + CourseInfoHeight);
+		pWind->DrawString(InfoX1 + MsgX * 2, MsgY,  "Year 3");
+		pWind->DrawLine(InfoX1 - 4 + MsgX * 3, CourseInfoY1 + 25, InfoX1 - 4 + MsgX * 3, CourseInfoY1 + CourseInfoHeight);
+		pWind->DrawString(InfoX1 -2+ MsgX * 3, MsgY,  "Year 4");
+		pWind->DrawLine(InfoX1 - 6 + MsgX *4, CourseInfoY1 + 25, InfoX1 - 6 + MsgX * 4, CourseInfoY1 + CourseInfoHeight);
+		pWind->DrawString(InfoX1 + MsgX * 4-4, MsgY, "Year 5");
+		pWind->DrawLine(SideBarX1, InfoY1-5, SideBarX2, InfoY1-5);
+		string Sem = "Fall";
+		int X = 30  ;
+		for (int j = 0; j < 3; j++)
+		{
+			for (int i = 0; i < NumOfYrs; i++)
+			{
+				if (j == 0)
+				{
+					Sem = "  Fall";
+					X;
+					pWind->DrawLine(SideBarX1, InfoY1 - 5 + X - 15, SideBarX2, InfoY1 - 5 + X - 15);
+					pWind->DrawLine(SideBarX1, InfoY1 - 5 + X, SideBarX2, InfoY1 - 5 + X);
+				}
+				else if (j == 1)
+				{
+					Sem = "Spring";
+					X =10+ CourseInfoHeight/3;
+					pWind->DrawLine(SideBarX1, InfoY1 - 5 + X - 15, SideBarX2, InfoY1 - 5 + X - 15);
+					pWind->DrawLine(SideBarX1, InfoY1 - 5 + X+1, SideBarX2, InfoY1 - 5 + X+1);
+				}
+				else if (j == 2)
+				{
+
+					Sem = "Summ";
+					X =1.9*CourseInfoHeight / 3;
+					pWind->DrawLine(SideBarX1, InfoY1 - 5 + X - 15, SideBarX2, InfoY1 - 5 + X - 15);
+					pWind->DrawLine(SideBarX1, InfoY1 - 5 + X+1, SideBarX2, InfoY1 - 5 + X+1);
+				}
+				if (i == 0)
+				{
+					pWind->DrawString(2+InfoX1 + MsgX * i, MsgY + X, Sem);
+				}
+				else if (i == (NumOfYrs - 1))
+				{
+					pWind->DrawString(InfoX1-4+ MsgX * i, MsgY + X, Sem);
+				}
+				else if (i == (NumOfYrs - 2))
+				{
+					pWind->DrawString(InfoX1 - 2 + MsgX * i, MsgY + X, Sem);
+				}
+				else
+				{
+					pWind->DrawString(InfoX1 + MsgX * i, MsgY + X, Sem);
+				}
+			}
+		}
+
+		int Counter = 0;
+		if(!GPA_Semesters.empty())
+		for (int j = 0; j < 3; j++)
+		{
+			for (int i = 0; i < NumOfYrs; i++)
+			{
+				if (j == 0)
+				{
+					X=55;
+				}
+				else if (j == 1)
+				{
+					X = 35 + CourseInfoHeight / 3;
+				}
+				else if (j == 2)
+				{
+					X = 25+1.9 * CourseInfoHeight / 3;
+				}
+
+				pWind->DrawString(InfoX1+1 + MsgX * i, MsgY + X, GPA_Semesters[Counter]);
+				Counter++;
+			}
+		}
+		//if (NumOfYrs == 6)
+		//{
+		//pWind->DrawString(MsgX + 100, MsgY, "Year 6");
+
+
+		//}
 	}
 }
 void GUI::DrawCourse_Dependacies(Course* pCr, Course* DpCr) const
