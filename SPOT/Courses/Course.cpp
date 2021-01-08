@@ -276,6 +276,7 @@ void Course::printCourse() const {
 Course* Course::getCoursePtr() {
 	return this;
 }
+
 Course::Course(const Course& CopiedCrs)
 {
 	MyColor =CopiedCrs.MyColor;
