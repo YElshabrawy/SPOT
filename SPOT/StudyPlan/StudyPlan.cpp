@@ -983,11 +983,10 @@ void StudyPlan::Set_Double_Major_Plan_Rules(Rules& DoubleRegRules)
 	pDoubleMajorRules = &DoubleRegRules;
 
 }
-//void StudyPlan::setMinor_course_flag(bool cond)
-//{
-//	Minor_course_flag = cond;
-//
-//}
+void StudyPlan::setMinor_course_flag(bool cond)
+{
+	Minor_course_flag = cond;
+}
 StudyPlan::~StudyPlan()
 {
 	for (AcademicYear* yr : plan) {
