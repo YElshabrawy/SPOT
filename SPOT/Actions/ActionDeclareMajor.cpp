@@ -14,14 +14,14 @@ bool ActionDeclareMajor::Execute()
 {
 	int	Sci_Flag = 0, Eng_Flag = 0, DoubleMajor_flag = 0, DoubleConcentration_flag = 0; 
 	int BMS_Flag = 0, PEU_Flag = 0, MATSCI_Flag = 0, NANSC_Flag = 0,REE_Flag = 0,SPC_Flag = 0,CIE_Flag = 0,ENV_Flag = 0,NAN_Flag=0;
-	int Exit_flag = 0;
+	//int Exit_flag = 0;
 	int NANO_FABRICATION_Flag = 0, NANOVLSI_flag=0, NANOPHOTONICS_flag=0;
 	int second_concentration_flag = 0, second_major_flag = 0, exit_flag = 0;
 	int token = 0;
 	static string first_major = "", second_major = ""; //to hold the values for the first and the second major
 	static string first_concentration = "",second_concentration="";
 	StudyPlan* pS = pReg->getStudyPlay();
-
+	GUI* pGUI = pReg->getGUI();
 	cout << "Declaring a major.\n";
 	while (token == 0) {
 		while ((pMajorWind) && ((Sci_Flag != 1) || (Eng_Flag != 1))) {
@@ -92,10 +92,12 @@ bool ActionDeclareMajor::Execute()
 					if (DoubleMajor_flag == 0)
 					{
 						pS->setMajor(BMS);
+						pGUI->Your_Major = "BMS";
 					}
 					if (DoubleMajor_flag == 1)
 					{
 						pS->setDoubleMajor(BMS);
+						pGUI->Double_Major = "BMS";
 						delete pMajorWind;
 						pMajorWind = nullptr;
 						return true;
@@ -113,10 +115,12 @@ bool ActionDeclareMajor::Execute()
 					if (DoubleMajor_flag == 0)
 					{
 						pS->setMajor(PEU);
+						pGUI->Your_Major = "PEU";
 					}
 					if (DoubleMajor_flag == 1)
 					{
 						pS->setDoubleMajor(PEU);
+						pGUI->Double_Major = "PEU";
 						delete pMajorWind;
 						pMajorWind = nullptr;
 						return true;
@@ -134,10 +138,12 @@ bool ActionDeclareMajor::Execute()
 					if (DoubleMajor_flag == 0)
 					{
 						pS->setMajor(MATSCI);
+						pGUI->Your_Major = "MATSCI";
 					}
 					if (DoubleMajor_flag == 1)
 					{
 						pS->setDoubleMajor(MATSCI);
+						pGUI->Double_Major = "MATSCI";
 						delete pMajorWind;
 						pMajorWind = nullptr;
 						return true;
@@ -155,10 +161,12 @@ bool ActionDeclareMajor::Execute()
 					if (DoubleMajor_flag == 0)
 					{
 						pS->setMajor(NANSCI);
+						pGUI->Your_Major = "NANSCI";
 					}
 					if (DoubleMajor_flag == 1)
 					{
 						pS->setDoubleMajor(NANSCI);
+						pGUI->Double_Major = "NANSCI";
 						delete pMajorWind;
 						pMajorWind = nullptr;
 						return true;
@@ -218,10 +226,12 @@ bool ActionDeclareMajor::Execute()
 					if (DoubleMajor_flag == 0)
 					{
 						pS->setMajor(REE);
+						pGUI->Your_Major = "REE";
 					}
 					if (DoubleMajor_flag == 1)
 					{
 						pS->setDoubleMajor(REE);
+						pGUI->Double_Major = "REE";
 						delete pMajorWind;
 						pMajorWind = nullptr;
 						return true;
@@ -239,10 +249,12 @@ bool ActionDeclareMajor::Execute()
 					if (DoubleMajor_flag == 0)
 					{
 						pS->setMajor(SPC);
+						pGUI->Your_Major = "SPC";
 					}
 					if (DoubleMajor_flag == 1)
 					{
 						pS->setDoubleMajor(SPC);
+						pGUI->Double_Major = "SPC";
 						delete pMajorWind;
 						pMajorWind = nullptr;
 						return true;
@@ -260,10 +272,12 @@ bool ActionDeclareMajor::Execute()
 					if (DoubleMajor_flag == 0)
 					{
 						pS->setMajor(CIE);
+						pGUI->Your_Major = "CIE";
 					}
 					if (DoubleMajor_flag == 1)
 					{
 						pS->setDoubleMajor(CIE);
+						pGUI->Double_Major = "CIE";
 						delete pMajorWind;
 						pMajorWind = nullptr;
 						return true;
@@ -281,10 +295,12 @@ bool ActionDeclareMajor::Execute()
 					if (DoubleMajor_flag == 0)
 					{
 						pS->setMajor(ENV);
+						pGUI->Your_Major = "ENV";
 					}
 					if (DoubleMajor_flag == 1)
 					{
 						pS->setDoubleMajor(ENV);
+						pGUI->Double_Major = "ENV";
 						delete pMajorWind;
 						pMajorWind = nullptr;
 						return true;
@@ -302,10 +318,12 @@ bool ActionDeclareMajor::Execute()
 					if (DoubleMajor_flag == 0)
 					{
 						pS->setMajor(NANENG);
+						pGUI->Your_Major = "NANENG";
 					}
 					if (DoubleMajor_flag == 1)
 					{
 						pS->setDoubleMajor(NANENG);
+						pGUI->Double_Major = "NANENG";
 						delete pMajorWind;
 						pMajorWind = nullptr;
 						return true;
@@ -341,6 +359,7 @@ bool ActionDeclareMajor::Execute()
 			{
 				NANO_FABRICATION_Flag = 1;
 				pS->setConcentration(NANOFABRICATION);
+				pGUI->Your_Concentration = "NANOFABRICATION";
 				first_concentration = "NANOFABRICATION";
 				cout << "This is conc" << pS->getConcentration() << endl;//debug
 				UpdateWind();
@@ -351,6 +370,7 @@ bool ActionDeclareMajor::Execute()
 			{
 				NANOVLSI_flag = 1;
 				pS->setConcentration(NANOVLSI);
+				pGUI->Your_Concentration = "NANOVLSI";
 				first_concentration = "NANOVLSI";
 				cout << "This is conc" << pS->getConcentration() << endl; //debug
 				UpdateWind();
@@ -361,6 +381,7 @@ bool ActionDeclareMajor::Execute()
 			{
 				NANOPHOTONICS_flag = 1;
 				pS->setConcentration(NANOPHOTONICS);
+				pGUI->Your_Concentration = "NANOPHOTONICS";
 				first_concentration = "NANOPHOTONICS";
 				cout << "This is conc" << pS->getConcentration() << endl;//debug 
 				UpdateWind();
@@ -477,6 +498,8 @@ bool ActionDeclareMajor::Execute()
 						NANOVLSI_flag = 1;
 						//pS->setConcentration(NANOVLSI);
 						second_concentration = "NANOVLSI";
+						pS->setDoubleConcentration(NANOVLSI);
+						pGUI->Double_Concentration = "NANOVLSI";
 						second_major_flag = 1;
 						cout << "This is conc" << pS->getConcentration() << endl; //debug
 						UpdateWind();
@@ -488,7 +511,8 @@ bool ActionDeclareMajor::Execute()
 					if ((x >= (MajorWindWidth / 5)) && (x <= (MajorWindWidth / 5 + 278)) && (y >= (2 * MajorWindowHeight / 4 + MajorWindWidth / 16)) && (y <= (2 * MajorWindowHeight / 4 + MajorWindWidth / 16 + 66)))
 					{
 						NANOPHOTONICS_flag = 1;
-						pS->setConcentration(NANOPHOTONICS);
+						pS->setDoubleConcentration(NANOPHOTONICS);
+						pGUI->Double_Concentration = "NANOPHOTONICS";
 						second_concentration = "NANOPHOTONICS";
 						second_major_flag = 1;
 						cout << "This is conc" << pS->getConcentration() << endl;//debug 
@@ -506,6 +530,8 @@ bool ActionDeclareMajor::Execute()
 						NANO_FABRICATION_Flag = 1;
 						//->setConcentration(NANOFABRICATION);
 						second_concentration = "NANOFABRICATION";
+						pS->setDoubleConcentration(NANOFABRICATION);
+						pGUI->Double_Concentration = "NANOFABRICATION";
 						second_major_flag = 1;
 						cout << "This is conc" << pS->getConcentration() << endl;//debug
 						UpdateWind();
@@ -517,7 +543,9 @@ bool ActionDeclareMajor::Execute()
 					if ((x >= (MajorWindWidth / 5)) && (x <= (MajorWindWidth / 5 + 278)) && (y >= (2 * MajorWindowHeight / 4 + MajorWindWidth / 16)) && (y <= (2 * MajorWindowHeight / 4 + MajorWindWidth / 16 + 66)))
 					{
 						NANOPHOTONICS_flag = 1;
-						pS->setConcentration(NANOPHOTONICS);
+						//pS->setConcentration(NANOPHOTONICS);
+						pS->setDoubleConcentration(NANOPHOTONICS);
+						pGUI->Double_Concentration = "NANOPHOTONICS";
 						second_concentration = "NANOPHOTONICS";
 						second_major_flag = 1;
 						cout << "This is conc" << pS->getConcentration() << endl;//debug 
@@ -534,6 +562,8 @@ bool ActionDeclareMajor::Execute()
 					{
 						NANO_FABRICATION_Flag = 1;
 						//->setConcentration(NANOFABRICATION);
+						pS->setDoubleConcentration(NANOFABRICATION);
+						pGUI->Double_Concentration = "NANOFABRICATION";
 						second_concentration = "NANOFABRICATION";
 						second_major_flag = 1;
 						cout << "This is conc" << pS->getConcentration() << endl;//debug
@@ -547,6 +577,8 @@ bool ActionDeclareMajor::Execute()
 					{
 						NANOVLSI_flag = 1;
 						//pS->setConcentration(NANOVLSI);
+						pS->setDoubleConcentration(NANOVLSI);
+						pGUI->Double_Concentration = "NANOVLSI";
 						second_concentration = "NANOVLSI";
 						second_major_flag = 1;
 						cout << "This is conc" << pS->getConcentration() << endl; //debug
@@ -595,21 +627,3 @@ void ActionDeclareMajor::ClearDrawingArea() const
   //pMajorWind->SetPen(BackgroundColor);
 	pMajorWind->DrawRectangle(0, 0, MajorWindWidth, MajorWindowHeight, FILLED);
 }
-
-/*if (Eng_Flag == 1)
-		{
-			delete pMajorWind;
-			pMajorWind = nullptr;
-			return true;
-		}*/
-
-
-
-
-
-
-
-
-
-
-//
