@@ -100,7 +100,7 @@ enum Concentrations {
 
 	NANOFABRICATION,
 	NANOVLSI,
-	NANOPHOTONICS,
+	NANOPHOTONICS
 };
 
 struct Concentration {
