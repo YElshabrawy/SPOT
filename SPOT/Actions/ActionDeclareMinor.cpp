@@ -193,6 +193,7 @@ bool ActionDeclareMinor::Execute()
 				vector<Course_Code> PreReq = pCInfo->PreReqList;
 				vector<Course_Code> CoReq = pCInfo->CoReqList;
 				Course* pC = new Course(coursecode, Title, crd, PreReq, CoReq, year, semester);
+				plan->setMinor_course_flag(true);
 				pS->AddCourse(pC, year, static_cast<SEMESTER>(semester));
 				cout << coursecode << " is added to year " << year << " semester " << semester << endl;
 				pC->setYear(year);
@@ -209,7 +210,6 @@ bool ActionDeclareMinor::Execute()
 
 			}
 		}
-		plan->setMinor_course_flag(true);
 	//store the course name in the declared array
 		//coursecode = new code;
 		//plan->Minor_Course.push_back(coursecode);

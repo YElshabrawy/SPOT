@@ -169,6 +169,11 @@ void GUI::DrawCourse(const Course* pCrs)
 				pWind->SetBrush(BLUEVIOLET);
 				pWind->DrawRectangle(gInfo.x, gInfo.y, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT, FILLED, 10, 10);
 			}
+			else if ((pCrs->getType() == NOTYPE)&&((pCrs->getColor()!=RED)))
+			{
+				pWind->SetBrush(MYCYAN);
+				pWind->DrawRectangle(gInfo.x, gInfo.y, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT);
+			}
 			else
 				pWind->DrawRectangle(gInfo.x, gInfo.y, gInfo.x + CRS_WIDTH, gInfo.y + CRS_HEIGHT);
 	}
