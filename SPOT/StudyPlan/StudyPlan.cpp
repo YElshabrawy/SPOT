@@ -474,7 +474,6 @@ Major StudyPlan::getMajor() const
 {
 	return major;
 }
-
 void StudyPlan::setCourseTypeCredits(Type type, int mode, int hours)
 {
 	// If mode is 0 => Add Course 
@@ -764,7 +763,19 @@ void StudyPlan::Set_Course_Type()
 				//		break;
 				//	}
 				//}
-
+	/*			for (int i = 0; i < pRules->Concentrations[0].ConcentrationElectiveCourses.size(); i++)
+				{
+					if (Code == pRules->Concentrations[0].ConcentrationElectiveCourses[i])
+					{
+						(*it)->Set_Type(Elective);
+						if ((*it)->getColor() == BLACK)
+						{
+							break;
+						}
+						(*it)->changeColor(FIREBRICK);
+						break;
+					}
+				}*/
 			}
 	}
 }

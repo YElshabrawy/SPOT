@@ -24,7 +24,10 @@ bool ActionDragAndDrop::Execute()
 	Course* pCr = pReg->interrogateCourse(x, y);
 	int Course_X, Course_Y;
 	if (pCr == nullptr)
+	{
+		pReg->Not_Worth_Saving_Flag = true;
 		return true;
+	}
 	graphicsInfo gInfo_Old=pCr->getGfxInfo();
 
 	image systemimage= "GUI\\Images\\Menu\\test.jpg";
@@ -34,7 +37,9 @@ bool ActionDragAndDrop::Execute()
 		{
 			break;
 		}
-		if (pCr == nullptr) {
+		if (pCr == nullptr) 
+		{
+			pReg->Not_Worth_Saving_Flag = true;
 			break;
 			return true;
 		}
