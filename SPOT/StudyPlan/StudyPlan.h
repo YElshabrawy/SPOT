@@ -25,6 +25,15 @@ private:
 
 	bool currentYearAvailable; // true if user chose a current year. false if not.
 	string currentYear = "2020\\2021"; // Current Year of offerings (In date)
+
+	bool majorChanged = false;
+
+	// Double Major
+	bool doubleMajorExists = false;
+	bool doubleMajorOptimize = false; // to control the update in registrar
+	Major doubleMajor;
+	Rules* pDoubleMajorRules;
+
 public:
 	int TotalCredits = 0,				// Total no. of credit hours for courses registred in this year 1
 		TotalMajorCredits = 0,		// Univ Elective 3
@@ -77,6 +86,21 @@ public:
 	int Get_Page_Number()const;
 	StudyPlan(const StudyPlan& CopiedSP);
 	StudyPlan operator=(const StudyPlan& CopiedSP);
+	void setMajorChanged(bool state);
+	bool getMajorChanged() const;
+
+	//Double Major
+	void setDoubleMajor(Major major);
+	Major getDoubleMajor() const;
+
+	void setDoubleMajorExists(bool state);
+	bool getDoubleMajorExists() const;
+	
+	void setDoubleMajorOptimize(bool state);
+	bool getDoubleMajorOptimize() const;
+
+	void Set_Double_Major_Plan_Rules(Rules& DoubleRegRules);
+
 	virtual ~StudyPlan();
 };
 

@@ -236,6 +236,7 @@ bool Registrar::ExecuteAction(Action* pAct)
 	}
 	bool done = pAct->Execute();
 	delete pAct;	//free memory of that action object (either action is exec or cancelled)
+	pAct = nullptr;
 	return done;
 }
 void Registrar::Run()
@@ -245,7 +246,7 @@ void Registrar::Run()
 	createAllCourses();
 	setCourseOffering();
 	//setRules();
-	importProgramReq();
+	importProgramReq(RegRules, pSPlan->getMajor());
 	pSPlan->Set_Course_Type();
 	setCatalogCoursesType(); // Only once for now
 	setRules();
@@ -254,7 +255,25 @@ void Registrar::Run()
 
 	while (!Exit_Program)
 	{
+		if (pSPlan->getMajorChanged() == true) {
+			importProgramReq(RegRules, pSPlan->getMajor());
+			//pSPlan->Set_Course_Type();
+			//setCatalogCoursesType();
+			pSPlan->setMajorChanged(false);
+		}
+		if (pSPlan->getDoubleMajorOptimize()) {
+			// Get the requirments
+			importProgramReq(DoubleRegRules, pSPlan->getDoubleMajor());
 
+			// Send it to study plan in case needed
+			setDoubleMajorRules();
+
+			//Change the wanted changes
+			RegRules.TotalCHs += DoubleRegRules.ReqMajorCredits;
+
+			// Adjust the optimizer
+			pSPlan->setDoubleMajorOptimize(false);
+		}
 		//update interface here as CMU Lib doesn't refresh itself
 		//when window is minimized then restored..
 		setRules();
@@ -502,6 +521,10 @@ void Registrar::setRules()
 {
 	pSPlan->Set_Plan_Rules(RegRules);
 }
+void Registrar::setDoubleMajorRules()
+{
+	pSPlan->Set_Double_Major_Plan_Rules(DoubleRegRules);
+}
 Course* Registrar::interrogateCourse(int x, int y)
 {
 	Course* output = nullptr;
@@ -535,11 +558,11 @@ Course* Registrar::interrogateCourse(int x, int y)
 		return nullptr;
 	}
 }
-void Registrar::importProgramReq()
+void Registrar::importProgramReq(Rules& savePlace, Major major)
 {
 	// First according to the major select the file you want to read from
 	string majorName;
-	switch (pSPlan->getMajor())
+	switch (major)
 	{
 	case CIE:
 		majorName = "CIE"; break;
@@ -569,41 +592,41 @@ void Registrar::importProgramReq()
 	//line 1 (Total Cr)
 	string l1;
 	getline(finput, l1);
-	RegRules.TotalCHs = stoi(l1);
-	cout << "Total Credits = " << RegRules.TotalCHs << endl;
+	savePlace.TotalCHs = stoi(l1);
+	cout << "Total Credits = " << savePlace.TotalCHs << endl;
 
 	//line 2 (Univ comp and major Cr)
 	string l2;
 	getline(finput, l2);
 	vector<string> l2_tokens = splitString(l2, ",");
-	RegRules.UnivCompulsoryCredits = stoi(l2_tokens[0]);
-	RegRules.UnivElectiveCredits = stoi(l2_tokens[1]);
-	RegRules.ReqUnivCredits = RegRules.UnivCompulsoryCredits + RegRules.UnivElectiveCredits;
-	cout << "Univ Compulsory = " << RegRules.UnivCompulsoryCredits << endl;
-	cout << "Univ Elective = " << RegRules.UnivElectiveCredits << endl;
+	savePlace.UnivCompulsoryCredits = stoi(l2_tokens[0]);
+	savePlace.UnivElectiveCredits = stoi(l2_tokens[1]);
+	savePlace.ReqUnivCredits = savePlace.UnivCompulsoryCredits + savePlace.UnivElectiveCredits;
+	cout << "Univ Compulsory = " << savePlace.UnivCompulsoryCredits << endl;
+	cout << "Univ Elective = " << savePlace.UnivElectiveCredits << endl;
 
 	//line 3 (Track comp)
 	string l3;
 	getline(finput, l3);
-	RegRules.ReqTrackCredits = stoi(l3);
-	cout << "Track Compulsory = " << RegRules.ReqTrackCredits << endl;
+	savePlace.ReqTrackCredits = stoi(l3);
+	cout << "Track Compulsory = " << savePlace.ReqTrackCredits << endl;
 
 	//line 4 (Major comp and major Cr)
 	string l4;
 	getline(finput, l4);
 	vector<string> l4_tokens = splitString(l4, ",");
-	RegRules.MajorCompulsoryCredits = stoi(l4_tokens[0]);
-	RegRules.MajorElectiveCredits = stoi(l4_tokens[1]);
-	RegRules.ReqMajorCredits = RegRules.MajorCompulsoryCredits + RegRules.MajorElectiveCredits;
-	cout << "Major Compulsory = " << RegRules.MajorCompulsoryCredits << endl;
-	cout << "Major Elective = " << RegRules.MajorElectiveCredits << endl;
+	savePlace.MajorCompulsoryCredits = stoi(l4_tokens[0]);
+	savePlace.MajorElectiveCredits = stoi(l4_tokens[1]);
+	savePlace.ReqMajorCredits = savePlace.MajorCompulsoryCredits + savePlace.MajorElectiveCredits;
+	cout << "Major Compulsory = " << savePlace.MajorCompulsoryCredits << endl;
+	cout << "Major Elective = " << savePlace.MajorElectiveCredits << endl;
 
 	//line 5 (Num of Concentrations)
 	string l5;
 	getline(finput, l5);
-	RegRules.NumOfConcentrations = stoi(l5);
+	savePlace.NumOfConcentrations = stoi(l5);
 	int numOfConc = stoi(l5); // Will be needed in line 6 & last lines
-	cout << "Number Of Concentrations = " << RegRules.NumOfConcentrations << endl;
+	cout << "Number Of Concentrations = " << savePlace.NumOfConcentrations << endl;
 
 	//line 6 (Concentrations CHs "Comp and Elective")
 	string l6;
@@ -614,7 +637,7 @@ void Registrar::importProgramReq()
 		c.ID = i + 1;
 		c.CompulsoryCredits = stoi(l6_tokens[2 * i]);
 		c.ElectiveCredits = stoi(l6_tokens[(2 * i) + 1]);
-		RegRules.Concentrations.push_back(c);
+		savePlace.Concentrations.push_back(c);
 		cout << "For concentration " << c.ID << ") Comp CH = " << c.CompulsoryCredits << " and Elective CH = "
 			<< c.ElectiveCredits << endl;
 	}
@@ -622,29 +645,29 @@ void Registrar::importProgramReq()
 	//line 7 (Univ Comp Crs)
 	string l7;
 	getline(finput, l7);
-	RegRules.UnivCompulsoryCourses = splitString(l7, ",");
+	savePlace.UnivCompulsoryCourses = splitString(l7, ",");
 
 	//line 8 (Univ Elective Crs)
 	string l8;
 	getline(finput, l8);
-	RegRules.UnivElectiveCourses = splitString(l8, ",");
+	savePlace.UnivElectiveCourses = splitString(l8, ",");
 
 	//line 9 (Track Comp Crs only)
 	string l9;
 	getline(finput, l9);
-	RegRules.TrackCompulsoryCourses = splitString(l9, ",");
+	savePlace.TrackCompulsoryCourses = splitString(l9, ",");
 
 
 	//line 10 (Major comp crs)
 	string l10;
 	getline(finput, l10);
-	RegRules.MajorCompulsoryCourses = splitString(l10, ",");
+	savePlace.MajorCompulsoryCourses = splitString(l10, ",");
 
 
 	//line 11 (major elective crs)
 	string l11;
 	getline(finput, l11);
-	RegRules.MajorElectiveCourses = splitString(l11, ",");
+	savePlace.MajorElectiveCourses = splitString(l11, ",");
 
 	// The rest of lines in case there is a concentration
 		// The rest of lines in case there is a concentration
@@ -652,8 +675,8 @@ void Registrar::importProgramReq()
 
 		// find the concentration
 		int index;
-		for (int j = 0; j < RegRules.Concentrations.size(); j++) {
-			if (RegRules.Concentrations[j].ID == (i + 1)) {
+		for (int j = 0; j < savePlace.Concentrations.size(); j++) {
+			if (savePlace.Concentrations[j].ID == (i + 1)) {
 				index = j;
 				break;
 			}
@@ -662,12 +685,12 @@ void Registrar::importProgramReq()
 		// Compulsory
 		string L;
 		getline(finput, L);
-		RegRules.Concentrations[index].ConcentrationCompulsoryCourses = splitString(L, ",");
+		savePlace.Concentrations[index].ConcentrationCompulsoryCourses = splitString(L, ",");
 
 		// Elective
 		string M;
 		getline(finput, M);
-		RegRules.Concentrations[index].ConcentrationElectiveCourses = splitString(M, ",");
+		savePlace.Concentrations[index].ConcentrationElectiveCourses = splitString(M, ",");
 		
 	}
 
