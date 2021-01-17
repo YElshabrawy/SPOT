@@ -91,7 +91,7 @@ bool ActionCalculateGPA::Execute()
 	if ((total !=0)&&(totaldonehours!=0))
 	{
 		string str = to_string(GPA);
-		pGUI->GPA = str;
+		pGUI->GPA = str.substr(0, 4);
 	}
 
 	for(int i=0;i< GPA_OF_All_Semesters.size();i++)

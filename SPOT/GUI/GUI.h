@@ -113,6 +113,7 @@ public:
 	static int XCoord, YCoord;
 	static bool Draw_Dependacies_Flag;
 	static bool Draw_Dependacies_For_One_Course;
+	static bool Draw_Dependacies_For_One_Course_Flag;
 	GUI();
 	void CreateMenu() const;
 	void ClearDrawingArea() const;
