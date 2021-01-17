@@ -13,13 +13,15 @@ private:
 	vector<Error> CH_Error_List; // Holds all the modirate errors for the CH issues
 	vector<Error> Program_Req_Errors; // Holds all the critical program requirements errors
 	vector<Error> Course_Offering_Errors; // Holds all the modirate errors for adding a course out of offering list
-
+	
 	vector<int> Sem_Credits;
 	int Report_Lines;
 	Course* pCrs;
 	Major major;
+	Major Doublemajor;
 	Concentrations concentrations;
-
+	Concentrations Doubleconcentrations;
+	bool Minor_course_flag;
 	Rules* pRules;
 	int concentrationNumber = 0; // Indicates which concentration is sellected (0 = no conc selected yet)
 
@@ -58,6 +60,8 @@ public:
 	int No_Of_Pages;
 	string PlanNotes="";
 	vector<AcademicYear*> plan;	//plan is a list of academic years
+	vector<string>Minor_Course;
+	static int Count;
 	StudyPlan();
 	bool AddCourse(Course* , int year, SEMESTER);
 	bool DeleteCourse(Course* pC);
@@ -69,10 +73,15 @@ public:
 	void LiveReport(GUI* pGUI,int min,int max);
 	void FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI);
 	void checkProgramReq();
+	void setMinor_course_flag(bool cond);
 	void setMajor(Major major);
+	void setDoubleMajor(Major major);
 	void setConcentration(Concentrations concentration);
+	void setDoubleConcentration(Concentrations concentration);
 	Major getMajor() const;
+	Major getDoubleMajor() const;
 	Concentrations getConcentration()const;
+	Concentrations getDoubleConcentration() const;
 	void Set_Plan_Rules(Rules& RegRules);
 	void setCourseTypeCredits(Type type, int mode, int hours);
 	void lazyCheck(int compared, int original, string errMsg, string checkMsg);

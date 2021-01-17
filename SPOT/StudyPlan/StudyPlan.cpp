@@ -6,7 +6,7 @@
 #include <fstream>
 #include <iterator>
 
-
+int StudyPlan::Count = 0;
 StudyPlan::StudyPlan()
 {
 	//By default, the study plan starts with 5 years
@@ -20,6 +20,11 @@ bool StudyPlan::AddCourse(Course* pC, int year, SEMESTER sem)
 {
 	plan[year - 1]->AddCourse(pC, sem);
 	TotalCredits += pC->getCredits();
+	if (Minor_course_flag == true)
+	{
+		Minor_Course.push_back(pC->getCode());
+		Minor_course_flag == false;
+	}
 	setCourseTypeCredits(pC->getType(), 0, pC->getCredits());
 	checkOffering(pC->getCode(), year-1, sem);
 	return true;
@@ -28,6 +33,14 @@ bool StudyPlan::DeleteCourse(Course* pC) {
 	plan[pC->getYear() - 1]->DeleteCourse(pC, pC->getSemester());
 	TotalCredits -= pC->getCredits();
 	setCourseTypeCredits(pC->getType(), 1, pC->getCredits());
+	for (int i=0;i<Minor_Course.size();i++)
+	{
+		if (Minor_Course.at(i) == pC->getCode())
+		{
+			Minor_Course.erase(Minor_Course.begin() + i);
+			Count--;
+		}
+	}
 	// Delete the couurse offering error
 	for (int i = 0; i < Course_Offering_Errors.size(); i++) 
 		if (Course_Offering_Errors[i].Msg.find(pC->getCode()) != string::npos) {
@@ -463,18 +476,28 @@ void StudyPlan::setMajor(Major major)
 	this->major = major;
 	majorChanged = true;
 }
+
 void StudyPlan::setConcentration(Concentrations concentration)
 {
 	this->concentrations = concentration;
+}
+void StudyPlan::setDoubleConcentration(Concentrations concentration)
+{
+	this->Doubleconcentrations = concentration;
 }
 Concentrations StudyPlan::getConcentration() const
 {
 	return concentrations;
 }
+Concentrations StudyPlan::getDoubleConcentration() const
+{
+	return Doubleconcentrations;
+}
 Major StudyPlan::getMajor() const
 {
 	return major;
 }
+
 
 void StudyPlan::setCourseTypeCredits(Type type, int mode, int hours)
 {
@@ -919,6 +942,7 @@ StudyPlan StudyPlan::operator=(const StudyPlan& CopiedSP)
 	}
 	return (*this);
 }
+
 void StudyPlan::setMajorChanged(bool state)
 {
 	majorChanged = state;
@@ -957,7 +981,13 @@ bool StudyPlan::getDoubleMajorOptimize() const
 void StudyPlan::Set_Double_Major_Plan_Rules(Rules& DoubleRegRules)
 {
 	pDoubleMajorRules = &DoubleRegRules;
+
 }
+//void StudyPlan::setMinor_course_flag(bool cond)
+//{
+//	Minor_course_flag = cond;
+//
+//}
 StudyPlan::~StudyPlan()
 {
 	for (AcademicYear* yr : plan) {

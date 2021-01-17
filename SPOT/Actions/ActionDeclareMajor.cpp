@@ -14,11 +14,12 @@ bool ActionDeclareMajor::Execute()
 {
 	int	Sci_Flag = 0, Eng_Flag = 0, DoubleMajor_flag = 0, DoubleConcentration_flag = 0; 
 	int BMS_Flag = 0, PEU_Flag = 0, MATSCI_Flag = 0, NANSC_Flag = 0,REE_Flag = 0,SPC_Flag = 0,CIE_Flag = 0,ENV_Flag = 0,NAN_Flag=0;
+	int Exit_flag = 0;
 	int NANO_FABRICATION_Flag = 0, NANOVLSI_flag=0, NANOPHOTONICS_flag=0;
 	int second_concentration_flag = 0, second_major_flag = 0, exit_flag = 0;
 	int token = 0;
-	string first_major = "", second_major = ""; //to hold the values for the first and the second major
-	string first_concentration = "",second_concentration="";
+	static string first_major = "", second_major = ""; //to hold the values for the first and the second major
+	static string first_concentration = "",second_concentration="";
 	StudyPlan* pS = pReg->getStudyPlay();
 
 	cout << "Declaring a major.\n";
@@ -53,6 +54,7 @@ bool ActionDeclareMajor::Execute()
 			if (pMajorWind->GetMouseClick(x, y))
 				UpdateWind();
 		}
+		//Science majors
 		while ((pMajorWind) && (Sci_Flag == 1))
 		{
 			clicktype ctInput;
@@ -87,7 +89,17 @@ bool ActionDeclareMajor::Execute()
 				{
 					BMS_Flag = 1;
 					token = 1;
-					pS->setMajor(BMS);
+					if (DoubleMajor_flag == 0)
+					{
+						pS->setMajor(BMS);
+					}
+					if (DoubleMajor_flag == 1)
+					{
+						pS->setDoubleMajor(BMS);
+						delete pMajorWind;
+						pMajorWind = nullptr;
+						return true;
+					}
 					UpdateWind();
 					break;
 				}
@@ -98,7 +110,17 @@ bool ActionDeclareMajor::Execute()
 				{
 					PEU_Flag = 1;
 					token = 1;
-					pS->setMajor(PEU);
+					if (DoubleMajor_flag == 0)
+					{
+						pS->setMajor(PEU);
+					}
+					if (DoubleMajor_flag == 1)
+					{
+						pS->setDoubleMajor(PEU);
+						delete pMajorWind;
+						pMajorWind = nullptr;
+						return true;
+					}
 					UpdateWind();
 					break;
 				}
@@ -109,7 +131,17 @@ bool ActionDeclareMajor::Execute()
 				{
 					MATSCI_Flag = 1;
 					token = 1;
-					pS->setMajor(MATSCI);
+					if (DoubleMajor_flag == 0)
+					{
+						pS->setMajor(MATSCI);
+					}
+					if (DoubleMajor_flag == 1)
+					{
+						pS->setDoubleMajor(MATSCI);
+						delete pMajorWind;
+						pMajorWind = nullptr;
+						return true;
+					}
 					UpdateWind();
 					break;
 				}
@@ -120,7 +152,17 @@ bool ActionDeclareMajor::Execute()
 				{
 					NANSC_Flag = 1;
 					token = 1;
-					pS->setMajor(NANSCI);
+					if (DoubleMajor_flag == 0)
+					{
+						pS->setMajor(NANSCI);
+					}
+					if (DoubleMajor_flag == 1)
+					{
+						pS->setDoubleMajor(NANSCI);
+						delete pMajorWind;
+						pMajorWind = nullptr;
+						return true;
+					}
 					UpdateWind();
 					break;
 				}
@@ -134,6 +176,7 @@ bool ActionDeclareMajor::Execute()
 			pMajorWind = nullptr;
 			return true;
 		}*/
+		//Eng Majors
 		while ((pMajorWind) && (Eng_Flag == 1))
 		{
 			clicktype ctInput;
@@ -172,7 +215,17 @@ bool ActionDeclareMajor::Execute()
 				{
 					REE_Flag = 1;
 					token = 1;
-					pS->setMajor(REE);
+					if (DoubleMajor_flag == 0)
+					{
+						pS->setMajor(REE);
+					}
+					if (DoubleMajor_flag == 1)
+					{
+						pS->setDoubleMajor(REE);
+						delete pMajorWind;
+						pMajorWind = nullptr;
+						return true;
+					}
 					UpdateWind();
 					break;
 				}
@@ -183,7 +236,17 @@ bool ActionDeclareMajor::Execute()
 				{
 					SPC_Flag = 1;
 					token = 1;
-					pS->setMajor(SPC);
+					if (DoubleMajor_flag == 0)
+					{
+						pS->setMajor(SPC);
+					}
+					if (DoubleMajor_flag == 1)
+					{
+						pS->setDoubleMajor(SPC);
+						delete pMajorWind;
+						pMajorWind = nullptr;
+						return true;
+					}
 					UpdateWind();
 					break;
 				}
@@ -194,7 +257,17 @@ bool ActionDeclareMajor::Execute()
 				{
 					CIE_Flag = 1;
 					token = 1;
-					pS->setMajor(CIE);
+					if (DoubleMajor_flag == 0)
+					{
+						pS->setMajor(CIE);
+					}
+					if (DoubleMajor_flag == 1)
+					{
+						pS->setDoubleMajor(CIE);
+						delete pMajorWind;
+						pMajorWind = nullptr;
+						return true;
+					}
 					UpdateWind();
 					break;
 				}
@@ -205,7 +278,17 @@ bool ActionDeclareMajor::Execute()
 				{
 					ENV_Flag = 1;
 					token = 1;
-					pS->setMajor(ENV);
+					if (DoubleMajor_flag == 0)
+					{
+						pS->setMajor(ENV);
+					}
+					if (DoubleMajor_flag == 1)
+					{
+						pS->setDoubleMajor(ENV);
+						delete pMajorWind;
+						pMajorWind = nullptr;
+						return true;
+					}
 					UpdateWind();
 					break;
 				}
@@ -216,7 +299,18 @@ bool ActionDeclareMajor::Execute()
 				{
 					NAN_Flag = 1;
 					token = 1;
-					pS->setMajor(NANENG);
+					if (DoubleMajor_flag == 0)
+					{
+						pS->setMajor(NANENG);
+					}
+					if (DoubleMajor_flag == 1)
+					{
+						pS->setDoubleMajor(NANENG);
+						delete pMajorWind;
+						pMajorWind = nullptr;
+						return true;
+
+					}
 					UpdateWind();
 					break;
 				}
@@ -277,14 +371,7 @@ bool ActionDeclareMajor::Execute()
 
 		}
 
-		/*if (Eng_Flag == 1)
-		{
-			delete pMajorWind;
-			pMajorWind = nullptr;
-			return true;
-		}*/
-
-		//double declare major or minor
+		//double declare major/ concentration/ exit 
 		while ((pMajorWind) && ((DoubleMajor_flag != 1) && (DoubleConcentration_flag != 1)) && ((Sci_Flag == 1) || (Eng_Flag == 1)))
 		{
 			clicktype ctInput;
@@ -307,8 +394,9 @@ bool ActionDeclareMajor::Execute()
 			if (ctInput == 1) {
 				pMajorWind->GetMouseCoord(x, y);
 
-				if ((x >= (MajorWindWidth / 8)) && (x <= ((MajorWindWidth / 8) + 200)) && (y >= 0) && (y <= (60.5) + 481))
+				if ((x >= (MajorWindWidth / 8)) && (x <= ((MajorWindWidth / 8) + 200)) && (y >= 60.5) && (y <= (60.5) + 481))
 				{
+					//to edit 
 					DoubleMajor_flag = 1;
 					if (DoubleMajor_flag == 1)
 					{
@@ -318,11 +406,19 @@ bool ActionDeclareMajor::Execute()
 					UpdateWind();
 					break;
 				}
-				if ((x >= MajorWindWidth * (5.0 / 8)) && (x <= ((MajorWindWidth * (5.0 / 8)) + (MajorWindWidth / 4))) && (y >= 0) && (y <= (60.5) + (MajorWindWidth / 1.5)))
+				if ((x >= MajorWindWidth * (5.0 / 8)) && (x <= ((MajorWindWidth * (5.0 / 8)) + (MajorWindWidth / 4))) && (y >= 60.5) && (y <= (60.5) + (MajorWindWidth / 1.5)))
 				{
+					//to edit 
 					DoubleConcentration_flag = 1;
 					UpdateWind();
 					break;
+				}
+				if ((x >= MajorWindWidth * (0.375)) && (x <= ((MajorWindWidth * (0.375)) + (MajorWindWidth / 4)))&& (y >= 10) && (y <= (10) + (MajorWindWidth / 10)))
+				{
+					
+					delete pMajorWind;
+					pMajorWind = nullptr;
+					return true;
 				}
 				/*if (nextgray_flag==0)
 				{
@@ -384,6 +480,8 @@ bool ActionDeclareMajor::Execute()
 						second_major_flag = 1;
 						cout << "This is conc" << pS->getConcentration() << endl; //debug
 						UpdateWind();
+						delete pMajorWind;
+						pMajorWind = nullptr;
 						return true;
 					}
 					//NANOPHOTONICS
@@ -395,6 +493,8 @@ bool ActionDeclareMajor::Execute()
 						second_major_flag = 1;
 						cout << "This is conc" << pS->getConcentration() << endl;//debug 
 						UpdateWind();
+						delete pMajorWind;
+						pMajorWind = nullptr;
 						return true;
 					}
 				}
@@ -409,6 +509,8 @@ bool ActionDeclareMajor::Execute()
 						second_major_flag = 1;
 						cout << "This is conc" << pS->getConcentration() << endl;//debug
 						UpdateWind();
+						delete pMajorWind;
+						pMajorWind = nullptr;
 						return true;
 					}
 					//NANOPHOTONICS
@@ -420,6 +522,8 @@ bool ActionDeclareMajor::Execute()
 						second_major_flag = 1;
 						cout << "This is conc" << pS->getConcentration() << endl;//debug 
 						UpdateWind();
+						delete pMajorWind;
+						pMajorWind = nullptr;
 						return true;
 					}
 				}
@@ -434,6 +538,8 @@ bool ActionDeclareMajor::Execute()
 						second_major_flag = 1;
 						cout << "This is conc" << pS->getConcentration() << endl;//debug
 						UpdateWind();
+						delete pMajorWind;
+						pMajorWind = nullptr;
 						return true;
 					}
 					//NANOVLSI
@@ -445,6 +551,8 @@ bool ActionDeclareMajor::Execute()
 						second_major_flag = 1;
 						cout << "This is conc" << pS->getConcentration() << endl; //debug
 						UpdateWind();
+						delete pMajorWind;
+						pMajorWind = nullptr;
 						return true;
 					}
 				}
@@ -454,6 +562,12 @@ bool ActionDeclareMajor::Execute()
 
 			}
 
+		}
+		if (DoubleMajor_flag == 1 && second_major_flag==1)
+		{
+			delete pMajorWind;
+			pMajorWind = nullptr;
+			return true;
 		}
 	}
 	/*else if (DoubleMajor_flag == 1)
@@ -482,3 +596,9 @@ void ActionDeclareMajor::ClearDrawingArea() const
 	pMajorWind->DrawRectangle(0, 0, MajorWindWidth, MajorWindowHeight, FILLED);
 }
 
+/*if (Eng_Flag == 1)
+		{
+			delete pMajorWind;
+			pMajorWind = nullptr;
+			return true;
+		}*/

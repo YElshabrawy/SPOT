@@ -11,6 +11,12 @@ bool  ActionDDOOC::Execute()
 
 	GUI* pGUI = pReg->getGUI();
 	StudyPlan* pS = pReg->getStudyPlay();
+	if (pGUI->Draw_Dependacies_For_One_Course_Flag)
+	{
+		pGUI->Draw_Dependacies_For_One_Course_Flag = false;
+		pGUI->Draw_Dependacies_For_One_Course = false;
+		return true;
+	}
 	if (pGUI->Draw_Dependacies_For_One_Course)
     {
 	pS->FindPreAndCoReq_ITCSP(pReg->OldpCr_For_DDOOC, pGUI);
@@ -22,6 +28,7 @@ bool  ActionDDOOC::Execute()
 	y = actData.y;
 	Course* pCr = pReg->interrogateCourse(x, y);
 	if (pCr == nullptr) {
+		pGUI->Draw_Dependacies_For_One_Course = false;
 		return true;
 	}
 	else

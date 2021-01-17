@@ -12,54 +12,56 @@ ActionDeclareMinor::ActionDeclareMinor(Registrar* P) :Action(P)
 }
 bool ActionDeclareMinor::Execute()
 {
+
 	cout << "Bgrb a call" << endl;
 	GUI* pGUI = pReg->getGUI();
+	StudyPlan* plan = pReg->getStudyPlay();
 	char c;//define a character c 
 	keytype key = NO_KEYPRESS;// keytype iss a enum
-	static int count = 0;//count to check the user enters 5 courses start from negative one caue i increment first therefore i could store in poition zero in an array
+	//static int count = 0;//count to check the user enters 5 courses start from negative one caue i increment first therefore i could store in poition zero in an array
 	static int counter = 0;//to check if the course is present in the plan 
 	static int TNOMCTBA = 0;//total number of minor credits to be added
 	bool done = false;
 	static string Minor = "No Minor";
 	string MinorAlternatives[6] = { "ENV 357","ENV 359","ENV 319","CIE 202","ENV 303","ENV 357" };//sample for testing 
 	//bool flag;
-	static string MinorCourses[5] = {};
+	//static string MinorCourses[5] = {};
 	int dummy=0;
 
 	key = pGUI->pWind->GetKeyPress(c);
 	cout << Minor << endl;//debugging
-	if (count == 0)
+	if (plan->Count == 0)
 	{
 		pGUI->PrintMsg("Input 5 Minor Courses ");
 	}
-	else if (count == 1)
+	else if (plan->Count == 1)
 	{
 		pGUI->PrintMsg(" 4 Courses to be in a minor ");
 
 	}
-	else if (count == 2)
+	else if (plan->Count == 2)
 	{
 		pGUI->PrintMsg(" 3 Courses to be in a minor ");
 	}
-	else if (count == 3)
+	else if (plan->Count == 3)
 	{
 		pGUI->PrintMsg(" 2 Courses to be in a minor ");
 
 	}
-	else if (count == 4)
+	else if (plan->Count == 4)
 	{
 		pGUI->PrintMsg(" 1 Courses to be in a minor ");
 
 	}
-	else if (count == 5)
+	else if (plan->Count == 5)
 	{
 		pGUI->GetUserAction(" Congratulations You are now in a Minor ");
-
-		cout << MinorCourses[0] << endl;
-		cout << MinorCourses[1] << endl;
-		cout << MinorCourses[2] << endl;
-		cout << MinorCourses[3] << endl;
-		cout << MinorCourses[4] << endl;
+		plan->Minor_Course.at(0);
+		cout << plan->Minor_Course.at(0) << endl;
+		cout << plan->Minor_Course.at(1) << endl;
+		cout << plan->Minor_Course.at(2) << endl;
+		cout << plan->Minor_Course.at(3)<< endl;
+		cout << plan->Minor_Course.at(4) << endl;
 		cout << "Minor Already Declared"<<endl;//to be changed if we want
 		cout << Minor<<endl;
 		return true;
@@ -95,9 +97,9 @@ bool ActionDeclareMinor::Execute()
 	TNOMCTBA += pCInfo->Credits;//calculate minor credits to be added
 	cout << "This is the total minor credits" << TNOMCTBA << endl;
 	//check that the course doesn't exist in the array
-	for (int j = 0; j < 5; j++)
+	for (int j = 0; j < plan->Minor_Course.size(); j++)
 	{
-		if (MinorCourses[j] == coursecode)
+		if (plan->Minor_Course.at(j) == coursecode)
 		{
 			pGUI->GetUserAction("Course Already entered as a Minor Course");
 			return true;
@@ -105,7 +107,7 @@ bool ActionDeclareMinor::Execute()
 	}
 
 	//if the course exists we loop through all thecourses in the studyplan
-	StudyPlan* plan = pReg->getStudyPlay();
+
 	vector<AcademicYear*>* pPlan = plan->getStudyPlanVector(); // pointer on the plan vector
 	//check if the course is alread present in the study plan;
 	for (AcademicYear* yr : *pPlan)
@@ -131,7 +133,7 @@ bool ActionDeclareMinor::Execute()
 					counter = counter + 1;
 					if (counter <= 1)
 					{
-						count = count + 1;
+						plan->Count = plan->Count + 1;
 					}
 					//flag = false;
 					return true;
@@ -200,25 +202,27 @@ bool ActionDeclareMinor::Execute()
 				gInfo.y = GUI::MenuBarHeight + GUI::MyFactor + ((year - 1) * GUI::One_Year_Div) + (semester * GUI::One_Semester_Div) +
 					(GUI::MyFactor * (year - 1));
 				pC->setGfxInfo(gInfo);
-				count = count + 1;// increment the course count by 1
+				plan->Count = plan->Count + 1;// increment the course count by 1
 				done = true;
 				pReg->UpdateInterface();
 
 
 			}
 		}
+		plan->setMinor_course_flag(true);
 	//store the course name in the declared array
-	MinorCourses[count - 1] = coursecode;
-	cout << MinorCourses[0] << endl;
+		//coursecode = new code;
+		//plan->Minor_Course.push_back(coursecode);
+	//cout << plan->Minor_Course.at(0) << endl;
 
 	// compare to the sample
-	if (count == 5)
+	if (plan->Count == 5)
 	{
 		for (int j = 0; j < 5; j++)
 		{
 			for (int i = 0; i < 6; i++)
 			{
-				if (MinorCourses[j] == MinorAlternatives[i])
+				if (plan->Minor_Course.at(j) == MinorAlternatives[i])
 				{
 					dummy += 1;
 					break;
