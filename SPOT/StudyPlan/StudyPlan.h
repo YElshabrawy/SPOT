@@ -75,11 +75,9 @@ public:
 	void checkProgramReq();
 	void setMinor_course_flag(bool cond);
 	void setMajor(Major major);
-	void setDoubleMajor(Major major);
 	void setConcentration(Concentrations concentration);
 	void setDoubleConcentration(Concentrations concentration);
 	Major getMajor() const;
-	Major getDoubleMajor() const;
 	Concentrations getConcentration()const;
 	Concentrations getDoubleConcentration() const;
 	void Set_Plan_Rules(Rules& RegRules);
