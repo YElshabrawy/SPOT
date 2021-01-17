@@ -8,6 +8,7 @@
 //The maestro class for the application
 class Registrar
 {
+	bool Exit_Program = false;
 	GUI *pGUI;	//pointer to GUI 
 	Rules RegRules;	//Registration rules
 	static StudyPlan *pSPlan;
