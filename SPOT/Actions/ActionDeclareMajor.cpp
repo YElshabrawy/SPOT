@@ -602,3 +602,14 @@ void ActionDeclareMajor::ClearDrawingArea() const
 			pMajorWind = nullptr;
 			return true;
 		}*/
+
+
+
+
+
+
+
+
+
+
+//
