@@ -474,11 +474,9 @@ void StudyPlan::checkOffering(string code, int crsYear, SEMESTER sem)
 void StudyPlan::setMajor(Major major)
 {
 	this->major = major;
+	majorChanged = true;
 }
-void StudyPlan::setDoubleMajor(Major major)
-{
-	this->Doublemajor = major;
-}
+
 void StudyPlan::setConcentration(Concentrations concentration)
 {
 	this->concentrations = concentration;
@@ -499,10 +497,7 @@ Major StudyPlan::getMajor() const
 {
 	return major;
 }
-Major StudyPlan::getDoubleMajor() const
-{
-	return Doublemajor;
-}
+
 
 void StudyPlan::setCourseTypeCredits(Type type, int mode, int hours)
 {
@@ -947,10 +942,52 @@ StudyPlan StudyPlan::operator=(const StudyPlan& CopiedSP)
 	}
 	return (*this);
 }
-void StudyPlan::setMinor_course_flag(bool cond)
+
+void StudyPlan::setMajorChanged(bool state)
 {
-	Minor_course_flag = cond;
+	majorChanged = state;
 }
+bool StudyPlan::getMajorChanged() const
+{
+	return majorChanged;
+}
+void StudyPlan::setDoubleMajor(Major major)
+{
+	doubleMajor = major;
+	doubleMajorOptimize = true; // start optimizing	
+	doubleMajorExists = true;
+}
+Major StudyPlan::getDoubleMajor() const
+{
+	return doubleMajor;
+}
+void StudyPlan::setDoubleMajorExists(bool state)
+{
+	doubleMajorExists = state;
+}
+bool StudyPlan::getDoubleMajorExists() const
+{
+	return doubleMajorExists;
+}
+
+void StudyPlan::setDoubleMajorOptimize(bool state)
+{
+	doubleMajorOptimize = state;
+}
+bool StudyPlan::getDoubleMajorOptimize() const
+{
+	return doubleMajorOptimize;
+}
+void StudyPlan::Set_Double_Major_Plan_Rules(Rules& DoubleRegRules)
+{
+	pDoubleMajorRules = &DoubleRegRules;
+
+}
+//void StudyPlan::setMinor_course_flag(bool cond)
+//{
+//	Minor_course_flag = cond;
+//
+//}
 StudyPlan::~StudyPlan()
 {
 	for (AcademicYear* yr : plan) {
