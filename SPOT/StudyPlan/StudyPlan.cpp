@@ -601,7 +601,6 @@ void StudyPlan::GenerateStudentLevel(GUI* pGUI)
 	cout << "Generate student level called"<<endl;//debugging
 	pGUI->Student_Level =StudentLevel;
 	string str = to_string(TotalDoneHours);
-	pGUI->GPA = str;
 	pGUI->Done_Credits = str;
 }
 int StudyPlan::Get_Page_Number()const

@@ -101,10 +101,11 @@ public:
 	// Course Info
 	int CourseInfoY1 = NotesY1 + NotesHeight + MyFactor;
 	string Notes, CourseTitle, CourseCode, CourseCredit, CourseStatus,CourseGrade,
-	Student_Level = "---",GPA="---",Student_Name = "---",Student_ID = "---",Done_Credits = "---",Your_Major = "---",Your_Minor = "---",Your_Concentration = "---",Double_Major = "---",Double_Concentration = "---";
+	Student_Level = "---",GPA="---",Done_Credits = "---",Your_Major = "---",Your_Minor = "---",Your_Concentration = "---",Double_Major = "---",Double_Concentration = "---";
 	int CourseInfoHeight = Y_div/3;
 	vector<string>ReportLines;
 	vector<string>NotesLines;
+	vector<string>GPA_Semesters;
 	// Report Area
 	int ReportAreaY1 = CourseInfoY1 + CourseInfoHeight + MyFactor,
 		ReportAreaHeight = (Y_div / 3) - MyFactor,
