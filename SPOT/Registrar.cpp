@@ -592,7 +592,7 @@ void Registrar::importProgramReq(Rules& savePlace, Major major)
 	//line 1 (Total Cr)
 	string l1;
 	getline(finput, l1);
-	savePlace.TotalCHs = stoi(l1);
+	savePlace.TotalCHs = stoi(l1);//////////////////--------------------->DANGEROUS
 	cout << "Total Credits = " << savePlace.TotalCHs << endl;
 
 	//line 2 (Univ comp and major Cr)

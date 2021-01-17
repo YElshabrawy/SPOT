@@ -987,6 +987,10 @@ void StudyPlan::setMinor_course_flag(bool cond)
 {
 	Minor_course_flag = cond;
 }
+void StudyPlan::setDoubleconcentrationNumber(int n)
+{
+	DoubleconcentrationNumber = n;
+}
 StudyPlan::~StudyPlan()
 {
 	for (AcademicYear* yr : plan) {
