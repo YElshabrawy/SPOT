@@ -16,6 +16,7 @@ bool ActionImportPlan::Execute() {
 	cout << "Import button is pressed.\n"; // for debugging
 	GUI* pGUI = pReg->getGUI();
 	// First we need to erase the current plan (Until i know how to call another action from here)
+	
 	StudyPlan* pS = pReg->getStudyPlay();
 	vector<AcademicYear*>* pPlan = pS->getStudyPlanVector(); // pointer on the plan vector
 	for (AcademicYear* yr : *pPlan) {

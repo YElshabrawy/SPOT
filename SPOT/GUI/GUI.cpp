@@ -109,6 +109,8 @@ void GUI::CreateMenu() const
 	MenuItemImages[ITM_PLAN_DEP] = "GUI\\Images\\Menu\\menu_plan_dep.jpg";
 	MenuItemImages[ITM_Filter] = "GUI\\Images\\Menu\\menu_filter.jpg";
 	MenuItemImages[ITM_GPA]= "GUI\\Images\\Menu\\menu_gpa.jpg";
+	MenuItemImages[ITM_EXIT]= "GUI\\Images\\Menu\\menu_quit.jpg";
+
 
 	//TODO: Prepare image for each menu item and add it to the list
 
@@ -326,6 +328,7 @@ ActionData GUI::GetUserAction(string msg) const
 				case ITM_EXCHANGE: return ActionData{ CHANGE_CODE }; break;
 				case ITM_MAJOR: return ActionData{ DECLARE_MAJOR }; break;
 				case ITM_MINOR: return ActionData{ DECLARE_MINOR }; break;
+				case ITM_EXIT: return ActionData{ Exit }; break;
 				case ITM_GPA:return ActionData{ CAL_GPA }; break;
 
 					if (Current_StudyPlan < Total_Number_Study_Plans - 1)

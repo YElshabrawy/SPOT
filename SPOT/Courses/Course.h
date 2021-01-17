@@ -101,7 +101,6 @@ public:
 	Course(const Course& CopiedCrs);
 	Course operator=(const Course& CopiedCrs);
 	void printCourse() const;
-	Course* getCoursePtr();
-	
+	Course* getCoursePtr();	
 
 };

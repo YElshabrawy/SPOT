@@ -30,8 +30,10 @@ bool StudyPlan::DeleteCourse(Course* pC) {
 	setCourseTypeCredits(pC->getType(), 1, pC->getCredits());
 	// Delete the couurse offering error
 	for (int i = 0; i < Course_Offering_Errors.size(); i++) 
-		if (Course_Offering_Errors[i].Msg.find(pC->getCode()) != string::npos)
+		if (Course_Offering_Errors[i].Msg.find(pC->getCode()) != string::npos) {
 			Course_Offering_Errors.erase(Course_Offering_Errors.begin() + i);
+			break;
+		}
 	return true;
 }
 void StudyPlan::DrawMe(GUI* pGUI) const
@@ -460,10 +462,19 @@ void StudyPlan::setMajor(Major major)
 {
 	this->major = major;
 }
+void StudyPlan::setConcentration(Concentrations concentration)
+{
+	this->concentrations = concentration;
+}
+Concentrations StudyPlan::getConcentration() const
+{
+	return concentrations;
+}
 Major StudyPlan::getMajor() const
 {
 	return major;
 }
+
 void StudyPlan::setCourseTypeCredits(Type type, int mode, int hours)
 {
 	// If mode is 0 => Add Course 
@@ -909,4 +920,13 @@ StudyPlan StudyPlan::operator=(const StudyPlan& CopiedSP)
 }
 StudyPlan::~StudyPlan()
 {
+	for (AcademicYear* yr : plan) {
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int sem = FALL; sem < SEM_CNT; sem++) {
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
+				delete (*it);
+				(*it) = nullptr;
+			}
+		}
+	}
 }

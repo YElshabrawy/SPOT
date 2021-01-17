@@ -41,6 +41,7 @@ enum ActionType
 	PLAN_DEP,
 	CAL_GPA,		//Calculate GPA
 	Filter,			//apply Filter
+	Exit,
 
 	SAVE,		//Save a study plan to file
 	LOAD,		//Load a study plan from a file
@@ -94,6 +95,12 @@ enum Major {
 	PEU,
 	MATSCI,
 	NANSCI
+};
+enum Concentrations {
+
+	NANOFABRICATION,
+	NANOVLSI,
+	NANOPHOTONICS,
 };
 
 struct Concentration {

@@ -190,6 +190,7 @@ Action* Registrar::CreateRequiredAction()
 			OldpCr = nullptr;
 		}
 		break;
+	case Exit: Exit_Program = true; break;
 	default:
 	{
 		if (pGUI->Last_CLick == RIGHT_CLICK)
@@ -251,7 +252,7 @@ void Registrar::Run()
 	RegRules.SemMinCredit = 12;
 	RegRules.SemMaxCredit = 21;
 
-	while (true)
+	while (!Exit_Program)
 	{
 
 		//update interface here as CMU Lib doesn't refresh itself
@@ -313,6 +314,7 @@ void Registrar::UpdateInterface()
 Registrar::~Registrar()
 {
 	delete pGUI;
+	delete pSPlan;
 }
 // Updated
 void Registrar::createAllCourses() {

@@ -14,14 +14,31 @@ ActionEraseAll::~ActionEraseAll()
 
 bool ActionEraseAll::Execute() {
 	cout << "Erase all is pressed.\n";
+	vector<Course*> allCourses;
 	StudyPlan* pS = pReg->getStudyPlay();
 	vector<AcademicYear*>* pPlan = pS->getStudyPlanVector(); // pointer on the plan vector
 	for (AcademicYear* yr : *pPlan) {
 		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
 		for (int sem = FALL; sem < SEM_CNT; sem++) {
-			pYr[sem].clear();
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
+				allCourses.push_back(*it);
+			}
 		}
 	}
-	fill(Course::numOfCoursesPerSem.begin(), Course::numOfCoursesPerSem.end(), 0);
+	for (Course* pCr : allCourses)
+		pS->DeleteCourse(pCr);
+	//for (AcademicYear* yr : *pPlan) {
+	//	list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+	//	for (int sem = FALL; sem < SEM_CNT; sem++) {
+	//		for (auto iter = pYr[sem].begin(); iter != pYr[sem].end(); iter++) {
+	//			pS->DeleteCourse(*iter);
+	//		}
+	//	}
+	//
+	//	/*for (int sem = FALL; sem < SEM_CNT; sem++) {
+	//		pYr[sem].clear();
+	//	}*/
+	//}
+	//fill(Course::numOfCoursesPerSem.begin(), Course::numOfCoursesPerSem.end(), 0);
 	return true;
 }

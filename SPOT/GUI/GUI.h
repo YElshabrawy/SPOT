@@ -36,6 +36,7 @@ class GUI
 		ITM_PLAN_DEP,
 		ITM_GPA,		//gpa item
 		ITM_Filter,		//Filter item
+		ITM_EXIT,
 		ITM_CNT			//no. of menu items ==> This should be the last line in this enum
 		
 	};
@@ -54,7 +55,7 @@ class GUI
 public:
 	window* pWind;
 	//Some constants for GUI (My default = 1600 x 880 with aspect ratio 20:11)
-	static const int	WindWidth = 1300, WindHeight = WindWidth * (11.0 / 20.0),	//Window width and height
+	static const int	WindWidth = 1600, WindHeight = WindWidth * (11.0 / 20.0),	//Window width and height
 		wx = 15, wy = 15,		//Window starting coordinates
 		StatusBarHeight = 60,	//Status Bar Height
 		MenuBarHeight = 51,		//Menu Bar Height (distance from top of window to bottom line of menu bar)
