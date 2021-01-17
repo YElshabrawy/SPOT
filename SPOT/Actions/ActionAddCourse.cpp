@@ -23,7 +23,10 @@ bool ActionAddCourse::Execute()
 
 	//Input validations
 	if (code == " ")//to exit when the user presses escape
+	{
+		pReg->Not_Worth_Saving_Flag = true;
 		return true;
+	}
 	pReg->transformCode(code);
 
 	//Check if exists

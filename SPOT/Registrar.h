@@ -37,7 +37,7 @@ public:
 	Course* OldpCr = nullptr;
 	Course* OldpCr_For_DDOOC = nullptr;
 	void Run();
-
+	bool Not_Worth_Saving_Flag = false;
 	~Registrar();
 
 	// Updated

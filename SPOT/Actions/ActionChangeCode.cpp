@@ -24,6 +24,7 @@ bool ActionChangeCode::Execute()
 		Course* pCr = pReg->interrogateCourse(x, y);
 		if (pCr == nullptr)
 		{
+			pReg->Not_Worth_Saving_Flag = true;
 			// No course is sellected
 		}
 		else 

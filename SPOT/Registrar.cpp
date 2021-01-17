@@ -40,7 +40,7 @@ Action* Registrar::CreateRequiredAction()
 		RequiredAction = new ActionAddCourse(this);
 		Add_Flag = true;
 		break;
-	case CAL_GPA:	
+	case CAL_GPA:
 		RequiredAction = new ActionCalculateGPA(this);
 		break;
 	case Filter:	//add_course action
@@ -99,9 +99,12 @@ Action* Registrar::CreateRequiredAction()
 		break;
 	}
 	case ERASE:
+	{
 		RequiredAction = new ActionEraseAll(this);
 		Erase_Flag = true;
+		pGUI->Current_Page_Report = 0;
 		break;
+	}
 	case CHANGE_CODE:
 		RequiredAction = new ActionChangeCode(this);
 		ChangeCode_Flag = true;
@@ -153,6 +156,7 @@ Action* Registrar::CreateRequiredAction()
 			}
 			OldpCr = nullptr;
 		}
+		pGUI->Current_Page_Report = 0;
 		break;
 	case REDO:
 		RequiredAction = new ActionRedo(this);
@@ -187,6 +191,7 @@ Action* Registrar::CreateRequiredAction()
 			{
 				OldpCr->changeColor(MYCYAN);
 			}
+			pGUI->Current_Page_Report = 0;
 			OldpCr = nullptr;
 		}
 		break;
@@ -235,6 +240,12 @@ bool Registrar::ExecuteAction(Action* pAct)
 		ChangeCode_Flag = false;
 	}
 	bool done = pAct->Execute();
+	if (Not_Worth_Saving_Flag)
+	{
+		List_Of_All_StudyPlans.erase(List_Of_All_StudyPlans.begin() + Current_Study_Plan - 1, List_Of_All_StudyPlans.end() - Current_Study_Plan + 1);
+		Current_Study_Plan--;
+		Not_Worth_Saving_Flag = false;
+	}
 	delete pAct;	//free memory of that action object (either action is exec or cancelled)
 	pAct = nullptr;
 	return done;
@@ -277,9 +288,9 @@ void Registrar::Run()
 		//update interface here as CMU Lib doesn't refresh itself
 		//when window is minimized then restored..
 		setRules();
-		pSPlan->Set_Course_Type();
 		pSPlan->GenerateStudentLevel(pGUI);
 		pSPlan->checkPreAndCoReq();
+		pSPlan->Set_Course_Type();
 		pSPlan->checkCreditHrs(RegRules.SemMinCredit, RegRules.SemMaxCredit);
 		pSPlan->checkProgramReq();
 		pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);
@@ -323,6 +334,7 @@ void Registrar::UpdateInterface()
 		ExecuteAction(pAct);
 	}
 	//pSPlan->Set_Page_Number((pGUI->ReportAreaHeight / 15) - 2);
+	pSPlan->Set_Course_Type();
 	pGUI->ReportLines.clear();
 	pSPlan->DrawMe(pGUI);
 	pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);//make study plan draw itself
@@ -790,6 +802,11 @@ void Registrar::Add_To_StudyPlan(StudyPlan &pS_New)
 			List_Of_All_StudyPlans.insert(List_Of_All_StudyPlans.end() - SPSC, pS_Old);
 		}
 		Current_Study_Plan++;
+		if (List_Of_All_StudyPlans.size() > 200)
+		{
+			List_Of_All_StudyPlans.erase(List_Of_All_StudyPlans.begin(), List_Of_All_StudyPlans.begin()+1);
+			Current_Study_Plan--;
+		}
 		pSPlan = List_Of_All_StudyPlans[Current_Study_Plan];
 	}
 }

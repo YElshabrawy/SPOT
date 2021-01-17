@@ -23,7 +23,7 @@ bool StudyPlan::AddCourse(Course* pC, int year, SEMESTER sem)
 	if (Minor_course_flag == true)
 	{
 		Minor_Course.push_back(pC->getCode());
-		Minor_course_flag == false;
+		Minor_course_flag = false;
 	}
 	setCourseTypeCredits(pC->getType(), 0, pC->getCredits());
 	checkOffering(pC->getCode(), year-1, sem);
@@ -283,6 +283,7 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 				{
 					if (((*it)->getCode() == CoReq[i])&&((*it)!=NULL))
 					{
+						pGUI->pWind->SetBrush(RED);
 						pGUI->pWind->SetPen(RED,2);
 						pGUI->DrawCourse_Dependacies((*it), pC);
 						break;
@@ -294,6 +295,7 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 					Code = (*it)->getCode();
 					if ((Code== PreReq[i])&&((*it) != NULL))
 					{
+						pGUI->pWind->SetBrush(BLUE);
 						pGUI->pWind->SetPen(BLUE,2);
 						pGUI->DrawCourse_Dependacies((*it), pC);
 						break;
@@ -497,8 +499,6 @@ Major StudyPlan::getMajor() const
 {
 	return major;
 }
-
-
 void StudyPlan::setCourseTypeCredits(Type type, int mode, int hours)
 {
 	// If mode is 0 => Add Course 
@@ -662,6 +662,7 @@ void StudyPlan::Set_Course_Type()
 			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
 			{
 				Code = (*it)->getCode();
+				(*it)->Set_Type(NOTYPE);
 				for (int i = 0; i < pRules->UnivCompulsoryCourses.size(); i++)
 				{
 					if (Code == pRules->UnivCompulsoryCourses[i])
@@ -788,7 +789,19 @@ void StudyPlan::Set_Course_Type()
 				//		break;
 				//	}
 				//}
-
+				for (int i = 0; i < Minor_Course.size(); i++)
+				{
+					if (Code == Minor_Course[i])
+					{
+						(*it)->Set_Type(Minor);
+						if ((*it)->getColor() == BLACK)
+						{
+							break;
+						}
+						(*it)->changeColor(ORANGERED);
+						break;
+					}
+				}
 			}
 	}
 }

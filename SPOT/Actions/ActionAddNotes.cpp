@@ -26,6 +26,11 @@ bool ActionAddNotes::Execute()
 			StudyPlan* pS = pReg->getStudyPlay(); //pointer to study plan
 			pGUI->PrintMsg("Add Notes For The Study Plan");
 			pGUI->Notes = pGUI->GetSrting();
+			if (pGUI->Notes==" ")
+			{
+				pReg->Not_Worth_Saving_Flag = true;
+				return true;
+			}
 			pS->PlanNotes = pS->PlanNotes + " " + pGUI->Notes;
 			pGUI->Notes = pS->PlanNotes;
 			pGUI->NotesLines.clear();
