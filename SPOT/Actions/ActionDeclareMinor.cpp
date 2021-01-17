@@ -13,16 +13,15 @@ ActionDeclareMinor::ActionDeclareMinor(Registrar* P) :Action(P)
 bool ActionDeclareMinor::Execute()
 {
 	cout << "Bgrb a call" << endl;
-
 	GUI* pGUI = pReg->getGUI();
 	char c;//define a character c 
-	keytype key = NO_KEYPRESS;
+	keytype key = NO_KEYPRESS;// keytype iss a enum
 	static int count = 0;//count to check the user enters 5 courses start from negative one caue i increment first therefore i could store in poition zero in an array
 	static int counter = 0;//to check if the course is present in the plan 
-	int TNOMCTBA = 0;//total number of minor credits to be added
+	static int TNOMCTBA = 0;//total number of minor credits to be added
 	bool done = false;
 	static string Minor = "No Minor";
-	string MinorAlternatives[6] = { "ENV 357","ENV 359","ENV 319","CIE 202","ENV 303","ENV 357" };//sample
+	string MinorAlternatives[6] = { "ENV 357","ENV 359","ENV 319","CIE 202","ENV 303","ENV 357" };//sample for testing 
 	//bool flag;
 	static string MinorCourses[5] = {};
 	int dummy=0;
@@ -55,12 +54,13 @@ bool ActionDeclareMinor::Execute()
 	else if (count == 5)
 	{
 		pGUI->GetUserAction(" Congratulations You are now in a Minor ");
+
 		cout << MinorCourses[0] << endl;
 		cout << MinorCourses[1] << endl;
 		cout << MinorCourses[2] << endl;
 		cout << MinorCourses[3] << endl;
 		cout << MinorCourses[4] << endl;
-		cout << "Minor Already Declared"<<endl;//to be changed
+		cout << "Minor Already Declared"<<endl;//to be changed if we want
 		cout << Minor<<endl;
 		return true;
 	}
@@ -90,10 +90,24 @@ bool ActionDeclareMinor::Execute()
 			return true;
 		pReg->transformCode(coursecode);
 		pCInfo = pReg->inCatalog(coursecode, exists);
+		
 	}
+	TNOMCTBA += pCInfo->Credits;//calculate minor credits to be added
+	cout << "This is the total minor credits" << TNOMCTBA << endl;
+	//check that the course doesn't exist in the array
+	for (int j = 0; j < 5; j++)
+	{
+		if (MinorCourses[j] == coursecode)
+		{
+			pGUI->GetUserAction("Course Already entered as a Minor Course");
+			return true;
+		}
+	}
+
 	//if the course exists we loop through all thecourses in the studyplan
 	StudyPlan* plan = pReg->getStudyPlay();
 	vector<AcademicYear*>* pPlan = plan->getStudyPlanVector(); // pointer on the plan vector
+	//check if the course is alread present in the study plan;
 	for (AcademicYear* yr : *pPlan)
 	{
 		if (counter > 1)
@@ -193,19 +207,11 @@ bool ActionDeclareMinor::Execute()
 
 			}
 		}
-	//}
-	////if more than 1 course exists in the studypaln
-	//else
-	//{	
-	//	pGUI->PrintMsg("You can't have more than 1 common course in your minor and your study plan ");
-	//	cout << "You can't have more than 1 common course in your minor and your study plan" << endl;
-	//	return true;
-	//}
 	//store the course name in the declared array
 	MinorCourses[count - 1] = coursecode;
 	cout << MinorCourses[0] << endl;
 
-
+	// compare to the sample
 	if (count == 5)
 	{
 		for (int j = 0; j < 5; j++)

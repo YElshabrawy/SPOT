@@ -95,6 +95,12 @@ enum Major {
 	MATSCI,
 	NANSCI
 };
+enum Concentrations {
+
+	NANOFABRICATION,
+	NANOVLSI,
+	NANOPHOTONICS,
+};
 
 struct Concentration {
 	int ID; // number of concentration

@@ -18,6 +18,8 @@ private:
 	int Report_Lines;
 	Course* pCrs;
 	Major major;
+	Concentrations concentrations;
+
 	Rules* pRules;
 	int concentrationNumber = 0; // Indicates which concentration is sellected (0 = no conc selected yet)
 
@@ -59,7 +61,9 @@ public:
 	void FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI);
 	void checkProgramReq();
 	void setMajor(Major major);
+	void setConcentration(Concentrations concentration);
 	Major getMajor() const;
+	Concentrations getConcentration()const;
 	void Set_Plan_Rules(Rules& RegRules);
 	void setCourseTypeCredits(Type type, int mode, int hours);
 	void lazyCheck(int compared, int original, string errMsg, string checkMsg);

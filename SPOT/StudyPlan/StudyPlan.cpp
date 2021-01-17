@@ -460,10 +460,19 @@ void StudyPlan::setMajor(Major major)
 {
 	this->major = major;
 }
+void StudyPlan::setConcentration(Concentrations concentration)
+{
+	this->concentrations = concentration;
+}
+Concentrations StudyPlan::getConcentration() const
+{
+	return concentrations;
+}
 Major StudyPlan::getMajor() const
 {
 	return major;
 }
+
 void StudyPlan::setCourseTypeCredits(Type type, int mode, int hours)
 {
 	// If mode is 0 => Add Course 
