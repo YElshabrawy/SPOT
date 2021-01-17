@@ -11,6 +11,7 @@ class Registrar
 	bool Exit_Program = false;
 	GUI *pGUI;	//pointer to GUI 
 	Rules RegRules;	//Registration rules
+	Rules DoubleRegRules; // Double major requirements
 	static StudyPlan *pSPlan;
 	vector<StudyPlan*>List_Of_All_StudyPlans;
 	StudyPlan* pS_Old;
@@ -45,10 +46,11 @@ public:
 	string transformCode(string& code);
 	void setCourseOffering();
 	void setRules();
+	void setDoubleMajorRules();
 	Course* interrogateCourse(int x, int y);
 
 	void setCatalogCoursesType();
-	void importProgramReq();
+	void importProgramReq(Rules &savePlace, Major major);
 	void Increment_Current_StudyPlan();
 	void Decrement_Current_StudyPlan();
 	void Add_To_StudyPlan(StudyPlan &pS_New);

@@ -13,18 +13,29 @@ private:
 	vector<Error> CH_Error_List; // Holds all the modirate errors for the CH issues
 	vector<Error> Program_Req_Errors; // Holds all the critical program requirements errors
 	vector<Error> Course_Offering_Errors; // Holds all the modirate errors for adding a course out of offering list
-
+	
 	vector<int> Sem_Credits;
 	int Report_Lines;
 	Course* pCrs;
 	Major major;
+	Major Doublemajor;
 	Concentrations concentrations;
-
+	Concentrations Doubleconcentrations;
+	bool Minor_course_flag;
 	Rules* pRules;
 	int concentrationNumber = 0; // Indicates which concentration is sellected (0 = no conc selected yet)
 
 	bool currentYearAvailable; // true if user chose a current year. false if not.
 	string currentYear = "2020\\2021"; // Current Year of offerings (In date)
+
+	bool majorChanged = false;
+
+	// Double Major
+	bool doubleMajorExists = false;
+	bool doubleMajorOptimize = false; // to control the update in registrar
+	Major doubleMajor;
+	Rules* pDoubleMajorRules;
+
 public:
 	int TotalCredits = 0,				// Total no. of credit hours for courses registred in this year 1
 		TotalMajorCredits = 0,		// Univ Elective 3
@@ -49,6 +60,8 @@ public:
 	int No_Of_Pages;
 	string PlanNotes="";
 	vector<AcademicYear*> plan;	//plan is a list of academic years
+	vector<string>Minor_Course;
+	static int Count;
 	StudyPlan();
 	bool AddCourse(Course* , int year, SEMESTER);
 	bool DeleteCourse(Course* pC);
@@ -60,10 +73,13 @@ public:
 	void LiveReport(GUI* pGUI,int min,int max);
 	void FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI);
 	void checkProgramReq();
+	void setMinor_course_flag(bool cond);
 	void setMajor(Major major);
 	void setConcentration(Concentrations concentration);
+	void setDoubleConcentration(Concentrations concentration);
 	Major getMajor() const;
 	Concentrations getConcentration()const;
+	Concentrations getDoubleConcentration() const;
 	void Set_Plan_Rules(Rules& RegRules);
 	void setCourseTypeCredits(Type type, int mode, int hours);
 	void lazyCheck(int compared, int original, string errMsg, string checkMsg);
@@ -77,6 +93,21 @@ public:
 	int Get_Page_Number()const;
 	StudyPlan(const StudyPlan& CopiedSP);
 	StudyPlan operator=(const StudyPlan& CopiedSP);
+	void setMajorChanged(bool state);
+	bool getMajorChanged() const;
+
+	//Double Major
+	void setDoubleMajor(Major major);
+	Major getDoubleMajor() const;
+
+	void setDoubleMajorExists(bool state);
+	bool getDoubleMajorExists() const;
+	
+	void setDoubleMajorOptimize(bool state);
+	bool getDoubleMajorOptimize() const;
+
+	void Set_Double_Major_Plan_Rules(Rules& DoubleRegRules);
+
 	virtual ~StudyPlan();
 };
 
