@@ -10,6 +10,7 @@ int GUI::YCoord = 0;
 clicktype GUI::Last_CLick = RIGHT_CLICK;
 bool GUI::Draw_Dependacies_Flag = false;
 bool GUI::Draw_Dependacies_For_One_Course = false;
+bool GUI::Draw_Dependacies_For_One_Course_Flag = false;
 int  GUI::Current_Page_Report = 0;
 int  GUI::Current_Page_Notes = 0;
 int  GUI::Current_Page_Info = 0;
@@ -341,8 +342,16 @@ ActionData GUI::GetUserAction(string msg) const
 				case ITM_Filter:return ActionData{ Filter }; break;
 				case ITM_CRS_DEP:
 				{
-					Draw_Dependacies_For_One_Course = false;
-					return ActionData{ CRS_DEP }; break;
+					if ((Draw_Dependacies_For_One_Course == false)&&(Draw_Dependacies_For_One_Course_Flag == false))
+					{
+						Draw_Dependacies_For_One_Course = false;
+						return ActionData{ CRS_DEP }; break;
+					}
+					else if ((Draw_Dependacies_For_One_Course == true) && (Draw_Dependacies_For_One_Course_Flag == false))
+					{
+						Draw_Dependacies_For_One_Course_Flag = true;
+						return ActionData{ CRS_DEP }; break;
+					}
 				}
 				case ITM_PLAN_DEP:
 				{
