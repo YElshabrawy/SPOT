@@ -51,6 +51,10 @@ void Course::setCourseReplaced(bool Case)
 {
 	Replaced = Case;
 }
+void Course::setCourseCreditsTransfered(bool CT)
+{
+	CreditsTransfered = CT;
+}
 void Course::setGrade(string grade)
 {
 	Grade = grade;
