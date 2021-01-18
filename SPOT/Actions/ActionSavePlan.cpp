@@ -16,12 +16,32 @@ ActionSavePlan::~ActionSavePlan() {
 
 bool ActionSavePlan::Execute() {
 	StudyPlan* pS = pReg->getStudyPlay(); //pointer to study plan
+	GUI* pGUI = pReg->getGUI();
 	//pS->importProgramReq();
 	cout << "Save button is pressed.\n"; //for debugging
 	//importCourseRules();
-	cout << "Course Rules are imported successfully.\n"; //for debugging
 
-	GUI* pGUI = pReg->getGUI();
+	// Save Live Report:
+	string directory1 = "Format Files\\Saved_Live_Report.txt";
+	ofstream liveFile;
+	liveFile.open(directory1);
+
+	for (string line : pGUI->ReportLines) {
+		liveFile << line << endl;
+	}
+	liveFile.close();
+
+	// Save Notes
+	string directory2 = "Format Files\\Saved_Notes.txt";
+	ofstream noteFile;
+	noteFile.open(directory2);
+
+	for (string line : pGUI->NotesLines) {
+		noteFile << line << endl;
+	}
+	noteFile.close();
+
+	// Save Plan
 	vector<AcademicYear*>* pPlan = pS->getStudyPlanVector(); // pointer on the plan vector
 	string directory = "Format Files\\Saved_Plan.txt";
 

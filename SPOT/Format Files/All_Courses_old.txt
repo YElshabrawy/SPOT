@@ -1,4 +1,0 @@
-PHYS 102,Introduction to Electromagnetism,3,Coreq:PHYS 112,Prereq:PHYS102 And MATH 102
-BIOL 101,Biology I,3,Coreq:BIOL 111
-BIOL 111,Biology I Lab,1,Coreq:BIOL 101
-CIE 202,Fundamentals of Computer Programming,3,Prereq:CSCI 101 And MATH 101
