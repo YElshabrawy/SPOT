@@ -57,5 +57,6 @@ public:
 	int GetCurrent_Study_Plan()const;
 
 	void combineDoubleMajorCourses();
+	void setCrossLinkedCourses();
 };
 
