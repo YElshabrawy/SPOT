@@ -193,6 +193,10 @@ bool Course::getCoursepending()const
 {
 	return pending;
 }
+bool Course::getUnknownCrs() const
+{
+	return UnknownCRS;
+}
 bool Course::getCourseinprogress()const
 {
 	return inprogress;

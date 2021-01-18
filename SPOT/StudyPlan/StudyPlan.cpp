@@ -365,9 +365,62 @@ void StudyPlan::checkProgramReq()
 		}
 	}
 
+	// 2) Courses missing
+	string checkKeyword = "Uni Compulsory.";
+	lazyCheck2(checkKeyword, pRules->UnivCompulsoryCourses);
+	
+	string checkKeyword2 = "Track Compulsory.";
+	doubleMajorExists ? lazyCheck2(checkKeyword2, pRules->CheckDoubleTrackCourses) : lazyCheck2(checkKeyword2, pRules->TrackCompulsoryCourses);
+	
+	string checkKeyword3 = "Major Compulsory.";
+	doubleMajorExists ? lazyCheck2(checkKeyword3, pRules->CheckDoubleMajorCompCourses) : lazyCheck2(checkKeyword3, pRules->MajorCompulsoryCourses);
 
+	// 3) Check Unknown Crs
+	string errMsgAgain = "Change the code of XXX elective courses.";
+	bool Unknowns = false;
+	for (AcademicYear* yr : plan)
+	{
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int sem = FALL; sem < SEM_CNT; sem++)
+		{
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
+			{
+				if ((*it)->getUnknownCrs()) {
+					Unknowns = true;
+					break;
+				}
+				if (Unknowns) break;
+			}
+			if (Unknowns) break;
+		}
+		if (Unknowns) break;
+	}
+	if (Unknowns) {
+		//Add the error if not exist
+		bool there = false;
+		for (int i = 0; i < Program_Req_Errors.size(); i++) {
+			if (Program_Req_Errors[i].Msg.find(errMsgAgain) != string::npos)
+				there = true;
+		}
+		if (!there) {
+			Error err;
+			err.Msg = errMsgAgain;
+			err.type = CRITICAL;
+			Program_Req_Errors.push_back(err);
+		}
+	}
+	else {
+		for (int i = 0; i < Program_Req_Errors.size(); i++) {
+			if (Program_Req_Errors[i].Msg.find(errMsgAgain) != string::npos)
+				Program_Req_Errors.erase(Program_Req_Errors.begin() + i);
+		}
+	}
+	cout << "ERRRRRRRRRRRRRRRRRRR:: " << Program_Req_Errors.size() << endl;
+	for (Error err : Program_Req_Errors)
+		cout << err.Msg << endl;
 
 }
+
 void StudyPlan::lazyCheck(int compared, int original, string errMsg, string checkMsg) {
 	if (compared < original) {
 		// Check if already exists. If so modify its message!
@@ -393,6 +446,50 @@ void StudyPlan::lazyCheck(int compared, int original, string errMsg, string chec
 				Program_Req_Errors.erase(Program_Req_Errors.begin() + i);
 		}
 
+	}
+}
+void StudyPlan::lazyCheck2(string checkKeyword, vector<string> vect)
+{
+	for (string code : vect) {
+		bool exists = false;
+		for (AcademicYear* yr : plan)
+		{
+			list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+			for (int sem = FALL; sem < SEM_CNT; sem++)
+			{
+				for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
+				{
+					if ((*it)->getCode() == code) {
+						exists = true;
+						break;
+					}
+				}
+				if (exists) break;
+			}
+			if (exists) break;
+		}
+		string newerrMsg = "Missing " + code + " " + checkKeyword;
+		if (exists) {
+			//Remove error
+			for (int i = 0; i < Program_Req_Errors.size(); i++) {
+				if (Program_Req_Errors[i].Msg.find(newerrMsg) != string::npos)
+					Program_Req_Errors.erase(Program_Req_Errors.begin() + i);
+			}
+		}
+		else {
+			// Add it if not there
+			bool there = false;
+			for (int i = 0; i < Program_Req_Errors.size(); i++) {
+				if (Program_Req_Errors[i].Msg.find(newerrMsg) != string::npos)
+					there = true;
+			}
+			if (!there) {
+				Error err;
+				err.Msg = newerrMsg;
+				err.type = CRITICAL;
+				Program_Req_Errors.push_back(err);
+			}
+		}
 	}
 }
 void StudyPlan::checkOffering(string code, int crsYear, SEMESTER sem)

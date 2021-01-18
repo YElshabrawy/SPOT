@@ -73,6 +73,7 @@ public:
 	bool getCourseExempted()const;
 	bool getCoursedone()const;
 	bool getCoursepending()const;
+	bool getUnknownCrs() const;
 	bool getCourseinprogress()const;
 	string getTitle() const;
 	string getCode() const;
