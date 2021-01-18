@@ -22,7 +22,7 @@ bool ActionDeclareMinor::Execute()
 	static int TNOMCTBA = 0;//total number of minor credits to be added
 	bool done = false;
 	static string Minor = "No Minor";
-	string MinorAlternatives[6] = { "ENV 357","ENV 359","ENV 319","CIE 202","ENV 303","ENV 357" };//sample for testing 
+	//string MinorAlternatives[6] = { "ENV 357","ENV 359","ENV 319","CIE 202","ENV 303","ENV 357" };//sample for testing 
 	//bool flag;
 	//static string MinorCourses[5] = {};
 	int dummy=0;
@@ -216,7 +216,7 @@ bool ActionDeclareMinor::Execute()
 	//cout << plan->Minor_Course.at(0) << endl;
 
 	// compare to the sample
-	if (plan->Count == 5)
+	/*if (plan->Count == 5)
 	{
 		for (int j = 0; j < 5; j++)
 		{
@@ -233,7 +233,7 @@ bool ActionDeclareMinor::Execute()
 		{
 			Minor = "Environmental";
 		}
-	}
+	}*/
 	while (key != 4 && done == false)
 	{
 		key = pGUI->pWind->GetKeyPress(c);
