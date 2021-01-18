@@ -63,6 +63,7 @@ bool ActionChangeCode::Execute()
 			pnewcR->CCC_Flag = true;
 			pnewcR->setGfxInfo(anew_ginfo);
 			pS->AddCourse(pnewcR,year,sem);
+			pnewcR->Course_Number = pCr->Course_Number;
 		}
 	}
 	return true;

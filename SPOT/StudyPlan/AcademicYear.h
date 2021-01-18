@@ -12,7 +12,7 @@ class AcademicYear:public Drawable
 	int TotalUnivCredits=0, TotalMajorCredits=0,
 		TotalTrackCredits=0, TotalConcentrationCredits=0,
 		TotalMinorCredits=0;
-
+	static int Sem_Counter;
 	//Each year is an array of 3 lists of courses. Each list cossrsponds to a semester
 	//So YearCourses[FALL] is the list of FALL course in that year
 	//So YearCourses[SPRING] is the list of SPRING course in that year

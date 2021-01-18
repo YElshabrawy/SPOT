@@ -64,6 +64,7 @@ public:
 	string PlanNotes="";
 	vector<AcademicYear*> plan;	//plan is a list of academic years
 	vector<string>Minor_Course;
+	vector<int>NOCPS;
 	static int Count;
 	StudyPlan();
 	bool AddCourse(Course* , int year, SEMESTER);

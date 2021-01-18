@@ -62,9 +62,18 @@ vector<AcademicYear*>* StudyPlan::getStudyPlanVector() {
 void StudyPlan::checkPreAndCoReq()
 {
 	// For each crs
+	NOCPS.clear();
 	for (AcademicYear* yr : plan) {
 		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
 		for (int sem = FALL; sem < SEM_CNT; sem++) {
+			if (pYr[sem].size() != 0)
+			{
+				NOCPS.push_back(pYr[sem].size() - 1);
+			}
+			else
+			{
+				NOCPS.push_back(pYr[sem].size());
+			}
 			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
 				// Iterate on courses
 				Course* pCr = (*it);
