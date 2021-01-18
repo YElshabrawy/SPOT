@@ -20,8 +20,13 @@ int  GUI::Notes_Stop = 0;
 int  GUI::Notes_Start = 0;
 int  GUI::Info_Stop = 0;
 int  GUI::Info_Start = 0;
+
 GUI::GUI()
 { 
+	for (int i = 0; i < 15; i++)
+	{
+		CPIES.push_back(0);
+	}
 	pWind = new window(WindWidth, WindHeight,wx,wy);
 	pWind->ChangeTitle(WindTitle);
 	ClearDrawingArea();
@@ -266,26 +271,48 @@ void GUI::DrawAcademicYear(const AcademicYear* pY)
 		pWind->DrawImage("GUI\\Images\\Years\\Year_Six.jpg",
 			1, (6 * One_Year_Div) - YearImgMidSubtractor + (5 * MyFactor), 18, 50);
 	}
-
+	
 	// Draw Semesters 
 	pWind->SetFont(15, BOLD, BY_NAME, "Times New Rome");
 	pWind->SetPen(BLACK);
+	int counter = 0;
 	for (int i = 1; i <= NumOfYrs; i++) {
-		pWind->DrawString(29, 
-			MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor,
-			"Fall");
-		pWind->DrawString(20, 
-			MenuBarHeight + ((i -1) * (One_Year_Div + MyFactor)) + SemesterMidFactor + (1 * One_Semester_Div),
-			"Spring");
-		pWind->DrawString(20, 
-			MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor + (2 * One_Semester_Div),
-			"Summ");
+		pWind->DrawString(29,MenuBarHeight+((i - 1)*(One_Year_Div + MyFactor))+SemesterMidFactor,"Fall");
+		if (((NOCPSIAYs[counter] > 8) && (CPIES[counter] == 0)))
+		{
+			pWind->DrawImage("GUI\\Images\\Years\\RA.jpg", SideBarX1 - 37, MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor - 10);
+		}
+		else if (((NOCPSIAYs[counter] > 8) && (CPIES[counter] == 1)))
+		{
+			pWind->DrawImage("GUI\\Images\\Years\\LA.jpg", SideBarX1 - 37, MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor - 10);
+		}
+		counter++;
+		pWind->DrawString(20,MenuBarHeight+((i - 1)*(One_Year_Div + MyFactor))+SemesterMidFactor+(1 * One_Semester_Div),"Spring");
+		if (((NOCPSIAYs[counter] > 8) && (CPIES[counter] == 0)))
+		{
+			pWind->DrawImage("GUI\\Images\\Years\\RA.jpg", SideBarX1 - 37, MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor + (1 * One_Semester_Div) - 10);
+		}
+		else if (((NOCPSIAYs[counter] > 8) && (CPIES[counter] == 1)))
+		{
+			pWind->DrawImage("GUI\\Images\\Years\\LA.jpg", SideBarX1 - 37, MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor + (1 * One_Semester_Div) - 10);
+		}
+		counter++;
+		pWind->DrawString(20,MenuBarHeight+((i - 1)*(One_Year_Div + MyFactor))+SemesterMidFactor+(2 * One_Semester_Div),"Summ");
+		if (((NOCPSIAYs[counter] > 8) && (CPIES[counter] == 0)))
+		{
+			pWind->DrawImage("GUI\\Images\\Years\\RA.jpg", SideBarX1 - 37, MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor + (2 * One_Semester_Div) - 10);
+		}
+		else if (((NOCPSIAYs[counter] > 8) && (CPIES[counter] == 1)))
+		{
+			pWind->DrawImage("GUI\\Images\\Years\\LA.jpg", SideBarX1 - 37, MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor + (2 * One_Semester_Div) -10);
+		}
+		counter++;
 	}
 }
 ////////////////////////    Input functions    ///////////////////
 //This function reads the position where the user clicks to determine the desired action
 //If action is done by mouse, actData will be the filled by mouse position
-ActionData GUI::GetUserAction(string msg) const
+ActionData GUI::GetUserAction(string msg) 
 {
 	keytype ktInput;
 	clicktype ctInput;
@@ -435,7 +462,42 @@ ActionData GUI::GetUserAction(string msg) const
 						Current_Page_Info = 3;
 					}
 				}
-
+				int counter = 0;
+				for (int i = 1; i <= NumOfYrs; i++) {
+					if ((x >= SideBarX1 - 37)&&(x <= SideBarX1 - 11)&&(y >= MenuBarHeight+ ((i - 1) * (One_Year_Div + MyFactor)))&&(y <= (MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor))+26))&&(NOCPSIAYs[counter]>8)&& (CPIES[counter] == 0))
+					{
+						CPIES[counter] = 1;
+						break;
+					}
+					else if ((x >= SideBarX1 - 37) && (x <= SideBarX1 - 11) && (y >= MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor - 10) && (y <= (MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor + 16)) && (NOCPSIAYs[counter] > 8) && (CPIES[counter] == 1))
+					{
+						CPIES[counter] = 0;
+						break;
+					}
+					counter++;
+					if ((x >= SideBarX1 - 37) && (x <= SideBarX1 - 11) && (y >= MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor + (1 * One_Semester_Div) - 10) && (y <= MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor + (1 * One_Semester_Div) + 16) && (NOCPSIAYs[counter] > 8) && (CPIES[counter] == 0))
+					{
+						CPIES[counter] = 1;
+						break;
+					}
+					else if ((x >= SideBarX1 - 37) && (x <= SideBarX1 - 11) && (y >= MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor + (1 * One_Semester_Div) - 10) && (y <= MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor + (1 * One_Semester_Div)+ 16) && (NOCPSIAYs[counter] > 8) && (CPIES[counter] == 1))
+					{
+						CPIES[counter] = 0;
+						break;
+					}
+					counter++;
+					if ((x >= SideBarX1 - 37) && (x <= SideBarX1 - 11) && (y >= MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor + (2 * One_Semester_Div) - 10) && (y <= MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor + (2 * One_Semester_Div) + 16) && (NOCPSIAYs[counter] > 8) && (CPIES[counter] == 0))
+					{
+						CPIES[counter] = 1;
+						break;
+					}
+					else if ((x >= SideBarX1 - 37) && (x <= SideBarX1 - 11) && (y >= MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor + (2 * One_Semester_Div) - 10) && (y <= MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor + (2 * One_Semester_Div) + 16) && (NOCPSIAYs[counter] > 8) && (CPIES[counter] == 1))
+					{
+						CPIES[counter] = 0;
+						break;
+					}
+					counter++;
+				}
 				return ActionData{ DRAW_AREA,x,y };	//user want clicks inside drawing area
 			}
 			//[3] User clicks on the status bar
