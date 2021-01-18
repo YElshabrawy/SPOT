@@ -8,7 +8,6 @@ ActionDDOOC::ActionDDOOC(Registrar* P) :Action(P)
 }
 bool  ActionDDOOC::Execute()
 {
-
 	GUI* pGUI = pReg->getGUI();
 	StudyPlan* pS = pReg->getStudyPlay();
 	if (pGUI->Draw_Dependacies_For_One_Course_Flag)

@@ -14,8 +14,11 @@ bool ActionCalculateGPA::Execute()
 {
 	vector<string>GPA_OF_All_Semesters;
 	StudyPlan* plan = pReg->getStudyPlay();
+	GUI* pGUI = pReg->getGUI();
 	vector<AcademicYear*>* pPlan = plan->getStudyPlanVector(); // pointer on the plan vector
 	double DummyTotal = 0, DummyTotalDone = 0;
+	GPA_OF_All_Semesters.clear();
+	pGUI->GPA_Semesters.clear();
 	for (AcademicYear* yr : *pPlan)
 	{
 		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
@@ -87,7 +90,6 @@ bool ActionCalculateGPA::Execute()
 	}
 	GPA = total / totaldonehours;
 	GPA = ceil(GPA * 100.0) / 100.0;
-	GUI* pGUI = pReg->getGUI();
 	if ((total !=0)&&(totaldonehours!=0))
 	{
 		string str = to_string(GPA);
@@ -96,7 +98,6 @@ bool ActionCalculateGPA::Execute()
 
 	for(int i=0;i< GPA_OF_All_Semesters.size();i++)
 	pGUI->GPA_Semesters.push_back(GPA_OF_All_Semesters[i]);
-	cout << GPA<<endl;
 	return true;
 }
 double ActionCalculateGPA::getGPA() const

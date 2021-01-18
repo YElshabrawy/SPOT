@@ -52,10 +52,11 @@ public:
 	void setCatalogCoursesType();
 	void importProgramReq(Rules &savePlace, Major major);
 	void Increment_Current_StudyPlan();
+	void Increment_Total_Credits(int NUM);
 	void Decrement_Current_StudyPlan();
 	void Add_To_StudyPlan(StudyPlan &pS_New);
 	int GetCurrent_Study_Plan()const;
-
+	vector<StudyPlan*> getStudyPlanVector();
 	void combineDoubleMajorCourses();
 };
 

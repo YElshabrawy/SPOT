@@ -29,7 +29,34 @@ bool ActionDeleteCourse::Execute() {
 		}
 		else {
 			StudyPlan* pS = pReg->getStudyPlay();
+			vector<StudyPlan*> pSs = pReg->getStudyPlanVector();
 			pCr->setUnknownCrs(false);
+			bool flag = 0;
+			vector<AcademicYear*>* pPlans = pSs[pReg->GetCurrent_Study_Plan() - 1]->getStudyPlanVector();
+			for (int i = 0; i < pS->Minor_Course.size(); i++)
+			{
+				if (pS->Minor_Course.at(i) == pCr->getCode())
+				{
+					pReg->Increment_Total_Credits(-pCr->getCredits());
+					pCr->Erased_Flag = true;
+					pCr->Minor_Erased_Flag = true;
+					for (AcademicYear* yr : *pPlans) {
+						list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+						for (int sem = FALL; sem < SEM_CNT; sem++) {
+							for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
+								if ((*it)->getCode() == pCr->getCode())
+								{
+									(*it)->Erased_Flag = pCr->Erased_Flag;
+									(*it)->Minor_Erased_Flag = pCr->Minor_Erased_Flag;
+									break;
+								}
+							}
+							if (flag) break;
+						}
+						if (flag) break;
+					}
+				}
+			}
 			pS->DeleteCourse(pCr);
 			cout << pCr->getCode() << " is deleted." << endl;
 			// Update the graphics info of the other courses in the same semester and year
@@ -40,7 +67,6 @@ bool ActionDeleteCourse::Execute() {
 			int new_x =0;
 			int new_y=0;
 			graphicsInfo new_gInfo{ new_x, new_y };
-
 			for (int sem = FALL; sem < SEM_CNT; sem++) {
 				int iter = 0;
 				for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {

@@ -302,6 +302,9 @@ Course::Course(const Course& CopiedCrs)
 	DrawMe_Flag= CopiedCrs.DrawMe_Flag;
 	CCC_Flag= CopiedCrs.CCC_Flag;
 	Distance_Flag= CopiedCrs.Distance_Flag;
+	Cant_Touch_This_Flag = CopiedCrs.Cant_Touch_This_Flag;
+	Erased_Flag= CopiedCrs.Erased_Flag;
+	Minor_Erased_Flag = CopiedCrs.Minor_Erased_Flag;
 	for (int i = 0; i < CopiedCrs.CoReq.size(); i++)
 	{
 		CoReq.push_back(CopiedCrs.CoReq[i]);
@@ -333,6 +336,9 @@ Course Course::operator=(const Course& CopiedCrs)
 	DrawMe_Flag = CopiedCrs.DrawMe_Flag;
 	CCC_Flag = CopiedCrs.CCC_Flag;
 	Distance_Flag = CopiedCrs.Distance_Flag;
+	Cant_Touch_This_Flag = CopiedCrs.Cant_Touch_This_Flag;
+	Erased_Flag = CopiedCrs.Erased_Flag;
+	Minor_Erased_Flag = CopiedCrs.Minor_Erased_Flag;
 	for (int i = 0; i < CopiedCrs.CoReq.size(); i++)
 	{
 		CoReq.push_back(CopiedCrs.CoReq[i]);

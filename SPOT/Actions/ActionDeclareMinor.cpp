@@ -194,6 +194,7 @@ bool ActionDeclareMinor::Execute()
 				Course* pC = new Course(coursecode, Title, crd, PreReq, CoReq, year, semester);
 				plan->setMinor_course_flag(true);
 				pS->AddCourse(pC, year, static_cast<SEMESTER>(semester));
+				pReg->Increment_Total_Credits(pC->getCredits());
 				cout << coursecode << " is added to year " << year << " semester " << semester << endl;
 				pC->setYear(year);
 				pC->setSemester(semester);

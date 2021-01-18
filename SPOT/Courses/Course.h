@@ -40,6 +40,8 @@ public:
 	bool DrawMe_Flag=true;
 	bool CCC_Flag = false;
 	bool Distance_Flag = false;
+	bool Erased_Flag = false;
+	bool Minor_Erased_Flag = false;
 	bool Cant_Touch_This_Flag = false;
 	static vector<int> numOfCoursesPerSem;
 	//Constructors

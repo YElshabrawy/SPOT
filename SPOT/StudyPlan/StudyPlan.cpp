@@ -39,11 +39,14 @@ bool StudyPlan::DeleteCourse(Course* pC) {
 	plan[pC->getYear() - 1]->DeleteCourse(pC, pC->getSemester());
 	TotalCredits -= pC->getCredits();
 	setCourseTypeCredits(pC->getType(), 1, pC->getCredits());
+	if (pC->Erased_Flag)
 	for (int i=0;i<Minor_Course.size();i++)
 	{
 		if (Minor_Course.at(i) == pC->getCode())
 		{
 			Minor_Course.erase(Minor_Course.begin() + i);
+			pC->Erased_Flag = false;
+			pC->Minor_Erased_Flag = true;
 			Count--;
 		}
 	}
@@ -84,7 +87,17 @@ void StudyPlan::checkPreAndCoReq()
 				Course* pCr = (*it);
 				vector<string> preReq = pCr->getPreReq();
 				vector<string> coReq = pCr->getCoReq();
-
+				if (pCr->Minor_Erased_Flag)
+					for (int i = 0; i < Minor_Course.size(); i++)
+					{
+						if (Minor_Course.at(i) == pCr->getCode())
+						{
+							pRules->TotalCHs += (pCr->getCredits());
+							pCr->Erased_Flag = false;
+							pCr->Minor_Erased_Flag = false;
+							break;
+						}
+					}
 				// Co req Check
 				for (int i = 0; i < coReq.size(); i++) {
 					// For each course in the coreq
@@ -1122,6 +1135,10 @@ StudyPlan::StudyPlan(const StudyPlan& CopiedSP):Drawable()
 	{
 		ElectiveConcentrationCourses.push_back(CopiedSP.ElectiveConcentrationCourses[i]);
 	}
+	for (int i = 0; i < CopiedSP.Minor_Course.size(); i++)
+	{
+		Minor_Course.push_back(CopiedSP.Minor_Course[i]);
+	}
 
 }
 StudyPlan StudyPlan::operator=(const StudyPlan& CopiedSP)
@@ -1202,6 +1219,10 @@ StudyPlan StudyPlan::operator=(const StudyPlan& CopiedSP)
 			}
 
 		}
+	}
+	for (int i = 0; i < CopiedSP.Minor_Course.size(); i++)
+	{
+		Minor_Course.push_back(CopiedSP.Minor_Course[i]);
 	}
 	return (*this);
 }

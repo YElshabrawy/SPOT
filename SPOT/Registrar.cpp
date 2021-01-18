@@ -827,7 +827,6 @@ int  Registrar::GetCurrent_Study_Plan() const
 {
 	return Current_Study_Plan;
 }
-
 void Registrar::combineDoubleMajorCourses()
 {
 	// Track Courses
@@ -913,4 +912,12 @@ void Registrar::combineDoubleMajorCourses()
 			}
 		}
 	}
+}
+vector<StudyPlan*> Registrar::getStudyPlanVector()
+{
+	return List_Of_All_StudyPlans;
+}
+void Registrar::Increment_Total_Credits(int NUM)
+{
+	RegRules.TotalCHs += NUM;
 }
