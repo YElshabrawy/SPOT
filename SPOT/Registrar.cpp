@@ -269,7 +269,7 @@ void Registrar::Run()
 		cout << "Major changed :: " << pSPlan->getMajorChanged() << endl;
 		cout << "Double Major exists :: " << pSPlan->getDoubleMajorExists() << endl;
 		if (pSPlan->getMajorChanged() == true) {
-			//pSPlan->setDoubleMajorExists(false);
+			//pSPlan->
 			importProgramReq(RegRules, pSPlan->getMajor());
 			//pSPlan->Set_Course_Type();
 			//setCatalogCoursesType();
@@ -611,7 +611,7 @@ void Registrar::importProgramReq(Rules& savePlace, Major major)
 	//line 1 (Total Cr)
 	string l1;
 	getline(finput, l1);
-	savePlace.TotalCHs = stoi(l1);//////////////////--------------------->DANGEROUS
+	savePlace.TotalCHs = stoi(l1);
 	cout << "Total Credits = " << savePlace.TotalCHs << endl;
 
 	//line 2 (Univ comp and major Cr)
