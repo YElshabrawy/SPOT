@@ -19,16 +19,21 @@ StudyPlan::StudyPlan()
 //year idetifies year number to add course to 1=first, 2 = 2nd,....
 bool StudyPlan::AddCourse(Course* pC, int year, SEMESTER sem)
 {
-	plan[year - 1]->AddCourse(pC, sem);
-	TotalCredits += pC->getCredits();
-	if (Minor_course_flag == true)
-	{
-		Minor_Course.push_back(pC->getCode());
-		Minor_course_flag = false;
+	if (alreadyExistingCourse(pC->getCode()) && pC->getCode()[pC->getCode().size() - 1] != 'X') {
+		return false;
 	}
-	setCourseTypeCredits(pC->getType(), 0, pC->getCredits());
-	checkOffering(pC->getCode(), year-1, sem);
-	return true;
+	else {
+		plan[year - 1]->AddCourse(pC, sem);
+		TotalCredits += pC->getCredits();
+		if (Minor_course_flag == true)
+		{
+			Minor_Course.push_back(pC->getCode());
+			Minor_course_flag = false;
+		}
+		setCourseTypeCredits(pC->getType(), 0, pC->getCredits());
+		checkOffering(pC->getCode(), year - 1, sem);
+		return true;
+	}
 }
 bool StudyPlan::DeleteCourse(Course* pC) {
 	plan[pC->getYear() - 1]->DeleteCourse(pC, pC->getSemester());
@@ -1240,6 +1245,22 @@ void StudyPlan::Set_Double_Major_Plan_Rules(Rules& DoubleRegRules)
 {
 	pDoubleMajorRules = &DoubleRegRules;
 
+}
+bool StudyPlan::alreadyExistingCourse(string code)
+{
+	for (AcademicYear* yr : plan)
+	{
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int sem = FALL; sem < SEM_CNT; sem++)
+		{
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
+			{
+				if ((*it)->getCode() == code)
+					return true;
+			}
+		}
+	}
+	return false;
 }
 void StudyPlan::setMinor_course_flag(bool cond)
 {

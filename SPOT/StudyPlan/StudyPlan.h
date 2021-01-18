@@ -111,6 +111,7 @@ public:
 	bool getDoubleMajorOptimize() const;
 
 	void Set_Double_Major_Plan_Rules(Rules& DoubleRegRules);
+	bool alreadyExistingCourse(string code);
 
 	virtual ~StudyPlan();
 };

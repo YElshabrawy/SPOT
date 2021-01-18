@@ -13,7 +13,6 @@ ActionDeclareMinor::ActionDeclareMinor(Registrar* P) :Action(P)
 bool ActionDeclareMinor::Execute()
 {
 
-	cout << "Bgrb a call" << endl;
 	GUI* pGUI = pReg->getGUI();
 	StudyPlan* plan = pReg->getStudyPlay();
 	char c;//define a character c 
@@ -198,6 +197,7 @@ bool ActionDeclareMinor::Execute()
 				cout << coursecode << " is added to year " << year << " semester " << semester << endl;
 				pC->setYear(year);
 				pC->setSemester(semester);
+				pC->setUnknownCrs(false);
 				int iter = pC->numOfCoursesPerSem[(3 * (year - 1)) + semester] - 1;
 				gInfo.x = GUI::TitleBarWidth + (iter * CRS_WIDTH);
 				gInfo.y = GUI::MenuBarHeight + GUI::MyFactor + ((year - 1) * GUI::One_Year_Div) + (semester * GUI::One_Semester_Div) +

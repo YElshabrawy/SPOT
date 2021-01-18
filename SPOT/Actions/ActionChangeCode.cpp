@@ -45,6 +45,8 @@ bool ActionChangeCode::Execute()
 				pReg->transformCode(code);
 				pCInfo = pReg->inCatalog(code, exists);
 			}
+			StudyPlan* pS= pReg->getStudyPlay();
+			if (!pS->alreadyExistingCourse(code)) {
 
 			int year = pCr->getYear();
 			SEMESTER sem = pCr->getSemester();
@@ -64,6 +66,10 @@ bool ActionChangeCode::Execute()
 			pnewcR->setGfxInfo(anew_ginfo);
 			pS->AddCourse(pnewcR,year,sem);
 			pnewcR->Course_Number = pCr->Course_Number;
+
+			}
+			else
+				pGUI->GetUserAction("This Course already exists!");
 		}
 	}
 	return true;
