@@ -419,8 +419,8 @@ bool ActionDeclareMajor::Execute()
 				{
 					//to edit 
 					DoubleMajor_flag = 1;
-					Eng_Flag = 0;
-					Sci_Flag = 0;
+					Eng_Flag = 0;// ENG back to zero to prevent entering eng 
+					Sci_Flag = 0;// ENG back to zero to prevent entering to science as soon as double major is pressed
 					if (DoubleMajor_flag == 1)
 					{
 						//Sci_Flag = 0, Eng_Flag = 0, BMS_Flag = 0, PEU_Flag = 0, MATSCI_Flag = 0, NANSC_Flag = 0, REE_Flag = 0, SPC_Flag = 0, CIE_Flag = 0, ENV_Flag = 0, NAN_Flag = 0;
@@ -433,6 +433,13 @@ bool ActionDeclareMajor::Execute()
 				{
 					//to edit 
 					DoubleConcentration_flag = 1;
+					//Nan is the only one with concentrations else we break from the window if selected
+					if (NAN_Flag != 1)
+					{
+						delete pMajorWind;
+						pMajorWind = nullptr;
+						return true;
+					}
 					UpdateWind();
 					break;
 				}
