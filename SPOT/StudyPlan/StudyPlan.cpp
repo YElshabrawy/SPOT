@@ -7,6 +7,7 @@
 #include <iterator>
 
 int StudyPlan::Count = 0;
+bool StudyPlan::doubleMajorExists = false;
 StudyPlan::StudyPlan()
 {
 	//By default, the study plan starts with 5 years
@@ -316,14 +317,7 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 }
 void StudyPlan::checkProgramReq()
 {
-	/*cout << "TotalCredits = " << TotalCredits << endl;
-	cout << "TotalMajorCredits = " << TotalMajorCredits << endl;
-	cout << "TotalElectiveCredits = " << TotalElectiveCredits << endl;
-	cout << "TotalMinorCredits = " << TotalMinorCredits << endl;
-	cout << "TotalConcentrationCredits = " << TotalConcentrationCredits << endl;
-	cout << "TotalTrackCredits = " << TotalTrackCredits << endl;
-	cout << "TotalUnivCredits = " << TotalUnivCredits << endl;*/
-
+	// 1) CH checks
 	// Check TotalCredits
 	string errMsg = "The total CHs (" + to_string(TotalCredits) + ") are less than " + to_string(pRules->TotalCHs);
 	string checkMsg = "The total CHs";
@@ -379,6 +373,8 @@ void StudyPlan::checkProgramReq()
 			Program_Req_Errors.push_back(err);
 		}
 	}
+
+
 
 }
 void StudyPlan::lazyCheck(int compared, int original, string errMsg, string checkMsg) {
@@ -486,6 +482,7 @@ void StudyPlan::setMajor(Major major)
 {
 	this->major = major;
 	majorChanged = true;
+	setDoubleMajorExists(false);
 }
 
 void StudyPlan::setConcentration(Concentrations concentration)
@@ -672,6 +669,148 @@ void StudyPlan::Set_Course_Type()
 			{
 				Code = (*it)->getCode();
 				(*it)->Set_Type(NOTYPE);
+				if (!doubleMajorExists) {
+					for (int i = 0; i < pRules->UnivCompulsoryCourses.size(); i++)
+					{
+						if (Code == pRules->UnivCompulsoryCourses[i])
+						{
+
+							if (Code == pRules->UnivCompulsoryCourses[i])
+							{
+								(*it)->Set_Type(Uni);
+								if ((*it)->getColor() == BLACK)
+								{
+									break;
+								}
+								(*it)->changeColor(SLATEGREY);
+								break;
+							}
+						}
+					}
+					for (int i = 0; i < pRules->UnivElectiveCourses.size(); i++)
+					{
+						if (Code == pRules->UnivElectiveCourses[i])
+						{
+							if (Code == pRules->UnivElectiveCourses[i])
+							{
+								(*it)->Set_Type(Elective);
+								if ((*it)->getColor() == BLACK)
+								{
+									break;
+								}
+								(*it)->changeColor(FIREBRICK);
+								break;
+							}
+						}
+					}
+					for (int i = 0; i < pRules->TrackCompulsoryCourses.size(); i++)
+					{
+						if (Code == pRules->TrackCompulsoryCourses[i])
+						{
+							if (Code == pRules->TrackCompulsoryCourses[i])
+							{
+								(*it)->Set_Type(Track);
+								if ((*it)->getColor() == BLACK)
+								{
+									break;
+								}
+								(*it)->changeColor(DARKGREEN);
+								break;
+							}
+						}
+					}
+					for (int i = 0; i < pRules->MajorCompulsoryCourses.size(); i++)
+					{
+						if (Code == pRules->MajorCompulsoryCourses[i])
+						{
+							if (Code == pRules->MajorCompulsoryCourses[i])
+							{
+								(*it)->Set_Type(maj);
+								if ((*it)->getColor() == BLACK)
+								{
+									break;
+								}
+								(*it)->changeColor(GOLDENROD);
+								break;
+							}
+						}
+					}
+					for (int i = 0; i < pRules->MajorElectiveCourses.size(); i++)
+					{
+						if (Code == pRules->MajorElectiveCourses[i])
+						{
+							if (Code == pRules->MajorElectiveCourses[i])
+							{
+								(*it)->Set_Type(Elective);
+								if ((*it)->getColor() == BLACK)
+								{
+									break;
+								}
+								(*it)->changeColor(FIREBRICK);
+								break;
+							}
+						}
+						if (pRules->NumOfConcentrations != 0)
+						{
+							for (int i = 0; i < pRules->Concentrations[0].ConcentrationCompulsoryCourses.size(); i++)
+							{
+								if (Code == pRules->Concentrations[0].ConcentrationCompulsoryCourses[i])
+								{
+									(*it)->Set_Type(concentration);
+									if ((*it)->getColor() == BLACK)
+									{
+										break;
+									}
+									(*it)->changeColor(DARKMAGENTA);
+									break;
+								}
+							}
+							for (int i = 0; i < pRules->Concentrations[0].ConcentrationElectiveCourses.size(); i++)
+							{
+								if (Code == pRules->Concentrations[0].ConcentrationElectiveCourses[i])
+								{
+									(*it)->Set_Type(Elective);
+									if ((*it)->getColor() == BLACK)
+									{
+										break;
+									}
+									(*it)->changeColor(FIREBRICK);
+									break;
+								}
+							}
+						}
+					}
+					//for (int i = 0; i < pRules->Concentrations[0].ConcentrationCompulsoryCourses.size(); i++)
+					//{
+					//	if (Code == pRules->Concentrations[0].ConcentrationCompulsoryCourses[i])
+					//	{
+					//		(*it)->Set_Type(concentration);
+					//		break;
+					//	}
+					//}
+					//for (int i = 0; i < pRules->Concentrations[0].ConcentrationElectiveCourses.size(); i++)
+					//{
+					//	if (Code == pRules->Concentrations[0].ConcentrationElectiveCourses[i])
+					//	{
+					//		(*it)->Set_Type(Elective);
+					//		break;
+					//	}
+					//}
+					for (int i = 0; i < Minor_Course.size(); i++)
+					{
+						if (Code == Minor_Course[i])
+						{
+							(*it)->Set_Type(Minor);
+							if ((*it)->getColor() == BLACK)
+							{
+								break;
+							}
+							(*it)->changeColor(ORANGERED);
+							break;
+						}
+					}
+				}
+				else {
 				for (int i = 0; i < pRules->UnivCompulsoryCourses.size(); i++)
 				{
 					if (Code == pRules->UnivCompulsoryCourses[i])
@@ -705,11 +844,11 @@ void StudyPlan::Set_Course_Type()
 						}
 					}
 				}
-				for (int i = 0; i < pRules->TrackCompulsoryCourses.size(); i++)
+				for (int i = 0; i < pRules->CheckDoubleTrackCourses.size(); i++)
 				{
-					if (Code == pRules->TrackCompulsoryCourses[i])
+					if (Code == pRules->CheckDoubleTrackCourses[i])
 					{
-						if (Code == pRules->TrackCompulsoryCourses[i])
+						if (Code == pRules->CheckDoubleTrackCourses[i])
 						{
 							(*it)->Set_Type(Track);
 							if ((*it)->getColor() == BLACK)
@@ -721,11 +860,11 @@ void StudyPlan::Set_Course_Type()
 						}
 					}
 				}
-				for (int i = 0; i < pRules->MajorCompulsoryCourses.size(); i++)
+				for (int i = 0; i < pRules->CheckDoubleMajorCompCourses.size(); i++)
 				{
-					if (Code == pRules->MajorCompulsoryCourses[i])
+					if (Code == pRules->CheckDoubleMajorCompCourses[i])
 					{
-						if (Code == pRules->MajorCompulsoryCourses[i])
+						if (Code == pRules->CheckDoubleMajorCompCourses[i])
 						{
 							(*it)->Set_Type(maj);
 							if ((*it)->getColor() == BLACK)
@@ -737,11 +876,11 @@ void StudyPlan::Set_Course_Type()
 						}
 					}
 				}
-				for (int i = 0; i < pRules->MajorElectiveCourses.size(); i++)
+				for (int i = 0; i < pRules->CheckDoubleMajorElectiveCourses.size(); i++)
 				{
-					if (Code == pRules->MajorElectiveCourses[i])
+					if (Code == pRules->CheckDoubleMajorElectiveCourses[i])
 					{
-						if (Code == pRules->MajorElectiveCourses[i])
+						if (Code == pRules->CheckDoubleMajorElectiveCourses[i])
 						{
 							(*it)->Set_Type(Elective);
 							if ((*it)->getColor() == BLACK)
@@ -811,9 +950,12 @@ void StudyPlan::Set_Course_Type()
 						break;
 					}
 				}
+				}
+				
 			}
 	}
 }
+
 void  StudyPlan::Set_Page_Number( int Number_Of_lines)
 {
 	No_Of_Pages=Report_Lines/ Number_Of_lines;
@@ -1008,6 +1150,10 @@ void StudyPlan::Set_Double_Major_Plan_Rules(Rules& DoubleRegRules)
 void StudyPlan::setMinor_course_flag(bool cond)
 {
 	Minor_course_flag = cond;
+}
+void StudyPlan::setDoubleconcentrationNumber(int n)
+{
+	DoubleconcentrationNumber = n;
 }
 StudyPlan::~StudyPlan()
 {
