@@ -424,9 +424,6 @@ void StudyPlan::checkProgramReq()
 				Program_Req_Errors.erase(Program_Req_Errors.begin() + i);
 		}
 	}
-	cout << "ERRRRRRRRRRRRRRRRRRR:: " << Program_Req_Errors.size() << endl;
-	for (Error err : Program_Req_Errors)
-		cout << err.Msg << endl;
 
 }
 

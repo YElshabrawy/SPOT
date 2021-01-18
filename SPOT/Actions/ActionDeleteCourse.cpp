@@ -29,6 +29,7 @@ bool ActionDeleteCourse::Execute() {
 		}
 		else {
 			StudyPlan* pS = pReg->getStudyPlay();
+			pCr->setUnknownCrs(false);
 			pS->DeleteCourse(pCr);
 			cout << pCr->getCode() << " is deleted." << endl;
 			// Update the graphics info of the other courses in the same semester and year
