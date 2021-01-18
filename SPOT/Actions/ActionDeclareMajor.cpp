@@ -419,6 +419,8 @@ bool ActionDeclareMajor::Execute()
 				{
 					//to edit 
 					DoubleMajor_flag = 1;
+					Eng_Flag = 0;// ENG back to zero to prevent entering eng 
+					Sci_Flag = 0;// ENG back to zero to prevent entering to science as soon as double major is pressed
 					if (DoubleMajor_flag == 1)
 					{
 						//Sci_Flag = 0, Eng_Flag = 0, BMS_Flag = 0, PEU_Flag = 0, MATSCI_Flag = 0, NANSC_Flag = 0, REE_Flag = 0, SPC_Flag = 0, CIE_Flag = 0, ENV_Flag = 0, NAN_Flag = 0;
@@ -431,6 +433,13 @@ bool ActionDeclareMajor::Execute()
 				{
 					//to edit 
 					DoubleConcentration_flag = 1;
+					//Nan is the only one with concentrations else we break from the window if selected
+					if (NAN_Flag != 1)
+					{
+						delete pMajorWind;
+						pMajorWind = nullptr;
+						return true;
+					}
 					UpdateWind();
 					break;
 				}
@@ -498,6 +507,7 @@ bool ActionDeclareMajor::Execute()
 						NANOVLSI_flag = 1;
 						//pS->setConcentration(NANOVLSI);
 						second_concentration = "NANOVLSI";
+						pS->setDoubleconcentrationNumber(2);
 						pS->setDoubleConcentration(NANOVLSI);
 						pGUI->Double_Concentration = "NANOVLSI";
 						second_major_flag = 1;
@@ -512,6 +522,7 @@ bool ActionDeclareMajor::Execute()
 					{
 						NANOPHOTONICS_flag = 1;
 						pS->setDoubleConcentration(NANOPHOTONICS);
+						pS->setDoubleconcentrationNumber(3);
 						pGUI->Double_Concentration = "NANOPHOTONICS";
 						second_concentration = "NANOPHOTONICS";
 						second_major_flag = 1;
@@ -530,6 +541,7 @@ bool ActionDeclareMajor::Execute()
 						NANO_FABRICATION_Flag = 1;
 						//->setConcentration(NANOFABRICATION);
 						second_concentration = "NANOFABRICATION";
+						pS->setDoubleconcentrationNumber(1);
 						pS->setDoubleConcentration(NANOFABRICATION);
 						pGUI->Double_Concentration = "NANOFABRICATION";
 						second_major_flag = 1;
@@ -545,6 +557,7 @@ bool ActionDeclareMajor::Execute()
 						NANOPHOTONICS_flag = 1;
 						//pS->setConcentration(NANOPHOTONICS);
 						pS->setDoubleConcentration(NANOPHOTONICS);
+						pS->setDoubleconcentrationNumber(3);
 						pGUI->Double_Concentration = "NANOPHOTONICS";
 						second_concentration = "NANOPHOTONICS";
 						second_major_flag = 1;
@@ -563,6 +576,7 @@ bool ActionDeclareMajor::Execute()
 						NANO_FABRICATION_Flag = 1;
 						//->setConcentration(NANOFABRICATION);
 						pS->setDoubleConcentration(NANOFABRICATION);
+						pS->setDoubleconcentrationNumber(1);
 						pGUI->Double_Concentration = "NANOFABRICATION";
 						second_concentration = "NANOFABRICATION";
 						second_major_flag = 1;
@@ -578,6 +592,7 @@ bool ActionDeclareMajor::Execute()
 						NANOVLSI_flag = 1;
 						//pS->setConcentration(NANOVLSI);
 						pS->setDoubleConcentration(NANOVLSI);
+						pS->setDoubleconcentrationNumber(2);
 						pGUI->Double_Concentration = "NANOVLSI";
 						second_concentration = "NANOVLSI";
 						second_major_flag = 1;
@@ -595,12 +610,12 @@ bool ActionDeclareMajor::Execute()
 			}
 
 		}
-		if (DoubleMajor_flag == 1 && second_major_flag==1)
+		/*if (DoubleMajor_flag == 1 && second_major_flag==1)
 		{
 			delete pMajorWind;
 			pMajorWind = nullptr;
 			return true;
-		}
+		}*/
 	}
 	/*else if (DoubleMajor_flag == 1)
 	{

@@ -24,7 +24,7 @@ private:
 	bool Minor_course_flag;
 	Rules* pRules;
 	int concentrationNumber = 0; // Indicates which concentration is sellected (0 = no conc selected yet)
-
+	int DoubleconcentrationNumber = 0;
 	bool currentYearAvailable; // true if user chose a current year. false if not.
 	string currentYear = "2020\\2021"; // Current Year of offerings (In date)
 
@@ -75,6 +75,7 @@ public:
 	void checkProgramReq();
 	void setMinor_course_flag(bool cond);
 	void setMajor(Major major);
+	void setDoubleconcentrationNumber(int n);
 	void setConcentration(Concentrations concentration);
 	void setDoubleConcentration(Concentrations concentration);
 	Major getMajor() const;
