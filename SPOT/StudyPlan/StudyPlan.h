@@ -31,7 +31,7 @@ private:
 	bool majorChanged = false;
 
 	// Double Major
-	bool doubleMajorExists = false;
+	static bool doubleMajorExists;
 	bool doubleMajorOptimize = false; // to control the update in registrar
 	Major doubleMajor;
 	Rules* pDoubleMajorRules;

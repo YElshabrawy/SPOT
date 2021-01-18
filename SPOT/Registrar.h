@@ -55,5 +55,7 @@ public:
 	void Decrement_Current_StudyPlan();
 	void Add_To_StudyPlan(StudyPlan &pS_New);
 	int GetCurrent_Study_Plan()const;
+
+	void combineDoubleMajorCourses();
 };
 

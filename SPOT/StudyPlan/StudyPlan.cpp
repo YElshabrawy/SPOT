@@ -7,6 +7,7 @@
 #include <iterator>
 
 int StudyPlan::Count = 0;
+bool StudyPlan::doubleMajorExists = false;
 StudyPlan::StudyPlan()
 {
 	//By default, the study plan starts with 5 years
@@ -307,14 +308,7 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 }
 void StudyPlan::checkProgramReq()
 {
-	/*cout << "TotalCredits = " << TotalCredits << endl;
-	cout << "TotalMajorCredits = " << TotalMajorCredits << endl;
-	cout << "TotalElectiveCredits = " << TotalElectiveCredits << endl;
-	cout << "TotalMinorCredits = " << TotalMinorCredits << endl;
-	cout << "TotalConcentrationCredits = " << TotalConcentrationCredits << endl;
-	cout << "TotalTrackCredits = " << TotalTrackCredits << endl;
-	cout << "TotalUnivCredits = " << TotalUnivCredits << endl;*/
-
+	// 1) CH checks
 	// Check TotalCredits
 	string errMsg = "The total CHs (" + to_string(TotalCredits) + ") are less than " + to_string(pRules->TotalCHs);
 	string checkMsg = "The total CHs";
@@ -370,6 +364,8 @@ void StudyPlan::checkProgramReq()
 			Program_Req_Errors.push_back(err);
 		}
 	}
+
+
 
 }
 void StudyPlan::lazyCheck(int compared, int original, string errMsg, string checkMsg) {
@@ -477,6 +473,7 @@ void StudyPlan::setMajor(Major major)
 {
 	this->major = major;
 	majorChanged = true;
+	setDoubleMajorExists(false);
 }
 
 void StudyPlan::setConcentration(Concentrations concentration)
