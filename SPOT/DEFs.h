@@ -111,3 +111,7 @@ struct Concentration {
 	vector<Course_Code> ConcentrationCompulsoryCourses;
 	vector<Course_Code> ConcentrationElectiveCourses;
 };
+
+struct CrossLinked {
+	string left, reight;
+};

@@ -58,5 +58,6 @@ public:
 	int GetCurrent_Study_Plan()const;
 	vector<StudyPlan*> getStudyPlanVector();
 	void combineDoubleMajorCourses();
+	void setCrossLinkedCourses();
 };
 

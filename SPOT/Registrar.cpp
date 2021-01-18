@@ -257,6 +257,7 @@ void Registrar::Run()
 
 	createAllCourses();
 	setCourseOffering();
+	setCrossLinkedCourses();
 	//setRules();
 	importProgramReq(RegRules, pSPlan->getMajor());
 	pSPlan->Set_Course_Type();
@@ -267,8 +268,8 @@ void Registrar::Run()
 
 	while (!Exit_Program)
 	{
-		cout << "Major changed :: " << pSPlan->getMajorChanged() << endl;
-		cout << "Double Major exists :: " << pSPlan->getDoubleMajorExists() << endl;
+		cout << (pSPlan->getConcentration()) << endl;
+		cout << pSPlan->getDoubleConcentration() << endl;
 		if (pSPlan->getMajorChanged() == true) {
 			//pSPlan->
 			importProgramReq(RegRules, pSPlan->getMajor());
@@ -920,4 +921,27 @@ vector<StudyPlan*> Registrar::getStudyPlanVector()
 void Registrar::Increment_Total_Credits(int NUM)
 {
 	RegRules.TotalCHs += NUM;
+}
+void Registrar::setCrossLinkedCourses()
+{
+	string directory = "./Format Files/CrossLinked_Courses.txt";
+	ifstream finput(directory);
+	char* token; // pointer to char (tokens)
+	char* context = nullptr; // used in strtok_s function as a context
+	const int size = 300; // More than the longest line
+	char line[size];
+	int i = 0; // for each line we have one course with index i
+
+	vector<CrossLinked> cross;
+
+	do { // gets every line
+		string line;
+		getline(finput, line);
+		vector<string> tokensVector = splitString(line, " - ");
+
+		CrossLinked temp;
+		temp.left = tokensVector[0];
+		temp.reight = tokensVector[1];
+		RegRules.CrossLinkedCourses.push_back(temp);
+	} while (!finput.eof());
 }

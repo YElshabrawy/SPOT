@@ -19,7 +19,7 @@ private:
 	Course* pCrs;
 	Major major;
 	Major Doublemajor;
-	Concentrations concentrations;
+	//Concentrations concentrations;
 	Concentrations Doubleconcentrations;
 	bool Minor_course_flag;
 	Rules* pRules;
@@ -80,11 +80,11 @@ public:
 	void setMinor_course_flag(bool cond);
 	void setMajor(Major major);
 	void setDoubleconcentrationNumber(int n);
-	void setConcentration(Concentrations concentration);
-	void setDoubleConcentration(Concentrations concentration);
+	void setconcentrationNumber(int concentration);
+	//void setDoubleConcentration(Concentrations concentration);
 	Major getMajor() const;
-	Concentrations getConcentration()const;
-	Concentrations getDoubleConcentration() const;
+	int getConcentration()const;
+	int getDoubleConcentration() const;
 	void Set_Plan_Rules(Rules& RegRules);
 	void setCourseTypeCredits(Type type, int mode, int hours);
 	void checkOffering(string code, int crsYear, SEMESTER sem);

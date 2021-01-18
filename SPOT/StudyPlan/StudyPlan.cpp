@@ -597,21 +597,21 @@ void StudyPlan::setMajor(Major major)
 	setDoubleMajorExists(false);
 }
 
-void StudyPlan::setConcentration(Concentrations concentration)
+void StudyPlan::setconcentrationNumber(int concentration)
 {
-	this->concentrations = concentration;
+	concentrationNumber = concentration;
 }
-void StudyPlan::setDoubleConcentration(Concentrations concentration)
+void StudyPlan::setDoubleconcentrationNumber(int n)
 {
-	this->Doubleconcentrations = concentration;
+	DoubleconcentrationNumber = n;
 }
-Concentrations StudyPlan::getConcentration() const
+int StudyPlan::getConcentration() const
 {
-	return concentrations;
+	return concentrationNumber;
 }
-Concentrations StudyPlan::getDoubleConcentration() const
+int StudyPlan::getDoubleConcentration() const
 {
-	return Doubleconcentrations;
+	return DoubleconcentrationNumber;
 }
 Major StudyPlan::getMajor() const
 {
@@ -1287,10 +1287,11 @@ void StudyPlan::setMinor_course_flag(bool cond)
 {
 	Minor_course_flag = cond;
 }
-void StudyPlan::setDoubleconcentrationNumber(int n)
-{
-	DoubleconcentrationNumber = n;
-}
+
+//void StudyPlan::getDoubleConcentration() const
+//{
+//
+//}
 StudyPlan::~StudyPlan()
 {
 	for (AcademicYear* yr : plan) {

@@ -39,7 +39,6 @@ bool ActionImportPlan::Execute() {
 	int i = 0; // for each line we have one course with index i
 
 	while (finput.getline(line, size)) {
-		cout << endl;
 		vector<string> tokens;
 		token = strtok_s(line, ",", &context);
 		while (token != NULL) {
@@ -69,7 +68,6 @@ bool ActionImportPlan::Execute() {
 				Course* pC = new Course(token, title, crd, PreReq, CoReq, year, sem);
 				pC->Set_Type(pCInfo->type);
 				pS->AddCourse(pC, year, static_cast<SEMESTER>(sem));
-				cout << token << " is added to year " << year << " semester " << sem << endl;
 				int x = 0;
 				int y = 0;
 				graphicsInfo gInfo{ x, y };
@@ -90,7 +88,6 @@ bool ActionImportPlan::Execute() {
 
 					pC->changeColor(RED);
 					pC->setUnknownCrs(true);
-				cout << token << " is added to year " << year << " semester " << sem << endl;
 				int x = 0;
 				int y = 0;
 				graphicsInfo gInfo{ x, y };

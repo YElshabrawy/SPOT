@@ -87,4 +87,7 @@ struct Rules	//contains all objects for registrations rules
 	vector<Course_Code> CheckDoubleTrackCourses; // Track Unique Courses
 	vector<Course_Code> CheckDoubleMajorCompCourses; // Major Comp Unique Courses
 	vector<Course_Code> CheckDoubleMajorElectiveCourses; // Major Elective Unique Courses
+
+	// CrossLinking
+	vector<CrossLinked> CrossLinkedCourses;
 };

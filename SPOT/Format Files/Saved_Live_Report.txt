@@ -1,0 +1,131 @@
+CRITICAL ERROR:
+The total CHs (132) are less than 162
+CRITICAL ERROR:
+The total major CHs (78) are less than 102
+CRITICAL ERROR:
+The total univ CHs (14) are less than 20
+CRITICAL ERROR:
+No concentration is selected yet!
+CRITICAL ERROR:
+Missing CIE 439 Major Compulsory.
+CRITICAL ERROR:
+Change the code of XXX elective courses.
+MODERATE ERROR:
+CHEM 111 isn't offered in 2020\2021's fall
+MODERATE ERROR:
+CSCI 101 isn't offered in 2020\2021's spring
+MODERATE ERROR:
+ENG 152 isn't offered in 2020\2021's spring
+MODERATE ERROR:
+ENGR 102 isn't offered in 2020\2021's spring
+MODERATE ERROR:
+ENGR 221 isn't offered in 2020\2021's spring
+MODERATE ERROR:
+MATH 102 isn't offered in 2020\2021's spring
+MODERATE ERROR:
+PHYS 102 isn't offered in 2020\2021's spring
+MODERATE ERROR:
+PHYS 112 isn't offered in 2020\2021's spring
+MODERATE ERROR:
+CIE 202 isn't offered in 2021\2022's fall
+MODERATE ERROR:
+CIE 239 isn't offered in 2021\2022's fall
+MODERATE ERROR:
+ENGR 210 isn't offered in 2021\2022's fall
+MODERATE ERROR:
+MATH 201 isn't offered in 2021\2022's fall
+MODERATE ERROR:
+PEU 228 isn't offered in 2021\2022's fall
+MODERATE ERROR:
+PHYS 201 isn't offered in 2021\2022's fall
+MODERATE ERROR:
+PHYS 211 isn't offered in 2021\2022's fall
+MODERATE ERROR:
+CIE 205 isn't offered in 2021\2022's spring
+MODERATE ERROR:
+CIE 212 isn't offered in 2021\2022's spring
+MODERATE ERROR:
+CIE 227 isn't offered in 2021\2022's spring
+MODERATE ERROR:
+MATH 202 isn't offered in 2021\2022's spring
+MODERATE ERROR:
+SCH 260 isn't offered in 2021\2022's spring
+MODERATE ERROR:
+CIE 328 isn't offered in 2022\2023's fall
+MODERATE ERROR:
+CIE 301 isn't offered in 2022\2023's fall
+MODERATE ERROR:
+CIE 302 isn't offered in 2022\2023's fall
+MODERATE ERROR:
+CIE 327 isn't offered in 2022\2023's fall
+MODERATE ERROR:
+MATH 302 isn't offered in 2022\2023's fall
+MODERATE ERROR:
+SCH 261 isn't offered in 2022\2023's fall
+MODERATE ERROR:
+CIE 318 isn't offered in 2022\2023's spring
+MODERATE ERROR:
+CIE 320 isn't offered in 2022\2023's spring
+MODERATE ERROR:
+CIE 337 isn't offered in 2022\2023's spring
+MODERATE ERROR:
+CIE 338 isn't offered in 2022\2023's spring
+MODERATE ERROR:
+MATH 308 isn't offered in 2022\2023's spring
+MODERATE ERROR:
+SCH 262 isn't offered in 2022\2023's spring
+MODERATE ERROR:
+CIE XXX isn't offered in 2023\2024's fall
+MODERATE ERROR:
+CIE 408 isn't offered in 2023\2024's fall
+MODERATE ERROR:
+CIE 417 isn't offered in 2023\2024's fall
+MODERATE ERROR:
+CIE 425 isn't offered in 2023\2024's fall
+MODERATE ERROR:
+CIE 437 isn't offered in 2023\2024's fall
+MODERATE ERROR:
+CIE 442 isn't offered in 2023\2024's fall
+MODERATE ERROR:
+CIE XXX isn't offered in 2023\2024's spring
+MODERATE ERROR:
+CIE XXX isn't offered in 2023\2024's spring
+MODERATE ERROR:
+CIE 405 isn't offered in 2023\2024's spring
+MODERATE ERROR:
+CIE 447 isn't offered in 2023\2024's spring
+MODERATE ERROR:
+SCH 263 isn't offered in 2023\2024's spring
+MODERATE ERROR:
+ENGR 444 isn't offered in 2023\2024's summer
+MODERATE ERROR:
+CIE XXX isn't offered in 2024\2022's fall
+MODERATE ERROR:
+CIE XXX isn't offered in 2024\2022's fall
+MODERATE ERROR:
+CIE XXX isn't offered in 2024\2022's fall
+MODERATE ERROR:
+CIE 598 isn't offered in 2024\2022's fall
+MODERATE ERROR:
+SCH 264 isn't offered in 2024\2022's fall
+MODERATE ERROR:
+SCH XXX isn't offered in 2024\2022's fall
+MODERATE ERROR:
+CIE XXX isn't offered in 2024\2022's spring
+MODERATE ERROR:
+CIE XXX isn't offered in 2024\2022's spring
+MODERATE ERROR:
+CIE 599 isn't offered in 2024\2022's spring
+MODERATE ERROR:
+SCH XXX isn't offered in 2024\2022's spring
+MODERATE ERROR:
+SCH XXX isn't offered in 2024\2022's spring
+MODERATE ERROR:
+Spring of year 4 has CH's (8) less than 12
+You May Need An Underload Petition
+MODERATE ERROR:
+Fall of year 5 has CH's (3) less than 12
+You May Need An Underload Petition
+MODERATE ERROR:
+Spring of year 5 has CH's (3) less than 12
+You May Need An Underload Petition
