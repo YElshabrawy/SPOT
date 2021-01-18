@@ -17,7 +17,7 @@ bool ActionCourseDependancies::Execute()
 		{
 			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); ++it)
 			{
-				if (*it != NULL)
+				if ((*it != NULL)&&(!(*it)->Cant_Touch_This_Flag))
 				pS->FindPreAndCoReq_ITCSP(*it, pGUI);
 			}
 		}

@@ -296,7 +296,7 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 				if (!((CoReq.size()) == 0))
 				for (int i = 0; i < CoReq.size(); i++)
 				{
-					if (((*it)->getCode() == CoReq[i])&&((*it)!=NULL))
+					if (((*it)->getCode() == CoReq[i])&&((*it)!=NULL) && (!(*it)->Cant_Touch_This_Flag))
 					{
 						pGUI->pWind->SetBrush(RED);
 						pGUI->pWind->SetPen(RED,2);
@@ -308,7 +308,7 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 				for (int i = 0; i < PreReq.size(); i++)
 				{
 					Code = (*it)->getCode();
-					if ((Code== PreReq[i])&&((*it) != NULL))
+					if ((Code== PreReq[i])&&((*it) != NULL) && (!(*it)->Cant_Touch_This_Flag))
 					{
 						pGUI->pWind->SetBrush(BLUE);
 						pGUI->pWind->SetPen(BLUE,2);
@@ -604,7 +604,7 @@ Major StudyPlan::getMajor() const
 {
 	return major;
 }
-void StudyPlan::setCourseTypeCredits(Type type, int mode, int hours)
+void  StudyPlan::setCourseTypeCredits(Type type, int mode, int hours)
 {
 	// If mode is 0 => Add Course 
 	// If mode is 1 => Delete Course 
@@ -634,7 +634,7 @@ void StudyPlan::setCourseTypeCredits(Type type, int mode, int hours)
 		break;
 	}
 }
-void StudyPlan::LiveReport(GUI* pGUI, int Min_Crs, int Max_Crs)
+void  StudyPlan::LiveReport(GUI* pGUI, int Min_Crs, int Max_Crs)
 {
 	int Co_Error_Number, Pre_Error_Number;
 	vector<Error> Co_Errors; 
@@ -694,7 +694,7 @@ void StudyPlan::LiveReport(GUI* pGUI, int Min_Crs, int Max_Crs)
 	Set_Page_Number((pGUI->Y_div/45)-2);
 	pGUI->Total_Number_Pages_In_Report = (Get_Page_Number());
 }
-void StudyPlan::GenerateStudentLevel(GUI* pGUI)
+void  StudyPlan::GenerateStudentLevel(GUI* pGUI)
 {
 	for (AcademicYear* yr : plan) {
 		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
@@ -741,23 +741,23 @@ void StudyPlan::GenerateStudentLevel(GUI* pGUI)
 	string str = to_string(TotalDoneHours);
 	pGUI->Done_Credits = str;
 }
-int StudyPlan::Get_Page_Number()const
+int   StudyPlan::Get_Page_Number()const
 {
 	return No_Of_Pages;
 }
-void StudyPlan::increment_Report_Lines(int Number_Of_Inc)
+void  StudyPlan::increment_Report_Lines(int Number_Of_Inc)
 {
 	Report_Lines += Number_Of_Inc;
 }
-int StudyPlan::get_Report_Lines()const
+int   StudyPlan::get_Report_Lines()const
 {
 	return Report_Lines;
 }
-void StudyPlan::Set_Report_Lines()
+void  StudyPlan::Set_Report_Lines()
 {
 	Report_Lines = 0;
 }
-void StudyPlan::Set_Course_Type()
+void  StudyPlan::Set_Course_Type()
 {
 	string Code = "";
 	for (AcademicYear* yr : plan)
