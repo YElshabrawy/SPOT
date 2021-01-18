@@ -18,6 +18,7 @@ bool ActionDeclareMajor::Execute()
 	int NANO_FABRICATION_Flag = 0, NANOVLSI_flag=0, NANOPHOTONICS_flag=0;
 	int second_concentration_flag = 0, second_major_flag = 0, exit_flag = 0;
 	int token = 0;
+	//int chooseSomethingToken = 0;
 	static string first_major = "", second_major = ""; //to hold the values for the first and the second major
 	static string first_concentration = "",second_concentration="";
 	StudyPlan* pS = pReg->getStudyPlay();
@@ -53,6 +54,12 @@ bool ActionDeclareMajor::Execute()
 			}
 			if (pMajorWind->GetMouseClick(x, y))
 				UpdateWind();
+			if ((pMajorWind->GetGreen(x, y) == 0.8) && (pMajorWind->GetRed(x, y) == 0.8) && (pMajorWind->GetBlue(x, y) == 0.8))
+			{
+				delete pMajorWind;
+				pMajorWind = nullptr;
+				return true;
+			}
 		}
 		//Science majors
 		while ((pMajorWind) && (Sci_Flag == 1))
@@ -76,13 +83,14 @@ bool ActionDeclareMajor::Execute()
 			{
 				pMajorWind->DrawImage("GUI\\Images\\Major_img\\Major_NANSC.jpg", MajorWindWidth * (5.0 / 8), MajorWindWidth * (3.5 / 8), MajorWindWidth / 4, MajorWindWidth / 8 + MajorWindWidth / 16);
 			}
+		
+			pMajorWind->GetMouseClick(x, y);
 			if ((pMajorWind->GetGreen(x, y) == 0.8) && (pMajorWind->GetRed(x, y) == 0.8) && (pMajorWind->GetBlue(x, y) == 0.8))
 			{
 				delete pMajorWind;
 				pMajorWind = nullptr;
-				break;
+				return true;
 			}
-			pMajorWind->GetMouseClick(x, y);
 			if (BMS_Flag == 0)
 			{
 				if ((x >= (MajorWindWidth / 8)) && (x <= (MajorWindWidth / 4 + MajorWindWidth / 8)) && (y >= (MajorWindWidth / 16)) && (y <= (MajorWindWidth / 4 + MajorWindWidth / 8)))
@@ -175,8 +183,24 @@ bool ActionDeclareMajor::Execute()
 					break;
 				}
 			}
+			//if ((pMajorWind->GetGreen(x, y) == 0.8) && (pMajorWind->GetRed(x, y) == 0.8) && (pMajorWind->GetBlue(x, y) == 0.8))
+			//{
+			//	delete pMajorWind;
+			//	pMajorWind = nullptr;
+			//	//break;
+			//	return true;
+			//}
 			if (pMajorWind->GetMouseClick(x, y))
+			{
 				UpdateWind();
+			}
+			if ((pMajorWind->GetGreen(x, y) == 0.8) && (pMajorWind->GetRed(x, y) == 0.8) && (pMajorWind->GetBlue(x, y) == 0.8))
+			{
+				delete pMajorWind;
+				pMajorWind = nullptr;
+				return true;
+			}
+			
 		}
 		/*if (Sci_Flag == 1)
 		{
@@ -184,6 +208,7 @@ bool ActionDeclareMajor::Execute()
 			pMajorWind = nullptr;
 			return true;
 		}*/
+
 		//Eng Majors
 		while ((pMajorWind) && (Eng_Flag == 1))
 		{
@@ -210,13 +235,19 @@ bool ActionDeclareMajor::Execute()
 			{
 				pMajorWind->DrawImage("GUI\\Images\\Major_img\\Major_NAN.jpg", MajorWindWidth / 16, MajorWindWidth / 2 - MajorWindWidth / 16, MajorWindWidth / 4, MajorWindWidth / 4);
 			}
-			if ((pMajorWind->GetGreen(x, y) == 0.8) && (pMajorWind->GetRed(x, y) == 0.8) && (pMajorWind->GetBlue(x, y) == 0.8))
+			/*if ((pMajorWind->GetGreen(x, y) == 0.8) && (pMajorWind->GetRed(x, y) == 0.8) && (pMajorWind->GetBlue(x, y) == 0.8))
 			{
 				delete pMajorWind;
 				pMajorWind = nullptr;
 				break;
-			}
+			}*/
 			pMajorWind->GetMouseClick(x, y);
+			if ((pMajorWind->GetGreen(x, y) == 0.8) && (pMajorWind->GetRed(x, y) == 0.8) && (pMajorWind->GetBlue(x, y) == 0.8))
+			{
+				delete pMajorWind;
+				pMajorWind = nullptr;
+				return true;
+			}
 			if (REE_Flag == 0)
 			{
 				if ((x >= (MajorWindWidth / 16)) && (x <= (MajorWindWidth / 4 + MajorWindWidth / 16)) && (y >= (MajorWindWidth / 16)) && (y <= (MajorWindWidth / 4 + MajorWindWidth / 16)))
@@ -335,6 +366,12 @@ bool ActionDeclareMajor::Execute()
 			}
 			if (pMajorWind->GetMouseClick(x, y))
 				UpdateWind();
+			/*if ((pMajorWind->GetGreen(x, y) == 0.8) && (pMajorWind->GetRed(x, y) == 0.8) && (pMajorWind->GetBlue(x, y) == 0.8))
+			{
+				delete pMajorWind;
+				pMajorWind = nullptr;
+				return true;
+			}*/
 		}
 		
 		while ((pMajorWind) && (Eng_Flag == 1) && (NAN_Flag == 1)&&(DoubleMajor_flag==0))//don't allow double concentration with double major
@@ -461,6 +498,12 @@ bool ActionDeclareMajor::Execute()
 						break;
 					}
 				}*/
+				if ((pMajorWind->GetGreen(x, y) == 0.8) && (pMajorWind->GetRed(x, y) == 0.8) && (pMajorWind->GetBlue(x, y) == 0.8))
+				{
+					delete pMajorWind;
+					pMajorWind = nullptr;
+					return true;
+				}
 				if (pMajorWind->GetMouseClick(x, y))
 					UpdateWind();
 
