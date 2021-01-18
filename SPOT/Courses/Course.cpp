@@ -189,6 +189,10 @@ bool Course::getCourseExempted()const
 {
 	return Exempted;
 }
+bool Course::getCourseCreditsTransfered()const
+{
+	return CreditsTransfered;
+}
 bool Course::getCoursedone()const
 {
 	return Done;
