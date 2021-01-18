@@ -31,10 +31,13 @@ private:
 	bool majorChanged = false;
 
 	// Double Major
-	bool doubleMajorExists = false;
+	static bool doubleMajorExists;
 	bool doubleMajorOptimize = false; // to control the update in registrar
 	Major doubleMajor;
 	Rules* pDoubleMajorRules;
+
+	void lazyCheck(int compared, int original, string errMsg, string checkMsg);
+	void lazyCheck2(string checkKeyword, vector<string> vect);
 
 public:
 	int TotalCredits = 0,				// Total no. of credit hours for courses registred in this year 1
@@ -61,6 +64,7 @@ public:
 	string PlanNotes="";
 	vector<AcademicYear*> plan;	//plan is a list of academic years
 	vector<string>Minor_Course;
+	vector<int>NOCPS;
 	static int Count;
 	StudyPlan();
 	bool AddCourse(Course* , int year, SEMESTER);
@@ -83,7 +87,6 @@ public:
 	Concentrations getDoubleConcentration() const;
 	void Set_Plan_Rules(Rules& RegRules);
 	void setCourseTypeCredits(Type type, int mode, int hours);
-	void lazyCheck(int compared, int original, string errMsg, string checkMsg);
 	void checkOffering(string code, int crsYear, SEMESTER sem);
 	void GenerateStudentLevel(GUI* pGUI);
 	void increment_Report_Lines(int Number_Of_Inc);
@@ -108,6 +111,7 @@ public:
 	bool getDoubleMajorOptimize() const;
 
 	void Set_Double_Major_Plan_Rules(Rules& DoubleRegRules);
+	bool alreadyExistingCourse(string code);
 
 	virtual ~StudyPlan();
 };

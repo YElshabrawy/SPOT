@@ -7,6 +7,7 @@
 #include <iterator>
 
 int StudyPlan::Count = 0;
+bool StudyPlan::doubleMajorExists = false;
 StudyPlan::StudyPlan()
 {
 	//By default, the study plan starts with 5 years
@@ -18,16 +19,21 @@ StudyPlan::StudyPlan()
 //year idetifies year number to add course to 1=first, 2 = 2nd,....
 bool StudyPlan::AddCourse(Course* pC, int year, SEMESTER sem)
 {
-	plan[year - 1]->AddCourse(pC, sem);
-	TotalCredits += pC->getCredits();
-	if (Minor_course_flag == true)
-	{
-		Minor_Course.push_back(pC->getCode());
-		Minor_course_flag = false;
+	if (alreadyExistingCourse(pC->getCode()) && pC->getCode()[pC->getCode().size() - 1] != 'X') {
+		return false;
 	}
-	setCourseTypeCredits(pC->getType(), 0, pC->getCredits());
-	checkOffering(pC->getCode(), year-1, sem);
-	return true;
+	else {
+		plan[year - 1]->AddCourse(pC, sem);
+		TotalCredits += pC->getCredits();
+		if (Minor_course_flag == true)
+		{
+			Minor_Course.push_back(pC->getCode());
+			Minor_course_flag = false;
+		}
+		setCourseTypeCredits(pC->getType(), 0, pC->getCredits());
+		checkOffering(pC->getCode(), year - 1, sem);
+		return true;
+	}
 }
 bool StudyPlan::DeleteCourse(Course* pC) {
 	plan[pC->getYear() - 1]->DeleteCourse(pC, pC->getSemester());
@@ -61,9 +67,18 @@ vector<AcademicYear*>* StudyPlan::getStudyPlanVector() {
 void StudyPlan::checkPreAndCoReq()
 {
 	// For each crs
+	NOCPS.clear();
 	for (AcademicYear* yr : plan) {
 		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
 		for (int sem = FALL; sem < SEM_CNT; sem++) {
+			if (pYr[sem].size() != 0)
+			{
+				NOCPS.push_back(pYr[sem].size() - 1);
+			}
+			else
+			{
+				NOCPS.push_back(pYr[sem].size());
+			}
 			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
 				// Iterate on courses
 				Course* pCr = (*it);
@@ -281,7 +296,7 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 				if (!((CoReq.size()) == 0))
 				for (int i = 0; i < CoReq.size(); i++)
 				{
-					if (((*it)->getCode() == CoReq[i])&&((*it)!=NULL))
+					if (((*it)->getCode() == CoReq[i])&&((*it)!=NULL) && (!(*it)->Cant_Touch_This_Flag))
 					{
 						pGUI->pWind->SetBrush(RED);
 						pGUI->pWind->SetPen(RED,2);
@@ -293,7 +308,7 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 				for (int i = 0; i < PreReq.size(); i++)
 				{
 					Code = (*it)->getCode();
-					if ((Code== PreReq[i])&&((*it) != NULL))
+					if ((Code== PreReq[i])&&((*it) != NULL) && (!(*it)->Cant_Touch_This_Flag))
 					{
 						pGUI->pWind->SetBrush(BLUE);
 						pGUI->pWind->SetPen(BLUE,2);
@@ -307,14 +322,7 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 }
 void StudyPlan::checkProgramReq()
 {
-	/*cout << "TotalCredits = " << TotalCredits << endl;
-	cout << "TotalMajorCredits = " << TotalMajorCredits << endl;
-	cout << "TotalElectiveCredits = " << TotalElectiveCredits << endl;
-	cout << "TotalMinorCredits = " << TotalMinorCredits << endl;
-	cout << "TotalConcentrationCredits = " << TotalConcentrationCredits << endl;
-	cout << "TotalTrackCredits = " << TotalTrackCredits << endl;
-	cout << "TotalUnivCredits = " << TotalUnivCredits << endl;*/
-
+	// 1) CH checks
 	// Check TotalCredits
 	string errMsg = "The total CHs (" + to_string(TotalCredits) + ") are less than " + to_string(pRules->TotalCHs);
 	string checkMsg = "The total CHs";
@@ -371,7 +379,59 @@ void StudyPlan::checkProgramReq()
 		}
 	}
 
+	// 2) Courses missing
+	string checkKeyword = "Uni Compulsory.";
+	lazyCheck2(checkKeyword, pRules->UnivCompulsoryCourses);
+	
+	string checkKeyword2 = "Track Compulsory.";
+	doubleMajorExists ? lazyCheck2(checkKeyword2, pRules->CheckDoubleTrackCourses) : lazyCheck2(checkKeyword2, pRules->TrackCompulsoryCourses);
+	
+	string checkKeyword3 = "Major Compulsory.";
+	doubleMajorExists ? lazyCheck2(checkKeyword3, pRules->CheckDoubleMajorCompCourses) : lazyCheck2(checkKeyword3, pRules->MajorCompulsoryCourses);
+
+	// 3) Check Unknown Crs
+	string errMsgAgain = "Change the code of XXX elective courses.";
+	bool Unknowns = false;
+	for (AcademicYear* yr : plan)
+	{
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int sem = FALL; sem < SEM_CNT; sem++)
+		{
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
+			{
+				if ((*it)->getUnknownCrs()) {
+					Unknowns = true;
+					break;
+				}
+				if (Unknowns) break;
+			}
+			if (Unknowns) break;
+		}
+		if (Unknowns) break;
+	}
+	if (Unknowns) {
+		//Add the error if not exist
+		bool there = false;
+		for (int i = 0; i < Program_Req_Errors.size(); i++) {
+			if (Program_Req_Errors[i].Msg.find(errMsgAgain) != string::npos)
+				there = true;
+		}
+		if (!there) {
+			Error err;
+			err.Msg = errMsgAgain;
+			err.type = CRITICAL;
+			Program_Req_Errors.push_back(err);
+		}
+	}
+	else {
+		for (int i = 0; i < Program_Req_Errors.size(); i++) {
+			if (Program_Req_Errors[i].Msg.find(errMsgAgain) != string::npos)
+				Program_Req_Errors.erase(Program_Req_Errors.begin() + i);
+		}
+	}
+
 }
+
 void StudyPlan::lazyCheck(int compared, int original, string errMsg, string checkMsg) {
 	if (compared < original) {
 		// Check if already exists. If so modify its message!
@@ -397,6 +457,50 @@ void StudyPlan::lazyCheck(int compared, int original, string errMsg, string chec
 				Program_Req_Errors.erase(Program_Req_Errors.begin() + i);
 		}
 
+	}
+}
+void StudyPlan::lazyCheck2(string checkKeyword, vector<string> vect)
+{
+	for (string code : vect) {
+		bool exists = false;
+		for (AcademicYear* yr : plan)
+		{
+			list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+			for (int sem = FALL; sem < SEM_CNT; sem++)
+			{
+				for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
+				{
+					if ((*it)->getCode() == code) {
+						exists = true;
+						break;
+					}
+				}
+				if (exists) break;
+			}
+			if (exists) break;
+		}
+		string newerrMsg = "Missing " + code + " " + checkKeyword;
+		if (exists) {
+			//Remove error
+			for (int i = 0; i < Program_Req_Errors.size(); i++) {
+				if (Program_Req_Errors[i].Msg.find(newerrMsg) != string::npos)
+					Program_Req_Errors.erase(Program_Req_Errors.begin() + i);
+			}
+		}
+		else {
+			// Add it if not there
+			bool there = false;
+			for (int i = 0; i < Program_Req_Errors.size(); i++) {
+				if (Program_Req_Errors[i].Msg.find(newerrMsg) != string::npos)
+					there = true;
+			}
+			if (!there) {
+				Error err;
+				err.Msg = newerrMsg;
+				err.type = CRITICAL;
+				Program_Req_Errors.push_back(err);
+			}
+		}
 	}
 }
 void StudyPlan::checkOffering(string code, int crsYear, SEMESTER sem)
@@ -477,6 +581,7 @@ void StudyPlan::setMajor(Major major)
 {
 	this->major = major;
 	majorChanged = true;
+	setDoubleMajorExists(false);
 }
 
 void StudyPlan::setConcentration(Concentrations concentration)
@@ -499,7 +604,7 @@ Major StudyPlan::getMajor() const
 {
 	return major;
 }
-void StudyPlan::setCourseTypeCredits(Type type, int mode, int hours)
+void  StudyPlan::setCourseTypeCredits(Type type, int mode, int hours)
 {
 	// If mode is 0 => Add Course 
 	// If mode is 1 => Delete Course 
@@ -529,7 +634,7 @@ void StudyPlan::setCourseTypeCredits(Type type, int mode, int hours)
 		break;
 	}
 }
-void StudyPlan::LiveReport(GUI* pGUI, int Min_Crs, int Max_Crs)
+void  StudyPlan::LiveReport(GUI* pGUI, int Min_Crs, int Max_Crs)
 {
 	int Co_Error_Number, Pre_Error_Number;
 	vector<Error> Co_Errors; 
@@ -589,7 +694,7 @@ void StudyPlan::LiveReport(GUI* pGUI, int Min_Crs, int Max_Crs)
 	Set_Page_Number((pGUI->Y_div/45)-2);
 	pGUI->Total_Number_Pages_In_Report = (Get_Page_Number());
 }
-void StudyPlan::GenerateStudentLevel(GUI* pGUI)
+void  StudyPlan::GenerateStudentLevel(GUI* pGUI)
 {
 	for (AcademicYear* yr : plan) {
 		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
@@ -636,23 +741,23 @@ void StudyPlan::GenerateStudentLevel(GUI* pGUI)
 	string str = to_string(TotalDoneHours);
 	pGUI->Done_Credits = str;
 }
-int StudyPlan::Get_Page_Number()const
+int   StudyPlan::Get_Page_Number()const
 {
 	return No_Of_Pages;
 }
-void StudyPlan::increment_Report_Lines(int Number_Of_Inc)
+void  StudyPlan::increment_Report_Lines(int Number_Of_Inc)
 {
 	Report_Lines += Number_Of_Inc;
 }
-int StudyPlan::get_Report_Lines()const
+int   StudyPlan::get_Report_Lines()const
 {
 	return Report_Lines;
 }
-void StudyPlan::Set_Report_Lines()
+void  StudyPlan::Set_Report_Lines()
 {
 	Report_Lines = 0;
 }
-void StudyPlan::Set_Course_Type()
+void  StudyPlan::Set_Course_Type()
 {
 	string Code = "";
 	for (AcademicYear* yr : plan)
@@ -663,6 +768,148 @@ void StudyPlan::Set_Course_Type()
 			{
 				Code = (*it)->getCode();
 				(*it)->Set_Type(NOTYPE);
+				if (!doubleMajorExists) {
+					for (int i = 0; i < pRules->UnivCompulsoryCourses.size(); i++)
+					{
+						if (Code == pRules->UnivCompulsoryCourses[i])
+						{
+
+							if (Code == pRules->UnivCompulsoryCourses[i])
+							{
+								(*it)->Set_Type(Uni);
+								if ((*it)->getColor() == BLACK)
+								{
+									break;
+								}
+								(*it)->changeColor(SLATEGREY);
+								break;
+							}
+						}
+					}
+					for (int i = 0; i < pRules->UnivElectiveCourses.size(); i++)
+					{
+						if (Code == pRules->UnivElectiveCourses[i])
+						{
+							if (Code == pRules->UnivElectiveCourses[i])
+							{
+								(*it)->Set_Type(Elective);
+								if ((*it)->getColor() == BLACK)
+								{
+									break;
+								}
+								(*it)->changeColor(FIREBRICK);
+								break;
+							}
+						}
+					}
+					for (int i = 0; i < pRules->TrackCompulsoryCourses.size(); i++)
+					{
+						if (Code == pRules->TrackCompulsoryCourses[i])
+						{
+							if (Code == pRules->TrackCompulsoryCourses[i])
+							{
+								(*it)->Set_Type(Track);
+								if ((*it)->getColor() == BLACK)
+								{
+									break;
+								}
+								(*it)->changeColor(DARKGREEN);
+								break;
+							}
+						}
+					}
+					for (int i = 0; i < pRules->MajorCompulsoryCourses.size(); i++)
+					{
+						if (Code == pRules->MajorCompulsoryCourses[i])
+						{
+							if (Code == pRules->MajorCompulsoryCourses[i])
+							{
+								(*it)->Set_Type(maj);
+								if ((*it)->getColor() == BLACK)
+								{
+									break;
+								}
+								(*it)->changeColor(GOLDENROD);
+								break;
+							}
+						}
+					}
+					for (int i = 0; i < pRules->MajorElectiveCourses.size(); i++)
+					{
+						if (Code == pRules->MajorElectiveCourses[i])
+						{
+							if (Code == pRules->MajorElectiveCourses[i])
+							{
+								(*it)->Set_Type(Elective);
+								if ((*it)->getColor() == BLACK)
+								{
+									break;
+								}
+								(*it)->changeColor(FIREBRICK);
+								break;
+							}
+						}
+						if (pRules->NumOfConcentrations != 0)
+						{
+							for (int i = 0; i < pRules->Concentrations[0].ConcentrationCompulsoryCourses.size(); i++)
+							{
+								if (Code == pRules->Concentrations[0].ConcentrationCompulsoryCourses[i])
+								{
+									(*it)->Set_Type(concentration);
+									if ((*it)->getColor() == BLACK)
+									{
+										break;
+									}
+									(*it)->changeColor(DARKMAGENTA);
+									break;
+								}
+							}
+							for (int i = 0; i < pRules->Concentrations[0].ConcentrationElectiveCourses.size(); i++)
+							{
+								if (Code == pRules->Concentrations[0].ConcentrationElectiveCourses[i])
+								{
+									(*it)->Set_Type(Elective);
+									if ((*it)->getColor() == BLACK)
+									{
+										break;
+									}
+									(*it)->changeColor(FIREBRICK);
+									break;
+								}
+							}
+						}
+					}
+					//for (int i = 0; i < pRules->Concentrations[0].ConcentrationCompulsoryCourses.size(); i++)
+					//{
+					//	if (Code == pRules->Concentrations[0].ConcentrationCompulsoryCourses[i])
+					//	{
+					//		(*it)->Set_Type(concentration);
+					//		break;
+					//	}
+					//}
+					//for (int i = 0; i < pRules->Concentrations[0].ConcentrationElectiveCourses.size(); i++)
+					//{
+					//	if (Code == pRules->Concentrations[0].ConcentrationElectiveCourses[i])
+					//	{
+					//		(*it)->Set_Type(Elective);
+					//		break;
+					//	}
+					//}
+					for (int i = 0; i < Minor_Course.size(); i++)
+					{
+						if (Code == Minor_Course[i])
+						{
+							(*it)->Set_Type(Minor);
+							if ((*it)->getColor() == BLACK)
+							{
+								break;
+							}
+							(*it)->changeColor(ORANGERED);
+							break;
+						}
+					}
+				}
+				else {
 				for (int i = 0; i < pRules->UnivCompulsoryCourses.size(); i++)
 				{
 					if (Code == pRules->UnivCompulsoryCourses[i])
@@ -696,11 +943,11 @@ void StudyPlan::Set_Course_Type()
 						}
 					}
 				}
-				for (int i = 0; i < pRules->TrackCompulsoryCourses.size(); i++)
+				for (int i = 0; i < pRules->CheckDoubleTrackCourses.size(); i++)
 				{
-					if (Code == pRules->TrackCompulsoryCourses[i])
+					if (Code == pRules->CheckDoubleTrackCourses[i])
 					{
-						if (Code == pRules->TrackCompulsoryCourses[i])
+						if (Code == pRules->CheckDoubleTrackCourses[i])
 						{
 							(*it)->Set_Type(Track);
 							if ((*it)->getColor() == BLACK)
@@ -712,11 +959,11 @@ void StudyPlan::Set_Course_Type()
 						}
 					}
 				}
-				for (int i = 0; i < pRules->MajorCompulsoryCourses.size(); i++)
+				for (int i = 0; i < pRules->CheckDoubleMajorCompCourses.size(); i++)
 				{
-					if (Code == pRules->MajorCompulsoryCourses[i])
+					if (Code == pRules->CheckDoubleMajorCompCourses[i])
 					{
-						if (Code == pRules->MajorCompulsoryCourses[i])
+						if (Code == pRules->CheckDoubleMajorCompCourses[i])
 						{
 							(*it)->Set_Type(maj);
 							if ((*it)->getColor() == BLACK)
@@ -728,11 +975,11 @@ void StudyPlan::Set_Course_Type()
 						}
 					}
 				}
-				for (int i = 0; i < pRules->MajorElectiveCourses.size(); i++)
+				for (int i = 0; i < pRules->CheckDoubleMajorElectiveCourses.size(); i++)
 				{
-					if (Code == pRules->MajorElectiveCourses[i])
+					if (Code == pRules->CheckDoubleMajorElectiveCourses[i])
 					{
-						if (Code == pRules->MajorElectiveCourses[i])
+						if (Code == pRules->CheckDoubleMajorElectiveCourses[i])
 						{
 							(*it)->Set_Type(Elective);
 							if ((*it)->getColor() == BLACK)
@@ -802,9 +1049,12 @@ void StudyPlan::Set_Course_Type()
 						break;
 					}
 				}
+				}
+				
 			}
 	}
 }
+
 void  StudyPlan::Set_Page_Number( int Number_Of_lines)
 {
 	No_Of_Pages=Report_Lines/ Number_Of_lines;
@@ -995,6 +1245,22 @@ void StudyPlan::Set_Double_Major_Plan_Rules(Rules& DoubleRegRules)
 {
 	pDoubleMajorRules = &DoubleRegRules;
 
+}
+bool StudyPlan::alreadyExistingCourse(string code)
+{
+	for (AcademicYear* yr : plan)
+	{
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int sem = FALL; sem < SEM_CNT; sem++)
+		{
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
+			{
+				if ((*it)->getCode() == code)
+					return true;
+			}
+		}
+	}
+	return false;
 }
 void StudyPlan::setMinor_course_flag(bool cond)
 {

@@ -201,6 +201,7 @@ Action* Registrar::CreateRequiredAction()
 		if (pGUI->Last_CLick == RIGHT_CLICK)
 		{
 			RequiredAction = new ActionDragAndDrop(this);
+
 			Drag_Flag = true;
 			break;
 		}
@@ -242,7 +243,7 @@ bool Registrar::ExecuteAction(Action* pAct)
 	bool done = pAct->Execute();
 	if (Not_Worth_Saving_Flag)
 	{
-		List_Of_All_StudyPlans.erase(List_Of_All_StudyPlans.begin() + Current_Study_Plan - 1, List_Of_All_StudyPlans.end() - Current_Study_Plan + 1);
+		List_Of_All_StudyPlans.erase(List_Of_All_StudyPlans.begin() + Current_Study_Plan-1);
 		Current_Study_Plan--;
 		Not_Worth_Saving_Flag = false;
 	}
@@ -266,7 +267,10 @@ void Registrar::Run()
 
 	while (!Exit_Program)
 	{
+		cout << "Major changed :: " << pSPlan->getMajorChanged() << endl;
+		cout << "Double Major exists :: " << pSPlan->getDoubleMajorExists() << endl;
 		if (pSPlan->getMajorChanged() == true) {
+			//pSPlan->
 			importProgramReq(RegRules, pSPlan->getMajor());
 			//pSPlan->Set_Course_Type();
 			//setCatalogCoursesType();
@@ -280,7 +284,11 @@ void Registrar::Run()
 			setDoubleMajorRules();
 
 			//Change the wanted changes
-			RegRules.TotalCHs += DoubleRegRules.ReqMajorCredits;
+			RegRules.CheckDoubleMajorCompCourses.clear();
+			RegRules.CheckDoubleMajorElectiveCourses.clear();
+			RegRules.CheckDoubleTrackCourses.clear();
+			combineDoubleMajorCourses();
+			
 
 			// Adjust the optimizer
 			pSPlan->setDoubleMajorOptimize(false);
@@ -290,6 +298,11 @@ void Registrar::Run()
 		setRules();
 		pSPlan->GenerateStudentLevel(pGUI);
 		pSPlan->checkPreAndCoReq();
+		pGUI->NOCPSIAYs.clear();
+		for (int i = 0; i < pSPlan->NOCPS.size(); i++)
+		{
+			pGUI->NOCPSIAYs.push_back(pSPlan->NOCPS[i]);
+		}
 		pSPlan->Set_Course_Type();
 		pSPlan->checkCreditHrs(RegRules.SemMinCredit, RegRules.SemMaxCredit);
 		pSPlan->checkProgramReq();
@@ -551,7 +564,7 @@ Course* Registrar::interrogateCourse(int x, int y)
 				int course_y = (*it)->getGfxInfo().y;
 				bool condition = x > course_x && x < (course_x + CRS_WIDTH) &&
 					y > course_y && y < (course_y + CRS_HEIGHT);
-				if (condition) {
+				if ((condition)&&(!(*it)->Cant_Touch_This_Flag)) {
 					flag = 1;
 					output = (*it)->getCoursePtr();
 					break;
@@ -604,7 +617,7 @@ void Registrar::importProgramReq(Rules& savePlace, Major major)
 	//line 1 (Total Cr)
 	string l1;
 	getline(finput, l1);
-	savePlace.TotalCHs = stoi(l1);//////////////////--------------------->DANGEROUS
+	savePlace.TotalCHs = stoi(l1);
 	cout << "Total Credits = " << savePlace.TotalCHs << endl;
 
 	//line 2 (Univ comp and major Cr)
@@ -798,7 +811,7 @@ void Registrar::Add_To_StudyPlan(StudyPlan &pS_New)
 		else
 		{
 			if (Current_Study_Plan < List_Of_All_StudyPlans.size() - 1)
-				List_Of_All_StudyPlans.erase(List_Of_All_StudyPlans.begin() + Current_Study_Plan + 1, List_Of_All_StudyPlans.end() - Current_Study_Plan);
+				List_Of_All_StudyPlans.erase(List_Of_All_StudyPlans.begin() + Current_Study_Plan+1, List_Of_All_StudyPlans.end());
 			List_Of_All_StudyPlans.insert(List_Of_All_StudyPlans.end() - SPSC, pS_Old);
 		}
 		Current_Study_Plan++;
@@ -813,4 +826,91 @@ void Registrar::Add_To_StudyPlan(StudyPlan &pS_New)
 int  Registrar::GetCurrent_Study_Plan() const
 {
 	return Current_Study_Plan;
+}
+
+void Registrar::combineDoubleMajorCourses()
+{
+	// Track Courses
+	for (string code : RegRules.TrackCompulsoryCourses) {
+		// Take all courses in main major
+		RegRules.CheckDoubleTrackCourses.push_back(code);
+	}
+	// push the unique secondary major courses
+	for (string code : DoubleRegRules.TrackCompulsoryCourses) {
+		bool exists = false;
+		for (string otherCode : RegRules.CheckDoubleTrackCourses) {
+			if (otherCode == code) {
+				exists = true;
+				break;
+			}
+
+		}
+		if (!exists) {
+			// New course
+			bool temp;
+			RegRules.CheckDoubleTrackCourses.push_back(code);
+			CourseInfo* pCInfo = inCatalog(code, temp);
+			if (pCInfo != nullptr) {
+				RegRules.ReqTrackCredits += pCInfo->Credits;
+				RegRules.TotalCHs += pCInfo->Credits;
+			}
+		}
+	}
+	
+	// Major Courses
+	//1) Comp
+	for (string code : RegRules.MajorCompulsoryCourses) {
+		// Take all courses in main major
+		RegRules.CheckDoubleMajorCompCourses.push_back(code);
+	}
+	// push the unique secondary major courses
+	for (string code : DoubleRegRules.MajorCompulsoryCourses) {
+		bool exists = false;
+		for (string otherCode : RegRules.CheckDoubleMajorCompCourses) {
+			if (otherCode == code) {
+				exists = true;
+				break;
+			}
+
+		}
+		if (!exists) {
+			// New course
+			bool temp;
+			RegRules.CheckDoubleMajorCompCourses.push_back(code);
+			CourseInfo* pCInfo = inCatalog(code, temp);
+			if (pCInfo != nullptr) {
+				RegRules.MajorCompulsoryCredits += pCInfo->Credits;
+				RegRules.ReqMajorCredits += pCInfo->Credits;
+				RegRules.TotalCHs += pCInfo->Credits;
+			}
+		}
+	}
+
+	//2) Elective
+	for (string code : RegRules.MajorElectiveCourses) {
+		// Take all courses in main major
+		RegRules.CheckDoubleMajorElectiveCourses.push_back(code);
+	}
+	// push the unique secondary major courses
+	for (string code : DoubleRegRules.MajorElectiveCourses) {
+		bool exists = false;
+		for (string otherCode : RegRules.CheckDoubleMajorElectiveCourses) {
+			if (otherCode == code) {
+				exists = true;
+				break;
+			}
+
+		}
+		if (!exists) {
+			// New course
+			bool temp;
+			RegRules.CheckDoubleMajorElectiveCourses.push_back(code);
+			CourseInfo* pCInfo = inCatalog(code, temp);
+			if (pCInfo != nullptr) {
+				RegRules.MajorElectiveCredits += pCInfo->Credits;
+				RegRules.ReqMajorCredits += pCInfo->Credits;
+				RegRules.TotalCHs += pCInfo->Credits;
+			}
+		}
+	}
 }

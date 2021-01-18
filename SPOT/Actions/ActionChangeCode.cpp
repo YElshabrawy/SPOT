@@ -40,10 +40,13 @@ bool ActionChangeCode::Execute()
 			while (exists == 0) {
 				pGUI->PrintMsg("ERROR: " + code + " is an invalid course code! Enter a valid one:");
 				code = pGUI->GetSrting();
-				
+				if (code == " ")//to exit when the user presses escape
+					return true;
 				pReg->transformCode(code);
 				pCInfo = pReg->inCatalog(code, exists);
 			}
+			StudyPlan* pS= pReg->getStudyPlay();
+			if (!pS->alreadyExistingCourse(code)) {
 
 			int year = pCr->getYear();
 			SEMESTER sem = pCr->getSemester();
@@ -62,6 +65,11 @@ bool ActionChangeCode::Execute()
 			pnewcR->CCC_Flag = true;
 			pnewcR->setGfxInfo(anew_ginfo);
 			pS->AddCourse(pnewcR,year,sem);
+			pnewcR->Course_Number = pCr->Course_Number;
+
+			}
+			else
+				pGUI->GetUserAction("This Course already exists!");
 		}
 	}
 	return true;

@@ -141,7 +141,7 @@ public:
 	void DrawLiveReportPages(int Number_Lines,int Page_Number);
 	void DrawNotesPages(int Number_Lines, int Page_Number) const;
 	//input functions
-	ActionData GUI::GetUserAction(string msg = "") const;
+	ActionData GUI::GetUserAction(string msg = "");
 	string GetSrting() const;
 	string GetSrting(string MSG);
 	static int getYDivStartingPos();
@@ -153,9 +153,10 @@ public:
 	int Total_Number_Pages_In_Info=4;
 	static int Current_Page_Info;
 	int Total_Number_Study_Plans, Current_StudyPlan;
+	vector<int>NOCPSIAYs;
+	vector<int>CPIES;
 	//Dimention getters
 	static int getMenuBarHeight();
 	static int getY_div();
-
 	~GUI();
 };
