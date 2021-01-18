@@ -157,6 +157,7 @@ bool ActionCourseInfo::Execute()
 						pCr->setCourseinprogress(false);
 						pCr->setCourseExempted(false);
 						pCr->setCourseReplaced(false);
+						pCr->setCourseCreditsTransfered(false);
 						pCr->setToken(false);
 						pGUI->CourseGrade += "Null";
 						cond0 = true;
@@ -169,6 +170,7 @@ bool ActionCourseInfo::Execute()
 						pCr->setCourseinprogress(true);
 						pCr->setCourseExempted(false);
 						pCr->setCourseReplaced(false);
+						pCr->setCourseCreditsTransfered(false);
 						pCr->setToken(false);
 						pGUI->CourseGrade += "Null";
 						cond0 = true;
@@ -180,6 +182,7 @@ bool ActionCourseInfo::Execute()
 						pCr->setCourseinprogress(false);
 						pCr->setCourseExempted(true);
 						pCr->setCourseReplaced(false);
+						pCr->setCourseCreditsTransfered(false);
 						pGUI->CourseGrade += "passed";
 						cond0 = true;
 					}
@@ -190,9 +193,20 @@ bool ActionCourseInfo::Execute()
 						pCr->setCourseinprogress(false);
 						pCr->setCourseExempted(false);
 						pCr->setCourseReplaced(true);
+						pCr->setCourseCreditsTransfered(false);
 						pGUI->CourseGrade += "---";
 						cond0 = true;
 					}
+					else if (msg == "T" || msg == "CREDITS TRANSFERED" || msg == "TRANSFERED" || msg == "CT")
+					{
+						pCr->setCoursedone(true);
+						pCr->setCoursepending(false);
+						pCr->setCourseinprogress(false);
+						pCr->setCourseExempted(false);
+						pCr->setCourseReplaced(false);
+						pCr->setCourseCreditsTransfered(true);
+						pGUI->CourseGrade += "---";
+					 }
 
 					else
 					{

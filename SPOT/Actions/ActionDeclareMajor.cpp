@@ -395,7 +395,8 @@ bool ActionDeclareMajor::Execute()
 			if ((x >= (MajorWindWidth / 5)) && (x <= (MajorWindWidth / 5 + 279)) && (y >= (MajorWindWidth / 16)) && (y <= (MajorWindWidth / 16 + 66)))
 			{
 				NANO_FABRICATION_Flag = 1;
-				pS->setConcentration(NANOFABRICATION);
+				//pS->setConcentration(NANOFABRICATION);
+				pS->setconcentrationNumber(1);
 				pGUI->Your_Concentration = "NANOFABRICATION";
 				first_concentration = "NANOFABRICATION";
 				cout << "This is conc" << pS->getConcentration() << endl;//debug
@@ -406,7 +407,8 @@ bool ActionDeclareMajor::Execute()
 			if ((x >= (MajorWindWidth / 5)) && (x <= (MajorWindWidth / 5 + 279)) && (y >= (MajorWindowHeight / 4 + MajorWindWidth / 16)) && (y <= (MajorWindowHeight / 4 + MajorWindWidth / 16 + 66)))
 			{
 				NANOVLSI_flag = 1;
-				pS->setConcentration(NANOVLSI);
+				//pS->setConcentration(NANOVLSI);
+				pS->setconcentrationNumber(2);
 				pGUI->Your_Concentration = "NANOVLSI";
 				first_concentration = "NANOVLSI";
 				cout << "This is conc" << pS->getConcentration() << endl; //debug
@@ -417,7 +419,8 @@ bool ActionDeclareMajor::Execute()
 			if ((x >= (MajorWindWidth / 5)) && (x <= (MajorWindWidth / 5 + 278)) && (y >= (2 * MajorWindowHeight / 4 + MajorWindWidth / 16)) && (y <= (2 * MajorWindowHeight / 4 + MajorWindWidth / 16 + 66)))
 			{
 				NANOPHOTONICS_flag = 1;
-				pS->setConcentration(NANOPHOTONICS);
+				//pS->setConcentration(NANOPHOTONICS);
+				pS->setconcentrationNumber(3);
 				pGUI->Your_Concentration = "NANOPHOTONICS";
 				first_concentration = "NANOPHOTONICS";
 				cout << "This is conc" << pS->getConcentration() << endl;//debug 
@@ -551,7 +554,7 @@ bool ActionDeclareMajor::Execute()
 						//pS->setConcentration(NANOVLSI);
 						second_concentration = "NANOVLSI";
 						pS->setDoubleconcentrationNumber(2);
-						pS->setDoubleConcentration(NANOVLSI);
+						//pS->setDoubleConcentration(NANOVLSI);
 						pGUI->Double_Concentration = "NANOVLSI";
 						second_major_flag = 1;
 						cout << "This is conc" << pS->getConcentration() << endl; //debug
@@ -564,7 +567,7 @@ bool ActionDeclareMajor::Execute()
 					if ((x >= (MajorWindWidth / 5)) && (x <= (MajorWindWidth / 5 + 278)) && (y >= (2 * MajorWindowHeight / 4 + MajorWindWidth / 16)) && (y <= (2 * MajorWindowHeight / 4 + MajorWindWidth / 16 + 66)))
 					{
 						NANOPHOTONICS_flag = 1;
-						pS->setDoubleConcentration(NANOPHOTONICS);
+					//	pS->setDoubleConcentration(NANOPHOTONICS);
 						pS->setDoubleconcentrationNumber(3);
 						pGUI->Double_Concentration = "NANOPHOTONICS";
 						second_concentration = "NANOPHOTONICS";
@@ -585,7 +588,7 @@ bool ActionDeclareMajor::Execute()
 						//->setConcentration(NANOFABRICATION);
 						second_concentration = "NANOFABRICATION";
 						pS->setDoubleconcentrationNumber(1);
-						pS->setDoubleConcentration(NANOFABRICATION);
+						//pS->setDoubleConcentration(NANOFABRICATION);
 						pGUI->Double_Concentration = "NANOFABRICATION";
 						second_major_flag = 1;
 						cout << "This is conc" << pS->getConcentration() << endl;//debug
@@ -599,7 +602,7 @@ bool ActionDeclareMajor::Execute()
 					{
 						NANOPHOTONICS_flag = 1;
 						//pS->setConcentration(NANOPHOTONICS);
-						pS->setDoubleConcentration(NANOPHOTONICS);
+					//	pS->setDoubleConcentration(NANOPHOTONICS);
 						pS->setDoubleconcentrationNumber(3);
 						pGUI->Double_Concentration = "NANOPHOTONICS";
 						second_concentration = "NANOPHOTONICS";
@@ -618,7 +621,7 @@ bool ActionDeclareMajor::Execute()
 					{
 						NANO_FABRICATION_Flag = 1;
 						//->setConcentration(NANOFABRICATION);
-						pS->setDoubleConcentration(NANOFABRICATION);
+						//pS->setDoubleConcentration(NANOFABRICATION);
 						pS->setDoubleconcentrationNumber(1);
 						pGUI->Double_Concentration = "NANOFABRICATION";
 						second_concentration = "NANOFABRICATION";
@@ -634,7 +637,7 @@ bool ActionDeclareMajor::Execute()
 					{
 						NANOVLSI_flag = 1;
 						//pS->setConcentration(NANOVLSI);
-						pS->setDoubleConcentration(NANOVLSI);
+						//pS->setDoubleConcentration(NANOVLSI);
 						pS->setDoubleconcentrationNumber(2);
 						pGUI->Double_Concentration = "NANOVLSI";
 						second_concentration = "NANOVLSI";

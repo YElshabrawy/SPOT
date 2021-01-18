@@ -51,6 +51,10 @@ void Course::setCourseReplaced(bool Case)
 {
 	Replaced = Case;
 }
+void Course::setCourseCreditsTransfered(bool CT)
+{
+	CreditsTransfered = CT;
+}
 void Course::setGrade(string grade)
 {
 	Grade = grade;
@@ -184,6 +188,10 @@ bool Course::getCourseReplaced()const
 bool Course::getCourseExempted()const
 {
 	return Exempted;
+}
+bool Course::getCourseCreditsTransfered()const
+{
+	return CreditsTransfered;
 }
 bool Course::getCoursedone()const
 {

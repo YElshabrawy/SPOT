@@ -268,8 +268,8 @@ void Registrar::Run()
 
 	while (!Exit_Program)
 	{
-		cout << "Major changed :: " << pSPlan->getMajorChanged() << endl;
-		cout << "Double Major exists :: " << pSPlan->getDoubleMajorExists() << endl;
+		cout << (pSPlan->getConcentration()) << endl;
+		cout << pSPlan->getDoubleConcentration() << endl;
 		if (pSPlan->getMajorChanged() == true) {
 			//pSPlan->
 			importProgramReq(RegRules, pSPlan->getMajor());
