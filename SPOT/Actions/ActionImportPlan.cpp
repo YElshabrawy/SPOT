@@ -28,7 +28,7 @@ bool ActionImportPlan::Execute() {
 	fill(Course::numOfCoursesPerSem.begin(), Course::numOfCoursesPerSem.end(), 0);
 
 	//string directory = "Format Files\\StudyPlan-ENV.txt";
-	string directory = "Format Files\\StudyPlan-CIE.txt";
+	string directory = "Format Files\\StudyPlan-NAN2.txt";
 
 	// Start reading
 	ifstream finput(directory);

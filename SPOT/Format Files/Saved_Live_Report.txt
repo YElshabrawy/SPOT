@@ -1,23 +1,55 @@
 CRITICAL ERROR:
-The total CHs (132) are less than 162
+CSCI 101 is a prerequisite to CIE 202
 CRITICAL ERROR:
-The total major CHs (78) are less than 102
+CHEM 102 is a prerequisite to MATSCI 255
 CRITICAL ERROR:
-The total univ CHs (14) are less than 20
+ENGR 201 is a prerequisite to NANENG 322
+CRITICAL ERROR:
+CHEM 102 is a prerequisite to NANENG 301
+CRITICAL ERROR:
+MATSCI 201 is a prerequisite to NANENG 301
+CRITICAL ERROR:
+CHEM 102 is a prerequisite to NANENG 402
+CRITICAL ERROR:
+MATSCI 201 is a prerequisite to NANENG 402
+CRITICAL ERROR:
+The total CHs (145) are less than 162
+CRITICAL ERROR:
+The total major CHs (18) are less than 96
+CRITICAL ERROR:
+The total track CHs (36) are less than 40
+CRITICAL ERROR:
+The total univ CHs (8) are less than 20
 CRITICAL ERROR:
 No concentration is selected yet!
 CRITICAL ERROR:
-Missing CIE 439 Major Compulsory.
+Missing SCH 260 Uni Compulsory.
+CRITICAL ERROR:
+Missing SCH 261 Uni Compulsory.
+CRITICAL ERROR:
+Missing SCH 264 Uni Compulsory.
+CRITICAL ERROR:
+Missing CHEM 102 Major Compulsory.
+CRITICAL ERROR:
+Missing CHEM 112 Major Compulsory.
+CRITICAL ERROR:
+Missing ENGR 219 Major Compulsory.
+CRITICAL ERROR:
+Missing MATSCI 201 Major Compulsory.
+CRITICAL ERROR:
+Missing NANENG 581 Major Compulsory.
+CRITICAL ERROR:
+Missing NANENG 582 Major Compulsory.
+CRITICAL ERROR:
+Missing NANENG 583 Major Compulsory.
+CRITICAL ERROR:
+Missing NANENG 584 Major Compulsory.
 CRITICAL ERROR:
 Change the code of XXX elective courses.
 MODERATE ERROR:
 CHEM 111 isn't offered in 2020\2021's fall
 MODERATE ERROR:
-CSCI 101 isn't offered in 2020\2021's spring
-MODERATE ERROR:
 ENG 152 isn't offered in 2020\2021's spring
-MODERATE ERROR:
-ENGR 102 isn't offered in 2020\2021's spring
 MODERATE ERROR:
 ENGR 221 isn't offered in 2020\2021's spring
 MODERATE ERROR:
@@ -26,8 +58,6 @@ MODERATE ERROR:
 PHYS 102 isn't offered in 2020\2021's spring
 MODERATE ERROR:
 PHYS 112 isn't offered in 2020\2021's spring
-MODERATE ERROR:
-CIE 202 isn't offered in 2021\2022's fall
 MODERATE ERROR:
 CIE 239 isn't offered in 2021\2022's fall
 MODERATE ERROR:
@@ -41,91 +71,112 @@ PHYS 201 isn't offered in 2021\2022's fall
 MODERATE ERROR:
 PHYS 211 isn't offered in 2021\2022's fall
 MODERATE ERROR:
-CIE 205 isn't offered in 2021\2022's spring
-MODERATE ERROR:
-CIE 212 isn't offered in 2021\2022's spring
-MODERATE ERROR:
-CIE 227 isn't offered in 2021\2022's spring
+ENGR 218 isn't offered in 2021\2022's spring
 MODERATE ERROR:
 MATH 202 isn't offered in 2021\2022's spring
 MODERATE ERROR:
-SCH 260 isn't offered in 2021\2022's spring
+MATH 203 isn't offered in 2021\2022's spring
 MODERATE ERROR:
-CIE 328 isn't offered in 2022\2023's fall
+PHYS 202 isn't offered in 2021\2022's spring
 MODERATE ERROR:
-CIE 301 isn't offered in 2022\2023's fall
-MODERATE ERROR:
-CIE 302 isn't offered in 2022\2023's fall
-MODERATE ERROR:
-CIE 327 isn't offered in 2022\2023's fall
+PHYS 212 isn't offered in 2021\2022's spring
 MODERATE ERROR:
 MATH 302 isn't offered in 2022\2023's fall
 MODERATE ERROR:
-SCH 261 isn't offered in 2022\2023's fall
+MATH 306 isn't offered in 2022\2023's fall
 MODERATE ERROR:
-CIE 318 isn't offered in 2022\2023's spring
+NANENG 305 isn't offered in 2022\2023's fall
 MODERATE ERROR:
-CIE 320 isn't offered in 2022\2023's spring
+NANENG 322 isn't offered in 2022\2023's fall
 MODERATE ERROR:
-CIE 337 isn't offered in 2022\2023's spring
+NANENG 331 isn't offered in 2022\2023's fall
 MODERATE ERROR:
-CIE 338 isn't offered in 2022\2023's spring
+SCH 263 isn't offered in 2022\2023's fall
 MODERATE ERROR:
-MATH 308 isn't offered in 2022\2023's spring
+MATH 301 isn't offered in 2022\2023's spring
 MODERATE ERROR:
-SCH 262 isn't offered in 2022\2023's spring
+NANENG 301 isn't offered in 2022\2023's spring
 MODERATE ERROR:
-CIE XXX isn't offered in 2023\2024's fall
+NANENG 307 isn't offered in 2022\2023's spring
 MODERATE ERROR:
-CIE 408 isn't offered in 2023\2024's fall
+NANENG 308 isn't offered in 2022\2023's spring
 MODERATE ERROR:
-CIE 417 isn't offered in 2023\2024's fall
+NANENG 312 isn't offered in 2022\2023's spring
 MODERATE ERROR:
-CIE 425 isn't offered in 2023\2024's fall
+NANENG 335 isn't offered in 2022\2023's spring
 MODERATE ERROR:
-CIE 437 isn't offered in 2023\2024's fall
+SCH XXX isn't offered in 2022\2023's spring
 MODERATE ERROR:
-CIE 442 isn't offered in 2023\2024's fall
+NANENG 401 isn't offered in 2023\2024's fall
 MODERATE ERROR:
-CIE XXX isn't offered in 2023\2024's spring
+NANENG 402 isn't offered in 2023\2024's fall
 MODERATE ERROR:
-CIE XXX isn't offered in 2023\2024's spring
+NANENG 421 isn't offered in 2023\2024's fall
 MODERATE ERROR:
-CIE 405 isn't offered in 2023\2024's spring
+NANENG 424 isn't offered in 2023\2024's fall
 MODERATE ERROR:
-CIE 447 isn't offered in 2023\2024's spring
+NANENG 433 isn't offered in 2023\2024's fall
 MODERATE ERROR:
-SCH 263 isn't offered in 2023\2024's spring
+SCH XXX isn't offered in 2023\2024's fall
+MODERATE ERROR:
+NANENG 410 isn't offered in 2023\2024's spring
+MODERATE ERROR:
+NANENG 422 isn't offered in 2023\2024's spring
+MODERATE ERROR:
+NANENG 430 isn't offered in 2023\2024's spring
+MODERATE ERROR:
+NANENG 461 isn't offered in 2023\2024's spring
+MODERATE ERROR:
+SCH 262 isn't offered in 2023\2024's spring
 MODERATE ERROR:
 ENGR 444 isn't offered in 2023\2024's summer
 MODERATE ERROR:
-CIE XXX isn't offered in 2024\2022's fall
+NANENG 512 isn't offered in 2024\2022's fall
 MODERATE ERROR:
-CIE XXX isn't offered in 2024\2022's fall
+NANENG 520 isn't offered in 2024\2022's fall
 MODERATE ERROR:
-CIE XXX isn't offered in 2024\2022's fall
+NANENG XXX isn't offered in 2024\2022's fall
 MODERATE ERROR:
-CIE 598 isn't offered in 2024\2022's fall
+NANENG XXX isn't offered in 2024\2022's fall
 MODERATE ERROR:
-SCH 264 isn't offered in 2024\2022's fall
+NANENG 598 isn't offered in 2024\2022's fall
 MODERATE ERROR:
 SCH XXX isn't offered in 2024\2022's fall
 MODERATE ERROR:
-CIE XXX isn't offered in 2024\2022's spring
+NANENG XXX isn't offered in 2024\2022's spring
 MODERATE ERROR:
-CIE XXX isn't offered in 2024\2022's spring
+NANENG XXX isn't offered in 2024\2022's spring
 MODERATE ERROR:
-CIE 599 isn't offered in 2024\2022's spring
-MODERATE ERROR:
-SCH XXX isn't offered in 2024\2022's spring
+NANENG 599 isn't offered in 2024\2022's spring
 MODERATE ERROR:
 SCH XXX isn't offered in 2024\2022's spring
 MODERATE ERROR:
-Spring of year 4 has CH's (8) less than 12
-You May Need An Underload Petition
+SCH XXX isn't offered in 2024\2022's spring
 MODERATE ERROR:
-Fall of year 5 has CH's (3) less than 12
+NANENG 204 isn't offered in 2020\2021's summer
+MODERATE ERROR:
+MATSCI 255 isn't offered in 2021\2022's summer
+MODERATE ERROR:
+SCH 201 isn't offered in 2021\2022's spring
+MODERATE ERROR:
+NANENG 203 isn't offered in 2021\2022's summer
+MODERATE ERROR:
+CIE 205 isn't offered in 2021\2022's summer
+MODERATE ERROR:
+CIE 202 isn't offered in 2020\2021's fall
+MODERATE ERROR:
+CSCI 101 isn't offered in 2020\2021's fall
+MODERATE ERROR:
+ENGR 102 isn't offered in 2020\2021's fall
+MODERATE ERROR:
+Fall of year 5 has CH's (7) less than 12
 You May Need An Underload Petition
 MODERATE ERROR:
 Spring of year 5 has CH's (3) less than 12
+You May Need An Underload Petition
+MODERATE ERROR:
+Fall of year 1 has CH's (24) more than 21
+You May Need An Underload Petition
+MODERATE ERROR:
+Spring of year 1 has CH's (11) less than 12
 You May Need An Underload Petition

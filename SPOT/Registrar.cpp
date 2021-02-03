@@ -268,6 +268,7 @@ void Registrar::Run()
 
 	while (!Exit_Program)
 	{
+		importProgramReq(RegRules, pSPlan->getMajor());
 		cout << (pSPlan->getConcentration()) << endl;
 		cout << pSPlan->getDoubleConcentration() << endl;
 		if (pSPlan->getMajorChanged() == true) {
