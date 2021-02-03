@@ -13,12 +13,13 @@ ActionFilter::~ActionFilter()
 }
 void ActionFilter::Filteringyear(int inputyear)
 {
+	//loop over study plan 
 	StudyPlan* plan = pReg->getStudyPlay();
 	vector<AcademicYear*>* pPlan = plan->getStudyPlanVector(); // pointer on the plan vector
 	for (int i = 0; i < pPlan->size(); i++)//
 	{
 		AcademicYear* yr = (*pPlan)[i]; // 0 , 1, 2, 3, 4
-		if (i == inputyear) continue; //skips inputyear
+		if (i == inputyear) continue; //skips inputyear to prevent it from being hidden
 		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
 		for (int sem = FALL; sem < SEM_CNT; sem++)
 		{
@@ -26,7 +27,7 @@ void ActionFilter::Filteringyear(int inputyear)
 			{
 				// Iterate on courses
 				Course* pCr = (*it);
-				pCr->DrawMe_Flag = false;
+				pCr->DrawMe_Flag = false; // draw me flag that was created by omar for the dependencies
 			}
 		}
 	}
@@ -40,7 +41,7 @@ void ActionFilter::Filteringsemester(int inputsem)
 		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
 		for (int i=0; i< SEM_CNT; i++)
 		{
-			if (i == inputsem) continue; //skips semester
+			if (i == inputsem) continue; //skips semester to prevent it from being hidden
 			for (auto it = pYr[i].begin(); it != pYr[i].end(); it++)
 			{
 				// Iterate on courses
@@ -50,6 +51,7 @@ void ActionFilter::Filteringsemester(int inputsem)
 		}
 	}
 }
+//was turned off and another one was made for the type
 void ActionFilter::Filteringcolour(color col)
 {
 	StudyPlan* plan = pReg->getStudyPlay();
@@ -63,7 +65,7 @@ void ActionFilter::Filteringcolour(color col)
 			{
 				// Iterate on courses
 				Course* pCr = (*it);
-				if (pCr->getColor() != col)
+				if (pCr->getColor() != col) 
 				{
 					pCr->DrawMe_Flag = false;
 				}
@@ -71,6 +73,7 @@ void ActionFilter::Filteringcolour(color col)
 		}
 	}
 }
+//filtering using course type
 void ActionFilter::FilteringType(Type type)
 {
 	StudyPlan* plan = pReg->getStudyPlay();
@@ -84,7 +87,7 @@ void ActionFilter::FilteringType(Type type)
 			{
 				// Iterate on courses
 				Course* pCr = (*it);
-				if (pCr->getType() != type)
+				if (pCr->getType() != type)// through course pointer, get the course type and compare it the input type 
 				{
 					pCr->DrawMe_Flag = false;
 				}
@@ -113,6 +116,7 @@ void ActionFilter::FilteringType(Type type)
 //	}
 //}
 
+//returns drawme flag to true, therefore the course would be drawn
 void ActionFilter::UNFiltering()
 {
 	StudyPlan* plan = pReg->getStudyPlay();

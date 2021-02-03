@@ -13,12 +13,14 @@ ActionCalculateGPA::ActionCalculateGPA(Registrar* P) :Action(P)
 bool ActionCalculateGPA::Execute()
 {
 	vector<string>GPA_OF_All_Semesters;
-	StudyPlan* plan = pReg->getStudyPlay();
-	GUI* pGUI = pReg->getGUI();
+	StudyPlan* plan = pReg->getStudyPlay();//get the study plan
+	GUI* pGUI = pReg->getGUI();//get the gui to send the gpa to be displayed 
 	vector<AcademicYear*>* pPlan = plan->getStudyPlanVector(); // pointer on the plan vector
-	double DummyTotal = 0, DummyTotalDone = 0;
-	GPA_OF_All_Semesters.clear();
-	pGUI->GPA_Semesters.clear();
+	double DummyTotal = 0, DummyTotalDone = 0; //variables that restart 
+	GPA_OF_All_Semesters.clear();//omar added this to implement something additional (Display the gpa of each semester )
+	pGUI->GPA_Semesters.clear();//omar added this to implement something additional (Display the gpa of each semester )
+	
+	//looping through the study plan, if the course is done get the grade inside it
 	for (AcademicYear* yr : *pPlan)
 	{
 		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
@@ -69,13 +71,14 @@ bool ActionCalculateGPA::Execute()
 					{
 						dummy = F * credits;
 					}
-					total = total + dummy;
-					totaldonehours = totaldonehours + credits;
-					DummyTotal = total;
-					DummyTotalDone = totaldonehours;
+					total = total + dummy;//total grade* the weight 
+					totaldonehours = totaldonehours + credits;//increase the total done hours 
+					DummyTotal = total;//omar added those to implement an additional feature for the GUI (he wanted to display every semester)
+					DummyTotalDone = totaldonehours;//omar added those to implement an additional feature for the GUI (he wanted to display every semester)
 				}
 		
 			}
+			//omar added those to implement an additional feature for the GUI (he wanted to display every semester)
 			if ((DummyTotal != 0) && (DummyTotalDone != 0))
 			{
 				string str = to_string(DummyTotal/DummyTotalDone);
@@ -88,12 +91,13 @@ bool ActionCalculateGPA::Execute()
 		}
 
 	}
-	GPA = total / totaldonehours;
-	GPA = ceil(GPA * 100.0) / 100.0;
-	if ((total !=0)&&(totaldonehours!=0))
+	GPA = total / totaldonehours;//to calculate the GPA we divide the toal by the hours 
+	GPA = ceil(GPA * 100.0) / 100.0;// this ceil is to round GPA to 2 significant figures
+	
+	if ((total !=0)&&(totaldonehours!=0))//if the total and total done hours are not zero, pass the GPA value to the GUI
 	{
-		string str = to_string(GPA);
-		pGUI->GPA = str.substr(0, 4);
+		string str = to_string(GPA); // converts the value to string to represent it 
+		pGUI->GPA = str.substr(0, 4);// pass the GPA value to a sting variable called GPA in the GUI
 	}
 
 	for(int i=0;i< GPA_OF_All_Semesters.size();i++)

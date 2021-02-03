@@ -17,7 +17,7 @@ bool ActionDeclareMajor::Execute()
 	//int Exit_flag = 0;
 	int NANO_FABRICATION_Flag = 0, NANOVLSI_flag=0, NANOPHOTONICS_flag=0;
 	int second_concentration_flag = 0, second_major_flag = 0, exit_flag = 0;
-	int token = 0;
+	int token = 0;// to enter the while and exit easily
 	//int chooseSomethingToken = 0;
 	static string first_major = "", second_major = ""; //to hold the values for the first and the second major
 	static string first_concentration = "",second_concentration="";

@@ -709,6 +709,8 @@ void  StudyPlan::LiveReport(GUI* pGUI, int Min_Crs, int Max_Crs)
 }
 void  StudyPlan::GenerateStudentLevel(GUI* pGUI)
 {
+	//loop over the whole study plan, if the course is done and a token created in course class is true..... set the token to true,and increment total done hours with course credits
+	// the function of this token is to prevent the ddition of coursee credits multiple times as this function is caled in the while loop in side the registrar
 	for (AcademicYear* yr : plan) {
 		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
 		for (int sem = FALL; sem < SEM_CNT; sem++) {
@@ -725,6 +727,7 @@ void  StudyPlan::GenerateStudentLevel(GUI* pGUI)
 			}
 		}
 	}
+	//checks on the student, to set the level
 	if (TotalDoneHours <= 32)
 	{
 		StudentLevel = "Foundation";
@@ -746,12 +749,14 @@ void  StudyPlan::GenerateStudentLevel(GUI* pGUI)
 		StudentLevel = "SeniorII";
 	}
 	//pGUI->studentLevel = StudentLevel;
-	cout << TotalDoneHours << endl;//debugging 
-	cout << StudentLevel << endl;//debugging 
-	cout << TotalDoneHours << endl;//debugging 
-	cout << "Generate student level called"<<endl;//debugging
+	//cout << TotalDoneHours << endl;//debugging 
+	//cout << StudentLevel << endl;//debugging 
+	//cout << TotalDoneHours << endl;//debugging 
+	//cout << "Generate student level called"<<endl;//debugging
+	
+	//pass the student level to the GUI
 	pGUI->Student_Level =StudentLevel;
-	string str = to_string(TotalDoneHours);
+	string str = to_string(TotalDoneHours);//convert int to string and pass it the the GUI
 	pGUI->Done_Credits = str;
 }
 int   StudyPlan::Get_Page_Number()const

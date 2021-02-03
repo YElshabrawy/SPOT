@@ -17,18 +17,26 @@ bool ActionDeclareMinor::Execute()
 	StudyPlan* plan = pReg->getStudyPlay();
 	char c;//define a character c 
 	keytype key = NO_KEYPRESS;// keytype iss a enum
+	
 	//static int count = 0;//count to check the user enters 5 courses start from negative one caue i increment first therefore i could store in poition zero in an array
 	static int counter = 0;//to check if the course is present in the plan 
 	static int TNOMCTBA = 0;//total number of minor credits to be added
-	bool done = false;
+	bool done = false; // this is a temp variable that would work in parallel with the key variable 
 	static string Minor = "No Minor";
+	//-------------------------------SAMPLE-------------------------------------------------//
+	
 	//string MinorAlternatives[6] = { "ENV 357","ENV 359","ENV 319","CIE 202","ENV 303","ENV 357" };//sample for testing 
 	//bool flag;
 	//static string MinorCourses[5] = {};
-	int dummy=0;
+	//int dummy=0; //for the test sample 
 
+	//we get the key press
 	key = pGUI->pWind->GetKeyPress(c);
-	cout << Minor << endl;//debugging
+
+	//cout << Minor << endl;			//debugging
+
+	//----------------------------------------------------------------------------------//
+	// Those counts are in the study plan, they are to trace the number of minor courses added and output specific messages 
 	if (plan->Count == 0)
 	{
 		pGUI->PrintMsg("Input 5 Minor Courses ");
@@ -56,23 +64,27 @@ bool ActionDeclareMinor::Execute()
 	{
 		pGUI->GetUserAction(" Congratulations You are now in a Minor ");
 		plan->Minor_Course.at(0);
-		cout << plan->Minor_Course.at(0) << endl;
-		cout << plan->Minor_Course.at(1) << endl;
-		cout << plan->Minor_Course.at(2) << endl;
-		cout << plan->Minor_Course.at(3)<< endl;
-		cout << plan->Minor_Course.at(4) << endl;
-		cout << "Minor Already Declared"<<endl;//to be changed if we want
-		cout << Minor<<endl;
+		//cout << plan->Minor_Course.at(0) << endl; //debugging
+		//cout << plan->Minor_Course.at(1) << endl; //debugging
+		//cout << plan->Minor_Course.at(2) << endl; //debugging
+		//cout << plan->Minor_Course.at(3) << endl; //debugging
+		//cout << plan->Minor_Course.at(4) << endl; //debugging
+		//cout << "Minor Already Declared"<<endl;//to be changed if we want
+		//cout << Minor<<endl; //debugging
 		return true;
 	}
+	//----------------------------------------------------------------------------------//
 
+	//we get the course code from the user
 	string coursecode = pGUI->GetSrting();
-	//turn the code from small to capital
+	//turn the code from small to capital through to upper function
 	for_each(coursecode.begin(), coursecode.end(), [](char& c)
 		{
 			c = ::toupper(c);
 		});
 
+	//----------------------------------------------------------------------------------//
+	//From ADD course 
 	//Input validations
 	if (coursecode == " ")//to exit when the user presses escape
 	{
@@ -95,15 +107,22 @@ bool ActionDeclareMinor::Execute()
 	}
 	TNOMCTBA += pCInfo->Credits;//calculate minor credits to be added
 	cout << "This is the total minor credits" << TNOMCTBA << endl;
+
+	//----------------------------------------------------------------------------------//
+
 	//check that the course doesn't exist in the array
-	for (int j = 0; j < plan->Minor_Course.size(); j++)
+	for (int j = 0; j < plan->Minor_Course.size(); j++)//looping through the vector 
 	{
-		if (plan->Minor_Course.at(j) == coursecode)
+		if (plan->Minor_Course.at(j) == coursecode)//if the course code entered is already found in the vector 
 		{
 			pGUI->GetUserAction("Course Already entered as a Minor Course");
 			return true;
 		}
 	}
+	//----------------------------------------------------------------------------------//
+
+
+	//----------------------------------------------------------------------------------//
 
 	//if the course exists we loop through all thecourses in the studyplan
 
@@ -140,9 +159,12 @@ bool ActionDeclareMinor::Execute()
 			}
 		}
 	}
-	//youssef's part from add course
+	//----------------------------------------------------------------------------------//
 	/*if (counter <= 1)
 	{*/
+
+	//------------------------------ADD COURSE------------------------------------------//
+
 		ActionData actData = pGUI->GetUserAction("Select where you want to add your course");
 		int x, y;
 		if (actData.actType == DRAW_AREA)	//user clicked inside drawing area
@@ -211,12 +233,14 @@ bool ActionDeclareMinor::Execute()
 
 			}
 		}
-	//store the course name in the declared array
+		//----------------------------------------------------------------------------------//
+	
+		//store the course name in the declared array
 		//coursecode = new code;
 		//plan->Minor_Course.push_back(coursecode);
 	//cout << plan->Minor_Course.at(0) << endl;
 
-	// compare to the sample
+// compare to the sample
 	/*if (plan->Count == 5)
 	{
 		for (int j = 0; j < 5; j++)
@@ -235,12 +259,16 @@ bool ActionDeclareMinor::Execute()
 			Minor = "Environmental";
 		}
 	}*/
-	while (key != 4 && done == false)
+	//---------------------------IF USER PRESSES ESCAPE--------------------------------------//
+	// to escape if no course is entered	
+		while (key != 4 && done == false)
 	{
 		key = pGUI->pWind->GetKeyPress(c);
 	}
 	return true;
 }
+
+//destructor 
 ActionDeclareMinor::~ActionDeclareMinor()
 {
 

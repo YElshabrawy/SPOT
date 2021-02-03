@@ -67,18 +67,21 @@ bool ActionCourseInfo::Execute()
 			pGUI->CourseCredit = "Course Credits: " + String_Credits;
 			pGUI->CourseGrade= "Course Grade: " + pCr->getGrade();
 			pReg->UpdateInterface();
+			//-------------------------------------------------------------------------------------------------------------------//
 			//Course Status
 			bool cond0 = false;
-			if (pReg->OldpCr == pCr)// 2 clicks on the course
+			if (pReg->OldpCr == pCr)// 2 clicks on the course	//omar edited this part so that the user needs to click 2 times rather than 1 click that was already implemented  
 			{
 				{
-					pGUI->PrintMsg("Input Course Status (Pending/Done/IN Progress/Replaced/Exempted)");
-					string msg = pGUI->GetSrting();
+					pGUI->PrintMsg("Input Course Status (Pending/Done/IN Progress/Replaced/Exempted/Credits Transferred)");
+					string msg = pGUI->GetSrting();//get string from the ser through the status bar
+					//To upper function used to convert the input of the user to uppercase string
 					for_each(msg.begin(), msg.end(), [](char& c)
 						{
 							c = ::toupper(c);
 						});
-					//checks
+					//------------------------Checks----------------------------------//
+					//--------------------------------Course Done---------------------//
 					if (msg == "TRUE" || msg == "YES" || msg == "DONE" || msg == "D" || msg == "1")
 					{
 						pCr->setCoursedone(true);
@@ -150,6 +153,7 @@ bool ActionCourseInfo::Execute()
 							}
 						} while (cond == false);
 					}
+					//--------------------------------Course pending---------------------//
 					else if (msg == "PENDING" || msg == "P" || msg == "STILL" || msg == "NO" || msg == "PEND")
 					{
 						pCr->setCoursepending(true);
@@ -163,6 +167,7 @@ bool ActionCourseInfo::Execute()
 						cond0 = true;
 
 					}
+					//--------------------------------Course in progress---------------------//
 					else if (msg == "I" || msg == "IN" || msg == "IN PROGRESS" || msg == "INPROGRESS")
 					{
 						pCr->setCoursedone(false);
@@ -175,6 +180,7 @@ bool ActionCourseInfo::Execute()
 						pGUI->CourseGrade += "Null";
 						cond0 = true;
 					}
+					//--------------------------------Course Exempted---------------------//
 					else if (msg == "E" || msg == "EXEMPTED" || msg == "EX" || msg == "EXMPTED")
 					{
 						pCr->setCoursedone(true);
@@ -186,6 +192,7 @@ bool ActionCourseInfo::Execute()
 						pGUI->CourseGrade += "passed";
 						cond0 = true;
 					}
+					//--------------------------------Course Replaced---------------------//
 					else if (msg == "R" || msg == "REPLACED" || msg == "REPLACE" || msg == "REP")
 					{
 						pCr->setCoursedone(true);
@@ -197,6 +204,7 @@ bool ActionCourseInfo::Execute()
 						pGUI->CourseGrade += "---";
 						cond0 = true;
 					}
+					//--------------------------------Course Credits Transferred---------------------//
 					else if (msg == "T" || msg == "CREDITS TRANSFERED" || msg == "TRANSFERED" || msg == "CT")
 					{
 						pCr->setCoursedone(true);
@@ -214,6 +222,7 @@ bool ActionCourseInfo::Execute()
 					}
 				}
 			}
+			//----------Printing on the GUI-------------//
 			if (pCr->getCoursedone() == true)
 			{
 				pGUI->CourseStatus = "Course Status: Done";
@@ -235,12 +244,17 @@ bool ActionCourseInfo::Execute()
 			{
 				pGUI->CourseStatus = "Course Status: Replaced(Done) ";
 			}
+			else if (pCr->getCourseCreditsTransfered() == true)
+			{
+				pGUI->CourseStatus = "Course Status: CreditsTransfered(Done) ";
+			}
 			else
 			{
 				pGUI->CourseStatus ="Course Status: ";
 			}
 
 		}
+		//-----------------Part regarding the clicks--------------//
 		if (pReg->OldpCr != pCr)
 		pReg->OldpCr = pCr;
 		if (pReg->OldpCr == nullptr)
