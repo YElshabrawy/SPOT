@@ -8,3 +8,6 @@
 
 using namespace std;
 vector<string> splitString(string str, string delim); // returns vector of tokens
+string OpenFileDialog(); // Open Browse Window
+string SaveFileDialog(); // Save Browse Window
+

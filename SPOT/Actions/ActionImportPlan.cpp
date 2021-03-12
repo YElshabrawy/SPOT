@@ -15,20 +15,37 @@ ActionImportPlan::~ActionImportPlan()
 bool ActionImportPlan::Execute() {
 	cout << "Import button is pressed.\n"; // for debugging
 	GUI* pGUI = pReg->getGUI();
+	// Get the directory
+	string directory = OpenFileDialog();
+	if (directory == "") return true; // User Cancels
+
 	// First we need to erase the current plan (Until i know how to call another action from here)
-	
+	vector<Course*> allCourses;
 	StudyPlan* pS = pReg->getStudyPlay();
 	vector<AcademicYear*>* pPlan = pS->getStudyPlanVector(); // pointer on the plan vector
 	for (AcademicYear* yr : *pPlan) {
 		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
 		for (int sem = FALL; sem < SEM_CNT; sem++) {
-			pYr[sem].clear();
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
+				allCourses.push_back(*it);
+			}
 		}
 	}
-	fill(Course::numOfCoursesPerSem.begin(), Course::numOfCoursesPerSem.end(), 0);
+	for (Course* pCr : allCourses)
+		pS->DeleteCourse(pCr);
+
+	//StudyPlan* pS = pReg->getStudyPlay();
+	//vector<AcademicYear*>* pPlan = pS->getStudyPlanVector(); // pointer on the plan vector
+	//for (AcademicYear* yr : *pPlan) {
+	//	list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+	//	for (int sem = FALL; sem < SEM_CNT; sem++) {
+	//		pYr[sem].clear();
+	//	}
+	//}
+	//fill(Course::numOfCoursesPerSem.begin(), Course::numOfCoursesPerSem.end(), 0);
 
 	//string directory = "Format Files\\StudyPlan-ENV.txt";
-	string directory = "Format Files\\StudyPlan-NAN2.txt";
+	//string directory = "D:\\College\\2_2020_Fall\\C++ - CIE 202\\Project\\SPOT\\SPOT\\Format Files\\StudyPlan-CIE.txt";
 
 	// Start reading
 	ifstream finput(directory);
@@ -107,3 +124,6 @@ bool ActionImportPlan::Execute() {
 	finput.close();
 	return true;
 }
+
+
+

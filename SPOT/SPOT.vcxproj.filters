@@ -162,6 +162,8 @@
     <ClCompile Include="Actions\ActionCalculateGPA.cpp" />
     <ClCompile Include="Actions\ActionRedo.cpp" />
     <ClCompile Include="Actions\ActionUndo.cpp" />
+    <ClCompile Include="Actions\ActionDeclareMinor.cpp" />
+    <ClCompile Include="Actions\ActionFilter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUI\GUI.h">
@@ -262,6 +264,8 @@
     <ClInclude Include="Actions\ActionCalculateGPA.h" />
     <ClInclude Include="Actions\ActionRedo.h" />
     <ClInclude Include="Actions\ActionUndo.h" />
+    <ClInclude Include="Actions\ActionDeclareMinor.h" />
+    <ClInclude Include="Actions\ActionFilter.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="GUI\CMUgraphicsLib\Manual.txt">

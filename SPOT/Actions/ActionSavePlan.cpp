@@ -43,7 +43,19 @@ bool ActionSavePlan::Execute() {
 
 	// Save Plan
 	vector<AcademicYear*>* pPlan = pS->getStudyPlanVector(); // pointer on the plan vector
-	string directory = "Format Files\\Saved_Plan.txt";
+	string directory = SaveFileDialog();
+
+	// Handle .txt
+	vector<string> fileTokens = splitString(directory,"\\");
+	string filename = fileTokens.back();
+	if (!(filename[filename.size() - 1] == 't' &&
+		filename[filename.size() - 2] == 'x' &&
+		filename[filename.size() - 3] == 't' &&
+		filename[filename.size() - 4] == '.')) {
+		directory += ".txt";
+	}
+
+	//string directory = "Format Files\\Saved_Plan.txt";
 
 	ofstream outFile;
 	outFile.open(directory);

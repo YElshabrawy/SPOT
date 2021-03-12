@@ -1,63 +1,27 @@
 CRITICAL ERROR:
-The total CHs (0) are less than 162
+MATH 101 is a prerequisite to MATH 102
+CRITICAL ERROR:
+MATH 101 is a prerequisite to PHYS 102
+CRITICAL ERROR:
+ENV 346 is a prerequisite to ENV 425
+CRITICAL ERROR:
+The total CHs (143) are less than 162
 CRITICAL ERROR:
 The total major CHs (0) are less than 102
 CRITICAL ERROR:
-The total track CHs (0) are less than 40
+The total track CHs (33) are less than 40
 CRITICAL ERROR:
-The total univ CHs (0) are less than 20
+The total univ CHs (12) are less than 20
 CRITICAL ERROR:
 No concentration is selected yet!
 CRITICAL ERROR:
-Missing ENG 151 Uni Compulsory.
-CRITICAL ERROR:
-Missing ENG 152 Uni Compulsory.
-CRITICAL ERROR:
-Missing SCH 260 Uni Compulsory.
-CRITICAL ERROR:
-Missing SCH 261 Uni Compulsory.
-CRITICAL ERROR:
-Missing SCH 262 Uni Compulsory.
-CRITICAL ERROR:
-Missing SCH 263 Uni Compulsory.
-CRITICAL ERROR:
 Missing SCH 264 Uni Compulsory.
-CRITICAL ERROR:
-Missing BIOL 101 Track Compulsory.
-CRITICAL ERROR:
-Missing BIOL 111 Track Compulsory.
-CRITICAL ERROR:
-Missing CHEM 101 Track Compulsory.
-CRITICAL ERROR:
-Missing CHEM 111 Track Compulsory.
 CRITICAL ERROR:
 Missing CIE 598 Track Compulsory.
 CRITICAL ERROR:
 Missing CIE 599 Track Compulsory.
 CRITICAL ERROR:
-Missing CSCI 101 Track Compulsory.
-CRITICAL ERROR:
-Missing ENGR 102 Track Compulsory.
-CRITICAL ERROR:
-Missing ENGR 221 Track Compulsory.
-CRITICAL ERROR:
-Missing ENGR 444 Track Compulsory.
-CRITICAL ERROR:
 Missing MATH 101 Track Compulsory.
-CRITICAL ERROR:
-Missing MATH 102 Track Compulsory.
-CRITICAL ERROR:
-Missing MATH 201 Track Compulsory.
-CRITICAL ERROR:
-Missing MATH 202 Track Compulsory.
-CRITICAL ERROR:
-Missing PHYS 101 Track Compulsory.
-CRITICAL ERROR:
-Missing PHYS 102 Track Compulsory.
-CRITICAL ERROR:
-Missing PHYS 111 Track Compulsory.
-CRITICAL ERROR:
-Missing PHYS 112 Track Compulsory.
 CRITICAL ERROR:
 Missing CIE 202 Major Compulsory.
 CRITICAL ERROR:
@@ -114,33 +78,127 @@ CRITICAL ERROR:
 Missing PHYS 201 Major Compulsory.
 CRITICAL ERROR:
 Missing PHYS 211 Major Compulsory.
+CRITICAL ERROR:
+Change the code of XXX elective courses.
 MODERATE ERROR:
-Fall of year 1 has CH's (0) less than 12
+CHEM 111 isn't offered in 2020\2021's fall
+MODERATE ERROR:
+CSCI 101 isn't offered in 2020\2021's spring
+MODERATE ERROR:
+ENG 152 isn't offered in 2020\2021's spring
+MODERATE ERROR:
+ENGR 102 isn't offered in 2020\2021's spring
+MODERATE ERROR:
+ENGR 221 isn't offered in 2020\2021's spring
+MODERATE ERROR:
+MATH 102 isn't offered in 2020\2021's spring
+MODERATE ERROR:
+PHYS 112 isn't offered in 2020\2021's spring
+MODERATE ERROR:
+ENGR 205 isn't offered in 2021\2022's fall
+MODERATE ERROR:
+ENV 220 isn't offered in 2021\2022's fall
+MODERATE ERROR:
+ENV 221 isn't offered in 2021\2022's fall
+MODERATE ERROR:
+CHEM 102 isn't offered in 2021\2022's fall
+MODERATE ERROR:
+CHEM 112 isn't offered in 2021\2022's fall
+MODERATE ERROR:
+MATH 201 isn't offered in 2021\2022's fall
+MODERATE ERROR:
+SCH 260 isn't offered in 2021\2022's fall
+MODERATE ERROR:
+ENV 207 isn't offered in 2021\2022's spring
+MODERATE ERROR:
+MATH 202 isn't offered in 2021\2022's spring
+MODERATE ERROR:
+ENGR 207 isn't offered in 2021\2022's spring
+MODERATE ERROR:
+CHEM 201 isn't offered in 2021\2022's spring
+MODERATE ERROR:
+CHEM 211 isn't offered in 2021\2022's spring
+MODERATE ERROR:
+SCH 262 isn't offered in 2021\2022's spring
+MODERATE ERROR:
+ENV 330 isn't offered in 2022\2023's fall
+MODERATE ERROR:
+ENV 357 isn't offered in 2022\2023's fall
+MODERATE ERROR:
+MATH 306 isn't offered in 2022\2023's fall
+MODERATE ERROR:
+ENV 303 isn't offered in 2022\2023's fall
+MODERATE ERROR:
+ENV 319 isn't offered in 2022\2023's fall
+MODERATE ERROR:
+ENV 301 isn't offered in 2022\2023's fall
+MODERATE ERROR:
+MATH 301 isn't offered in 2022\2023's spring
+MODERATE ERROR:
+ENGR 346 isn't offered in 2022\2023's spring
+MODERATE ERROR:
+ENV 350 isn't offered in 2022\2023's spring
+MODERATE ERROR:
+ENV 359 isn't offered in 2022\2023's spring
+MODERATE ERROR:
+ENV 348 isn't offered in 2022\2023's spring
+MODERATE ERROR:
+ENV 324 isn't offered in 2022\2023's spring
+MODERATE ERROR:
+ENV 423 isn't offered in 2023\2024's fall
+MODERATE ERROR:
+ENV 422 isn't offered in 2023\2024's fall
+MODERATE ERROR:
+ENV 415 isn't offered in 2023\2024's fall
+MODERATE ERROR:
+ENV 406 isn't offered in 2023\2024's fall
+MODERATE ERROR:
+ENV 425 isn't offered in 2023\2024's fall
+MODERATE ERROR:
+ENV 420 isn't offered in 2023\2024's fall
+MODERATE ERROR:
+ENV 480 isn't offered in 2023\2024's spring
+MODERATE ERROR:
+SCH 263 isn't offered in 2023\2024's spring
+MODERATE ERROR:
+ENV 427 isn't offered in 2023\2024's spring
+MODERATE ERROR:
+ENV 434 isn't offered in 2023\2024's spring
+MODERATE ERROR:
+ENV 470 isn't offered in 2023\2024's spring
+MODERATE ERROR:
+ENV 457 isn't offered in 2023\2024's spring
+MODERATE ERROR:
+ENGR 444 isn't offered in 2023\2024's summer
+MODERATE ERROR:
+ENV 598 isn't offered in 2024\2022's fall
+MODERATE ERROR:
+SCH 261 isn't offered in 2024\2022's fall
+MODERATE ERROR:
+ENV XXX isn't offered in 2024\2022's fall
+MODERATE ERROR:
+ENV 510 isn't offered in 2024\2022's fall
+MODERATE ERROR:
+ENV 523 isn't offered in 2024\2022's fall
+MODERATE ERROR:
+ENV 527 isn't offered in 2024\2022's fall
+MODERATE ERROR:
+SCH XXX isn't offered in 2024\2022's fall
+MODERATE ERROR:
+ENV XXX isn't offered in 2024\2022's spring
+MODERATE ERROR:
+ENV XXX isn't offered in 2024\2022's spring
+MODERATE ERROR:
+ENV XXX isn't offered in 2024\2022's spring
+MODERATE ERROR:
+ENV 599 isn't offered in 2024\2022's spring
+MODERATE ERROR:
+SCH XXX isn't offered in 2024\2022's spring
+MODERATE ERROR:
+PHYS 102 isn't offered in 2020\2021's spring
+MODERATE ERROR:
+Fall of year 5 has CH's (10) less than 12
 You May Need An Underload Petition
 MODERATE ERROR:
-Spring of year 1 has CH's (0) less than 12
-You May Need An Underload Petition
-MODERATE ERROR:
-Fall of year 2 has CH's (0) less than 12
-You May Need An Underload Petition
-MODERATE ERROR:
-Spring of year 2 has CH's (0) less than 12
-You May Need An Underload Petition
-MODERATE ERROR:
-Fall of year 3 has CH's (0) less than 12
-You May Need An Underload Petition
-MODERATE ERROR:
-Spring of year 3 has CH's (0) less than 12
-You May Need An Underload Petition
-MODERATE ERROR:
-Fall of year 4 has CH's (0) less than 12
-You May Need An Underload Petition
-MODERATE ERROR:
-Spring of year 4 has CH's (0) less than 12
-You May Need An Underload Petition
-MODERATE ERROR:
-Fall of year 5 has CH's (0) less than 12
-You May Need An Underload Petition
-MODERATE ERROR:
-Spring of year 5 has CH's (0) less than 12
+Spring of year 5 has CH's (3) less than 12
 You May Need An Underload Petition
