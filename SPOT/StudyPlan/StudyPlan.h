@@ -13,7 +13,7 @@ private:
 	vector<Error> CH_Error_List; // Holds all the modirate errors for the CH issues
 	vector<Error> Program_Req_Errors; // Holds all the critical program requirements errors
 	vector<Error> Course_Offering_Errors; // Holds all the modirate errors for adding a course out of offering list
-	
+	vector<int> Credits_Of_All_Sems;
 	vector<int> Sem_Credits;
 	int Report_Lines;
 	Course* pCrs;
@@ -27,7 +27,7 @@ private:
 	int DoubleconcentrationNumber = 0;
 	bool currentYearAvailable; // true if user chose a current year. false if not.
 	string currentYear = "2020\\2021"; // Current Year of offerings (In date)
-
+	vector<Course*>TreeVector;
 	bool majorChanged = false;
 
 	// Double Major
@@ -35,7 +35,7 @@ private:
 	bool doubleMajorOptimize = false; // to control the update in registrar
 	Major doubleMajor;
 	Rules* pDoubleMajorRules;
-
+	vector<string>AllCourseCodeForTree;
 	void lazyCheck(int compared, int original, string errMsg, string checkMsg);
 	void lazyCheck2(string checkKeyword, vector<string> vect);
 
@@ -63,7 +63,7 @@ public:
 	int No_Of_Pages;
 	string PlanNotes="";
 	vector<AcademicYear*> plan;	//plan is a list of academic years
-	vector<string>Minor_Course;
+	static vector<string>Minor_Course;
 	vector<int>NOCPS;
 	static int Count;
 	StudyPlan();
@@ -76,6 +76,8 @@ public:
 	void checkCreditHrs(int min, int max);
 	void LiveReport(GUI* pGUI,int min,int max);
 	void FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI);
+	void FindPreAndCoReq_ITCSP_Tree(Course* pC, GUI* pGUI);
+	vector<Course*>FindPre_ITCSP(Course* pC);
 	void checkProgramReq();
 	void setMinor_course_flag(bool cond);
 	void setMajor(Major major);
@@ -90,8 +92,15 @@ public:
 	void checkOffering(string code, int crsYear, SEMESTER sem);
 	void GenerateStudentLevel(GUI* pGUI);
 	void increment_Report_Lines(int Number_Of_Inc);
+	void ClearTree();
+	void ACCFT();
+	void TreeFiltering();
+	void TreeUnFiltering();
+	void SetTree(vector<Course*> VectorTree);
+	vector<Course*> Gettree();
 	int get_Report_Lines()const;
 	vector<int> get_Sem_Credits()const;
+	vector<int> get_Of_All_Sems_Credits()const;
 	void Set_Report_Lines();
 	void Set_Page_Number(int Number_Of_lines);
 	int Get_Page_Number()const;

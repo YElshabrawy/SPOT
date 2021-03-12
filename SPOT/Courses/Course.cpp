@@ -31,7 +31,8 @@ Course::Course()
 {
 	code = "";
 	Title = "";
-	Grade = "";
+	Grade = "--";
+	Status = "NT";
 	studentleveltoken = false;
 	Done = false;
 }
@@ -58,6 +59,10 @@ void Course::setCourseCreditsTransfered(bool CT)
 void Course::setGrade(string grade)
 {
 	Grade = grade;
+}
+void Course::setStatus(string status)
+{
+	Status = status;
 }
 void Course::setCoursedone(bool Case)
 {
@@ -172,6 +177,10 @@ bool Course::getToken()const
 string Course::getGrade()const
 {
 	return Grade;
+}
+string Course::getStatus()const
+{
+	return Status;
 }
 vector<Error>Course::getPreReqErrors() const
 {

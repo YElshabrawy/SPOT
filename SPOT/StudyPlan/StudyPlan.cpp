@@ -5,7 +5,7 @@
 #include "../Utils/Utils.h"
 #include <fstream>
 #include <iterator>
-
+vector<string> StudyPlan::Minor_Course = {};
 int StudyPlan::Count = 0;
 bool StudyPlan::doubleMajorExists = false;
 StudyPlan::StudyPlan()
@@ -71,6 +71,8 @@ void StudyPlan::checkPreAndCoReq()
 {
 	// For each crs
 	NOCPS.clear();
+	Credits_Of_All_Sems.clear();
+	int CrsTotalperSem = 0;
 	for (AcademicYear* yr : plan) {
 		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
 		for (int sem = FALL; sem < SEM_CNT; sem++) {
@@ -82,6 +84,7 @@ void StudyPlan::checkPreAndCoReq()
 			{
 				NOCPS.push_back(pYr[sem].size());
 			}
+			CrsTotalperSem = 0;
 			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
 				// Iterate on courses
 				Course* pCr = (*it);
@@ -201,7 +204,9 @@ void StudyPlan::checkPreAndCoReq()
 						pCr->changeBorderColor(RED);
 
 				}
+				CrsTotalperSem += (*it)->getCredits();
 			}
+			Credits_Of_All_Sems.push_back(CrsTotalperSem);
 		}
 	}
 }
@@ -309,7 +314,7 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 				if (!((CoReq.size()) == 0))
 				for (int i = 0; i < CoReq.size(); i++)
 				{
-					if (((*it)->getCode() == CoReq[i])&&((*it)!=NULL) && (!(*it)->Cant_Touch_This_Flag))
+					if (((*it)->getCode() == CoReq[i]) && ((*it) != NULL) && (!(*it)->Cant_Touch_This_Flag) && ((*it)->DrawMe_Flag))
 					{
 						pGUI->pWind->SetBrush(RED);
 						pGUI->pWind->SetPen(RED,2);
@@ -321,7 +326,7 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 				for (int i = 0; i < PreReq.size(); i++)
 				{
 					Code = (*it)->getCode();
-					if ((Code== PreReq[i])&&((*it) != NULL) && (!(*it)->Cant_Touch_This_Flag))
+					if ((Code == PreReq[i]) && ((*it) != NULL) && (!(*it)->Cant_Touch_This_Flag) && ((*it)->DrawMe_Flag))
 					{
 						pGUI->pWind->SetBrush(BLUE);
 						pGUI->pWind->SetPen(BLUE,2);
@@ -332,6 +337,143 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 			}
 		}
 	}
+}
+void StudyPlan::FindPreAndCoReq_ITCSP_Tree(Course* pC, GUI* pGUI)
+{
+	vector<string>CoReq = pC->getCoReq();
+	vector<string>PreReq = pC->getPreReq();
+	string Code;
+	AllCourseCodeForTree.push_back(pC->getCode());
+	if (!((CoReq.empty()) && (PreReq.empty())))
+		for (AcademicYear* yr : plan)
+		{
+			list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+			for (int sem = FALL; sem < SEM_CNT; sem++)
+			{
+				for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
+				{
+					//if (!((CoReq.size()) == 0))
+					//{
+					//	for (int i = 0; i < CoReq.size(); i++)
+					//	{
+					//		if (((*it)->getCode() == CoReq[i]) && ((*it) != NULL) && (!(*it)->Cant_Touch_This_Flag) && ((*it)->DrawMe_Flag))
+					//		{
+					//			pGUI->pWind->SetBrush(RED);
+					//			pGUI->pWind->SetPen(RED, 2);
+					//			pGUI->DrawCourse_Dependacies((*it), pC);
+					//			AllCourseCodeForTree.push_back((*it)->getCode());
+					//			break;
+					//		}
+					//	}
+					//	
+					//}
+					if (!((PreReq.size()) == 0))
+					{
+						for (int i = 0; i < PreReq.size(); i++)
+						{
+							Code = (*it)->getCode();
+							if ((Code == PreReq[i]) && ((*it) != NULL) && (!(*it)->Cant_Touch_This_Flag) && ((*it)->DrawMe_Flag))
+							{
+
+								pGUI->pWind->SetBrush(BLUE);
+								pGUI->pWind->SetPen(BLUE, 2);
+								pGUI->DrawCourse_Dependacies((*it), pC);
+								AllCourseCodeForTree.push_back((*it)->getCode());
+								break;
+							}
+
+						}
+					
+					}
+				}
+			}
+		}
+}
+void StudyPlan::TreeFiltering()
+{
+	string Code;
+		for (AcademicYear* yr : plan)
+		{
+			list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+			for (int sem = FALL; sem < SEM_CNT; sem++)
+			{
+				for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
+				{
+					Code = (*it)->getCode();
+					(*it)->DrawMe_Flag = false;
+				      for (int i = 0; i < AllCourseCodeForTree.size(); i++)
+				      {
+
+					     if (Code == AllCourseCodeForTree[i])
+					     {
+							 (*it)->DrawMe_Flag = true;
+						    break;
+					     }
+				      }
+				}
+			}
+		}
+}
+void StudyPlan::TreeUnFiltering()
+{
+	for (AcademicYear* yr : plan)
+	{
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int sem = FALL; sem < SEM_CNT; sem++)
+		{
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
+			{
+						(*it)->DrawMe_Flag = true;
+			}
+		}
+	}
+}
+void StudyPlan::SetTree(vector<Course*> VectorTree)
+{
+	TreeVector = VectorTree;
+}
+vector<Course*> StudyPlan::FindPre_ITCSP(Course* pC)
+{
+	TreeVector.push_back(pC);
+	{
+		vector<string>PreReq = pC->getPreReq();
+		TreeVector.push_back(pC);
+		string Code= pC->getCode();
+		{
+			for (AcademicYear* yr : plan)
+			{
+				list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+				for (int sem = FALL; sem < SEM_CNT; sem++)
+				{
+					for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
+					{
+						PreReq = (*it)->getPreReq();
+						if (!((PreReq.size()) == 0))
+							for (int i = 0; i < PreReq.size(); i++)
+							{
+								if ((Code == PreReq[i]) && ((*it) != NULL) && (!(*it)->Cant_Touch_This_Flag) && ((*it)->DrawMe_Flag))
+								{
+									FindPre_ITCSP((*it));
+								}
+							}
+					}
+				}
+			}
+			return TreeVector;
+		}
+	}
+}
+void StudyPlan::ClearTree()
+{
+	TreeVector.clear();
+}
+void StudyPlan::ACCFT()
+{
+	AllCourseCodeForTree.clear();
+}
+vector<Course*> StudyPlan::Gettree()
+{
+	return TreeVector;
 }
 void StudyPlan::checkProgramReq()
 {
@@ -1080,6 +1222,10 @@ void  StudyPlan::Set_Page_Number( int Number_Of_lines)
 vector<int> StudyPlan::get_Sem_Credits()const
 {
 	return Sem_Credits;
+}
+vector<int> StudyPlan::get_Of_All_Sems_Credits()const
+{
+	return Credits_Of_All_Sems;
 }
 void StudyPlan::Set_Plan_Rules(Rules &RegRules)
 {

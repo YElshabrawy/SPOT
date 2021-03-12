@@ -201,7 +201,8 @@ Action* Registrar::CreateRequiredAction()
 		if (pGUI->Last_CLick == RIGHT_CLICK)
 		{
 			RequiredAction = new ActionDragAndDrop(this);
-
+			pSPlan->TreeUnFiltering();
+			UpdateInterface();
 			Drag_Flag = true;
 			break;
 		}
@@ -305,6 +306,7 @@ void Registrar::Run()
 		{
 			pGUI->NOCPSIAYs.push_back(pSPlan->NOCPS[i]);
 		}
+		pGUI->CrsPerSemester=pSPlan->get_Of_All_Sems_Credits();
 		pSPlan->Set_Course_Type();
 		pSPlan->checkCreditHrs(RegRules.SemMinCredit, RegRules.SemMaxCredit);
 		pSPlan->checkProgramReq();
@@ -347,6 +349,10 @@ void Registrar::UpdateInterface()
 	{
 		Action* pAct = new  ActionDDOOC(this);
 		ExecuteAction(pAct);
+	}
+	else if (!pGUI->Draw_Dependacies_For_One_Course&& !pGUI->Draw_Dependacies_Flag)
+	{
+		pSPlan->TreeUnFiltering();
 	}
 	//pSPlan->Set_Page_Number((pGUI->ReportAreaHeight / 15) - 2);
 	pSPlan->Set_Course_Type();

@@ -152,6 +152,7 @@ bool ActionDeclareMinor::Execute()
 					if (counter <= 1)
 					{
 						plan->Count = plan->Count + 1;
+						plan->Minor_Course.push_back(coursecode);
 					}
 					//flag = false;
 					return true;
@@ -264,7 +265,8 @@ bool ActionDeclareMinor::Execute()
 		while (key != 4 && done == false)
 	{
 		key = pGUI->pWind->GetKeyPress(c);
-	}
+	}	
+	plan->Minor_Course.push_back(coursecode);
 	return true;
 }
 

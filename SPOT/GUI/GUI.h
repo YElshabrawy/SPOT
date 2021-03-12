@@ -155,6 +155,7 @@ public:
 	int Total_Number_Study_Plans, Current_StudyPlan;
 	vector<int>NOCPSIAYs;
 	vector<int>CPIES;
+	vector<int>CrsPerSemester;
 	//Dimention getters
 	static int getMenuBarHeight();
 	static int getY_div();

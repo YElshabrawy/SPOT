@@ -25,7 +25,8 @@ private:
 	bool Replaced;//course replaced
 	bool CreditsTransfered;//course credits transferred
 	bool studentleveltoken;
-	string Grade;//Holds the course Grade
+	string Grade="--";//Holds the course Grade
+	string Status = "NT";
 	vector<Course_Code> PreReq;	//list of prerequisites
 	vector<Course_Code> CoReq;	//list of prerequisites
 	//Curret year and semester
@@ -67,6 +68,7 @@ public:
 	void setCoursepending(bool Case);
 	void setCourseinprogress(bool Case);
 	void setGrade(string grade);
+	void setStatus(string Status);
 	void setCourseExempted(bool Case);
 	void setCourseReplaced(bool Case);
 	void setCourseCreditsTransfered(bool CT);
@@ -74,6 +76,7 @@ public:
 
 	//Getters
 	string getGrade()const;
+	string getStatus()const;
 	bool getToken()const;
 	bool getCourseReplaced()const;
 	bool getCourseExempted()const;
