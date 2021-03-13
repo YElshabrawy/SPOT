@@ -298,6 +298,11 @@ Course* Course::getCoursePtr() {
 	return this;
 }
 
+bool Course::hasNoStatus()
+{
+	return !(Done || pending || inprogress || Exempted || Replaced);
+}
+
 Course::Course(const Course& CopiedCrs)
 {
 	MyColor =CopiedCrs.MyColor;

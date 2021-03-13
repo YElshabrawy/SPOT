@@ -23,25 +23,22 @@ bool ActionSavePlan::Execute() {
 	cout << "Save button is pressed.\n"; //for debugging
 	//importCourseRules();
 
-	// Save Live Report:
-	string directory1 = "Format Files\\Saved_Live_Report.txt";
-	ofstream liveFile;
-	liveFile.open(directory1);
-
-	for (string line : pGUI->ReportLines) {
-		liveFile << line << endl;
-	}
-	liveFile.close();
-
-	// Save Notes
-	string directory2 = "Format Files\\Saved_Notes.txt";
-	ofstream noteFile;
-	noteFile.open(directory2);
-
-	for (string line : pGUI->NotesLines) {
-		noteFile << line << endl;
-	}
-	noteFile.close();
+	//// Save Live Report:
+	//string directory1 = "Format Files\\Saved_Live_Report.txt";
+	//ofstream liveFile;
+	//liveFile.open(directory1);
+	//for (string line : pGUI->ReportLines) {
+	//	liveFile << line << endl;
+	//}
+	//liveFile.close();
+	//// Save Notes
+	//string directory2 = "Format Files\\Saved_Notes.txt";
+	//ofstream noteFile;
+	//noteFile.open(directory2);
+	//for (string line : pGUI->NotesLines) {
+	//	noteFile << line << endl;
+	//}
+	//noteFile.close();
 
 	// Save Plan
 	vector<AcademicYear*>* pPlan = pS->getStudyPlanVector(); // pointer on the plan vector
@@ -84,9 +81,19 @@ bool ActionSavePlan::Execute() {
 				outFile << "Year " << numOfYear + 1 << ","
 					<< str_semester;
 				for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
-					string delim_comma = ",";
-					outFile << delim_comma << (*it)->getCode();
-					delim_comma = "";
+					if ((*it)->hasNoStatus()) {
+						// No status
+						string delim_comma = ",";
+						outFile << delim_comma << (*it)->getCode();
+						delim_comma = "";
+					}
+					else {
+						// Has status
+						string delim_comma = ",";
+						outFile << delim_comma << (*it)->getCode()
+							<< "[" << (*it)->getStatus() << ":" << (*it)->getGrade() << "]";
+						delim_comma = "";
+					}
 				}
 				outFile << "\n";
 			}

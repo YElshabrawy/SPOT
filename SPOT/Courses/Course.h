@@ -114,4 +114,6 @@ public:
 	void printCourse() const;
 	Course* getCoursePtr();	
 
+	bool hasNoStatus();
+
 };

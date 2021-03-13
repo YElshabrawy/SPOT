@@ -113,35 +113,35 @@ bool ActionCourseInfo::Execute()
 							{
 								grademsg = "A-";
 								pGUI->CourseGrade += grademsg;
-								pCr->setGrade("A_MINUS");
+								pCr->setGrade(grademsg);
 								cond = true;
 							}
 							else if (grademsg == "B MINUS" || grademsg == "B-" || grademsg == "BMINUS")
 							{
 								grademsg = "B-";
 								pGUI->CourseGrade += grademsg;
-								pCr->setGrade("B_MINUS");
+								pCr->setGrade(grademsg);
 								cond = true;
 							}
 							else if (grademsg == "B PLUS" || grademsg == "B+" || grademsg == "BPLUS")
 							{
 								grademsg = "B+";
 								pGUI->CourseGrade += grademsg;
-								pCr->setGrade("B_PLUS");
+								pCr->setGrade(grademsg);
 								cond = true;
 							}
 							else if (grademsg == "C PLUS" || grademsg == "C+" || grademsg == "CPLUS")
 							{
 								grademsg = "C+";
 								pGUI->CourseGrade += grademsg;
-								pCr->setGrade("C_PLUS");
+								pCr->setGrade(grademsg);
 								cond = true;
 							}
 							else if (grademsg == "C MINUS" || grademsg == "C-" || grademsg == "CMINUS")
 							{
 								grademsg = "C-";
 								pGUI->CourseGrade += grademsg;
-								pCr->setGrade("C_MINUS");
+								pCr->setGrade(grademsg);
 								cond = true;
 							}
 							else

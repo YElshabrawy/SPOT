@@ -102,6 +102,15 @@ bool ActionImportPlan::Execute() {
 		tokens.erase(tokens.begin(), tokens.begin() + 2);
 		int iter = 0;
 		for (string token : tokens) {
+			// take the [] part out
+			bool gradeTokenFlag = false;
+				string Grade_And_Status;
+			if (token.back() == ']') {
+				size_t pos = token.find("[");
+				Grade_And_Status = token.substr(pos);
+				token = string(&token[0], &token[pos]);
+				gradeTokenFlag = true;
+			}
 			bool exists;
 			CourseInfo* pCInfo = pReg->inCatalog(token, exists);
 			pCInfo = pReg->inCatalog(token, exists);
@@ -112,6 +121,42 @@ bool ActionImportPlan::Execute() {
 				vector<Course_Code> PreReq = pCInfo->PreReqList; 
 				vector<Course_Code> CoReq = pCInfo->CoReqList; 
 				Course* pC = new Course(token, title, crd, PreReq, CoReq, year, sem);
+				if (gradeTokenFlag) {
+					Grade_And_Status = Grade_And_Status.substr(1, Grade_And_Status.size() - 2);
+					vector<string> GradeNStatusVector = splitString(Grade_And_Status, ":");
+					pC->setStatus(GradeNStatusVector[0]);
+					pC->setGrade(GradeNStatusVector[1]);
+					// Wet Code Part :}
+					if (pC->getCoursedone() == true)
+					{
+						pGUI->CourseStatus = "Course Status: Done";
+
+					}
+					else if (pC->getCourseinprogress() == true)
+					{
+						pGUI->CourseStatus = "Course Status: Inprogress";
+					}
+					else if (pC->getCoursepending() == true)
+					{
+						pGUI->CourseStatus = "Course Status: Pending ";
+					}
+					else if (pC->getCourseExempted() == true)
+					{
+						pGUI->CourseStatus = "Course Status: Exempted (Done) ";
+					}
+					else if (pC->getCourseReplaced() == true)
+					{
+						pGUI->CourseStatus = "Course Status: Replaced (Done) ";
+					}
+					else if (pC->getCourseCreditsTransfered() == true)
+					{
+						pGUI->CourseStatus = "Course Status: CreditsTransfered (Done) ";
+					}
+					else
+					{
+						pGUI->CourseStatus = "Course Status: Not Taken ";
+					}
+				}
 				pC->Set_Type(pCInfo->type);
 				pS->AddCourse(pC, year, static_cast<SEMESTER>(sem));
 				int x = 0;
