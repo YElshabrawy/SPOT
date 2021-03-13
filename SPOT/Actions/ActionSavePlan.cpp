@@ -15,8 +15,10 @@ ActionSavePlan::~ActionSavePlan() {
 }
 
 bool ActionSavePlan::Execute() {
+
 	StudyPlan* pS = pReg->getStudyPlay(); //pointer to study plan
 	GUI* pGUI = pReg->getGUI();
+	const string BREAK_LINE = pGUI->BREAK_LINE;
 	//pS->importProgramReq();
 	cout << "Save button is pressed.\n"; //for debugging
 	//importCourseRules();
@@ -44,6 +46,7 @@ bool ActionSavePlan::Execute() {
 	// Save Plan
 	vector<AcademicYear*>* pPlan = pS->getStudyPlanVector(); // pointer on the plan vector
 	string directory = SaveFileDialog();
+	if (directory == "") return true; // User Cancels
 
 	// Handle .txt
 	vector<string> fileTokens = splitString(directory,"\\");
@@ -90,6 +93,21 @@ bool ActionSavePlan::Execute() {
 		}
 		numOfYear++;
 	}
+
+	// Save Notes
+	outFile << BREAK_LINE;
+	outFile << "\nNotes:\n";
+	for (string line : pGUI->NotesLines) {
+		outFile << line << endl;
+	}
+
+	// Save Report
+	outFile << BREAK_LINE;
+	outFile << "\nLive Report:\n";
+	for (string line : pGUI->ReportLines) {
+		outFile << line << endl;
+	}
+
 	outFile.close();
 	cout << "Plan is saved in (" + directory + ") successfully.\n";
 

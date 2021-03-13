@@ -33,6 +33,8 @@ bool ActionImportPlan::Execute() {
 	}
 	for (Course* pCr : allCourses)
 		pS->DeleteCourse(pCr);
+	// Delete Notes
+	pS->PlanNotes = "";
 
 	//StudyPlan* pS = pReg->getStudyPlay();
 	//vector<AcademicYear*>* pPlan = pS->getStudyPlanVector(); // pointer on the plan vector
@@ -43,7 +45,6 @@ bool ActionImportPlan::Execute() {
 	//	}
 	//}
 	//fill(Course::numOfCoursesPerSem.begin(), Course::numOfCoursesPerSem.end(), 0);
-
 	//string directory = "Format Files\\StudyPlan-ENV.txt";
 	//string directory = "D:\\College\\2_2020_Fall\\C++ - CIE 202\\Project\\SPOT\\SPOT\\Format Files\\StudyPlan-CIE.txt";
 
@@ -62,6 +63,34 @@ bool ActionImportPlan::Execute() {
 			tokens.push_back(token);
 			token = strtok_s(NULL, ",", &context);
 		}
+
+		if (tokens[0] == pGUI->BREAK_LINE) {
+			string nextLine;
+			getline(finput, nextLine);
+			if (nextLine == "Notes:") {
+				// Read Notes
+				string noteLine;
+				while (noteLine != pGUI->BREAK_LINE) {
+				getline(finput, noteLine);
+				if (noteLine == pGUI->BREAK_LINE) break;
+				pGUI->Notes = noteLine;
+				if (pGUI->Notes == " ")
+				{
+					pReg->Not_Worth_Saving_Flag = true;
+					return true;
+				}
+				pS->PlanNotes = pS->PlanNotes + " " + pGUI->Notes;
+				pGUI->Notes = pS->PlanNotes;
+				pGUI->NotesLines.clear();
+				pGUI->SegmentNotes();
+				pGUI->Total_Number_Pages_In_Notes = (pGUI->NotesLines.size() / ((pGUI->NotesHeight / 15) - 2));
+				/*pGUI->NotesLines.push_back(noteLine);
+				pS->PlanNotes += noteLine + " ";*/
+				}
+				break;
+			}
+		}
+
 		// Get the year
 		int year = stoi(tokens[0].erase(0, 5));
 		// Get the semester

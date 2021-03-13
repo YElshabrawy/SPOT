@@ -27,6 +27,9 @@ bool ActionEraseAll::Execute() {
 	}
 	for (Course* pCr : allCourses)
 		pS->DeleteCourse(pCr);
+
+	// Delete Notes
+	pS->PlanNotes = "";
 	//for (AcademicYear* yr : *pPlan) {
 	//	list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
 	//	for (int sem = FALL; sem < SEM_CNT; sem++) {
