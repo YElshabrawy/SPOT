@@ -1,4 +1,7 @@
 #pragma once
+#pragma warning(disable: 4067)
+#pragma warning(disable: 4101)
+#pragma warning(disable: 4715)
 #include "ActionUndo.h"
 #include "ActionRedo.h"
 #include"ActionDDOOC.h"

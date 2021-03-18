@@ -176,6 +176,7 @@
     <ClCompile Include="GUI\CMUgraphicsLib\windowinput.cpp" />
     <ClCompile Include="GUI\Drawable.cpp" />
     <ClCompile Include="GUI\GUI.cpp" />
+    <ClCompile Include="Maestro.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Registrar.cpp" />
     <ClCompile Include="StudyPlan\AcademicYear.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="GUI\Drawable.h" />
     <ClInclude Include="GUI\GUI.h" />
     <ClInclude Include="DEFs.h" />
+    <ClInclude Include="Maestro.h" />
     <ClInclude Include="Registrar.h" />
     <ClInclude Include="Rules.h" />
     <ClInclude Include="StudyPlan\AcademicYear.h" />

@@ -27,7 +27,7 @@ bool ActionDragAndDrop::Execute()
 	if (pCr == nullptr)
 	{
 		pReg->Not_Worth_Saving_Flag = true;
-		return true;
+		return false;
 	}
 	graphicsInfo gInfo_Old=pCr->getGfxInfo();
 
@@ -42,7 +42,7 @@ bool ActionDragAndDrop::Execute()
 		{
 			pReg->Not_Worth_Saving_Flag = true;
 			break;
-			return true;
+			return false;
 		}
 		else
 		{
@@ -93,12 +93,12 @@ bool ActionDragAndDrop::Execute()
 					}
 				}
 				else {
-					//The user clicked outside the region
+					return false;
 				}
 				if (Error_Flag == 1)
 				{
 					pCr->Distance_Flag = true;
-					return true;
+					return false;
 				}
 				else
 		        {

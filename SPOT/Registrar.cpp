@@ -6,14 +6,16 @@
 #include<vector>
 #include"DEFs.h"
 #include<algorithm>
+#include "Maestro.h"
 using namespace std;
 
 StudyPlan* Registrar::pSPlan = new StudyPlan;
-int Registrar::SPSC = 2;
 Registrar::Registrar()
 {
 	pGUI = new GUI;	//create interface object
 	pSPlan = new StudyPlan;	//create a study plan.
+	pGUI->setSpotNumber(MeineNummer);
+	pGUI->SetMaestroWindowP(pMaestro->pMaestroWind);
 	/*for (int i = 0; i < 10; i++)
 	{*/
 		List_Of_All_StudyPlans.push_back(pSPlan);
@@ -201,8 +203,6 @@ Action* Registrar::CreateRequiredAction()
 		if (pGUI->Last_CLick == RIGHT_CLICK)
 		{
 			RequiredAction = new ActionDragAndDrop(this);
-			pSPlan->TreeUnFiltering();
-			UpdateInterface();
 			Drag_Flag = true;
 			break;
 		}
@@ -266,9 +266,17 @@ void Registrar::Run()
 	setRules();
 	RegRules.SemMinCredit = 12;
 	RegRules.SemMaxCredit = 21;
-
+	int x, y, Xold = 0, Yold = 0;
 	while (!Exit_Program)
 	{
+		
+		if (pGUI->GetMaestroClick())
+		{
+			pGUI->SetMaestroClick(false);
+			pGUI->pWind->FlushMouseQueue();
+			break;
+        }
+		pGUI->setSpotNumber(MeineNummer);
 		importProgramReq(RegRules, pSPlan->getMajor());
 		cout << (pSPlan->getConcentration()) << endl;
 		cout << pSPlan->getDoubleConcentration() << endl;
@@ -311,9 +319,6 @@ void Registrar::Run()
 		pSPlan->checkCreditHrs(RegRules.SemMinCredit, RegRules.SemMaxCredit);
 		pSPlan->checkProgramReq();
 		pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);
-//<<<<<<< HEAD
-//		pSPlan->Set_Course_Type();
-//=======
 		pGUI->Total_Number_Pages_In_Report=(pSPlan->Get_Page_Number());
 		pGUI->DrawLiveReportPages((pGUI->ReportAreaHeight/15)-2, pGUI->Current_Page_Report);
 		pGUI->NotesLines.clear();
@@ -951,4 +956,16 @@ void Registrar::setCrossLinkedCourses()
 		temp.reight = tokensVector[1];
 		RegRules.CrossLinkedCourses.push_back(temp);
 	} while (!finput.eof());
+}
+void Registrar::SetMaestroWindowP(Maestro *Pointer)
+{
+	pMaestro = Pointer;
+}
+int  Registrar::getMeineNummer()const
+{
+	return MeineNummer;
+}
+void Registrar::getMeineNummer(int num)
+{
+	MeineNummer = num;
 }

@@ -133,7 +133,7 @@ class window {
     // Allow the windowinput class to muck with our data structures (needed to properly
     // handle input)
     friend class windowinput;
-
+    bool Clicked=false;
     // Prevent inadvertent copying... 
     void operator=(window &); 
     window(window &);
@@ -323,6 +323,8 @@ class window {
 
     // Prints the contents of the window
     void Print();
+    bool GetClicked()const;
+    void SetClicked(bool input);
    
 };
 

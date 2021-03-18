@@ -7,6 +7,7 @@
 using namespace std;
 int GUI::XCoord = 0;
 int GUI::YCoord = 0;
+vector<window*> GUI::LOFWIND = {};
 clicktype GUI::Last_CLick = RIGHT_CLICK;
 bool GUI::Draw_Dependacies_Flag = false;
 bool GUI::Draw_Dependacies_For_One_Course = false;
@@ -141,6 +142,7 @@ void GUI::PrintMsg(string msg) const
 //////////////////////////////////////////////////////////////////////////
 void GUI::UpdateInterface() const
 {
+	pWind->ChangeTitle("Study-Plan Organizational Tool (SPOT) NO "+ to_string(SpotNumber));
 	pWind->SetBuffering(true);
 	//Redraw everything
 	CreateMenu();
@@ -355,19 +357,37 @@ ActionData GUI::GetUserAction(string msg)
 
 	while (true)
 	{
+		int X, Y;
+		if (!LOFWIND.empty())
+		{
+			for (int i = 0; i < LOFWIND.size(); i++)
+			{
+				if ((LOFWIND[i]->GetMouseClick(X, Y))&&(LOFWIND[i]!=pWind))
+				{
+					LOFWIND[i]->SetClicked(true);
+					Maestro_Click = true;
+					break;
+				}
+			}
+			if (Maestro_Click)
+				break;
+		}
+		if (pMaestrowind ->GetMouseClick(X,Y))
+			{
+				Maestro_Click = true;
+				break;
+			}
 		int x, y;
 		ctInput = pWind->GetMouseClick(x, y);	//Get the coordinates of the user click
 		ktInput = pWind->GetKeyPress(cKeyData);
-
 		if (ktInput == ESCAPE)	//if ESC is pressed,return CANCEL action
 		{
 			return ActionData{ CANCEL };
-		}
-
-		
+		}		
 		if (ctInput == LEFT_CLICK)	//mouse left click
 		{
 			//[1] If user clicks on the Menu bar
+
 			if (y >= 0 && y < MenuBarHeight)
 			{
 				XCoord = x; YCoord = y;
@@ -1259,6 +1279,26 @@ int GUI::getY_div() {
 }
 int GUI::getYDivStartingPos() {
 	return (WindHeight - StatusBarHeight);
+}
+void GUI::SetMaestroWindowP(window* Pointer)
+{
+	pMaestrowind = Pointer;
+}
+bool GUI::GetMaestroClick()const
+{
+	return Maestro_Click;
+}
+void GUI::SetMaestroClick(bool input)
+{
+	Maestro_Click = input;
+}
+void GUI::GetVecOfWindows(vector<window*>input)
+{
+	LOFWIND = input;
+}
+void GUI::setSpotNumber(int input)
+{
+	SpotNumber = input;
 }
 GUI::~GUI()
 {

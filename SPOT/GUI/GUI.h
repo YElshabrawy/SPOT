@@ -3,6 +3,8 @@
 #pragma warning(disable: 4267)
 #pragma warning(disable: 26495)
 #pragma warning(disable: 26812)
+#pragma warning(disable: 4101)
+#pragma warning(disable: 4018)
 #include <string>
 using namespace std;
 #include<iostream>
@@ -50,10 +52,11 @@ class GUI
 	color StatusBarColor = WHITE;//statusbar color
 	color CourseCodeColor = WHITE;
 	string WindTitle = "Study-Plan Organizational Tool (SPOT)";
-
-
+	bool Maestro_Click=false;
+	int SpotNumber;
 public:
 	window* pWind;
+	window* pMaestrowind;
 	//Some constants for GUI (My default = 1600 x 880 with aspect ratio 20:11)
 	static const int	WindWidth = 1300, WindHeight = WindWidth * (11.0 / 20.0),	//Window width and height
 		wx = 15, wy = 15,		//Window starting coordinates
@@ -159,5 +162,11 @@ public:
 	//Dimention getters
 	static int getMenuBarHeight();
 	static int getY_div();
+	void SetMaestroWindowP(window* Pointer);
+	bool GetMaestroClick()const;
+	void SetMaestroClick(bool input);
+	void GetVecOfWindows(vector<window*>input);
+	void setSpotNumber(int input);
+	static vector<window*>LOFWIND;
 	~GUI();
 };

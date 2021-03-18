@@ -19,7 +19,7 @@ bool ActionCourseInfo::Execute()
 	y = pGUI->YCoord;
 		Course* pCr = pReg->interrogateCourse(x, y);
 		if (pCr == nullptr) {
-			return true;
+			return false;
 		}
 		else
 		{
