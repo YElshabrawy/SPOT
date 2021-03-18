@@ -47,8 +47,8 @@ bool ActionChangeCode::Execute()
 				pCInfo = pReg->inCatalog(code, exists);
 			}
 			StudyPlan* pS= pReg->getStudyPlay();
-			if (!pS->alreadyExistingCourse(code)) {
-
+			//if (!pS->alreadyExistingCourse(code)) {
+			if(true){
 			int year = pCr->getYear();
 			SEMESTER sem = pCr->getSemester();
 			StudyPlan* pS = pReg->getStudyPlay();

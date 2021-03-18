@@ -31,6 +31,7 @@ bool ActionCalculateGPA::Execute()
 			{
 				// Iterate on courses
 				Course* pCr = (*it);
+				if (pCr->repeatedCourse && pCr->repeatedTimes != 0) continue;
 				if (pCr->getCoursedone() == true)
 				{
 					int credits=pCr->getCredits();
@@ -39,11 +40,11 @@ bool ActionCalculateGPA::Execute()
 					{
 						dummy = A * credits;
 					}
-					else if (pCr->getGrade() == "A_MINUS")
+					else if (pCr->getGrade() == "A-")
 					{
 						dummy = A_MINUS * credits;
 					}
-					else if (pCr->getGrade() == "B_PLUS")
+					else if (pCr->getGrade() == "B+")
 					{
 						dummy = B_PLUS * credits;
 					}
@@ -51,15 +52,15 @@ bool ActionCalculateGPA::Execute()
 					{
 						dummy = B * credits;
 					}
-					else if (pCr->getGrade() == "B_MINUS")
+					else if (pCr->getGrade() == "B-")
 					{
 						dummy = B_MINUS * credits;
 					}
-					else if (pCr->getGrade() == "C_PLUS")
+					else if (pCr->getGrade() == "C+")
 					{
 						dummy = C_PLUS * credits;
 					}
-					else if (pCr->getGrade() == "C_MINUS")
+					else if (pCr->getGrade() == "C-")
 					{
 						dummy = C_MINUS * credits;
 					}

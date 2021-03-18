@@ -107,7 +107,7 @@ void GUI::CreateMenu() const
 	MenuItemImages[ITM_SAVE] = "GUI\\Images\\Menu\\menu_save.jpg";
 	MenuItemImages[ITM_IMPORT] = "GUI\\Images\\Menu\\menu_import.jpg";
 	MenuItemImages[ITM_EXCHANGE] = "GUI\\Images\\Menu\\menu_exchange.jpg";
-	MenuItemImages[ITM_Note] = "GUI\\Images\\Menu\\menu_notes.jpg";
+	/*MenuItemImages[ITM_Note] = "GUI\\Images\\Menu\\menu_notes.jpg";*/
 	MenuItemImages[ITM_ERASE] = "GUI\\Images\\Menu\\menu_erase.jpg";
 	MenuItemImages[ITM_MAJOR] = "GUI\\Images\\Menu\\menu_major.jpg";
 	MenuItemImages[ITM_MINOR] = "GUI\\Images\\Menu\\MinorDecleration.jpg";
@@ -207,7 +207,7 @@ void GUI::DrawCourse(const Course* pCrs)
 	pWind->SetPen(CourseCodeColor);
 
 	ostringstream crd;
-	crd<< "Crs:" << pCrs->getCredits();
+	crd<< "C:" << pCrs->getCredits();
 	pWind->DrawString(Code_x, Code_y, pCrs->getCode());
 	pWind->DrawString(gInfo.x + (CRS_WIDTH / 3) + 17, Code_y + CRS_HEIGHT / 2, pCrs->getGrade());
 	pWind->DrawString(gInfo.x + ((2 * CRS_WIDTH) / 3) + 8, Code_y + CRS_HEIGHT / 2, pCrs->getStatus());
@@ -384,6 +384,35 @@ ActionData GUI::GetUserAction(string msg)
 		{
 			return ActionData{ CANCEL };
 		}		
+		}
+		if (ktInput == ASCII)
+		{
+			if(cKeyData==97)
+			return ActionData{ ADD_CRS };
+			else if(cKeyData ==100)
+			return ActionData{ DEL_CRS };
+			else if (cKeyData == 109)
+			return ActionData{ DECLARE_MINOR };
+			else if (cKeyData == 106)
+			return ActionData{ DECLARE_MAJOR };
+			else if (cKeyData == 99)
+			return ActionData{ CHANGE_CODE };
+			else if (cKeyData == 115)
+			return ActionData{ SAVE };
+			else if (cKeyData == 105)
+			return ActionData{ IMPORT_PLAN };
+			else if (cKeyData == 101)
+			return ActionData{ ERASE };
+			else if (cKeyData == 103)
+			return ActionData{ CAL_GPA };
+			else if (cKeyData == 102)
+			return ActionData{ Filter };
+			else if (cKeyData == 122)
+			return ActionData{ UNDO };
+			else if (cKeyData == 120)
+			return ActionData{ REDO };
+
+		}
 		if (ctInput == LEFT_CLICK)	//mouse left click
 		{
 			//[1] If user clicks on the Menu bar
@@ -402,7 +431,7 @@ ActionData GUI::GetUserAction(string msg)
 				case ITM_ADD: return ActionData{ ADD_CRS };	break;//Add course
 				case ITM_DELETE: return ActionData{ DEL_CRS }; break; //Delete course
 				case ITM_SAVE: return ActionData{ SAVE }; break; //Save Plan
-				case ITM_Note: return ActionData{ ADD_Note }; break; //Add Notes
+				//case ITM_Note: return ActionData{ ADD_Note }; break; //Add Notes
 				case ITM_IMPORT: return ActionData{ IMPORT_PLAN }; break; //Import Plan
 				case ITM_ERASE: return ActionData{ ERASE }; break;
 				case ITM_EXCHANGE: return ActionData{ CHANGE_CODE }; break;
@@ -480,7 +509,10 @@ ActionData GUI::GetUserAction(string msg)
 						Current_Page_Notes++;
 					}
 				}
-
+				if ((x >= (SideBarX1)) && (x <= (SideBarX2)) && (y >= (NotesY1 + 30)) && (y <= (NotesY1+NotesHeight-10)))
+				{
+					return ActionData{ ADD_Note };
+				}
 				if ((x >= (SideBarX1 + 2)) && (x <= (SideBarX1 + 24)) && (y >= (CourseInfoY1 + 2)) && (y <= (CourseInfoY1 + 24)))
 				{
 					if ((Current_Page_Info <= Total_Number_Pages_In_Info) && (Current_Page_Info != 0))
@@ -501,17 +533,21 @@ ActionData GUI::GetUserAction(string msg)
 					{
 						Current_Page_Info = 1;
 					}
-					else if ((x >= (InfoX1 + 5)) && (x <= (SideBarX2 - 20)) && (y >= InfoY1 - 20+(Y_div / 21) * 2) && (y <= InfoY1 - 5 + (Y_div / 21) * 2))
+					else if ((x >= (InfoX1 + 5)) && (x <= (SideBarX2 - 20)) && (y >= InfoY1 - 20+(Y_div / 24) * 2) && (y <= InfoY1 - 5 + (Y_div / 24) * 2))
 					{
 						Current_Page_Info = 2;
 					}
-					else if ((x >= (InfoX1 + 5)) && (x <= (SideBarX2 - 20)) && (y >= InfoY1 - 20 + (Y_div / 18) * 3) && (y <= InfoY1 - 5 + (Y_div / 18) * 3))
+					else if ((x >= (InfoX1 + 5)) && (x <= (SideBarX2 - 20)) && (y >= InfoY1 - 20 + (Y_div / 21) * 3) && (y <= InfoY1 - 5 + (Y_div / 21) * 3))
 					{
 						Current_Page_Info = 3;
 					}
-					else if ((x >= (InfoX1 + 5)) && (x <= (SideBarX2 - 20)) && (y >= InfoY1 - 20 + (Y_div / 13) * 3) && (y <= InfoY1 - 5 + (Y_div / 13) * 3))
+					else if ((x >= (InfoX1 + 5)) && (x <= (SideBarX2 - 20)) && (y >= InfoY1 - 20 + (Y_div / 15.5) * 3) && (y <= InfoY1 - 5 + (Y_div / 15.5) * 3))
 					{
 						Current_Page_Info = 4;
+					}
+					else if ((x >= (InfoX1 + 5)) && (x <= (SideBarX2 - 20)) && (y >= InfoY1 - 20 + (Y_div / 12) * 3) && (y <= InfoY1 - 5 + (Y_div / 12) * 3))
+					{
+						Current_Page_Info = 5;
 					}
 				}
 				int counter = 0;
@@ -886,6 +922,10 @@ void GUI::DrawInfoArea()const
 	{
 		pWind->DrawString(SideBarX1 + courseInfoFactor, CourseInfoY1 + 6, "User Manual Page 5");
 	}
+	else if (Current_Page_Info == 5)
+	{
+		pWind->DrawString(SideBarX1 + courseInfoFactor, CourseInfoY1 + 6, "Shortcuts Page 6");
+	}
 
 	if ((Current_Page_Info == 0) && (Total_Number_Pages_In_Info > 1))
 	{
@@ -999,12 +1039,14 @@ void GUI::DrawInfoPages()const
 		pWind->SetPen(BLACK);
 		pWind->DrawString(MsgX, MsgY+10, "• Course Information In Page 2");
 		pWind->DrawString(MsgX, MsgY+10, "____________________________");
-		pWind->DrawString(MsgX, MsgY + (Y_div/21)   * 2, "• Student Information In Page 3");
-		pWind->DrawString(MsgX, MsgY + (Y_div / 21) * 2, "____________________________");
-		pWind->DrawString(MsgX, MsgY + (Y_div / 18) * 3, "• Transcript Information In Page 4");
-		pWind->DrawString(MsgX, MsgY + (Y_div / 18) * 3, "____________________________");
-		pWind->DrawString(MsgX, MsgY + (Y_div / 13) * 3, "• User Manual In Page 5");
-		pWind->DrawString(MsgX, MsgY + (Y_div / 13) * 3, "____________________________");
+		pWind->DrawString(MsgX, MsgY + (Y_div/24)   * 2, "• Student Information In Page 3");
+		pWind->DrawString(MsgX, MsgY + (Y_div / 24) * 2, "____________________________");
+		pWind->DrawString(MsgX, MsgY + (Y_div / 21) * 3, "• Transcript Information In Page 4");
+		pWind->DrawString(MsgX, MsgY + (Y_div / 21) * 3, "____________________________");
+		pWind->DrawString(MsgX, MsgY + (Y_div / 15.5) * 3, "• User Manual In Page 5");
+		pWind->DrawString(MsgX, MsgY + (Y_div / 15.5) * 3, "____________________________");
+		pWind->DrawString(MsgX, MsgY + (Y_div / 12) * 3, "• Shortcuts In Page 6");
+		pWind->DrawString(MsgX, MsgY + (Y_div / 12) * 3, "____________________________");
 	}
 	else if(Current_Page_Info == 1)
 	{
@@ -1231,6 +1273,24 @@ void GUI::DrawInfoPages()const
 	pWind->DrawRectangle(InfoX1 + MyFactor * 17, InfoY1 + CourseInfoHeight / 1.5-5, InfoX1 + MyFactor * 17 + 20, InfoY1 + CourseInfoHeight / 1.5 + 15, FILLED);
 	pWind->DrawString(InfoX1 + MyFactor * 17 + 23, InfoY1 + CourseInfoHeight / 1.5-2, "Unknown");
     }
+	else if(Current_Page_Info == 5)
+	{
+	int MsgX = InfoX1 + 5;
+	int MsgY = InfoY1 - 20;
+	int F= 14;
+	pWind->DrawString(MsgX, MsgY + 5 + F*0, "Press  a  To Add A Course");
+	pWind->DrawString(MsgX, MsgY + 5 + F*1,  "Press  d  To Delete A Course");
+	pWind->DrawString(MsgX, MsgY + 5 + F*2,  "Press  c  To Change Course Code");
+	pWind->DrawString(MsgX, MsgY + 5 + F*3,  "Press  s  To Save Plan");
+	pWind->DrawString(MsgX, MsgY + 5 + F*4,  "Press  i  To Import Plan");
+	pWind->DrawString(MsgX, MsgY + 5 + F*5,  "Press  e  To Erase Plan");
+	pWind->DrawString(MsgX, MsgY + 5 + F*6, "Press  m  To Declare Minor");
+	pWind->DrawString(MsgX, MsgY + 5 + F*7, "Press  j  To Declare Major");
+	pWind->DrawString(MsgX, MsgY + 5 + F*8, "Press  g  To Caluclate GPA");
+	pWind->DrawString(MsgX, MsgY + 5 + F*9, "Press  f  To Filter");
+	pWind->DrawString(MsgX, MsgY + 5 + F*10, "Press  z  To Undo");
+	pWind->DrawString(MsgX, MsgY + 5 + F*11, "Press  x  To Redo");
+    }
 }
 void GUI::DrawCourse_Dependacies(Course* pCr, Course* DpCr) const
 {
@@ -1269,6 +1329,10 @@ void GUI::DrawCourse_Dependacies(Course* pCr, Course* DpCr) const
 			pWind->DrawBezier(gInfo_Of_DepCr.x + CRS_WIDTH, gInfo_Of_DepCr.y + CRS_HEIGHT / 2, gInfo_Of_DepCr.x + CRS_WIDTH + 60, gInfo_Of_DepCr.y + 20, gInfo_Of_PreOrCo.x + CRS_WIDTH - 10, gInfo_Of_PreOrCo.y + CRS_HEIGHT - 10, gInfo_Of_PreOrCo.x + CRS_WIDTH / 2, gInfo_Of_PreOrCo.y + CRS_HEIGHT);
 		}
 	}
+}
+void GUI::setWindWidth(int width)
+{
+	//this->WindWidth = width;
 }
 //Dimention getters
 int GUI::getMenuBarHeight() {

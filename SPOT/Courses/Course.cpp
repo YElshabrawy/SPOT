@@ -25,6 +25,9 @@ Course::Course(Course_Code r_code, string r_title, int crd,
 	sem = r_sem;
 	//Number of years per semester
 	numOfCoursesPerSem[(3 * (year - 1)) + sem]++;
+	repeatedCourse = false;
+	repeatedTimes = 0;
+	repetitionCheked = false;
 	
 }
 Course::Course()
@@ -35,6 +38,9 @@ Course::Course()
 	Status = "NT";
 	studentleveltoken = false;
 	Done = false;
+	repeatedCourse = false;
+	repeatedTimes = 0;
+	repetitionCheked = false;
 }
 Course::~Course()
 {
@@ -296,6 +302,11 @@ void Course::printCourse() const {
 }
 Course* Course::getCoursePtr() {
 	return this;
+}
+
+bool Course::hasNoStatus()
+{
+	return !(Done || pending || inprogress || Exempted || Replaced);
 }
 
 Course::Course(const Course& CopiedCrs)

@@ -15,35 +15,50 @@ ActionSavePlan::~ActionSavePlan() {
 }
 
 bool ActionSavePlan::Execute() {
+
 	StudyPlan* pS = pReg->getStudyPlay(); //pointer to study plan
 	GUI* pGUI = pReg->getGUI();
+	const string BREAK_LINE = pGUI->BREAK_LINE;
 	//pS->importProgramReq();
 	cout << "Save button is pressed.\n"; //for debugging
 	//importCourseRules();
 
-	// Save Live Report:
-	string directory1 = "Format Files\\Saved_Live_Report.txt";
-	ofstream liveFile;
-	liveFile.open(directory1);
-
-	for (string line : pGUI->ReportLines) {
-		liveFile << line << endl;
-	}
-	liveFile.close();
-
-	// Save Notes
-	string directory2 = "Format Files\\Saved_Notes.txt";
-	ofstream noteFile;
-	noteFile.open(directory2);
-
-	for (string line : pGUI->NotesLines) {
-		noteFile << line << endl;
-	}
-	noteFile.close();
+	//// Save Live Report:
+	//string directory1 = "Format Files\\Saved_Live_Report.txt";
+	//ofstream liveFile;
+	//liveFile.open(directory1);
+	//for (string line : pGUI->ReportLines) {
+	//	liveFile << line << endl;
+	//}
+	//liveFile.close();
+	//// Save Notes
+	//string directory2 = "Format Files\\Saved_Notes.txt";
+	//ofstream noteFile;
+	//noteFile.open(directory2);
+	//for (string line : pGUI->NotesLines) {
+	//	noteFile << line << endl;
+	//}
+	//noteFile.close();
 
 	// Save Plan
 	vector<AcademicYear*>* pPlan = pS->getStudyPlanVector(); // pointer on the plan vector
-	string directory = "Format Files\\Saved_Plan.txt";
+	string directory = SaveFileDialog();
+	if (directory == "")
+	{
+		pReg->Not_Worth_Saving_Flag = true;
+		return true; // User Cancels
+	}
+	// Handle .txt
+	vector<string> fileTokens = splitString(directory,"\\");
+	string filename = fileTokens.back();
+	if (!(filename[filename.size() - 1] == 't' &&
+		filename[filename.size() - 2] == 'x' &&
+		filename[filename.size() - 3] == 't' &&
+		filename[filename.size() - 4] == '.')) {
+		directory += ".txt";
+	}
+
+	//string directory = "Format Files\\Saved_Plan.txt";
 
 	ofstream outFile;
 	outFile.open(directory);
@@ -69,15 +84,40 @@ bool ActionSavePlan::Execute() {
 				outFile << "Year " << numOfYear + 1 << ","
 					<< str_semester;
 				for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
-					string delim_comma = ",";
-					outFile << delim_comma << (*it)->getCode();
-					delim_comma = "";
+					if ((*it)->hasNoStatus()) {
+						// No status
+						string delim_comma = ",";
+						outFile << delim_comma << (*it)->getCode();
+						delim_comma = "";
+					}
+					else {
+						// Has status
+						string delim_comma = ",";
+						outFile << delim_comma << (*it)->getCode()
+							<< "[" << (*it)->getStatus() << ":" << (*it)->getGrade() << "]";
+						delim_comma = "";
+					}
 				}
 				outFile << "\n";
 			}
 		}
 		numOfYear++;
 	}
+
+	// Save Notes
+	outFile << BREAK_LINE;
+	outFile << "\nNotes:\n";
+	for (string line : pGUI->NotesLines) {
+		outFile << line << endl;
+	}
+
+	// Save Report
+	outFile << BREAK_LINE;
+	outFile << "\nLive Report:\n";
+	for (string line : pGUI->ReportLines) {
+		outFile << line << endl;
+	}
+
 	outFile.close();
 	cout << "Plan is saved in (" + directory + ") successfully.\n";
 

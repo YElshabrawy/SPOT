@@ -19,7 +19,7 @@ StudyPlan::StudyPlan()
 //year idetifies year number to add course to 1=first, 2 = 2nd,....
 bool StudyPlan::AddCourse(Course* pC, int year, SEMESTER sem)
 {
-	if (alreadyExistingCourse(pC->getCode()) && pC->getCode()[pC->getCode().size() - 1] != 'X') {
+	if (alreadyExistingCourse(pC->getCode(), pC->getSemester(), pC->getYear()) && pC->getCode()[pC->getCode().size() - 1] != 'X') {
 		return false;
 	}
 	else {
@@ -117,8 +117,38 @@ void StudyPlan::checkPreAndCoReq()
 						}
 
 					}
+					// Repititon
+					bool repeated = false;
+					int currentYear = pCr->getYear() - 1; // its index not its number
 
-					if (found) {
+					for (int j = currentYear; j >= 0; j--) {
+						// check all the years including this year
+						list<Course*>* pYr2 = plan[j]->getListOfYears(); // pointer to the year
+
+						int semester_count;
+						if (currentYear == j) {
+							// in this case only loop on the number of semester
+							if (pCr->getSemester() == 0)
+								continue; // not to search in the same semester
+							semester_count = pCr->getSemester() - 1;
+						}
+						else {
+							// otherwise loop on all 3 semesters
+							semester_count = 2;
+						}
+
+						for (int k = semester_count; k >= 0; k--) {
+							// check all the semester above my semester
+							for (auto iter = pYr2[k].begin(); iter != pYr2[k].end(); iter++) {
+								if (pCr->repeatedCourse && (*iter)->getCode() == pCr->getCode() && (*iter)->getCoErrorsNumber() == 0) {
+									repeated = true;
+								}
+							}
+						}
+					}
+				
+
+					if (found || repeated) {
 						// Safe!
 						pCr->removeCoReqErrors(co_crs);
 					}
@@ -1418,7 +1448,7 @@ void StudyPlan::Set_Double_Major_Plan_Rules(Rules& DoubleRegRules)
 	pDoubleMajorRules = &DoubleRegRules;
 
 }
-bool StudyPlan::alreadyExistingCourse(string code)
+bool StudyPlan::alreadyExistingCourse(string code, SEMESTER newSem, int newYear)
 {
 	for (AcademicYear* yr : plan)
 	{
@@ -1427,7 +1457,7 @@ bool StudyPlan::alreadyExistingCourse(string code)
 		{
 			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
 			{
-				if ((*it)->getCode() == code)
+				if ((*it)->getCode() == code  && (*it)->getSemester() == newSem && (*it)->getYear() == newYear)
 					return true;
 			}
 		}
@@ -1437,6 +1467,71 @@ bool StudyPlan::alreadyExistingCourse(string code)
 void StudyPlan::setMinor_course_flag(bool cond)
 {
 	Minor_course_flag = cond;
+}
+
+void StudyPlan::handleRepetition()
+{
+	// Loop on All courses
+	for (AcademicYear* yr : plan) {
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int sem = FALL; sem < SEM_CNT; sem++) {
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
+				// For each course loop down till you find its repeated one
+				Course* pCr = (*it);
+				if (pCr->repetitionCheked) {
+					continue;
+				}
+				pCr->repeatedCourse = false;
+				pCr->repeatedTimes = 0;
+				for (string code : repeatedCoursesVector) {
+					if (code == pCr->getCode())
+						pCr->repeatedCourse = true;
+				}
+				for (int j = pCr->getYear() - 1; j < GUI::NumOfYrs; j++) {
+					// check all the years including this year
+					list<Course*>* pYr2 = plan[j]->getListOfYears(); // pointer to the year
+
+					int semester_count;
+					if (pCr->getYear() - 1 == j) {
+						// The same year
+						// in this case only loop on the number of semester
+						if (pCr->getSemester() == 2)
+							continue; // not to search in the same year
+						semester_count = pCr->getSemester() + 1;
+					}
+					else {
+						// otherwise loop on all 3 semesters
+						semester_count = 0;
+					}
+
+					for (int k = semester_count; k <= 2; k++) {
+						// check all the semesters below my semester
+						for (auto iter = pYr2[k].begin(); iter != pYr2[k].end(); iter++) {
+							if (pCr->getCode() == (*iter)->getCode()) {
+								// Repetition ;)
+								repeatedCoursesVector.push_back(pCr->getCode());
+								pCr->repeatedCourse = true;
+								pCr->repeatedTimes++;
+								pCr->repetitionCheked = true;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	for (AcademicYear* yr : plan) {
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int sem = FALL; sem < SEM_CNT; sem++) {
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
+				// For each course loop down till you find its repeated one
+				Course* pCr = (*it);
+				pCr->repetitionCheked = false;
+			}
+		}
+	}
+	repeatedCoursesVector.clear();
 }
 
 //void StudyPlan::getDoubleConcentration() const

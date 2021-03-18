@@ -277,6 +277,9 @@ void Registrar::Run()
 			break;
         }
 		pGUI->setSpotNumber(MeineNummer);
+	while (!Exit_Program)
+	{
+		pSPlan->handleRepetition();
 		importProgramReq(RegRules, pSPlan->getMajor());
 		cout << (pSPlan->getConcentration()) << endl;
 		cout << pSPlan->getDoubleConcentration() << endl;
@@ -309,6 +312,7 @@ void Registrar::Run()
 		setRules();
 		pSPlan->GenerateStudentLevel(pGUI);
 		pSPlan->checkPreAndCoReq();
+		//pSPlan->handleRepetition();
 		pGUI->NOCPSIAYs.clear();
 		for (int i = 0; i < pSPlan->NOCPS.size(); i++)
 		{
