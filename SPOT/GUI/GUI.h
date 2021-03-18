@@ -28,7 +28,6 @@ class GUI
 		ITM_SAVE,		//Save the current splan
 		ITM_IMPORT,		//Import a pre-made plan or a default study plan
 		ITM_EXCHANGE,
-		ITM_Note,		//Add notes
 		ITM_ERASE,		//Clear all the data (courses)
 		ITM_MAJOR,
 		ITM_MINOR, //Minor decleration
@@ -37,7 +36,8 @@ class GUI
 		ITM_GPA,		//gpa item
 		ITM_Filter,		//Filter item
 		ITM_EXIT,
-		ITM_CNT			//no. of menu items ==> This should be the last line in this enum
+		ITM_CNT,		//no. of menu items ==> This should be the last line in this enum
+		ITM_Note	//Add notes
 		
 	};
 
@@ -55,6 +55,7 @@ class GUI
 public:
 	window* pWind;
 	//Some constants for GUI (My default = 1600 x 880 with aspect ratio 20:11)
+
 	static const int WindWidth = 1600, WindHeight = WindWidth * (11.0 / 20.0),	//Window width and height
 		wx = 15, wy = 15,		//Window starting coordinates
 		StatusBarHeight = 60,	//Status Bar Height
@@ -153,7 +154,7 @@ public:
 	static int Current_Page_Report;
 	int Total_Number_Pages_In_Notes;
 	static int Current_Page_Notes;
-	int Total_Number_Pages_In_Info=4;
+	int Total_Number_Pages_In_Info=5;
 	static int Current_Page_Info;
 	int Total_Number_Study_Plans, Current_StudyPlan;
 	vector<int>NOCPSIAYs;

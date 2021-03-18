@@ -43,8 +43,11 @@ bool ActionSavePlan::Execute() {
 	// Save Plan
 	vector<AcademicYear*>* pPlan = pS->getStudyPlanVector(); // pointer on the plan vector
 	string directory = SaveFileDialog();
-	if (directory == "") return true; // User Cancels
-
+	if (directory == "")
+	{
+		pReg->Not_Worth_Saving_Flag = true;
+		return true; // User Cancels
+	}
 	// Handle .txt
 	vector<string> fileTokens = splitString(directory,"\\");
 	string filename = fileTokens.back();

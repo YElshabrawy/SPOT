@@ -266,7 +266,6 @@ void Registrar::Run()
 	setRules();
 	RegRules.SemMinCredit = 12;
 	RegRules.SemMaxCredit = 21;
-
 	while (!Exit_Program)
 	{
 		pSPlan->handleRepetition();
@@ -313,9 +312,6 @@ void Registrar::Run()
 		pSPlan->checkCreditHrs(RegRules.SemMinCredit, RegRules.SemMaxCredit);
 		pSPlan->checkProgramReq();
 		pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);
-//<<<<<<< HEAD
-//		pSPlan->Set_Course_Type();
-//=======
 		pGUI->Total_Number_Pages_In_Report=(pSPlan->Get_Page_Number());
 		pGUI->DrawLiveReportPages((pGUI->ReportAreaHeight/15)-2, pGUI->Current_Page_Report);
 		pGUI->NotesLines.clear();

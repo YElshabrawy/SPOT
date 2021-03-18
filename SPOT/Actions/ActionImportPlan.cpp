@@ -17,8 +17,11 @@ bool ActionImportPlan::Execute() {
 	GUI* pGUI = pReg->getGUI();
 	// Get the directory
 	string directory = OpenFileDialog();
-	if (directory == "") return true; // User Cancels
-
+	if (directory == "")
+	{
+		pReg->Not_Worth_Saving_Flag = true;
+		return true; // User Cancels
+	}
 	// First we need to erase the current plan (Until i know how to call another action from here)
 	vector<Course*> allCourses;
 	StudyPlan* pS = pReg->getStudyPlay();
