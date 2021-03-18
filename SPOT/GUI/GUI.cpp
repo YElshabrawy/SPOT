@@ -342,17 +342,17 @@ void GUI::DrawAcademicYear(const AcademicYear* pY)
 ////////////////////////    Input functions    ///////////////////
 //This function reads the position where the user clicks to determine the desired action
 //If action is done by mouse, actData will be the filled by mouse position
-ActionData GUI::GetUserAction(string msg) 
+ActionData GUI::GetUserAction(string msg)
 {
 	keytype ktInput;
 	clicktype ctInput;
 	char cKeyData;
 
-	
+
 	// Flush out the input queues before beginning
 	pWind->FlushMouseQueue();
 	pWind->FlushKeyQueue();
-	
+
 	PrintMsg(msg);
 
 	while (true)
@@ -362,7 +362,7 @@ ActionData GUI::GetUserAction(string msg)
 		{
 			for (int i = 0; i < LOFWIND.size(); i++)
 			{
-				if ((LOFWIND[i]->GetMouseClick(X, Y))&&(LOFWIND[i]!=pWind))
+				if ((LOFWIND[i]->GetMouseClick(X, Y)) && (LOFWIND[i] != pWind))
 				{
 					LOFWIND[i]->SetClicked(true);
 					Maestro_Click = true;
@@ -372,45 +372,45 @@ ActionData GUI::GetUserAction(string msg)
 			if (Maestro_Click)
 				break;
 		}
-		if (pMaestrowind ->GetMouseClick(X,Y))
-			{
-				Maestro_Click = true;
-				break;
-			}
+		if (pMaestrowind->GetMouseClick(X, Y))
+		{
+			Maestro_Click = true;
+			break;
+		}
 		int x, y;
 		ctInput = pWind->GetMouseClick(x, y);	//Get the coordinates of the user click
 		ktInput = pWind->GetKeyPress(cKeyData);
 		if (ktInput == ESCAPE)	//if ESC is pressed,return CANCEL action
 		{
 			return ActionData{ CANCEL };
-		}		
 		}
+
 		if (ktInput == ASCII)
 		{
-			if(cKeyData==97)
-			return ActionData{ ADD_CRS };
-			else if(cKeyData ==100)
-			return ActionData{ DEL_CRS };
+			if (cKeyData == 97)
+				return ActionData{ ADD_CRS };
+			else if (cKeyData == 100)
+				return ActionData{ DEL_CRS };
 			else if (cKeyData == 109)
-			return ActionData{ DECLARE_MINOR };
+				return ActionData{ DECLARE_MINOR };
 			else if (cKeyData == 106)
-			return ActionData{ DECLARE_MAJOR };
+				return ActionData{ DECLARE_MAJOR };
 			else if (cKeyData == 99)
-			return ActionData{ CHANGE_CODE };
+				return ActionData{ CHANGE_CODE };
 			else if (cKeyData == 115)
-			return ActionData{ SAVE };
+				return ActionData{ SAVE };
 			else if (cKeyData == 105)
-			return ActionData{ IMPORT_PLAN };
+				return ActionData{ IMPORT_PLAN };
 			else if (cKeyData == 101)
-			return ActionData{ ERASE };
+				return ActionData{ ERASE };
 			else if (cKeyData == 103)
-			return ActionData{ CAL_GPA };
+				return ActionData{ CAL_GPA };
 			else if (cKeyData == 102)
-			return ActionData{ Filter };
+				return ActionData{ Filter };
 			else if (cKeyData == 122)
-			return ActionData{ UNDO };
+				return ActionData{ UNDO };
 			else if (cKeyData == 120)
-			return ActionData{ REDO };
+				return ActionData{ REDO };
 
 		}
 		if (ctInput == LEFT_CLICK)	//mouse left click
@@ -442,16 +442,16 @@ ActionData GUI::GetUserAction(string msg)
 
 					if (Current_StudyPlan < Total_Number_Study_Plans - 1)
 					{
-				     case ITM_REDO:return ActionData{ REDO }; break;
+				case ITM_REDO:return ActionData{ REDO }; break;
 					}
 					if (Current_StudyPlan != 0)
 					{
-					 case ITM_UNDO:return ActionData{ UNDO }; break;
+				case ITM_UNDO:return ActionData{ UNDO }; break;
 					}
 				case ITM_Filter:return ActionData{ Filter }; break;
 				case ITM_CRS_DEP:
 				{
-					if ((Draw_Dependacies_For_One_Course == false)&&(Draw_Dependacies_For_One_Course_Flag == false))
+					if ((Draw_Dependacies_For_One_Course == false) && (Draw_Dependacies_For_One_Course_Flag == false))
 					{
 						Draw_Dependacies_For_One_Course = false;
 						return ActionData{ CRS_DEP }; break;
@@ -509,7 +509,7 @@ ActionData GUI::GetUserAction(string msg)
 						Current_Page_Notes++;
 					}
 				}
-				if ((x >= (SideBarX1)) && (x <= (SideBarX2)) && (y >= (NotesY1 + 30)) && (y <= (NotesY1+NotesHeight-10)))
+				if ((x >= (SideBarX1)) && (x <= (SideBarX2)) && (y >= (NotesY1 + 30)) && (y <= (NotesY1 + NotesHeight - 10)))
 				{
 					return ActionData{ ADD_Note };
 				}
@@ -522,18 +522,18 @@ ActionData GUI::GetUserAction(string msg)
 				}
 				else if ((x >= (SideBarX2 - 24)) && (x <= (SideBarX2 - 2)) && (y >= CourseInfoY1 + 2) && (y <= CourseInfoY1 + 24))
 				{
-					if ((Current_Page_Info < Total_Number_Pages_In_Info)&&(Current_Page_Info!= Total_Number_Pages_In_Info))
+					if ((Current_Page_Info < Total_Number_Pages_In_Info) && (Current_Page_Info != Total_Number_Pages_In_Info))
 					{
 						Current_Page_Info++;
 					}
 				}
 				if (Current_Page_Info == 0)
 				{
-					if ((x >= (InfoX1 + 5)) && (x <= (SideBarX2 - 20)) && (y >= InfoY1 - 10) && (y <= InfoY1 +5))
+					if ((x >= (InfoX1 + 5)) && (x <= (SideBarX2 - 20)) && (y >= InfoY1 - 10) && (y <= InfoY1 + 5))
 					{
 						Current_Page_Info = 1;
 					}
-					else if ((x >= (InfoX1 + 5)) && (x <= (SideBarX2 - 20)) && (y >= InfoY1 - 20+(Y_div / 24) * 2) && (y <= InfoY1 - 5 + (Y_div / 24) * 2))
+					else if ((x >= (InfoX1 + 5)) && (x <= (SideBarX2 - 20)) && (y >= InfoY1 - 20 + (Y_div / 24) * 2) && (y <= InfoY1 - 5 + (Y_div / 24) * 2))
 					{
 						Current_Page_Info = 2;
 					}
@@ -552,7 +552,7 @@ ActionData GUI::GetUserAction(string msg)
 				}
 				int counter = 0;
 				for (int i = 1; i <= NumOfYrs; i++) {
-					if ((x >= SideBarX1 - 37)&&(x <= SideBarX1 - 11)&&(y >= MenuBarHeight+ ((i - 1) * (One_Year_Div + MyFactor)))&&(y <= (MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor))+26))&&(NOCPSIAYs[counter]>8)&& (CPIES[counter] == 0))
+					if ((x >= SideBarX1 - 37) && (x <= SideBarX1 - 11) && (y >= MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor))) && (y <= (MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + 26)) && (NOCPSIAYs[counter] > 8) && (CPIES[counter] == 0))
 					{
 						CPIES[counter] = 1;
 						break;
@@ -568,7 +568,7 @@ ActionData GUI::GetUserAction(string msg)
 						CPIES[counter] = 1;
 						break;
 					}
-					else if ((x >= SideBarX1 - 37) && (x <= SideBarX1 - 11) && (y >= MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor + (1 * One_Semester_Div) - 10) && (y <= MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor + (1 * One_Semester_Div)+ 16) && (NOCPSIAYs[counter] > 8) && (CPIES[counter] == 1))
+					else if ((x >= SideBarX1 - 37) && (x <= SideBarX1 - 11) && (y >= MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor + (1 * One_Semester_Div) - 10) && (y <= MenuBarHeight + ((i - 1) * (One_Year_Div + MyFactor)) + SemesterMidFactor + (1 * One_Semester_Div) + 16) && (NOCPSIAYs[counter] > 8) && (CPIES[counter] == 1))
 					{
 						CPIES[counter] = 0;
 						break;
@@ -601,7 +601,6 @@ ActionData GUI::GetUserAction(string msg)
 			}
 		}
 	}//end while
-
 }
 string GUI::GetSrting() const
 {

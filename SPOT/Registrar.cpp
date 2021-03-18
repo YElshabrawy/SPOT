@@ -269,71 +269,72 @@ void Registrar::Run()
 	int x, y, Xold = 0, Yold = 0;
 	while (!Exit_Program)
 	{
-		
+
 		if (pGUI->GetMaestroClick())
 		{
 			pGUI->SetMaestroClick(false);
 			pGUI->pWind->FlushMouseQueue();
 			break;
-        }
+		}
 		pGUI->setSpotNumber(MeineNummer);
-	while (!Exit_Program)
-	{
-		pSPlan->handleRepetition();
-		importProgramReq(RegRules, pSPlan->getMajor());
-		cout << (pSPlan->getConcentration()) << endl;
-		cout << pSPlan->getDoubleConcentration() << endl;
-		if (pSPlan->getMajorChanged() == true) {
-			//pSPlan->
+		while (!Exit_Program)
+		{
+			pSPlan->handleRepetition();
 			importProgramReq(RegRules, pSPlan->getMajor());
-			//pSPlan->Set_Course_Type();
-			//setCatalogCoursesType();
-			pSPlan->setMajorChanged(false);
-		}
-		if (pSPlan->getDoubleMajorOptimize()) {
-			// Get the requirments
-			importProgramReq(DoubleRegRules, pSPlan->getDoubleMajor());
+			cout << (pSPlan->getConcentration()) << endl;
+			cout << pSPlan->getDoubleConcentration() << endl;
+			if (pSPlan->getMajorChanged() == true) {
+				//pSPlan->
+				importProgramReq(RegRules, pSPlan->getMajor());
+				//pSPlan->Set_Course_Type();
+				//setCatalogCoursesType();
+				pSPlan->setMajorChanged(false);
+			}
+			if (pSPlan->getDoubleMajorOptimize()) {
+				// Get the requirments
+				importProgramReq(DoubleRegRules, pSPlan->getDoubleMajor());
 
-			// Send it to study plan in case needed
-			setDoubleMajorRules();
+				// Send it to study plan in case needed
+				setDoubleMajorRules();
 
-			//Change the wanted changes
-			RegRules.CheckDoubleMajorCompCourses.clear();
-			RegRules.CheckDoubleMajorElectiveCourses.clear();
-			RegRules.CheckDoubleTrackCourses.clear();
-			combineDoubleMajorCourses();
-			
+				//Change the wanted changes
+				RegRules.CheckDoubleMajorCompCourses.clear();
+				RegRules.CheckDoubleMajorElectiveCourses.clear();
+				RegRules.CheckDoubleTrackCourses.clear();
+				combineDoubleMajorCourses();
 
-			// Adjust the optimizer
-			pSPlan->setDoubleMajorOptimize(false);
-		}
-		//update interface here as CMU Lib doesn't refresh itself
-		//when window is minimized then restored..
-		setRules();
-		pSPlan->GenerateStudentLevel(pGUI);
-		pSPlan->checkPreAndCoReq();
-		//pSPlan->handleRepetition();
-		pGUI->NOCPSIAYs.clear();
-		for (int i = 0; i < pSPlan->NOCPS.size(); i++)
-		{
-			pGUI->NOCPSIAYs.push_back(pSPlan->NOCPS[i]);
-		}
-		pGUI->CrsPerSemester=pSPlan->get_Of_All_Sems_Credits();
-		pSPlan->Set_Course_Type();
-		pSPlan->checkCreditHrs(RegRules.SemMinCredit, RegRules.SemMaxCredit);
-		pSPlan->checkProgramReq();
-		pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);
-		pGUI->Total_Number_Pages_In_Report=(pSPlan->Get_Page_Number());
-		pGUI->DrawLiveReportPages((pGUI->ReportAreaHeight/15)-2, pGUI->Current_Page_Report);
-		pGUI->NotesLines.clear();
-		UpdateInterface();
-		Action* pAct = CreateRequiredAction();
-		if (pAct)	//if user doesn't cancel
-		{
-	
-			if (ExecuteAction(pAct))
-			{//if action is not cancelled
-				UpdateInterface();
+
+				// Adjust the optimizer
+				pSPlan->setDoubleMajorOptimize(false);
+			}
+			//update interface here as CMU Lib doesn't refresh itself
+			//when window is minimized then restored..
+			setRules();
+			pSPlan->GenerateStudentLevel(pGUI);
+			pSPlan->checkPreAndCoReq();
+			//pSPlan->handleRepetition();
+			pGUI->NOCPSIAYs.clear();
+			for (int i = 0; i < pSPlan->NOCPS.size(); i++)
+			{
+				pGUI->NOCPSIAYs.push_back(pSPlan->NOCPS[i]);
+			}
+			pGUI->CrsPerSemester = pSPlan->get_Of_All_Sems_Credits();
+			pSPlan->Set_Course_Type();
+			pSPlan->checkCreditHrs(RegRules.SemMinCredit, RegRules.SemMaxCredit);
+			pSPlan->checkProgramReq();
+			pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);
+			pGUI->Total_Number_Pages_In_Report = (pSPlan->Get_Page_Number());
+			pGUI->DrawLiveReportPages((pGUI->ReportAreaHeight / 15) - 2, pGUI->Current_Page_Report);
+			pGUI->NotesLines.clear();
+			UpdateInterface();
+			Action* pAct = CreateRequiredAction();
+			if (pAct)	//if user doesn't cancel
+			{
+
+				if (ExecuteAction(pAct))
+				{//if action is not cancelled
+					UpdateInterface();
+				}
 			}
 		}
 	}
