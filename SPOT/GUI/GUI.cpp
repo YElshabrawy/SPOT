@@ -384,7 +384,6 @@ ActionData GUI::GetUserAction(string msg)
 		{
 			return ActionData{ CANCEL };
 		}
-
 		if (ktInput == ASCII)
 		{
 			if (cKeyData == 97)

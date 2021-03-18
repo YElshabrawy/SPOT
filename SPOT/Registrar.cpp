@@ -268,8 +268,7 @@ void Registrar::Run()
 	RegRules.SemMaxCredit = 21;
 	int x, y, Xold = 0, Yold = 0;
 	while (!Exit_Program)
-	{
-
+		{
 		if (pGUI->GetMaestroClick())
 		{
 			pGUI->SetMaestroClick(false);
@@ -277,8 +276,6 @@ void Registrar::Run()
 			break;
 		}
 		pGUI->setSpotNumber(MeineNummer);
-		while (!Exit_Program)
-		{
 			pSPlan->handleRepetition();
 			importProgramReq(RegRules, pSPlan->getMajor());
 			cout << (pSPlan->getConcentration()) << endl;
@@ -336,7 +333,6 @@ void Registrar::Run()
 					UpdateInterface();
 				}
 			}
-		}
 	}
 }
 void Registrar::UpdateInterface()
