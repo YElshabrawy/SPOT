@@ -31,6 +31,7 @@ bool ActionCalculateGPA::Execute()
 			{
 				// Iterate on courses
 				Course* pCr = (*it);
+				if (pCr->repeatedCourse && pCr->repeatedTimes != 0) continue;
 				if (pCr->getCoursedone() == true)
 				{
 					int credits=pCr->getCredits();

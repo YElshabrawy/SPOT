@@ -141,6 +141,7 @@ bool ActionAddCourse::Execute()
 				pGUI->CourseStatus = "Course Status: " + pC->getStatus();
 			}
 			else {
+
 				pGUI->GetUserAction("This Course already exists!");
 			}
 		}

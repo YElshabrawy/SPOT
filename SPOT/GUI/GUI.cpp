@@ -205,7 +205,7 @@ void GUI::DrawCourse(const Course* pCrs)
 	pWind->SetPen(CourseCodeColor);
 
 	ostringstream crd;
-	crd<< "Crs:" << pCrs->getCredits();
+	crd<< "C:" << pCrs->getCredits();
 	pWind->DrawString(Code_x, Code_y, pCrs->getCode());
 	pWind->DrawString(gInfo.x + (CRS_WIDTH / 3) + 17, Code_y + CRS_HEIGHT / 2, pCrs->getGrade());
 	pWind->DrawString(gInfo.x + ((2 * CRS_WIDTH) / 3) + 8, Code_y + CRS_HEIGHT / 2, pCrs->getStatus());
@@ -1249,6 +1249,10 @@ void GUI::DrawCourse_Dependacies(Course* pCr, Course* DpCr) const
 			pWind->DrawBezier(gInfo_Of_DepCr.x + CRS_WIDTH, gInfo_Of_DepCr.y + CRS_HEIGHT / 2, gInfo_Of_DepCr.x + CRS_WIDTH + 60, gInfo_Of_DepCr.y + 20, gInfo_Of_PreOrCo.x + CRS_WIDTH - 10, gInfo_Of_PreOrCo.y + CRS_HEIGHT - 10, gInfo_Of_PreOrCo.x + CRS_WIDTH / 2, gInfo_Of_PreOrCo.y + CRS_HEIGHT);
 		}
 	}
+}
+void GUI::setWindWidth(int width)
+{
+	//this->WindWidth = width;
 }
 //Dimention getters
 int GUI::getMenuBarHeight() {

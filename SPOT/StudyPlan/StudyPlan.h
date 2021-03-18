@@ -39,6 +39,8 @@ private:
 	void lazyCheck(int compared, int original, string errMsg, string checkMsg);
 	void lazyCheck2(string checkKeyword, vector<string> vect);
 
+	vector<string> repeatedCoursesVector;
+
 public:
 	int TotalCredits = 0,				// Total no. of credit hours for courses registred in this year 1
 		TotalMajorCredits = 0,		// Univ Elective 3
@@ -120,8 +122,9 @@ public:
 	bool getDoubleMajorOptimize() const;
 
 	void Set_Double_Major_Plan_Rules(Rules& DoubleRegRules);
-	bool alreadyExistingCourse(string code);
+	bool alreadyExistingCourse(string code, SEMESTER, int);
 
+	void handleRepetition();
 	virtual ~StudyPlan();
 };
 

@@ -108,7 +108,6 @@ public:
 	int getPreErrorsNumber() const;
 	int getCoErrorsNumber() const;
 	void DrawMe(GUI*) const;
-	virtual ~Course();
 	Course(const Course& CopiedCrs);
 	Course operator=(const Course& CopiedCrs);
 	void printCourse() const;
@@ -116,4 +115,10 @@ public:
 
 	bool hasNoStatus();
 
+	// Handle repetition
+	bool repeatedCourse;
+	int repeatedTimes;
+	bool repetitionCheked;
+
+	virtual ~Course();
 };
