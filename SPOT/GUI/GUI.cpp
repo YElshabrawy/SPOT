@@ -338,29 +338,10 @@ ActionData GUI::GetUserAction(string msg)
 	pWind->FlushKeyQueue();
 
 	PrintMsg(msg);
+		int X, Y;
 
 	while (true)
 	{
-		int X, Y;
-		if (!LOFWIND.empty())
-		{
-			for (int i = 0; i < LOFWIND.size(); i++)
-			{
-				if ((LOFWIND[i]->GetMouseClick(X, Y)) && (LOFWIND[i] != pWind))
-				{
-					LOFWIND[i]->SetClicked(true);
-					Maestro_Click = true;
-					break;
-				}
-			}
-			if (Maestro_Click)
-				break;
-		}
-		if (pMaestrowind->GetMouseClick(X, Y))
-		{
-			Maestro_Click = true;
-			break;
-		}
 		int x, y;
 		ctInput = pWind->GetMouseClick(x, y);	//Get the coordinates of the user click
 		ktInput = pWind->GetKeyPress(cKeyData);
@@ -582,6 +563,26 @@ ActionData GUI::GetUserAction(string msg)
 				Last_CLick = ctInput;
 				return ActionData{ DRAW_AREA,x,y };	//user want clicks inside drawing area
 			}
+		}
+		X = 0; Y = 0;
+		if (!LOFWIND.empty())
+		{
+			for (int i = 0; i < LOFWIND.size(); i++)
+			{
+				if ((LOFWIND[i]->GetMouseClick(X, Y)) && (LOFWIND[i] != pWind))
+				{
+					LOFWIND[i]->SetClicked(true);
+					Maestro_Click = true;
+					break;
+				}
+			}
+			if (Maestro_Click)
+				break;
+		}
+		if (pMaestrowind->GetMouseClick(X, Y))
+		{
+			Maestro_Click = true;
+			break;
 		}
 	}//end while
 }
