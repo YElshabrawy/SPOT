@@ -1255,6 +1255,10 @@ void GUI::DrawInfoPages()const
 	pWind->SetBrush(RED);
 	pWind->DrawRectangle(InfoX1 + MyFactor * 17, InfoY1 + CourseInfoHeight / 1.5-5, InfoX1 + MyFactor * 17 + 20, InfoY1 + CourseInfoHeight / 1.5 + 15, FILLED);
 	pWind->DrawString(InfoX1 + MyFactor * 17 + 23, InfoY1 + CourseInfoHeight / 1.5-2, "Unknown");
+	pWind->SetBrush(YELLOWGREEN);
+	pWind->DrawRectangle(InfoX1 + MyFactor * 36, InfoY1 + CourseInfoHeight / 1.5 - 5, InfoX1 + MyFactor * 36 + 20, InfoY1 + CourseInfoHeight / 1.5 + 15, FILLED);
+	pWind->DrawString(InfoX1 + MyFactor * 36 + 23, InfoY1 + CourseInfoHeight / 1.5-5, "2nd");
+	pWind->DrawString(InfoX1 + MyFactor * 36 + 23, InfoY1 + CourseInfoHeight / 1.5 + 3, "Minor");
     }
 	else if(Current_Page_Info == 5)
 	{
