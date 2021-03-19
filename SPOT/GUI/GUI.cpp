@@ -1325,13 +1325,13 @@ void GUI::setWindWidth(int width)
 	//this->WindWidth = width;
 }
 //Dimention getters
-int GUI::getMenuBarHeight() {
+int  GUI::getMenuBarHeight() {
 	return MenuBarHeight;
 }
-int GUI::getY_div() {
+int  GUI::getY_div() {
 	return Y_div;
 }
-int GUI::getYDivStartingPos() {
+int  GUI::getYDivStartingPos() {
 	return (WindHeight - StatusBarHeight);
 }
 void GUI::SetMaestroWindowP(window* Pointer)
@@ -1378,11 +1378,11 @@ void GUI::setDDF(bool input)
 {
 	Draw_Dependacies_Flag = input;
 }
-int GUI::getXCoord()const
+int  GUI::getXCoord()const
 {
 	return XCoord;
 }
-int GUI::getYCoord()const
+int  GUI::getYCoord()const
 {
 	return YCoord;
 }
@@ -1390,7 +1390,7 @@ clicktype GUI::GetLastClick()const
 {
 	return Last_CLick;
 }
-int GUI::getCurrent_Page_Report()const
+int  GUI::getCurrent_Page_Report()const
 {
 	return Current_Page_Report;
 }
@@ -1398,7 +1398,7 @@ void GUI::setCurrent_Page_Report(int input)
 {
 	Current_Page_Report = input;
 }
-int GUI::getCurrent_Page_Notes()const
+int  GUI::getCurrent_Page_Notes()const
 {
 	return Current_Page_Notes;
 }
@@ -1406,7 +1406,7 @@ void GUI::setCurrent_Page_Notes(int input)
 {
 	Current_Page_Notes = input;
 }
-int GUI::getCurrent_Page_Info()const
+int  GUI::getCurrent_Page_Info()const
 {
 	return Current_Page_Info;
 }
@@ -1414,7 +1414,7 @@ void GUI::setCurrent_Page_Info(int input)
 {
 	Current_Page_Info = input;
 }
-int GUI::getReport_Stop()const
+int  GUI::getReport_Stop()const
 {
 	return Report_Stop;
 }
@@ -1422,7 +1422,7 @@ void GUI::setReport_Stop(int input)
 {
 	Report_Stop = input;
 }
-int GUI::getReport_Start()const
+int  GUI::getReport_Start()const
 {
 	return Report_Start;
 }
@@ -1430,7 +1430,7 @@ void GUI::setReport_Start(int input)
 {
 	Report_Start = input;
 }
-int GUI::getNotes_Stop()const
+int  GUI::getNotes_Stop()const
 {
 	return Notes_Stop;
 }
