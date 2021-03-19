@@ -15,18 +15,14 @@ bool ActionCourseInfo::Execute()
 
 	GUI* pGUI = pReg->getGUI();
 	int x, y;
-	x = pGUI->XCoord;
-	y = pGUI->YCoord;
+	x = pGUI->getXCoord();
+	y = pGUI->getYCoord();
 		Course* pCr = pReg->interrogateCourse(x, y);
 		if (pCr == nullptr) {
-			return true;
+			return false;
 		}
 		else
 		{
-
-			pGUI->CourseGrade = "Course Grade: ";
-			pGUI->CourseStatus = "Course Status: ";
-			pReg->UpdateInterface();
 			pCr->changeColor(BLACK);
 			if ((pReg->OldpCr != nullptr) && (pReg->OldpCr != pCr))
 			{
@@ -66,7 +62,7 @@ bool ActionCourseInfo::Execute()
 			pGUI->CourseCode = code;
 			pGUI->CourseCredit = "Course Credits: " + String_Credits;
 			pGUI->CourseGrade= "Course Grade: " + pCr->getGrade();
-			pReg->UpdateInterface();
+			pGUI->CourseStatus = "Course Status: " + pCr->getStatus();
 			//-------------------------------------------------------------------------------------------------------------------//
 			//Course Status
 			bool cond0 = false;
@@ -89,6 +85,8 @@ bool ActionCourseInfo::Execute()
 						pCr->setCourseinprogress(false);
 						pCr->setCourseExempted(false);
 						pCr->setCourseReplaced(false);
+						pCr->setStatus("DN");
+						pGUI->CourseGrade = "Course Grade: ";
 						cond0 = true;
 						//if course is Done,Input its grade
 						bool cond = false;
@@ -115,35 +113,35 @@ bool ActionCourseInfo::Execute()
 							{
 								grademsg = "A-";
 								pGUI->CourseGrade += grademsg;
-								pCr->setGrade("A_MINUS");
+								pCr->setGrade(grademsg);
 								cond = true;
 							}
 							else if (grademsg == "B MINUS" || grademsg == "B-" || grademsg == "BMINUS")
 							{
 								grademsg = "B-";
 								pGUI->CourseGrade += grademsg;
-								pCr->setGrade("B_MINUS");
+								pCr->setGrade(grademsg);
 								cond = true;
 							}
 							else if (grademsg == "B PLUS" || grademsg == "B+" || grademsg == "BPLUS")
 							{
 								grademsg = "B+";
 								pGUI->CourseGrade += grademsg;
-								pCr->setGrade("B_PLUS");
+								pCr->setGrade(grademsg);
 								cond = true;
 							}
 							else if (grademsg == "C PLUS" || grademsg == "C+" || grademsg == "CPLUS")
 							{
 								grademsg = "C+";
 								pGUI->CourseGrade += grademsg;
-								pCr->setGrade("C_PLUS");
+								pCr->setGrade(grademsg);
 								cond = true;
 							}
 							else if (grademsg == "C MINUS" || grademsg == "C-" || grademsg == "CMINUS")
 							{
 								grademsg = "C-";
 								pGUI->CourseGrade += grademsg;
-								pCr->setGrade("C_MINUS");
+								pCr->setGrade(grademsg);
 								cond = true;
 							}
 							else
@@ -163,6 +161,7 @@ bool ActionCourseInfo::Execute()
 						pCr->setCourseReplaced(false);
 						pCr->setCourseCreditsTransfered(false);
 						pCr->setToken(false);
+						pCr->setStatus("PN");
 						pGUI->CourseGrade += "Null";
 						cond0 = true;
 
@@ -177,6 +176,7 @@ bool ActionCourseInfo::Execute()
 						pCr->setCourseReplaced(false);
 						pCr->setCourseCreditsTransfered(false);
 						pCr->setToken(false);
+						pCr->setStatus("IN");
 						pGUI->CourseGrade += "Null";
 						cond0 = true;
 					}
@@ -189,6 +189,7 @@ bool ActionCourseInfo::Execute()
 						pCr->setCourseExempted(true);
 						pCr->setCourseReplaced(false);
 						pCr->setCourseCreditsTransfered(false);
+						pCr->setStatus("EX");
 						pGUI->CourseGrade += "passed";
 						cond0 = true;
 					}
@@ -201,6 +202,7 @@ bool ActionCourseInfo::Execute()
 						pCr->setCourseExempted(false);
 						pCr->setCourseReplaced(true);
 						pCr->setCourseCreditsTransfered(false);
+						pCr->setStatus("RP");
 						pGUI->CourseGrade += "---";
 						cond0 = true;
 					}
@@ -213,6 +215,7 @@ bool ActionCourseInfo::Execute()
 						pCr->setCourseExempted(false);
 						pCr->setCourseReplaced(false);
 						pCr->setCourseCreditsTransfered(true);
+						pCr->setStatus("CT");
 						pGUI->CourseGrade += "---";
 					 }
 
@@ -238,19 +241,19 @@ bool ActionCourseInfo::Execute()
 			}
 			else if (pCr->getCourseExempted() == true)
 			{
-				pGUI->CourseStatus = "Course Status: Exempted(Done) ";
+				pGUI->CourseStatus = "Course Status: Exempted (Done) ";
 			}
 			else if (pCr->getCourseReplaced() == true)
 			{
-				pGUI->CourseStatus = "Course Status: Replaced(Done) ";
+				pGUI->CourseStatus = "Course Status: Replaced (Done) ";
 			}
 			else if (pCr->getCourseCreditsTransfered() == true)
 			{
-				pGUI->CourseStatus = "Course Status: CreditsTransfered(Done) ";
+				pGUI->CourseStatus = "Course Status: CreditsTransfered (Done) ";
 			}
 			else
 			{
-				pGUI->CourseStatus ="Course Status: ";
+				pGUI->CourseStatus ="Course Status: Not Taken ";
 			}
 
 		}
@@ -259,7 +262,8 @@ bool ActionCourseInfo::Execute()
 		pReg->OldpCr = pCr;
 		if (pReg->OldpCr == nullptr)
 			pReg->OldpCr = pCr;
-		pReg->UpdateInterface();
+
+		pGUI->setCurrent_Page_Info(1);
 	return true;
 }
 

@@ -6,6 +6,7 @@
 #include"../Utils/Utils.h"
 #include"../GUI/GUI.h"
 #include<iterator>
+#include<sstream>  
 
 ActionAddCourse::ActionAddCourse(Registrar* p):Action(p)
 {
@@ -96,8 +97,51 @@ bool ActionAddCourse::Execute()
 				gInfo.y = GUI::MenuBarHeight + GUI::MyFactor + ((year - 1) * GUI::One_Year_Div) + (semester * GUI::One_Semester_Div) +
 					(GUI::MyFactor * (year - 1));
 				pC->setGfxInfo(gInfo);
+				pC->changeColor(BLACK);
+				if ((pReg->OldpCr != nullptr) && (pReg->OldpCr != pC))
+				{
+					if (pReg->OldpCr->getType() == maj)
+					{
+						pReg->OldpCr->changeColor(GOLDENROD);
+					}
+					else if (pReg->OldpCr->getType() == Uni)
+					{
+						pReg->OldpCr->changeColor(SLATEGREY);
+					}
+					else if (pReg->OldpCr->getType() == Track)
+					{
+						pReg->OldpCr->changeColor(DARKGREEN);
+					}
+					else if (pReg->OldpCr->getType() == Elective)
+					{
+						pReg->OldpCr->changeColor(FIREBRICK);
+					}
+					else if (pReg->OldpCr->getType() == concentration)
+					{
+						pReg->OldpCr->changeColor(DARKMAGENTA);
+					}
+					else
+					{
+						pReg->OldpCr->changeColor(MYCYAN);
+					}
+				}
+				pReg->OldpCr = pC;
+				pGUI->setCurrent_Page_Info(1);
+				string title = "Course Title: " + pC->getTitle();
+				string code = "Course Code: " + pC->getCode();
+				int credits = pC->getCredits();
+				stringstream ss;
+				ss << credits;
+				string String_Credits;
+				ss >> String_Credits;
+				pGUI->CourseTitle = title;
+				pGUI->CourseCode = code;
+				pGUI->CourseCredit = "Course Credits: " + String_Credits;
+				pGUI->CourseGrade = "Course Grade: " + pC->getGrade();
+				pGUI->CourseStatus = "Course Status: " + pC->getStatus();
 			}
 			else {
+
 				pGUI->GetUserAction("This Course already exists!");
 			}
 		}

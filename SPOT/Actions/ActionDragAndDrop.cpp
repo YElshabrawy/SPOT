@@ -3,6 +3,7 @@
 #include <iostream>
 #include"../GUI/GUI.h"
 #include"../Utils/Utils.h"
+#include<sstream>
 
 
 ActionDragAndDrop::ActionDragAndDrop(Registrar* p) :Action(p)
@@ -16,24 +17,24 @@ ActionDragAndDrop::~ActionDragAndDrop()
 bool ActionDragAndDrop::Execute()
 {
 	GUI* pGUI = pReg->getGUI();
-	pGUI->Draw_Dependacies_Flag = false;
-	pGUI->Draw_Dependacies_For_One_Course = false;
+	pGUI->setDDF(false);
+	pGUI->setDDFOC(false);
 	int x, y,flag=0,Error_Flag=0;
-	x = pGUI->XCoord;
-	y = pGUI->YCoord;
+	x = pGUI->getXCoord();
+	y = pGUI->getYCoord();
 	Course* pCr = pReg->interrogateCourse(x, y);
 	int Course_X, Course_Y;
 	if (pCr == nullptr)
 	{
 		pReg->Not_Worth_Saving_Flag = true;
-		return true;
+		return false;
 	}
 	graphicsInfo gInfo_Old=pCr->getGfxInfo();
 
 	image systemimage= "GUI\\Images\\Menu\\test.jpg";
 	while (true)
 	{
-		if (pGUI->Last_CLick == LEFT_CLICK)
+		if (pGUI->GetLastClick() == LEFT_CLICK)
 		{
 			break;
 		}
@@ -41,7 +42,7 @@ bool ActionDragAndDrop::Execute()
 		{
 			pReg->Not_Worth_Saving_Flag = true;
 			break;
-			return true;
+			return false;
 		}
 		else
 		{
@@ -92,12 +93,12 @@ bool ActionDragAndDrop::Execute()
 					}
 				}
 				else {
-					//The user clicked outside the region
+					return false;
 				}
 				if (Error_Flag == 1)
 				{
 					pCr->Distance_Flag = true;
-					return true;
+					return false;
 				}
 				else
 		        {
@@ -140,10 +141,48 @@ bool ActionDragAndDrop::Execute()
 						pGUI->UpdateInterface();
 					}
 				}
-				//if (pReg->OldpCr != pCr)
-				//	pReg->OldpCr = pCr;
-				//if (pReg->OldpCr == nullptr)
-				//	pReg->OldpCr = pCr;
+				if ((pReg->OldpCr != nullptr) && (pReg->OldpCr != pCr))
+				{
+					if (pReg->OldpCr->getType() == maj)
+					{
+						pReg->OldpCr->changeColor(GOLDENROD);
+					}
+					else if (pReg->OldpCr->getType() == Uni)
+					{
+						pReg->OldpCr->changeColor(SLATEGREY);
+					}
+					else if (pReg->OldpCr->getType() == Track)
+					{
+						pReg->OldpCr->changeColor(DARKGREEN);
+					}
+					else if (pReg->OldpCr->getType() == Elective)
+					{
+						pReg->OldpCr->changeColor(FIREBRICK);
+					}
+					else if (pReg->OldpCr->getType() == concentration)
+					{
+						pReg->OldpCr->changeColor(DARKMAGENTA);
+					}
+					else
+					{
+						pReg->OldpCr->changeColor(MYCYAN);
+					}
+				}
+				pCr->changeColor(BLACK);
+				pReg->OldpCr = pCr;
+				pGUI->setCurrent_Page_Info(1);
+				string title = "Course Title: " + pCr->getTitle();
+				string code = "Course Code: " + pCr->getCode();
+				int credits = pCr->getCredits();
+				stringstream ss;
+				ss << credits;
+				string String_Credits;
+				ss >> String_Credits;
+				pGUI->CourseTitle = title;
+				pGUI->CourseCode = code;
+				pGUI->CourseCredit = "Course Credits: " + String_Credits;
+				pGUI->CourseGrade = "Course Grade: " + pCr->getGrade();
+				pGUI->CourseStatus = "Course Status: " + pCr->getStatus();
 				return true;
 			}
 		}

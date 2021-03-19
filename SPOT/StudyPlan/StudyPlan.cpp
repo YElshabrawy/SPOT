@@ -5,7 +5,7 @@
 #include "../Utils/Utils.h"
 #include <fstream>
 #include <iterator>
-
+vector<string> StudyPlan::Minor_Course = {};
 int StudyPlan::Count = 0;
 int StudyPlan::Count2 = 0;
 bool StudyPlan::doubleMajorExists = false;
@@ -20,7 +20,7 @@ StudyPlan::StudyPlan()
 //year idetifies year number to add course to 1=first, 2 = 2nd,....
 bool StudyPlan::AddCourse(Course* pC, int year, SEMESTER sem)
 {
-	if (alreadyExistingCourse(pC->getCode()) && pC->getCode()[pC->getCode().size() - 1] != 'X') {
+	if (alreadyExistingCourse(pC->getCode(), pC->getSemester(), pC->getYear()) && pC->getCode()[pC->getCode().size() - 1] != 'X') {
 		return false;
 	}
 	else {
@@ -89,6 +89,8 @@ void StudyPlan::checkPreAndCoReq()
 {
 	// For each crs
 	NOCPS.clear();
+	Credits_Of_All_Sems.clear();
+	int CrsTotalperSem = 0;
 	for (AcademicYear* yr : plan) {
 		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
 		for (int sem = FALL; sem < SEM_CNT; sem++) {
@@ -100,6 +102,7 @@ void StudyPlan::checkPreAndCoReq()
 			{
 				NOCPS.push_back(pYr[sem].size());
 			}
+			CrsTotalperSem = 0;
 			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
 				// Iterate on courses
 				Course* pCr = (*it);
@@ -143,8 +146,38 @@ void StudyPlan::checkPreAndCoReq()
 						}
 
 					}
+					// Repititon
+					bool repeated = false;
+					int currentYear = pCr->getYear() - 1; // its index not its number
 
-					if (found) {
+					for (int j = currentYear; j >= 0; j--) {
+						// check all the years including this year
+						list<Course*>* pYr2 = plan[j]->getListOfYears(); // pointer to the year
+
+						int semester_count;
+						if (currentYear == j) {
+							// in this case only loop on the number of semester
+							if (pCr->getSemester() == 0)
+								continue; // not to search in the same semester
+							semester_count = pCr->getSemester() - 1;
+						}
+						else {
+							// otherwise loop on all 3 semesters
+							semester_count = 2;
+						}
+
+						for (int k = semester_count; k >= 0; k--) {
+							// check all the semester above my semester
+							for (auto iter = pYr2[k].begin(); iter != pYr2[k].end(); iter++) {
+								if (pCr->repeatedCourse && (*iter)->getCode() == pCr->getCode() && (*iter)->getCoErrorsNumber() == 0) {
+									repeated = true;
+								}
+							}
+						}
+					}
+				
+
+					if (found || repeated) {
 						// Safe!
 						pCr->removeCoReqErrors(co_crs);
 					}
@@ -230,7 +263,9 @@ void StudyPlan::checkPreAndCoReq()
 						pCr->changeBorderColor(RED);
 
 				}
+				CrsTotalperSem += (*it)->getCredits();
 			}
+			Credits_Of_All_Sems.push_back(CrsTotalperSem);
 		}
 	}
 }
@@ -338,7 +373,7 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 				if (!((CoReq.size()) == 0))
 				for (int i = 0; i < CoReq.size(); i++)
 				{
-					if (((*it)->getCode() == CoReq[i])&&((*it)!=NULL) && (!(*it)->Cant_Touch_This_Flag))
+					if (((*it)->getCode() == CoReq[i]) && ((*it) != NULL) && (!(*it)->Cant_Touch_This_Flag) && ((*it)->DrawMe_Flag))
 					{
 						pGUI->pWind->SetBrush(RED);
 						pGUI->pWind->SetPen(RED,2);
@@ -350,7 +385,7 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 				for (int i = 0; i < PreReq.size(); i++)
 				{
 					Code = (*it)->getCode();
-					if ((Code== PreReq[i])&&((*it) != NULL) && (!(*it)->Cant_Touch_This_Flag))
+					if ((Code == PreReq[i]) && ((*it) != NULL) && (!(*it)->Cant_Touch_This_Flag) && ((*it)->DrawMe_Flag))
 					{
 						pGUI->pWind->SetBrush(BLUE);
 						pGUI->pWind->SetPen(BLUE,2);
@@ -361,6 +396,143 @@ void StudyPlan::FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI)
 			}
 		}
 	}
+}
+void StudyPlan::FindPreAndCoReq_ITCSP_Tree(Course* pC, GUI* pGUI)
+{
+	vector<string>CoReq = pC->getCoReq();
+	vector<string>PreReq = pC->getPreReq();
+	string Code;
+	AllCourseCodeForTree.push_back(pC->getCode());
+	if (!((CoReq.empty()) && (PreReq.empty())))
+		for (AcademicYear* yr : plan)
+		{
+			list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+			for (int sem = FALL; sem < SEM_CNT; sem++)
+			{
+				for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
+				{
+					//if (!((CoReq.size()) == 0))
+					//{
+					//	for (int i = 0; i < CoReq.size(); i++)
+					//	{
+					//		if (((*it)->getCode() == CoReq[i]) && ((*it) != NULL) && (!(*it)->Cant_Touch_This_Flag) && ((*it)->DrawMe_Flag))
+					//		{
+					//			pGUI->pWind->SetBrush(RED);
+					//			pGUI->pWind->SetPen(RED, 2);
+					//			pGUI->DrawCourse_Dependacies((*it), pC);
+					//			AllCourseCodeForTree.push_back((*it)->getCode());
+					//			break;
+					//		}
+					//	}
+					//	
+					//}
+					if (!((PreReq.size()) == 0))
+					{
+						for (int i = 0; i < PreReq.size(); i++)
+						{
+							Code = (*it)->getCode();
+							if ((Code == PreReq[i]) && ((*it) != NULL) && (!(*it)->Cant_Touch_This_Flag) && ((*it)->DrawMe_Flag))
+							{
+
+								pGUI->pWind->SetBrush(BLUE);
+								pGUI->pWind->SetPen(BLUE, 2);
+								pGUI->DrawCourse_Dependacies((*it), pC);
+								AllCourseCodeForTree.push_back((*it)->getCode());
+								break;
+							}
+
+						}
+					
+					}
+				}
+			}
+		}
+}
+void StudyPlan::TreeFiltering()
+{
+	string Code;
+		for (AcademicYear* yr : plan)
+		{
+			list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+			for (int sem = FALL; sem < SEM_CNT; sem++)
+			{
+				for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
+				{
+					Code = (*it)->getCode();
+					(*it)->DrawMe_Flag = false;
+				      for (int i = 0; i < AllCourseCodeForTree.size(); i++)
+				      {
+
+					     if (Code == AllCourseCodeForTree[i])
+					     {
+							 (*it)->DrawMe_Flag = true;
+						    break;
+					     }
+				      }
+				}
+			}
+		}
+}
+void StudyPlan::TreeUnFiltering()
+{
+	for (AcademicYear* yr : plan)
+	{
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int sem = FALL; sem < SEM_CNT; sem++)
+		{
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
+			{
+						(*it)->DrawMe_Flag = true;
+			}
+		}
+	}
+}
+void StudyPlan::SetTree(vector<Course*> VectorTree)
+{
+	TreeVector = VectorTree;
+}
+vector<Course*> StudyPlan::FindPre_ITCSP(Course* pC)
+{
+	TreeVector.push_back(pC);
+	{
+		vector<string>PreReq = pC->getPreReq();
+		TreeVector.push_back(pC);
+		string Code= pC->getCode();
+		{
+			for (AcademicYear* yr : plan)
+			{
+				list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+				for (int sem = FALL; sem < SEM_CNT; sem++)
+				{
+					for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
+					{
+						PreReq = (*it)->getPreReq();
+						if (!((PreReq.size()) == 0))
+							for (int i = 0; i < PreReq.size(); i++)
+							{
+								if ((Code == PreReq[i]) && ((*it) != NULL) && (!(*it)->Cant_Touch_This_Flag) && ((*it)->DrawMe_Flag))
+								{
+									FindPre_ITCSP((*it));
+								}
+							}
+					}
+				}
+			}
+			return TreeVector;
+		}
+	}
+}
+void StudyPlan::ClearTree()
+{
+	TreeVector.clear();
+}
+void StudyPlan::ACCFT()
+{
+	AllCourseCodeForTree.clear();
+}
+vector<Course*> StudyPlan::Gettree()
+{
+	return TreeVector;
 }
 void StudyPlan::checkProgramReq()
 {
@@ -682,8 +854,8 @@ void  StudyPlan::LiveReport(GUI* pGUI, int Min_Crs, int Max_Crs)
 	vector<Error> Co_Errors; 
 	vector<Error> Pre_Errors;
 	Set_Report_Lines();
-	pGUI->Report_Start = -1;
-	pGUI->Report_Stop = 11;
+	pGUI->setReport_Start(-1);
+	pGUI->setReport_Stop(11);
 	for (AcademicYear* yr : plan)
 	{
 		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
@@ -1126,6 +1298,10 @@ vector<int> StudyPlan::get_Sem_Credits()const
 {
 	return Sem_Credits;
 }
+vector<int> StudyPlan::get_Of_All_Sems_Credits()const
+{
+	return Credits_Of_All_Sems;
+}
 void StudyPlan::Set_Plan_Rules(Rules &RegRules)
 {
 	pRules = &RegRules;
@@ -1327,7 +1503,7 @@ void StudyPlan::Set_Double_Major_Plan_Rules(Rules& DoubleRegRules)
 	pDoubleMajorRules = &DoubleRegRules;
 
 }
-bool StudyPlan::alreadyExistingCourse(string code)
+bool StudyPlan::alreadyExistingCourse(string code, SEMESTER newSem, int newYear)
 {
 	for (AcademicYear* yr : plan)
 	{
@@ -1336,7 +1512,7 @@ bool StudyPlan::alreadyExistingCourse(string code)
 		{
 			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++)
 			{
-				if ((*it)->getCode() == code)
+				if ((*it)->getCode() == code  && (*it)->getSemester() == newSem && (*it)->getYear() == newYear)
 					return true;
 			}
 		}
@@ -1351,6 +1527,71 @@ void StudyPlan::setMinor_course_flag(bool cond)
 void StudyPlan::setDouble_Minor_course_flag(bool cond)
 {
 	Double_Minor_course_flag = cond;
+}
+
+void StudyPlan::handleRepetition()
+{
+	// Loop on All courses
+	for (AcademicYear* yr : plan) {
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int sem = FALL; sem < SEM_CNT; sem++) {
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
+				// For each course loop down till you find its repeated one
+				Course* pCr = (*it);
+				if (pCr->repetitionCheked) {
+					continue;
+				}
+				pCr->repeatedCourse = false;
+				pCr->repeatedTimes = 0;
+				for (string code : repeatedCoursesVector) {
+					if (code == pCr->getCode())
+						pCr->repeatedCourse = true;
+				}
+				for (int j = pCr->getYear() - 1; j < GUI::NumOfYrs; j++) {
+					// check all the years including this year
+					list<Course*>* pYr2 = plan[j]->getListOfYears(); // pointer to the year
+
+					int semester_count;
+					if (pCr->getYear() - 1 == j) {
+						// The same year
+						// in this case only loop on the number of semester
+						if (pCr->getSemester() == 2)
+							continue; // not to search in the same year
+						semester_count = pCr->getSemester() + 1;
+					}
+					else {
+						// otherwise loop on all 3 semesters
+						semester_count = 0;
+					}
+
+					for (int k = semester_count; k <= 2; k++) {
+						// check all the semesters below my semester
+						for (auto iter = pYr2[k].begin(); iter != pYr2[k].end(); iter++) {
+							if (pCr->getCode() == (*iter)->getCode()) {
+								// Repetition ;)
+								repeatedCoursesVector.push_back(pCr->getCode());
+								pCr->repeatedCourse = true;
+								pCr->repeatedTimes++;
+								pCr->repetitionCheked = true;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	for (AcademicYear* yr : plan) {
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int sem = FALL; sem < SEM_CNT; sem++) {
+			for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
+				// For each course loop down till you find its repeated one
+				Course* pCr = (*it);
+				pCr->repetitionCheked = false;
+			}
+		}
+	}
+	repeatedCoursesVector.clear();
 }
 
 //void StudyPlan::getDoubleConcentration() const

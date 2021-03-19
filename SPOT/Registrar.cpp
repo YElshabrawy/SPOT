@@ -6,14 +6,14 @@
 #include<vector>
 #include"DEFs.h"
 #include<algorithm>
+#include "Maestro.h"
 using namespace std;
-
-StudyPlan* Registrar::pSPlan = new StudyPlan;
-int Registrar::SPSC = 2;
 Registrar::Registrar()
 {
 	pGUI = new GUI;	//create interface object
 	pSPlan = new StudyPlan;	//create a study plan.
+	pGUI->setSpotNumber(MeineNummer);
+	pGUI->SetMaestroWindowP(pMaestro->pMaestroWind);
 	/*for (int i = 0; i < 10; i++)
 	{*/
 		List_Of_All_StudyPlans.push_back(pSPlan);
@@ -102,7 +102,7 @@ Action* Registrar::CreateRequiredAction()
 	{
 		RequiredAction = new ActionEraseAll(this);
 		Erase_Flag = true;
-		pGUI->Current_Page_Report = 0;
+		pGUI->setCurrent_Page_Report(0);
 		break;
 	}
 	case CHANGE_CODE:
@@ -156,7 +156,7 @@ Action* Registrar::CreateRequiredAction()
 			}
 			OldpCr = nullptr;
 		}
-		pGUI->Current_Page_Report = 0;
+		pGUI->setCurrent_Page_Report(0);
 		break;
 	case REDO:
 		RequiredAction = new ActionRedo(this);
@@ -191,21 +191,20 @@ Action* Registrar::CreateRequiredAction()
 			{
 				OldpCr->changeColor(MYCYAN);
 			}
-			pGUI->Current_Page_Report = 0;
+			pGUI->setCurrent_Page_Report(0);
 			OldpCr = nullptr;
 		}
 		break;
 	case Exit: Exit_Program = true; break;
 	default:
 	{
-		if (pGUI->Last_CLick == RIGHT_CLICK)
+		if (pGUI->GetLastClick() == RIGHT_CLICK)
 		{
 			RequiredAction = new ActionDragAndDrop(this);
-
 			Drag_Flag = true;
 			break;
 		}
-		else if (((pGUI->YCoord >= 10) && (pGUI->YCoord <= 30) && ((pGUI->XCoord)>=(pGUI->SideBarX1-45 + (pGUI->SideBarX2 - pGUI->SideBarX1)/2)) && (pGUI->XCoord <= (pGUI->SideBarX1-45+100+(pGUI->SideBarX2 - pGUI->SideBarX1)/2 )))&&(pGUI->Last_CLick == LEFT_CLICK))
+		else if (((pGUI->getYCoord() >= 10) && (pGUI->getYCoord() <= 30) && ((pGUI->getXCoord())>=(pGUI->SideBarX1-45 + (pGUI->SideBarX2 - pGUI->SideBarX1)/2)) && (pGUI->getXCoord() <= (pGUI->SideBarX1-45+100+(pGUI->SideBarX2 - pGUI->SideBarX1)/2 )))&&(pGUI->GetLastClick() == LEFT_CLICK))
 		{
 			RequiredAction = new ActionAddNotes(this);
 			Note_Flag = true;
@@ -265,66 +264,73 @@ void Registrar::Run()
 	setRules();
 	RegRules.SemMinCredit = 12;
 	RegRules.SemMaxCredit = 21;
-
+	int x, y, Xold = 0, Yold = 0;
 	while (!Exit_Program)
-	{
-		importProgramReq(RegRules, pSPlan->getMajor());
-		cout << (pSPlan->getConcentration()) << endl;
-		cout << pSPlan->getDoubleConcentration() << endl;
-		if (pSPlan->getMajorChanged() == true) {
-			//pSPlan->
+		{
+		if (pGUI->GetMaestroClick())
+		{
+			pGUI->SetMaestroClick(false);
+			pGUI->pWind->FlushMouseQueue();
+			break;
+		}
+		pGUI->setSpotNumber(MeineNummer);
+			pSPlan->handleRepetition();
 			importProgramReq(RegRules, pSPlan->getMajor());
-			//pSPlan->Set_Course_Type();
-			//setCatalogCoursesType();
-			pSPlan->setMajorChanged(false);
-		}
-		if (pSPlan->getDoubleMajorOptimize()) {
-			// Get the requirments
-			importProgramReq(DoubleRegRules, pSPlan->getDoubleMajor());
-
-			// Send it to study plan in case needed
-			setDoubleMajorRules();
-
-			//Change the wanted changes
-			RegRules.CheckDoubleMajorCompCourses.clear();
-			RegRules.CheckDoubleMajorElectiveCourses.clear();
-			RegRules.CheckDoubleTrackCourses.clear();
-			combineDoubleMajorCourses();
-			
-
-			// Adjust the optimizer
-			pSPlan->setDoubleMajorOptimize(false);
-		}
-		//update interface here as CMU Lib doesn't refresh itself
-		//when window is minimized then restored..
-		setRules();
-		pSPlan->GenerateStudentLevel(pGUI);
-		pSPlan->checkPreAndCoReq();
-		pGUI->NOCPSIAYs.clear();
-		for (int i = 0; i < pSPlan->NOCPS.size(); i++)
-		{
-			pGUI->NOCPSIAYs.push_back(pSPlan->NOCPS[i]);
-		}
-		pSPlan->Set_Course_Type();
-		pSPlan->checkCreditHrs(RegRules.SemMinCredit, RegRules.SemMaxCredit);
-		pSPlan->checkProgramReq();
-		pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);
-//<<<<<<< HEAD
-//		pSPlan->Set_Course_Type();
-//=======
-		pGUI->Total_Number_Pages_In_Report=(pSPlan->Get_Page_Number());
-		pGUI->DrawLiveReportPages((pGUI->ReportAreaHeight/15)-2, pGUI->Current_Page_Report);
-		pGUI->NotesLines.clear();
-		UpdateInterface();
-		Action* pAct = CreateRequiredAction();
-		if (pAct)	//if user doesn't cancel
-		{
-	
-			if (ExecuteAction(pAct))
-			{//if action is not cancelled
-				UpdateInterface();
+			cout << (pSPlan->getConcentration()) << endl;
+			cout << pSPlan->getDoubleConcentration() << endl;
+			if (pSPlan->getMajorChanged() == true) {
+				//pSPlan->
+				importProgramReq(RegRules, pSPlan->getMajor());
+				//pSPlan->Set_Course_Type();
+				//setCatalogCoursesType();
+				pSPlan->setMajorChanged(false);
 			}
-		}
+			if (pSPlan->getDoubleMajorOptimize()) {
+				// Get the requirments
+				importProgramReq(DoubleRegRules, pSPlan->getDoubleMajor());
+
+				// Send it to study plan in case needed
+				setDoubleMajorRules();
+
+				//Change the wanted changes
+				RegRules.CheckDoubleMajorCompCourses.clear();
+				RegRules.CheckDoubleMajorElectiveCourses.clear();
+				RegRules.CheckDoubleTrackCourses.clear();
+				combineDoubleMajorCourses();
+
+
+				// Adjust the optimizer
+				pSPlan->setDoubleMajorOptimize(false);
+			}
+			//update interface here as CMU Lib doesn't refresh itself
+			//when window is minimized then restored..
+			setRules();
+			pSPlan->GenerateStudentLevel(pGUI);
+			pSPlan->checkPreAndCoReq();
+			//pSPlan->handleRepetition();
+			pGUI->NOCPSIAYs.clear();
+			for (int i = 0; i < pSPlan->NOCPS.size(); i++)
+			{
+				pGUI->NOCPSIAYs.push_back(pSPlan->NOCPS[i]);
+			}
+			pGUI->CrsPerSemester = pSPlan->get_Of_All_Sems_Credits();
+			pSPlan->Set_Course_Type();
+			pSPlan->checkCreditHrs(RegRules.SemMinCredit, RegRules.SemMaxCredit);
+			pSPlan->checkProgramReq();
+			pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);
+			pGUI->Total_Number_Pages_In_Report = (pSPlan->Get_Page_Number());
+			pGUI->DrawLiveReportPages((pGUI->ReportAreaHeight / 15) - 2, pGUI->getCurrent_Page_Report());
+			pGUI->NotesLines.clear();
+			UpdateInterface();
+			Action* pAct = CreateRequiredAction();
+			if (pAct)	//if user doesn't cancel
+			{
+
+				if (ExecuteAction(pAct))
+				{//if action is not cancelled
+					UpdateInterface();
+				}
+			}
 	}
 }
 void Registrar::UpdateInterface()
@@ -338,15 +344,19 @@ void Registrar::UpdateInterface()
 	pGUI->Total_Number_Study_Plans = List_Of_All_StudyPlans.size();
 	pGUI->Current_StudyPlan = Current_Study_Plan;
 	pGUI->UpdateInterface();	//update interface items
-	if (pGUI->Draw_Dependacies_Flag)
+	if (pGUI->getDDF())
 	{
 		Action* pAct = new ActionCourseDependancies(this);
 		ExecuteAction(pAct);
 	}
-	else if (pGUI->Draw_Dependacies_For_One_Course)
+	else if (pGUI->getDDFOC())
 	{
 		Action* pAct = new  ActionDDOOC(this);
 		ExecuteAction(pAct);
+	}
+	else if (!pGUI->getDDFOC()&& !pGUI->getDDF())
+	{
+		pSPlan->TreeUnFiltering();
 	}
 	//pSPlan->Set_Page_Number((pGUI->ReportAreaHeight / 15) - 2);
 	pSPlan->Set_Course_Type();
@@ -354,8 +364,8 @@ void Registrar::UpdateInterface()
 	pSPlan->DrawMe(pGUI);
 	pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);//make study plan draw itself
 	pGUI->Total_Number_Pages_In_Report = (pSPlan->Get_Page_Number());
-	pGUI->DrawLiveReportPages((pGUI->ReportAreaHeight / 15) - 2, pGUI->Current_Page_Report);
-	pGUI->DrawNotesPages((pGUI->NotesHeight / 15) - 2, pGUI->Current_Page_Notes);
+	pGUI->DrawLiveReportPages((pGUI->ReportAreaHeight / 15) - 2, pGUI->getCurrent_Page_Report());
+	pGUI->DrawNotesPages((pGUI->NotesHeight / 15) - 2, pGUI->getCurrent_Page_Notes());
 }
 Registrar::~Registrar()
 {
@@ -945,4 +955,16 @@ void Registrar::setCrossLinkedCourses()
 		temp.reight = tokensVector[1];
 		RegRules.CrossLinkedCourses.push_back(temp);
 	} while (!finput.eof());
+}
+void Registrar::SetMaestroWindowP(Maestro *Pointer)
+{
+	pMaestro = Pointer;
+}
+int  Registrar::getMeineNummer()const
+{
+	return MeineNummer;
+}
+void Registrar::getMeineNummer(int num)
+{
+	MeineNummer = num;
 }

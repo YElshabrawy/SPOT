@@ -328,6 +328,9 @@ bool ActionDeclareMinor::Execute()
 							//add 2 if conditions if count <5 or if count2<5 and count =5//
 
 						}
+
+						//plan->Count = plan->Count + 1;
+						//plan->Minor_Course.push_back(coursecode);
 					}
 					//flag = false;
 					return true;//--------------->might me a bug 
@@ -433,37 +436,13 @@ bool ActionDeclareMinor::Execute()
 		}
 	}
 	//----------------------------------------------------------------------------------//
-
-	//store the course name in the declared array
-	//coursecode = new code;
-	//plan->Minor_Course.push_back(coursecode);
-//cout << plan->Minor_Course.at(0) << endl;
-
-// compare to the sample
-	/*if (plan->Count == 5)
-	{
-		for (int j = 0; j < 5; j++)
-		{
-			for (int i = 0; i < 6; i++)
-			{
-				if (plan->Minor_Course.at(j) == MinorAlternatives[i])
-				{
-					dummy += 1;
-					break;
-				}
-			}
-		}
-		if (dummy == 5)
-		{
-			Minor = "Environmental";
-		}
-	}*/
 	//---------------------------IF USER PRESSES ESCAPE--------------------------------------//
 	// to escape if no course is entered	
 	while (key != 4 && done == false)
 	{
 		key = pGUI->pWind->GetKeyPress(c);
-	}
+	}	
+	plan->Minor_Course.push_back(coursecode);
 	return true;
 }
 

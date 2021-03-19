@@ -1508,3 +1508,11 @@ void window::Print() {
   	    cout << "Fatal Error: Failed to delete dcPrinter in Print!" << endl;
   	}
 }
+bool window::GetClicked()const
+{
+	return Clicked;
+}
+void window::SetClicked(bool input)
+{
+	Clicked = input;
+}

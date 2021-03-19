@@ -25,15 +25,22 @@ Course::Course(Course_Code r_code, string r_title, int crd,
 	sem = r_sem;
 	//Number of years per semester
 	numOfCoursesPerSem[(3 * (year - 1)) + sem]++;
+	repeatedCourse = false;
+	repeatedTimes = 0;
+	repetitionCheked = false;
 	
 }
 Course::Course()
 {
 	code = "";
 	Title = "";
-	Grade = "";
+	Grade = "--";
+	Status = "NT";
 	studentleveltoken = false;
 	Done = false;
+	repeatedCourse = false;
+	repeatedTimes = 0;
+	repetitionCheked = false;
 }
 Course::~Course()
 {
@@ -58,6 +65,10 @@ void Course::setCourseCreditsTransfered(bool CT)
 void Course::setGrade(string grade)
 {
 	Grade = grade;
+}
+void Course::setStatus(string status)
+{
+	Status = status;
 }
 void Course::setCoursedone(bool Case)
 {
@@ -173,6 +184,10 @@ string Course::getGrade()const
 {
 	return Grade;
 }
+string Course::getStatus()const
+{
+	return Status;
+}
 vector<Error>Course::getPreReqErrors() const
 {
 	return Prereq_Error_List;
@@ -287,6 +302,11 @@ void Course::printCourse() const {
 }
 Course* Course::getCoursePtr() {
 	return this;
+}
+
+bool Course::hasNoStatus()
+{
+	return !(Done || pending || inprogress || Exempted || Replaced);
 }
 
 Course::Course(const Course& CopiedCrs)

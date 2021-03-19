@@ -3,18 +3,21 @@
 #include "Actions\Action.h"
 #include "Rules.h"
 #include "StudyPlan/StudyPlan.h"
+#include "Maestro.h"
 
 
 //The maestro class for the application
 class Registrar
 {
+	friend class Maestro;
 	bool Exit_Program = false;
 	GUI *pGUI;	//pointer to GUI 
 	Rules RegRules;	//Registration rules
 	Rules DoubleRegRules; // Double major requirements
-	static StudyPlan *pSPlan;
+	StudyPlan *pSPlan;
 	vector<StudyPlan*>List_Of_All_StudyPlans;
 	StudyPlan* pS_Old;
+	Maestro* pMaestro;
 	bool Import_Flag= false;
 	bool Delete_Flag = false;
 	bool Add_Flag = false;
@@ -23,7 +26,8 @@ class Registrar
 	bool Note_Flag = false;
 	bool ChangeCode_Flag = false;
 	int Current_Study_Plan = 0;
-	static int SPSC;
+	int MeineNummer;
+	int SPSC=2;
 	//Updated
 	//static vector<CourseInfo> allCourses;
 
@@ -60,5 +64,9 @@ public:
 	vector<StudyPlan*> getStudyPlanVector();
 	void combineDoubleMajorCourses();
 	void setCrossLinkedCourses();
+	void SetMaestroWindowP(Maestro *Pointer);
+	int  getMeineNummer()const;
+	void getMeineNummer(int num);
+
 };
 

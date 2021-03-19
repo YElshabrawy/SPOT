@@ -95,6 +95,27 @@ void ActionFilter::FilteringType(Type type)
 		}
 	}
 }
+void ActionFilter::FilteringDoneOrNot(bool Input)
+{
+	StudyPlan* plan = pReg->getStudyPlay();
+	vector<AcademicYear*>* pPlan = plan->getStudyPlanVector(); // pointer on the plan vector
+	for (AcademicYear* yr : *pPlan)//
+	{
+		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+		for (int i = 0; i < SEM_CNT; i++)
+		{
+			for (auto it = pYr[i].begin(); it != pYr[i].end(); it++)
+			{
+				// Iterate on courses
+				Course* pCr = (*it);
+				if (pCr->getCoursedone() != Input)// through course pointer, get the course type and compare it the input type 
+				{
+					pCr->DrawMe_Flag = false;
+				}
+			}
+		}
+	}
+}
 //void ActionFilter::FilteringStatus(string s)
 //{
 //	StudyPlan* plan = pReg->getStudyPlay();
@@ -153,17 +174,14 @@ bool ActionFilter::Execute()
 	{
 		x = actData.x;
 		y = actData.y;
-		cout << "YESSSSSS" << endl;// debug to check that the year and semester are counted from drawing area
 		keytype key;
 		char c=NULL;
 		key = pGUI->pWind->GetKeyPress(c);
 		//filter year
 		if (((x >= 1) && (x <= 19)) && (y >= ((1 * One_Year_Div) - YearImgMidSubtractor + (0 * MyFactor))) && (y <= (82 + ((6 * One_Year_Div) - YearImgMidSubtractor + (5 * MyFactor)))))
 		{
-			cout << "You are progressing" << endl; //debug
 			if ((y >= (((1 * One_Year_Div) - YearImgMidSubtractor + (0 * MyFactor)))) && (y <= (83 + (((1 * One_Year_Div) - YearImgMidSubtractor + (0 * MyFactor))))))
 			{
-				cout << "Hello world" << endl;
 				year = 1;//now i am holding the year number
 				Filteringyear(year - 1);
 				pReg->UpdateInterface();
@@ -171,35 +189,30 @@ bool ActionFilter::Execute()
 			}
 			if ((y >= (((2 * One_Year_Div) - YearImgMidSubtractor + (1 * MyFactor)))) && (y <= (83 + (((2 * One_Year_Div) - YearImgMidSubtractor + (1 * MyFactor))))))
 			{
-				cout << "Hello world222" << endl;
 				year = 2;//now i am holding the year number
 				Filteringyear(year - 1);
 				pReg->UpdateInterface();
 			}
 			if ((y >= (((3 * One_Year_Div) - YearImgMidSubtractor + (2 * MyFactor)))) && (y <= (83 + (((3 * One_Year_Div) - YearImgMidSubtractor + (2 * MyFactor))))))
 			{
-				cout << "Hello world3333" << endl;
 				year = 3;//now i am holding the year number
 				Filteringyear(year - 1);
 				pReg->UpdateInterface();
 			}
 			if ((y >= (((4 * One_Year_Div) - YearImgMidSubtractor + (3 * MyFactor)))) && (y <= (83 + (((4 * One_Year_Div) - YearImgMidSubtractor + (3 * MyFactor))))))
 			{
-				cout << "Hello world444" << endl;
 				year = 4;//now i am holding the year number
 				Filteringyear(year - 1);
 				pReg->UpdateInterface();
 			}
 			if ((y >= (((5 * One_Year_Div) - YearImgMidSubtractor + (4 * MyFactor)))) && (y <= (83 + (((5 * One_Year_Div) - YearImgMidSubtractor + (4 * MyFactor))))))
 			{
-				cout << "Hello world555" << endl;
 				year = 5;//now i am holding the year number
 				Filteringyear(year - 1);
 				pReg->UpdateInterface();
 			}
 			if ((y >= (((6 * One_Year_Div) - YearImgMidSubtractor + (5 * MyFactor)))) && (y <= (83 + (((6 * One_Year_Div) - YearImgMidSubtractor + (5 * MyFactor))))))
 			{
-				cout << "Hello world666" << endl;
 				year = 6;//now i am holding the year number
 				Filteringyear(year - 1);
 				pReg->UpdateInterface();
@@ -264,33 +277,42 @@ bool ActionFilter::Execute()
 			}*/
 		//filtering based on type
 		bool Flag=false;
+		//filtering based Done or Not
 		if (x >= (GUI::Year_X1) && x <= (GUI::Year_X2))
 		{
 			Course* pCr = pReg->interrogateCourse(x, y);
 			if (pCr != nullptr)
 			{
-				type = pCr->getType();
-				FilteringType(type);
+				graphicsInfo gInfo = pCr->getGfxInfo();
+				if ((x>=gInfo.x + ((2 * CRS_WIDTH) / 3))&&(x <= gInfo.x +CRS_WIDTH)&&(y>= gInfo.y+CRS_HEIGHT/2)&&(y <= gInfo.y + CRS_HEIGHT))
+				{
+					if (pCr->getCoursedone())
+					{
+						FilteringDoneOrNot(true);
+					}
+					else
+					{
+						FilteringDoneOrNot(false);
+					}
+				}
+				else
+				{
+					type = pCr->getType();
+					FilteringType(type);
+				}
 			}
 			else
 				Flag = true;
 			pReg->UpdateInterface();
 		}
-			while ((c==NULL))
+		while ((c==NULL))
 			{
 				if (Flag == true)
 					break;
 				char FLAG;
 				c = pGUI->pWind->GetKeyPress(FLAG);
 			}
-
 		UNFiltering();
 	}
-
-
-
-
-
-
 	return true;
 }
