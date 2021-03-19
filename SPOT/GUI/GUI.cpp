@@ -565,20 +565,20 @@ ActionData GUI::GetUserAction(string msg)
 			}
 		}
 		X = 0; Y = 0;
-		if (!LOFWIND.empty())
-		{
-			for (int i = 0; i < LOFWIND.size(); i++)
-			{
-				if ((LOFWIND[i]->GetMouseClick(X, Y)) && (LOFWIND[i] != pWind))
-				{
-					LOFWIND[i]->SetClicked(true);
-					Maestro_Click = true;
-					break;
-				}
-			}
-			if (Maestro_Click)
-				break;
-		}
+		//if (!LOFWIND.empty())
+		//{
+		//	for (int i = 0; i < LOFWIND.size(); i++)
+		//	{
+		//		if ((LOFWIND[i]->GetMouseClick(X, Y)) && (LOFWIND[i] != pWind))
+		//		{
+		//			LOFWIND[i]->SetClicked(true);
+		//			Maestro_Click = true;
+		//			break;
+		//		}
+		//	}
+		//	if (Maestro_Click)
+		//		break;
+		//}
 		if (pMaestrowind->GetMouseClick(X, Y))
 		{
 			Maestro_Click = true;
