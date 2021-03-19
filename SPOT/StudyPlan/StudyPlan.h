@@ -22,6 +22,7 @@ private:
 	//Concentrations concentrations;
 	Concentrations Doubleconcentrations;
 	bool Minor_course_flag;
+	bool Double_Minor_course_flag;
 	Rules* pRules;
 	int concentrationNumber = 0; // Indicates which concentration is sellected (0 = no conc selected yet)
 	int DoubleconcentrationNumber = 0;
@@ -44,6 +45,7 @@ public:
 		TotalMajorCredits = 0,		// Univ Elective 3
 		TotalElectiveCredits = 0,
 		TotalMinorCredits = 0,		// Major comm Elec 6
+		TotalDoubleMinorCredits=0,
 		TotalConcentrationCredits = 0,// Major Comm Compulsory 5
 		TotalTrackCredits = 0,		// Track Compulsory 4
 		TotalUnivCredits = 0,			// Univ Compulsory 2
@@ -63,9 +65,11 @@ public:
 	int No_Of_Pages;
 	string PlanNotes="";
 	vector<AcademicYear*> plan;	//plan is a list of academic years
-	vector<string>Minor_Course;
+	vector<string>Minor_Course;//vector for minor courses
+	vector<string>Double_Minor_Course;//vector for double minor courses
 	vector<int>NOCPS;
 	static int Count;
+	static int Count2;
 	StudyPlan();
 	bool AddCourse(Course* , int year, SEMESTER);
 	bool DeleteCourse(Course* pC);
@@ -78,6 +82,7 @@ public:
 	void FindPreAndCoReq_ITCSP(Course* pC, GUI* pGUI);
 	void checkProgramReq();
 	void setMinor_course_flag(bool cond);
+	void setDouble_Minor_course_flag(bool cond);
 	void setMajor(Major major);
 	void setDoubleconcentrationNumber(int n);
 	void setconcentrationNumber(int concentration);

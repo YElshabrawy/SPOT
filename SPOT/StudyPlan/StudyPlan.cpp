@@ -7,6 +7,7 @@
 #include <iterator>
 
 int StudyPlan::Count = 0;
+int StudyPlan::Count2 = 0;
 bool StudyPlan::doubleMajorExists = false;
 StudyPlan::StudyPlan()
 {
@@ -30,6 +31,11 @@ bool StudyPlan::AddCourse(Course* pC, int year, SEMESTER sem)
 			Minor_Course.push_back(pC->getCode());
 			Minor_course_flag = false;
 		}
+		if (Double_Minor_course_flag == true)
+		{
+		 Double_Minor_Course.push_back(pC->getCode());
+		 Double_Minor_course_flag == false;
+		}
 		setCourseTypeCredits(pC->getType(), 0, pC->getCredits());
 		checkOffering(pC->getCode(), year - 1, sem);
 		return true;
@@ -39,7 +45,7 @@ bool StudyPlan::DeleteCourse(Course* pC) {
 	plan[pC->getYear() - 1]->DeleteCourse(pC, pC->getSemester());
 	TotalCredits -= pC->getCredits();
 	setCourseTypeCredits(pC->getType(), 1, pC->getCredits());
-	if (pC->Erased_Flag)
+	if (pC->Erased_Flag && pC->getType() == Minor)
 	for (int i=0;i<Minor_Course.size();i++)
 	{
 		if (Minor_Course.at(i) == pC->getCode())
@@ -50,6 +56,18 @@ bool StudyPlan::DeleteCourse(Course* pC) {
 			Count--;
 		}
 	}
+	//added part
+	if (pC->Erased_Flag &&  pC->getType() == DoubleMinor)
+		for (int i = 0; i < Double_Minor_Course.size(); i++)
+		{
+			if (Double_Minor_Course.at(i) == pC->getCode())
+			{
+				Double_Minor_Course.erase(Double_Minor_Course.begin() + i);
+				pC->Erased_Flag = false;
+				pC->Double_Minor_Erased_Flag = true;
+				Count2--;
+			}
+		}
 	// Delete the couurse offering error
 	for (int i = 0; i < Course_Offering_Errors.size(); i++) 
 		if (Course_Offering_Errors[i].Msg.find(pC->getCode()) != string::npos) {
@@ -95,6 +113,17 @@ void StudyPlan::checkPreAndCoReq()
 							pRules->TotalCHs += (pCr->getCredits());
 							pCr->Erased_Flag = false;
 							pCr->Minor_Erased_Flag = false;
+							break;
+						}
+					}
+				if (pCr->Double_Minor_Erased_Flag)
+					for (int i = 0; i < Double_Minor_Course.size(); i++)
+					{
+						if (Double_Minor_Course.at(i) == pCr->getCode())
+						{
+							pRules->TotalCHs += (pCr->getCredits());
+							pCr->Erased_Flag = false;
+							pCr->Double_Minor_Erased_Flag = false;
 							break;
 						}
 					}
@@ -926,6 +955,20 @@ void  StudyPlan::Set_Course_Type()
 							break;
 						}
 					}
+					//added
+					for (int i = 0; i < Double_Minor_Course.size(); i++)
+					{
+						if (Code == Double_Minor_Course[i])
+						{
+							(*it)->Set_Type(DoubleMinor);
+							if ((*it)->getColor() == BLACK)
+							{
+								break;
+							}
+							(*it)->changeColor(YELLOWGREEN);
+							break;
+						}
+					}
 				}
 				else {
 				for (int i = 0; i < pRules->UnivCompulsoryCourses.size(); i++)
@@ -1054,7 +1097,8 @@ void  StudyPlan::Set_Course_Type()
 				//		break;
 				//	}
 				//}
-				for (int i = 0; i < Minor_Course.size(); i++)
+				//---------------------------------------Repeated Code--------------------------------------------//
+			/*	for (int i = 0; i < Minor_Course.size(); i++)
 				{
 					if (Code == Minor_Course[i])
 					{
@@ -1066,7 +1110,8 @@ void  StudyPlan::Set_Course_Type()
 						(*it)->changeColor(ORANGERED);
 						break;
 					}
-				}
+				}*/
+				//------------------------------------------------------------------------------------------------//
 				}
 				
 			}
@@ -1096,6 +1141,7 @@ StudyPlan::StudyPlan(const StudyPlan& CopiedSP):Drawable()
 	NumberOfConcentrations = CopiedSP.NumberOfConcentrations;
 	MaxCredits = CopiedSP.MaxCredits;
 	TotalMinorCredits = CopiedSP.TotalMinorCredits;
+	TotalDoubleMinorCredits = CopiedSP.TotalDoubleMinorCredits;
 	TotalConcentrationCredits = CopiedSP.TotalConcentrationCredits;
 	TotalTrackCredits = CopiedSP.TotalTrackCredits;
 	TotalMajorCredits = CopiedSP.TotalMajorCredits;
@@ -1144,6 +1190,10 @@ StudyPlan::StudyPlan(const StudyPlan& CopiedSP):Drawable()
 	{
 		Minor_Course.push_back(CopiedSP.Minor_Course[i]);
 	}
+	for (int i = 0; i < CopiedSP.Double_Minor_Course.size(); i++)
+	{
+		Double_Minor_Course.push_back(CopiedSP.Double_Minor_Course[i]);
+	}
 
 }
 StudyPlan StudyPlan::operator=(const StudyPlan& CopiedSP)
@@ -1157,6 +1207,7 @@ StudyPlan StudyPlan::operator=(const StudyPlan& CopiedSP)
 	NumberOfConcentrations = CopiedSP.NumberOfConcentrations;
 	MaxCredits = CopiedSP.MaxCredits;
 	TotalMinorCredits = CopiedSP.TotalMinorCredits;
+	TotalDoubleMinorCredits = CopiedSP.TotalDoubleMinorCredits;//added
 	TotalConcentrationCredits = CopiedSP.TotalConcentrationCredits;
 	TotalTrackCredits = CopiedSP.TotalTrackCredits;
 	TotalMajorCredits = CopiedSP.TotalMajorCredits;
@@ -1229,6 +1280,10 @@ StudyPlan StudyPlan::operator=(const StudyPlan& CopiedSP)
 	{
 		Minor_Course.push_back(CopiedSP.Minor_Course[i]);
 	}
+	for (int i = 0; i < CopiedSP.Double_Minor_Course.size(); i++)
+	{
+		Double_Minor_Course.push_back(CopiedSP.Double_Minor_Course[i]);
+	}
 	return (*this);
 }
 
@@ -1291,6 +1346,11 @@ bool StudyPlan::alreadyExistingCourse(string code)
 void StudyPlan::setMinor_course_flag(bool cond)
 {
 	Minor_course_flag = cond;
+}
+//added
+void StudyPlan::setDouble_Minor_course_flag(bool cond)
+{
+	Double_Minor_course_flag = cond;
 }
 
 //void StudyPlan::getDoubleConcentration() const

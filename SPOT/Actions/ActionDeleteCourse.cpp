@@ -57,6 +57,30 @@ bool ActionDeleteCourse::Execute() {
 					}
 				}
 			}
+			for (int i = 0; i < pS->Double_Minor_Course.size(); i++)
+			{
+				if (pS->Double_Minor_Course.at(i) == pCr->getCode())
+					{
+						pReg->Increment_Total_Credits(-pCr->getCredits());
+						pCr->Erased_Flag = true;
+						pCr->Double_Minor_Erased_Flag = true;
+						for (AcademicYear* yr : *pPlans) {
+							list<Course*>* pYr = yr->getListOfYears(); // pointer to the year
+							for (int sem = FALL; sem < SEM_CNT; sem++) {
+								for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
+									if ((*it)->getCode() == pCr->getCode())
+									{
+										(*it)->Erased_Flag = pCr->Erased_Flag;
+										(*it)->Double_Minor_Erased_Flag = pCr->Double_Minor_Erased_Flag;
+										break;
+									}
+								}
+								if (flag) break;
+							}
+							if (flag) break;
+						}
+					}
+			}
 			pS->DeleteCourse(pCr);
 			cout << pCr->getCode() << " is deleted." << endl;
 			// Update the graphics info of the other courses in the same semester and year

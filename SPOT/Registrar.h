@@ -43,6 +43,7 @@ public:
 	// Updated
 	void createAllCourses();
 	CourseInfo* inCatalog(string code, bool& exists);
+	
 	string transformCode(string& code);
 	void setCourseOffering();
 	void setRules();
