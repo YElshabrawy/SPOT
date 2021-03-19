@@ -588,7 +588,7 @@ ActionData GUI::GetUserAction(string msg)
 }
 string GUI::GetSrting() const
 {
-	//Reads a complete string from the user until the user presses "ENTER".
+	//Reads a complete string from the user until the user presses "ENTER". ---->STAR ROON
 	//If the user presses "ESCAPE". This function should return an empty string.
 	//"BACKSPACE" is also supported
 	//User should see what he is typing at the status bar
@@ -597,6 +597,9 @@ string GUI::GetSrting() const
 	string userInput="";
 	vector<char>KeyInput{'|'};
 	char Cursor = '|';
+	vector<char>Letter{};
+	vector<string>courses{};
+	bool exists;
 	int Cursor_Position = 0;
 	char Key;
 	while (1)

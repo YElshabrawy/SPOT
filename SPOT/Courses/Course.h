@@ -44,6 +44,7 @@ public:
 	bool Distance_Flag = false;
 	bool Erased_Flag = false;
 	bool Minor_Erased_Flag = false;
+	bool Double_Minor_Erased_Flag = false;
 	bool Cant_Touch_This_Flag = false;
 	static vector<int> numOfCoursesPerSem;
 	//Constructors

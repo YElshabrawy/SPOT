@@ -23,6 +23,7 @@ enum Type
 	concentration,
 	Track,
 	Uni,
+	DoubleMinor,
 	NOTYPE
 };
 //All possible actions
