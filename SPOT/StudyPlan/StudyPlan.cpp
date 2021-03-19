@@ -5,7 +5,7 @@
 #include "../Utils/Utils.h"
 #include <fstream>
 #include <iterator>
-vector<string> StudyPlan::Minor_Course = {};
+//vector<string> StudyPlan::Minor_Course = {};
 int StudyPlan::Count = 0;
 int StudyPlan::Count2 = 0;
 bool StudyPlan::doubleMajorExists = false;
