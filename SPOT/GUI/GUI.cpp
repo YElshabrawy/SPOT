@@ -5,23 +5,7 @@
 #include <iostream>
 #include"../Registrar.h"
 using namespace std;
-int GUI::XCoord = 0;
-int GUI::YCoord = 0;
 vector<window*> GUI::LOFWIND = {};
-clicktype GUI::Last_CLick = RIGHT_CLICK;
-bool GUI::Draw_Dependacies_Flag = false;
-bool GUI::Draw_Dependacies_For_One_Course = false;
-bool GUI::Draw_Dependacies_For_One_Course_Flag = false;
-int  GUI::Current_Page_Report = 0;
-int  GUI::Current_Page_Notes = 0;
-int  GUI::Current_Page_Info = 0;
-int  GUI::Report_Stop = 0;
-int  GUI::Report_Start = 0;
-int  GUI::Notes_Stop = 0;
-int  GUI::Notes_Start = 0;
-int  GUI::Info_Stop = 0;
-int  GUI::Info_Start = 0;
-
 GUI::GUI()
 { 
 	for (int i = 0; i < 15; i++)
@@ -993,7 +977,7 @@ void GUI::DrawLiveReportPages(int Number_Lines, int Page_Number)
 		}
 	}
 }
-void GUI::DrawNotesPages(int Number_Lines, int Page_Number)const
+void GUI::DrawNotesPages(int Number_Lines, int Page_Number)
 {
 	ClearNotesArea();
 	int MsgX = NotesX1+5;
@@ -1290,7 +1274,7 @@ void GUI::DrawInfoPages()const
 	pWind->DrawString(MsgX, MsgY + 5 + F*11, "Press  x  To Redo");
     }
 }
-void GUI::DrawCourse_Dependacies(Course* pCr, Course* DpCr) const
+void GUI::DrawCourse_Dependacies(Course* pCr, Course* DpCr)
 {
 	//pWind->SetBrush(BLACK);
 	//pWind->SetPen(BLACK);
@@ -1361,6 +1345,90 @@ void GUI::GetVecOfWindows(vector<window*>input)
 void GUI::setSpotNumber(int input)
 {
 	SpotNumber = input;
+}
+bool GUI::getDDFOOCF()const
+{
+	return Draw_Dependacies_For_One_Course_Flag;
+}
+void GUI::setDDFOOCF(bool input)
+{
+	Draw_Dependacies_For_One_Course_Flag = input;
+}
+bool GUI::getDDFOC()const
+{
+	return Draw_Dependacies_For_One_Course;
+}
+void GUI::setDDFOC(bool input)
+{
+	Draw_Dependacies_For_One_Course = input;
+}
+bool GUI::getDDF()const
+{
+	return Draw_Dependacies_Flag;
+}
+void GUI::setDDF(bool input)
+{
+	Draw_Dependacies_Flag = input;
+}
+int GUI::getXCoord()const
+{
+	return XCoord;
+}
+int GUI::getYCoord()const
+{
+	return YCoord;
+}
+clicktype GUI::GetLastClick()const
+{
+	return Last_CLick;
+}
+int GUI::getCurrent_Page_Report()const
+{
+	return Current_Page_Report;
+}
+void GUI::setCurrent_Page_Report(int input)
+{
+	Current_Page_Report = input;
+}
+int GUI::getCurrent_Page_Notes()const
+{
+	return Current_Page_Notes;
+}
+void GUI::setCurrent_Page_Notes(int input)
+{
+	Current_Page_Notes = input;
+}
+int GUI::getCurrent_Page_Info()const
+{
+	return Current_Page_Info;
+}
+void GUI::setCurrent_Page_Info(int input)
+{
+	Current_Page_Info = input;
+}
+int GUI::getReport_Stop()const
+{
+	return Report_Stop;
+}
+void GUI::setReport_Stop(int input)
+{
+	Report_Stop = input;
+}
+int GUI::getReport_Start()const
+{
+	return Report_Start;
+}
+void GUI::setReport_Start(int input)
+{
+	Report_Start = input;
+}
+int GUI::getNotes_Stop()const
+{
+	return Notes_Stop;
+}
+void GUI::setNotes_Stop(int input)
+{
+	Notes_Stop = input;
 }
 GUI::~GUI()
 {

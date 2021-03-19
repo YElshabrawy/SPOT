@@ -10,14 +10,14 @@ bool  ActionDDOOC::Execute()
 {
 	GUI* pGUI = pReg->getGUI();
 	StudyPlan* pS = pReg->getStudyPlay();
-	if (pGUI->Draw_Dependacies_For_One_Course_Flag)
+	if (pGUI->getDDFOOCF())
 	{
-		pGUI->Draw_Dependacies_For_One_Course_Flag = false;
-		pGUI->Draw_Dependacies_For_One_Course = false;
+		pGUI->setDDFOOCF(false);
+		pGUI->setDDFOC(false);
 		pS->TreeUnFiltering();
 		return true;
 	}
-	if (pGUI->Draw_Dependacies_For_One_Course)
+	if (pGUI->getDDFOC())
     {
 		vector<Course*>Tree = pS->Gettree();
 		for (int i = 0; i < Tree.size(); i++)
@@ -32,14 +32,14 @@ bool  ActionDDOOC::Execute()
 	y = actData.y;
 	Course* pCr = pReg->interrogateCourse(x, y);
 	if (pCr == nullptr) {
-		pGUI->Draw_Dependacies_For_One_Course = false;
+		pGUI->setDDFOC(false);
 		pS->TreeUnFiltering();
 		return true;
 	}
 	else
 	{
 		pReg->OldpCr_For_DDOOC = pCr;
-		pGUI->Draw_Dependacies_For_One_Course = true;
+		pGUI->setDDFOC(true);
 		pS->ClearTree();
 		pS->ACCFT();
 		vector<Course*>Tree=pS->FindPre_ITCSP(pCr);

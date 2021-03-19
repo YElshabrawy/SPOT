@@ -17,11 +17,11 @@ ActionDragAndDrop::~ActionDragAndDrop()
 bool ActionDragAndDrop::Execute()
 {
 	GUI* pGUI = pReg->getGUI();
-	pGUI->Draw_Dependacies_Flag = false;
-	pGUI->Draw_Dependacies_For_One_Course = false;
+	pGUI->setDDF(false);
+	pGUI->setDDFOC(false);
 	int x, y,flag=0,Error_Flag=0;
-	x = pGUI->XCoord;
-	y = pGUI->YCoord;
+	x = pGUI->getXCoord();
+	y = pGUI->getYCoord();
 	Course* pCr = pReg->interrogateCourse(x, y);
 	int Course_X, Course_Y;
 	if (pCr == nullptr)
@@ -34,7 +34,7 @@ bool ActionDragAndDrop::Execute()
 	image systemimage= "GUI\\Images\\Menu\\test.jpg";
 	while (true)
 	{
-		if (pGUI->Last_CLick == LEFT_CLICK)
+		if (pGUI->GetLastClick() == LEFT_CLICK)
 		{
 			break;
 		}
@@ -170,7 +170,7 @@ bool ActionDragAndDrop::Execute()
 				}
 				pCr->changeColor(BLACK);
 				pReg->OldpCr = pCr;
-				pGUI->Current_Page_Info = 1;
+				pGUI->setCurrent_Page_Info(1);
 				string title = "Course Title: " + pCr->getTitle();
 				string code = "Course Code: " + pCr->getCode();
 				int credits = pCr->getCredits();

@@ -12,7 +12,7 @@ bool ActionAddNotes::Execute()
 	cout << "Notes button is pressed.\n"; // for debugging
 	GUI* pGUI = pReg->getGUI();
 	StudyPlan* pS = pReg->getStudyPlay(); //pointer to study plan
-	    if (((pGUI->YCoord >= 10) && (pGUI->YCoord <= 30) && ((pGUI->XCoord) >= (pGUI->SideBarX1 - 45 + (pGUI->SideBarX2 - pGUI->SideBarX1) / 2)) && (pGUI->XCoord <= (pGUI->SideBarX1 - 45 + 100 + (pGUI->SideBarX2 - pGUI->SideBarX1) / 2))) && (pGUI->Last_CLick == LEFT_CLICK))
+	    if (((pGUI->getYCoord() >= 10) && (pGUI->getYCoord() <= 30) && ((pGUI->getXCoord()) >= (pGUI->SideBarX1 - 45 + (pGUI->SideBarX2 - pGUI->SideBarX1) / 2)) && (pGUI->getXCoord() <= (pGUI->SideBarX1 - 45 + 100 + (pGUI->SideBarX2 - pGUI->SideBarX1) / 2))) && (pGUI->GetLastClick() == LEFT_CLICK))
 		{
 			if (pS->PlanNotes.size() == 0)
 				return true;

@@ -8,8 +8,6 @@
 #include<algorithm>
 #include "Maestro.h"
 using namespace std;
-
-StudyPlan* Registrar::pSPlan = new StudyPlan;
 Registrar::Registrar()
 {
 	pGUI = new GUI;	//create interface object
@@ -104,7 +102,7 @@ Action* Registrar::CreateRequiredAction()
 	{
 		RequiredAction = new ActionEraseAll(this);
 		Erase_Flag = true;
-		pGUI->Current_Page_Report = 0;
+		pGUI->setCurrent_Page_Report(0);
 		break;
 	}
 	case CHANGE_CODE:
@@ -158,7 +156,7 @@ Action* Registrar::CreateRequiredAction()
 			}
 			OldpCr = nullptr;
 		}
-		pGUI->Current_Page_Report = 0;
+		pGUI->setCurrent_Page_Report(0);
 		break;
 	case REDO:
 		RequiredAction = new ActionRedo(this);
@@ -193,20 +191,20 @@ Action* Registrar::CreateRequiredAction()
 			{
 				OldpCr->changeColor(MYCYAN);
 			}
-			pGUI->Current_Page_Report = 0;
+			pGUI->setCurrent_Page_Report(0);
 			OldpCr = nullptr;
 		}
 		break;
 	case Exit: Exit_Program = true; break;
 	default:
 	{
-		if (pGUI->Last_CLick == RIGHT_CLICK)
+		if (pGUI->GetLastClick() == RIGHT_CLICK)
 		{
 			RequiredAction = new ActionDragAndDrop(this);
 			Drag_Flag = true;
 			break;
 		}
-		else if (((pGUI->YCoord >= 10) && (pGUI->YCoord <= 30) && ((pGUI->XCoord)>=(pGUI->SideBarX1-45 + (pGUI->SideBarX2 - pGUI->SideBarX1)/2)) && (pGUI->XCoord <= (pGUI->SideBarX1-45+100+(pGUI->SideBarX2 - pGUI->SideBarX1)/2 )))&&(pGUI->Last_CLick == LEFT_CLICK))
+		else if (((pGUI->getYCoord() >= 10) && (pGUI->getYCoord() <= 30) && ((pGUI->getXCoord())>=(pGUI->SideBarX1-45 + (pGUI->SideBarX2 - pGUI->SideBarX1)/2)) && (pGUI->getXCoord() <= (pGUI->SideBarX1-45+100+(pGUI->SideBarX2 - pGUI->SideBarX1)/2 )))&&(pGUI->GetLastClick() == LEFT_CLICK))
 		{
 			RequiredAction = new ActionAddNotes(this);
 			Note_Flag = true;
@@ -321,7 +319,7 @@ void Registrar::Run()
 			pSPlan->checkProgramReq();
 			pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);
 			pGUI->Total_Number_Pages_In_Report = (pSPlan->Get_Page_Number());
-			pGUI->DrawLiveReportPages((pGUI->ReportAreaHeight / 15) - 2, pGUI->Current_Page_Report);
+			pGUI->DrawLiveReportPages((pGUI->ReportAreaHeight / 15) - 2, pGUI->getCurrent_Page_Report());
 			pGUI->NotesLines.clear();
 			UpdateInterface();
 			Action* pAct = CreateRequiredAction();
@@ -346,17 +344,17 @@ void Registrar::UpdateInterface()
 	pGUI->Total_Number_Study_Plans = List_Of_All_StudyPlans.size();
 	pGUI->Current_StudyPlan = Current_Study_Plan;
 	pGUI->UpdateInterface();	//update interface items
-	if (pGUI->Draw_Dependacies_Flag)
+	if (pGUI->getDDF())
 	{
 		Action* pAct = new ActionCourseDependancies(this);
 		ExecuteAction(pAct);
 	}
-	else if (pGUI->Draw_Dependacies_For_One_Course)
+	else if (pGUI->getDDFOC())
 	{
 		Action* pAct = new  ActionDDOOC(this);
 		ExecuteAction(pAct);
 	}
-	else if (!pGUI->Draw_Dependacies_For_One_Course&& !pGUI->Draw_Dependacies_Flag)
+	else if (!pGUI->getDDFOC()&& !pGUI->getDDF())
 	{
 		pSPlan->TreeUnFiltering();
 	}
@@ -366,8 +364,8 @@ void Registrar::UpdateInterface()
 	pSPlan->DrawMe(pGUI);
 	pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);//make study plan draw itself
 	pGUI->Total_Number_Pages_In_Report = (pSPlan->Get_Page_Number());
-	pGUI->DrawLiveReportPages((pGUI->ReportAreaHeight / 15) - 2, pGUI->Current_Page_Report);
-	pGUI->DrawNotesPages((pGUI->NotesHeight / 15) - 2, pGUI->Current_Page_Notes);
+	pGUI->DrawLiveReportPages((pGUI->ReportAreaHeight / 15) - 2, pGUI->getCurrent_Page_Report());
+	pGUI->DrawNotesPages((pGUI->NotesHeight / 15) - 2, pGUI->getCurrent_Page_Notes());
 }
 Registrar::~Registrar()
 {

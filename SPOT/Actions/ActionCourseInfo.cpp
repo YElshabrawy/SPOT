@@ -15,8 +15,8 @@ bool ActionCourseInfo::Execute()
 
 	GUI* pGUI = pReg->getGUI();
 	int x, y;
-	x = pGUI->XCoord;
-	y = pGUI->YCoord;
+	x = pGUI->getXCoord();
+	y = pGUI->getYCoord();
 		Course* pCr = pReg->interrogateCourse(x, y);
 		if (pCr == nullptr) {
 			return false;
@@ -263,7 +263,7 @@ bool ActionCourseInfo::Execute()
 		if (pReg->OldpCr == nullptr)
 			pReg->OldpCr = pCr;
 
-		pGUI->Current_Page_Info = 1;
+		pGUI->setCurrent_Page_Info(1);
 	return true;
 }
 

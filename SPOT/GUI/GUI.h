@@ -54,6 +54,15 @@ class GUI
 	string WindTitle = "Study-Plan Organizational Tool (SPOT)";
 	bool Maestro_Click=false;
 	int SpotNumber;
+    int Report_Stop, Report_Start,Notes_Stop, Notes_Start, Info_Start,Info_Stop;
+    int Current_Page_Report;
+	int Current_Page_Notes;
+	int Current_Page_Info;
+	int XCoord, YCoord;
+	bool Draw_Dependacies_Flag;
+	bool Draw_Dependacies_For_One_Course;
+	bool Draw_Dependacies_For_One_Course_Flag;
+	clicktype Last_CLick;
 public:
 	window* pWind;
 	window* pMaestrowind;
@@ -114,11 +123,6 @@ public:
 	int ReportAreaY1 = CourseInfoY1 + CourseInfoHeight + MyFactor,
 		ReportAreaHeight = (Y_div / 3) - MyFactor,
 		myReportFactor = (SideBarX2 - SideBarX1 - 52) / 2.0;
-	static clicktype Last_CLick;
-	static int XCoord, YCoord;
-	static bool Draw_Dependacies_Flag;
-	static bool Draw_Dependacies_For_One_Course;
-	static bool Draw_Dependacies_For_One_Course_Flag;
 
 	const string BREAK_LINE = "========================================";
 
@@ -144,21 +148,17 @@ public:
 	void DrawCourse(const Course* ,int x,int y);
 	void DrawAcademicYear(const AcademicYear*);
 	void UpdateInterface() const;
-	void DrawCourse_Dependacies(Course* pCr, Course* DpCr) const;
+	void DrawCourse_Dependacies(Course* pCr, Course* DpCr);
 	void DrawLiveReportPages(int Number_Lines,int Page_Number);
-	void DrawNotesPages(int Number_Lines, int Page_Number) const;
+	void DrawNotesPages(int Number_Lines, int Page_Number);
 	//input functions
 	ActionData GUI::GetUserAction(string msg = "");
 	string GetSrting() const;
 	string GetSrting(string MSG);
 	static int getYDivStartingPos();
-	static int Report_Stop, Report_Start,Notes_Stop,Notes_Start,Info_Start,Info_Stop;
 	int Total_Number_Pages_In_Report;
-	static int Current_Page_Report;
 	int Total_Number_Pages_In_Notes;
-	static int Current_Page_Notes;
 	int Total_Number_Pages_In_Info=5;
-	static int Current_Page_Info;
 	int Total_Number_Study_Plans, Current_StudyPlan;
 	vector<int>NOCPSIAYs;
 	vector<int>CPIES;
@@ -175,5 +175,26 @@ public:
 	void GetVecOfWindows(vector<window*>input);
 	void setSpotNumber(int input);
 	static vector<window*>LOFWIND;
+	 bool getDDFOOCF()const;
+	 void setDDFOOCF(bool input);
+	 bool getDDFOC()const;
+	 void setDDFOC(bool input);
+	 bool getDDF()const;
+	 void setDDF(bool input);
+	 int getXCoord()const;
+	 int getYCoord()const;
+	 clicktype GetLastClick()const;
+	 int getCurrent_Page_Report()const;
+	 void setCurrent_Page_Report(int input);
+	 int getCurrent_Page_Notes()const;
+	 void setCurrent_Page_Notes(int input);
+	 int getCurrent_Page_Info()const;
+	 void setCurrent_Page_Info(int input);
+	 int getReport_Stop()const;
+	 void setReport_Stop(int input);
+	 int getReport_Start()const;
+	 void setReport_Start(int input);
+	 int getNotes_Stop()const;
+	 void setNotes_Stop(int input);
 	~GUI();
 };

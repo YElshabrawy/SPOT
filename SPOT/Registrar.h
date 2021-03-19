@@ -14,7 +14,7 @@ class Registrar
 	GUI *pGUI;	//pointer to GUI 
 	Rules RegRules;	//Registration rules
 	Rules DoubleRegRules; // Double major requirements
-	static StudyPlan *pSPlan;
+	StudyPlan *pSPlan;
 	vector<StudyPlan*>List_Of_All_StudyPlans;
 	StudyPlan* pS_Old;
 	Maestro* pMaestro;

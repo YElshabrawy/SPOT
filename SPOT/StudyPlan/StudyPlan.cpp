@@ -825,8 +825,8 @@ void  StudyPlan::LiveReport(GUI* pGUI, int Min_Crs, int Max_Crs)
 	vector<Error> Co_Errors; 
 	vector<Error> Pre_Errors;
 	Set_Report_Lines();
-	pGUI->Report_Start = -1;
-	pGUI->Report_Stop = 11;
+	pGUI->setReport_Start(-1);
+	pGUI->setReport_Stop(11);
 	for (AcademicYear* yr : plan)
 	{
 		list<Course*>* pYr = yr->getListOfYears(); // pointer to the year

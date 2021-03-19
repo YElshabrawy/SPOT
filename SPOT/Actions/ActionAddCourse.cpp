@@ -126,7 +126,7 @@ bool ActionAddCourse::Execute()
 					}
 				}
 				pReg->OldpCr = pC;
-				pGUI->Current_Page_Info = 1;
+				pGUI->setCurrent_Page_Info(1);
 				string title = "Course Title: " + pC->getTitle();
 				string code = "Course Code: " + pC->getCode();
 				int credits = pC->getCredits();
