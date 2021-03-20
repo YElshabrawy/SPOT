@@ -102,43 +102,49 @@ bool ActionDragAndDrop::Execute()
 				}
 				else
 		        {
-				if (newYear != NULL) {
-					// Delete crs
-					pS->DeleteCourse(pCr);
-					int year = pCr->getYear();
-					SEMESTER sem = pCr->getSemester();
-					vector<AcademicYear*>* pPlan = pS->getStudyPlanVector(); // pointer on the plan vector
-					list<Course*>* pYr = (*pPlan)[year - 1]->getListOfYears();
-					int new_x = y;
-					int new_y = x;
-					graphicsInfo gInfo{ new_x, new_y };
+					if (newYear != NULL) {
+						// Delete crs
+						bool check = pS->AddCourse(pCr, newYear, newSem);
+						if (check) {
+							pS->DeleteCourse(pCr);
+							int year = pCr->getYear();
+							SEMESTER sem = pCr->getSemester();
+							vector<AcademicYear*>* pPlan = pS->getStudyPlanVector(); // pointer on the plan vector
+							list<Course*>* pYr = (*pPlan)[year - 1]->getListOfYears();
+							int new_x = y;
+							int new_y = x;
+							graphicsInfo gInfo{ new_x, new_y };
 
-					for (int sem = FALL; sem < SEM_CNT; sem++) {
-						int iter = 0;
-						for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
-							// itertate over all courses
-							//int iter = pCr->numOfCoursesPerSem[(3 * (year - 1)) + sem] - 1;
+							for (int sem = FALL; sem < SEM_CNT; sem++) {
+								int iter = 0;
+								for (auto it = pYr[sem].begin(); it != pYr[sem].end(); it++) {
+									// itertate over all courses
+									//int iter = pCr->numOfCoursesPerSem[(3 * (year - 1)) + sem] - 1;
+									gInfo.x = GUI::TitleBarWidth + (iter * CRS_WIDTH);
+									gInfo.y = GUI::MenuBarHeight + GUI::MyFactor + ((year - 1) * GUI::One_Year_Div) + (sem * GUI::One_Semester_Div) +
+										(GUI::MyFactor * (year - 1));
+									(*it)->setGfxInfo(gInfo);
+									iter++;
+								}
+							}
+							// add it again :)
+
+							//bool check = pS->AddCourse(pCr, newYear, newSem);
+							pCr->numOfCoursesPerSem[(3 * (newYear - 1)) + newSem]++;
+							pCr->setYear(newYear);
+							pCr->setSemester(newSem);
+							int iter = pCr->numOfCoursesPerSem[(3 * (newYear - 1)) + newSem] - 1;
 							gInfo.x = GUI::TitleBarWidth + (iter * CRS_WIDTH);
-							gInfo.y = GUI::MenuBarHeight + GUI::MyFactor + ((year - 1) * GUI::One_Year_Div) + (sem * GUI::One_Semester_Div) +
-								(GUI::MyFactor * (year - 1));
-							(*it)->setGfxInfo(gInfo);
-							iter++;
+							gInfo.y = GUI::MenuBarHeight + GUI::MyFactor + ((newYear - 1) * GUI::One_Year_Div) + (newSem * GUI::One_Semester_Div) +
+								(GUI::MyFactor * (newYear - 1));
+							pCr->setGfxInfo(gInfo);
+							pCr->Distance_Flag = false;
+							pGUI->pWind->UpdateBuffer();
+							pGUI->UpdateInterface();
 						}
-					}
-					// add it again :)
-
-						pS->AddCourse(pCr, newYear, newSem);
-						pCr->numOfCoursesPerSem[(3 * (newYear - 1)) + newSem]++;
-						pCr->setYear(newYear);
-						pCr->setSemester(newSem);
-						int iter = pCr->numOfCoursesPerSem[(3 * (newYear - 1)) + newSem] - 1;
-						gInfo.x = GUI::TitleBarWidth + (iter * CRS_WIDTH);
-						gInfo.y = GUI::MenuBarHeight + GUI::MyFactor + ((newYear - 1) * GUI::One_Year_Div) + (newSem * GUI::One_Semester_Div) +
-							(GUI::MyFactor * (newYear - 1));
-						pCr->setGfxInfo(gInfo);
-						pCr->Distance_Flag = false;
-						pGUI->pWind->UpdateBuffer();
-						pGUI->UpdateInterface();
+						else {
+							pGUI->GetUserAction("This Course already exists!");
+						}
 					}
 				}
 				if ((pReg->OldpCr != nullptr) && (pReg->OldpCr != pCr))

@@ -1,4 +1,5 @@
 #include"Maestro.h"
+#include <cstdlib>
 window* Maestro::pMaestroWind = NULL;
 Maestro::Maestro()
 {
@@ -37,10 +38,12 @@ void Maestro::Run()
 		pMaestroWind->GetMouseClick(x, y);
 		if ((pMaestroWind->GetGreen(x, y) == 0.8) && (pMaestroWind->GetRed(x, y) == 0.8) && (pMaestroWind->GetBlue(x, y) == 0.8))
 		{
+			exit(0);
 			break;
 		}
 		if ((x >= (90)) && (x <= ((90+70)) && (y >= (40)) && (y <= (40+70))))
 		{
+			
 			AddSpot();
 		}
 		if (List_Of_Spots.size() > 0)

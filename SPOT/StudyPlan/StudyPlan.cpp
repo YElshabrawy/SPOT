@@ -21,7 +21,7 @@ StudyPlan::StudyPlan()
 //year idetifies year number to add course to 1=first, 2 = 2nd,....
 bool StudyPlan::AddCourse(Course* pC, int year, SEMESTER sem)
 {
-	if (alreadyExistingCourse(pC->getCode(), pC->getSemester(), pC->getYear()) && pC->getCode()[pC->getCode().size() - 1] != 'X') {
+	if (alreadyExistingCourse(pC->getCode(), sem, year) && pC->getCode()[pC->getCode().size() - 1] != 'X') {
 		return false;
 	}
 	else {
