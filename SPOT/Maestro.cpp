@@ -34,8 +34,11 @@ void Maestro::Run()
 		pMaestroWind->SetFont(20, PLAIN, BY_NAME, "Arial");
 		pMaestroWind->SetPen(MYCYAN, 1);
 		pMaestroWind->DrawString(90+70, 40+20, "Add New SPOT");
-		//pMaestroWind->DrawImage("GUI\\Images\\Menu\\menu_delete.jpg", 150, 30, 70, 70);
 		pMaestroWind->GetMouseClick(x, y);
+		if ((pMaestroWind->GetGreen(x, y) == 0.8) && (pMaestroWind->GetRed(x, y) == 0.8) && (pMaestroWind->GetBlue(x, y) == 0.8))
+		{
+			break;
+		}
 		if ((x >= (90)) && (x <= ((90+70)) && (y >= (40)) && (y <= (40+70))))
 		{
 			AddSpot();

@@ -31,6 +31,7 @@ int main()
 	int Client_Width = (rect.right - rect.left);
 	//int Client_Height = (rect.bottom - rect.top);
 	cout << "Client Width = " << Client_Width << "px\n";
+	HideConsole();
 	Maestro test;
 	test.Run();
 	//Registrar Reg;
