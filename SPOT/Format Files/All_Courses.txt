@@ -53,8 +53,8 @@ CIE 552,Computer Vision,3,,Prereq: CIE 417
 CIE 553,Natural Language Processing,3,,Prereq: CIE 417
 CIE 554,Computer Arithmetic,3,,Prereq: CIE 205
 CIE 555,Neural Networks and Deep Learning,3,,Prereq: CIE 417
-CIE 556,Speech Analysis  synthesis  and recognition,3,,Prereq: CIE 417; CIE 442
-CIE 558,Robot and Machine Vision,3,,Prereq: CIE 552; CIE 442
+CIE 556,Speech Analysis  synthesis  and recognition,3,,Prereq: CIE 417 And CIE 442
+CIE 558,Robot and Machine Vision,3,,Prereq: CIE 552 And CIE 442
 CIE 564,Parallel and Distributed Computing,3,,Prereq: CIE 239 And CIE 205
 CIE 574,Distributed Systems,3,,Prereq: CIE 447 And CIE 564
 CIE 581,Information Security and Encryption,3,,Prereq: MATH 308 And CIE 327

@@ -18,7 +18,7 @@ class Maestro
 		MaestroWindowHeight = 150,
 		StartX = (GUI::WindWidth / 2) - (MaestroWindWidth / 2),
 		StartY = (GUI::WindHeight / 2) - (MaestroWindowHeight / 2);
-	color BackgroundColor = DARKGREY;
+	color BackgroundColor = WHITE;
 public:
 	static window* pMaestroWind;
 	Maestro();

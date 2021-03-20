@@ -27,10 +27,16 @@ void Maestro::Run()
 	while (true)
 	{
 		int x, y;
-		pMaestroWind->DrawImage("GUI\\Images\\Menu\\menu_add.jpg", 30, 30, 70, 70);
-		pMaestroWind->DrawImage("GUI\\Images\\Menu\\menu_delete.jpg", 150, 30, 70, 70);
+		pMaestroWind->SetFont(30, PLAIN, BY_NAME, "Arial");
+		pMaestroWind->SetPen(MYCYAN, 1);
+		pMaestroWind->DrawString(25, 0, "Study Plan Organization Tool");
+		pMaestroWind->DrawImage("GUI\\Images\\Add_SPOT.jpg", 90, 40, 70, 70);
+		pMaestroWind->SetFont(20, PLAIN, BY_NAME, "Arial");
+		pMaestroWind->SetPen(MYCYAN, 1);
+		pMaestroWind->DrawString(90+70, 40+20, "Add New SPOT");
+		//pMaestroWind->DrawImage("GUI\\Images\\Menu\\menu_delete.jpg", 150, 30, 70, 70);
 		pMaestroWind->GetMouseClick(x, y);
-		if ((x >= (30)) && (x <= ((100)) && (y >= (30)) && (y <= (100))))
+		if ((x >= (90)) && (x <= ((90+70)) && (y >= (40)) && (y <= (40+70))))
 		{
 			AddSpot();
 		}

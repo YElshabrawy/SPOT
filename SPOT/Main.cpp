@@ -23,7 +23,7 @@ bool IsConsoleVisible()
 
 int main()
 {
-	HideConsole();
+	//HideConsole();
 	// WIll be used later to have the same window resolution for each user local machine
 	HWND hd = GetDesktopWindow();
 	RECT rect;
