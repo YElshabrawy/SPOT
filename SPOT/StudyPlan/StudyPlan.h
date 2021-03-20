@@ -68,7 +68,7 @@ public:
 	string PlanNotes="";
 	vector<AcademicYear*> plan;	//plan is a list of academic years
 
-	vector<string>Double_Minor_Course;//vector for double minor courses
+	static vector<string>Double_Minor_Course;//vector for double minor courses
 	static vector<string>Minor_Course;
 
 	vector<int>NOCPS;
