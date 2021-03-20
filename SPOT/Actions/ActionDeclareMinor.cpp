@@ -25,7 +25,7 @@ bool ActionDeclareMinor::Execute()
 	static int counter = 0;//to check if the course is present in the plan 
 	static int TNOMCTBA = 0;//total number of minor credits to be added
 	bool done = false; // this is a temp variable that would work in parallel with the key variable 
-	static string Minor = "No Minor";
+	//static string Minor = "No Minor";
 
 	//--------------------------Double Minor Stuff------------------------------------------//
 	int token = 0;//this variable is responsible for the window loop
@@ -279,11 +279,13 @@ bool ActionDeclareMinor::Execute()
 					if (plan->Count < 5)
 					{
 						counter = counter + 1;
+						pCr->Set_Type(Minor);
 					}
 					//case for counter2
 					else if ((plan->Count == 5) && (plan->Count2 < 5))
 					{
 						counter2++;
+						pCr->Set_Type(DoubleMinor);
 					}
 
 					//check before adding the course
@@ -329,8 +331,8 @@ bool ActionDeclareMinor::Execute()
 
 						}
 
-						//plan->Count = plan->Count + 1;
-						//plan->Minor_Course.push_back(coursecode);
+						
+					
 					}
 					//flag = false;
 					return true;//--------------->might me a bug 
@@ -410,6 +412,8 @@ bool ActionDeclareMinor::Execute()
 			//Debugging
 			//cout << "This is the total 2nd minor credits" << TNODMCTBA << endl;
 			//-----------------------------------------------------------------------------------------------------------------------//
+			//if(plan->Count<5) plan->Minor_Course.push_back(coursecode);
+			//if ((plan->Count == 5) && (plan->Count2))plan->Double_Minor_Course.push_back(coursecode);
 			pS->AddCourse(pC, year, static_cast<SEMESTER>(semester));
 			pReg->Increment_Total_Credits(pC->getCredits());
 			//cout << coursecode << " is added to year " << year << " semester " << semester << endl;
@@ -442,7 +446,7 @@ bool ActionDeclareMinor::Execute()
 	{
 		key = pGUI->pWind->GetKeyPress(c);
 	}	
-	plan->Minor_Course.push_back(coursecode);
+//	plan->Minor_Course.push_back(coursecode);
 	return true;
 }
 
