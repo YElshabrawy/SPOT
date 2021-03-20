@@ -5,7 +5,8 @@
 #include "../Utils/Utils.h"
 #include <fstream>
 #include <iterator>
-//vector<string> StudyPlan::Minor_Course = {};
+vector<string> StudyPlan::Minor_Course = {};
+vector<string> StudyPlan::Double_Minor_Course = {};
 int StudyPlan::Count = 0;
 int StudyPlan::Count2 = 0;
 bool StudyPlan::doubleMajorExists = false;
@@ -1362,14 +1363,14 @@ StudyPlan::StudyPlan(const StudyPlan& CopiedSP):Drawable()
 	{
 		ElectiveConcentrationCourses.push_back(CopiedSP.ElectiveConcentrationCourses[i]);
 	}
-	for (int i = 0; i < CopiedSP.Minor_Course.size(); i++)
-	{
-		Minor_Course.push_back(CopiedSP.Minor_Course[i]);
-	}
-	for (int i = 0; i < CopiedSP.Double_Minor_Course.size(); i++)
-	{
-		Double_Minor_Course.push_back(CopiedSP.Double_Minor_Course[i]);
-	}
+	//for (int i = 0; i < CopiedSP.Minor_Course.size(); i++)
+	//{
+	//	Minor_Course.push_back(CopiedSP.Minor_Course[i]);
+	//}
+	//for (int i = 0; i < CopiedSP.Double_Minor_Course.size(); i++)
+	//{
+	//	Double_Minor_Course.push_back(CopiedSP.Double_Minor_Course[i]);
+	//}
 
 }
 StudyPlan StudyPlan::operator=(const StudyPlan& CopiedSP)
@@ -1452,14 +1453,14 @@ StudyPlan StudyPlan::operator=(const StudyPlan& CopiedSP)
 
 		}
 	}
-	for (int i = 0; i < CopiedSP.Minor_Course.size(); i++)
-	{
-		Minor_Course.push_back(CopiedSP.Minor_Course[i]);
-	}
-	for (int i = 0; i < CopiedSP.Double_Minor_Course.size(); i++)
-	{
-		Double_Minor_Course.push_back(CopiedSP.Double_Minor_Course[i]);
-	}
+	//for (int i = 0; i < CopiedSP.Minor_Course.size(); i++)
+	//{
+	//	Minor_Course.push_back(CopiedSP.Minor_Course[i]);
+	//}
+	//for (int i = 0; i < CopiedSP.Double_Minor_Course.size(); i++)
+	//{
+	//	Double_Minor_Course.push_back(CopiedSP.Double_Minor_Course[i]);
+	//}
 	return (*this);
 }
 
