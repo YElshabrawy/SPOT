@@ -253,6 +253,7 @@ bool Registrar::ExecuteAction(Action* pAct)
 void Registrar::Run()
 {
 	// create all courses vector:
+	pGUI->pWind->SetIcon("app.ico");
 
 	createAllCourses();
 	setCourseOffering();

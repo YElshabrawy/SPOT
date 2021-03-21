@@ -72,7 +72,10 @@ enum angletype {
 class window {
 
   private:
-  
+    // 2021 Modifications
+      HICON hWindowIcon = NULL;
+      HICON hWindowIconBig = NULL;
+      
     // Various Win32 Data structures
 	const HINSTANCE hInstance;
     WNDCLASS wndcWindow;
@@ -325,6 +328,9 @@ class window {
     void Print();
     bool GetClicked()const;
     void SetClicked(bool input);
+    bool isWindowStillAlive();
+    bool isWindowVisible();
+    void SetIcon(string stricon);
    
 };
 

@@ -1516,3 +1516,34 @@ void window::SetClicked(bool input)
 {
 	Clicked = input;
 }
+
+bool window::isWindowStillAlive()
+{
+	return IsWindow(hwndWindow);
+}
+
+bool window::isWindowVisible()
+{
+	return IsWindowVisible(hwndWindow);
+}
+
+void window::SetIcon(string stricon)
+{
+		if (hWindowIcon != NULL)
+			DestroyIcon(hWindowIcon);
+		if (hWindowIconBig != NULL)
+			DestroyIcon(hWindowIconBig);
+		if (stricon == "")
+		{
+			SendMessage(hwndWindow, WM_SETICON, ICON_SMALL, (LPARAM)NULL);
+			SendMessage(hwndWindow, WM_SETICON, ICON_BIG, (LPARAM)NULL);
+		}
+		else
+		{
+			hWindowIcon = (HICON)LoadImage(NULL, stricon.c_str(), IMAGE_ICON, 16, 16, LR_LOADFROMFILE);
+			hWindowIconBig = (HICON)LoadImage(NULL, stricon.c_str(), IMAGE_ICON, 32, 32, LR_LOADFROMFILE);
+			SendMessage(hwndWindow, WM_SETICON, ICON_SMALL, (LPARAM)hWindowIcon);
+			SendMessage(hwndWindow, WM_SETICON, ICON_BIG, (LPARAM)hWindowIconBig);
+		}
+
+}

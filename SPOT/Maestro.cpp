@@ -25,6 +25,7 @@ void Maestro::DeleteSpot(int Number)
 }
 void Maestro::Run() 
 {
+	pMaestroWind->SetIcon("app.ico");
 	while (true)
 	{
 		int x, y;
@@ -36,7 +37,8 @@ void Maestro::Run()
 		pMaestroWind->SetPen(MYCYAN, 1);
 		pMaestroWind->DrawString(90+70, 40+20, "Add New SPOT");
 		pMaestroWind->GetMouseClick(x, y);
-		if ((pMaestroWind->GetGreen(x, y) == 0.8) && (pMaestroWind->GetRed(x, y) == 0.8) && (pMaestroWind->GetBlue(x, y) == 0.8))
+		//if ((pMaestroWind->GetGreen(x, y) == 0.8) && (pMaestroWind->GetRed(x, y) == 0.8) && (pMaestroWind->GetBlue(x, y) == 0.8))
+		if(!pMaestroWind->isWindowStillAlive())
 		{
 			exit(0);
 			break;
@@ -53,7 +55,8 @@ void Maestro::Run()
 			pReg = List_Of_Spots[i];
 			pReg->MeineNummer = i+1;
 			GUI* pGUI = pReg->getGUI();
-			if ((pGUI->pWind->GetGreen(x, y) == 0.8) && (pGUI->pWind->GetRed(x, y) == 0.8) && (pGUI->pWind->GetBlue(x, y) == 0.8))
+			//if ((pGUI->pWind->GetGreen(x, y) == 0.8) && (pGUI->pWind->GetRed(x, y) == 0.8) && (pGUI->pWind->GetBlue(x, y) == 0.8))
+			if(!pGUI->pWind->isWindowStillAlive())
 			{
 				List_Of_Spots.erase(List_Of_Spots.begin()+i);
 				List_Of_windows.erase(List_Of_windows.begin()+i);
