@@ -355,15 +355,15 @@ void Registrar::UpdateInterface()
 		Action* pAct = new  ActionDDOOC(this);
 		ExecuteAction(pAct);
 	}
-	else if (!pGUI->getDDFOC()&& !pGUI->getDDF())
-	{
-		pSPlan->TreeUnFiltering();
-	}
+	//else if (!pGUI->getDDFOC()&& !pGUI->getDDF())
+	//{
+	//	pSPlan->TreeUnFiltering();
+	//}
 	//pSPlan->Set_Page_Number((pGUI->ReportAreaHeight / 15) - 2);
 	pSPlan->Set_Course_Type();
 	pGUI->ReportLines.clear();
 	pSPlan->DrawMe(pGUI);
-	pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);//make study plan draw itself
+	pSPlan->LiveReport(pGUI, RegRules.SemMinCredit, RegRules.SemMaxCredit);
 	pGUI->Total_Number_Pages_In_Report = (pSPlan->Get_Page_Number());
 	pGUI->DrawLiveReportPages((pGUI->ReportAreaHeight / 15) - 2, pGUI->getCurrent_Page_Report());
 	pGUI->DrawNotesPages((pGUI->NotesHeight / 15) - 2, pGUI->getCurrent_Page_Notes());
