@@ -95,7 +95,7 @@ public:
 	int getConcentration()const;
 	int getDoubleConcentration() const;
 	void Set_Plan_Rules(Rules& RegRules);
-	void setCourseTypeCredits(Type type, int mode, int hours);
+	void setCourseTypeCredits(Type type, int mode, int hours, string);
 	void checkOffering(string code, int crsYear, SEMESTER sem);
 	void GenerateStudentLevel(GUI* pGUI);
 	void increment_Report_Lines(int Number_Of_Inc);

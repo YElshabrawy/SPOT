@@ -56,64 +56,59 @@ bool ActionChangeCode::Execute()
 			Old_ginfo = pCr->getGfxInfo();
 			graphicsInfo anew_ginfo{ Old_ginfo.x, Old_ginfo.y };
 			pCr->CCC_Flag = true;
+			pS->DeleteCourse(pCr);
 			//CourseInfo chosenCourseInfo = pReg->getCourseInfo(code);
 			string Title = pCInfo->Title;
 			int crd = pCInfo->Credits;
 			vector<Course_Code> PreReq = pCInfo->PreReqList;
 			vector<Course_Code> CoReq = pCInfo->CoReqList;
 			Course* pnewcR = new  Course(code, Title, crd, PreReq, CoReq, year, sem);
-			bool check = pS->AddCourse(pnewcR, year, sem);
-			if (check) {
-
-
-				pS->DeleteCourse(pCr);
-				pnewcR->CCC_Flag = true;
-				pnewcR->setGfxInfo(anew_ginfo);
-				/*pS->AddCourse(pnewcR,year,sem);*/
-				pnewcR->Course_Number = pCr->Course_Number;
-				pnewcR->changeColor(BLACK);
-				if ((pReg->OldpCr != nullptr) && (pReg->OldpCr != pnewcR))
+			pnewcR->CCC_Flag = true;
+			pnewcR->setGfxInfo(anew_ginfo);
+			pS->AddCourse(pnewcR, year, sem);
+			pnewcR->Course_Number = pCr->Course_Number;
+			pnewcR->changeColor(BLACK);
+			if ((pReg->OldpCr != nullptr) && (pReg->OldpCr != pnewcR))
+			{
+				if (pReg->OldpCr->getType() == maj)
 				{
-					if (pReg->OldpCr->getType() == maj)
-					{
-						pReg->OldpCr->changeColor(GOLDENROD);
-					}
-					else if (pReg->OldpCr->getType() == Uni)
-					{
-						pReg->OldpCr->changeColor(SLATEGREY);
-					}
-					else if (pReg->OldpCr->getType() == Track)
-					{
-						pReg->OldpCr->changeColor(DARKGREEN);
-					}
-					else if (pReg->OldpCr->getType() == Elective)
-					{
-						pReg->OldpCr->changeColor(FIREBRICK);
-					}
-					else if (pReg->OldpCr->getType() == concentration)
-					{
-						pReg->OldpCr->changeColor(DARKMAGENTA);
-					}
-					else
-					{
-						pReg->OldpCr->changeColor(MYCYAN);
-					}
+					pReg->OldpCr->changeColor(GOLDENROD);
 				}
-				pReg->OldpCr = pnewcR;
-				pGUI->setCurrent_Page_Info(1);
-				string title = "Course Title: " + pnewcR->getTitle();
-				string code = "Course Code: " + pnewcR->getCode();
-				int credits = pnewcR->getCredits();
-				stringstream ss;
-				ss << credits;
-				string String_Credits;
-				ss >> String_Credits;
-				pGUI->CourseTitle = title;
-				pGUI->CourseCode = code;
-				pGUI->CourseCredit = "Course Credits: " + String_Credits;
-				pGUI->CourseGrade = "Course Grade: " + pnewcR->getGrade();
-				pGUI->CourseStatus = "Course Status: " + pnewcR->getStatus();
+				else if (pReg->OldpCr->getType() == Uni)
+				{
+					pReg->OldpCr->changeColor(SLATEGREY);
+				}
+				else if (pReg->OldpCr->getType() == Track)
+				{
+					pReg->OldpCr->changeColor(DARKGREEN);
+				}
+				else if (pReg->OldpCr->getType() == Elective)
+				{
+					pReg->OldpCr->changeColor(FIREBRICK);
+				}
+				else if (pReg->OldpCr->getType() == concentration)
+				{
+					pReg->OldpCr->changeColor(DARKMAGENTA);
+				}
+				else {
+					pReg->OldpCr->changeColor(MYCYAN);
+				}
 			}
+			pReg->OldpCr = pnewcR;
+			pGUI->setCurrent_Page_Info(1);
+			string title = "Course Title: " + pnewcR->getTitle();
+			string code = "Course Code: " + pnewcR->getCode();
+			int credits = pnewcR->getCredits();
+			stringstream ss;
+			ss << credits;
+			string String_Credits;
+			ss >> String_Credits;
+			pGUI->CourseTitle = title;
+			pGUI->CourseCode = code;
+			pGUI->CourseCredit = "Course Credits: " + String_Credits;
+			pGUI->CourseGrade = "Course Grade: " + pnewcR->getGrade();
+			pGUI->CourseStatus = "Course Status: " + pnewcR->getStatus();
+			
 			}
 			else
 				pGUI->GetUserAction("This Course already exists!");

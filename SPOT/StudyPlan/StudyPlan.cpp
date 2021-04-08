@@ -37,7 +37,7 @@ bool StudyPlan::AddCourse(Course* pC, int year, SEMESTER sem)
 		 Double_Minor_Course.push_back(pC->getCode());
 		 Double_Minor_course_flag == false;
 		}
-		setCourseTypeCredits(pC->getType(), 0, pC->getCredits());
+		setCourseTypeCredits(pC->getType(), 0, pC->getCredits(), pC->getCode());
 		checkOffering(pC->getCode(), year - 1, sem);
 		return true;
 	}
@@ -45,7 +45,7 @@ bool StudyPlan::AddCourse(Course* pC, int year, SEMESTER sem)
 bool StudyPlan::DeleteCourse(Course* pC) {
 	plan[pC->getYear() - 1]->DeleteCourse(pC, pC->getSemester());
 	TotalCredits -= pC->getCredits();
-	setCourseTypeCredits(pC->getType(), 1, pC->getCredits());
+	setCourseTypeCredits(pC->getType(), 1, pC->getCredits(), pC->getCode());
 	if (pC->Erased_Flag && pC->getType() == Minor)
 	for (int i=0;i<Minor_Course.size();i++)
 	{
@@ -587,10 +587,10 @@ void StudyPlan::checkProgramReq()
 		}
 		if (!exists) {
 			// The error does not exist so create it !
-			Error err;
+			/*Error err;
 			err.Msg = errMsg;
 			err.type = CRITICAL;
-			Program_Req_Errors.push_back(err);
+			Program_Req_Errors.push_back(err);*/
 		}
 	}
 
@@ -819,8 +819,9 @@ Major StudyPlan::getMajor() const
 {
 	return major;
 }
-void  StudyPlan::setCourseTypeCredits(Type type, int mode, int hours)
+void  StudyPlan::setCourseTypeCredits(Type type, int mode, int hours, string code)
 {
+	// Code for elective detection
 	// If mode is 0 => Add Course 
 	// If mode is 1 => Delete Course 
 	switch (type)
@@ -829,6 +830,12 @@ void  StudyPlan::setCourseTypeCredits(Type type, int mode, int hours)
 		(mode == 0) ? TotalMajorCredits += hours : TotalMajorCredits -= hours;
 		break;
 	case Elective:
+		if (code[0] == 'S' && code[1] == 'C' && code[2] == 'H') {
+			(mode == 0) ? TotalUnivCredits += hours : TotalUnivCredits -= hours;
+		}
+		else {
+			(mode == 0) ? TotalMajorCredits += hours : TotalMajorCredits -= hours;
+		}
 		(mode == 0) ? TotalElectiveCredits += hours : TotalElectiveCredits -= hours;
 		break;
 	case Minor:
